@@ -1,0 +1,11 @@
+{
+    "name": "phalcon/application",
+    "description": "Phalcon Application",
+    "require": {
+        "php": ">=5.4",
+        "ext-phalcon": ">=2.0.0"
+    },
+    "autoload": {
+        "psr-4": { "UserPlugin\\": "app/library/UserPlugin" }
+    }
+}

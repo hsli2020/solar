@@ -1,0 +1,9 @@
+bin/composer.phar
+app/cache/
+app/logs/
+vendor/
+
+.DS_Store
+composer.lock
+*.tmp
+filelist

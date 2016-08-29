@@ -176,14 +176,16 @@ function importSolarData()
      */
     $devices = getSolarDevices($db);
 
+    $fileCount = 0;
     foreach ($stations as $station) {
         $dir = $station['ftpdir'];
         foreach (glob($dir . '/*.csv') as $filename) {
+            $fileCount++;
             importSolarFile($filename, $station, $devices, $db);
         }
     }
 
-    fileLog("Importing completed\n");
+    fileLog("Importing completed, $fileCount file(s) imported.\n");
 }
 
 importSolarData();

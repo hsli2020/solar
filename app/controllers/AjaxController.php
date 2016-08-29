@@ -26,7 +26,7 @@ class AjaxController extends ControllerBase
             $row = $result->fetch();
             $table = $row['table'];
 
-            $sql = "SELECT `time`, $col FROM $table WHERE error=0 ORDER BY `time` LIMIT 300";
+            $sql = "(SELECT `time`, $col FROM $table WHERE error=0 ORDER BY `time` DESC LIMIT 300) ORDER BY `time` ASC";
             $result = $this->db->query($sql);
             $data = [];
             while ($row = $result->fetch()) {

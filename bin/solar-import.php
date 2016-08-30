@@ -15,16 +15,16 @@ function getDatabaseConnection()
     return $db;
 }
 
-function getSolarStations($db)
+function getSolarProjects($db)
 {
-    $stations = [];
+    $projects = [];
 
-    $result = $db->query('SELECT * FROM solar_station WHERE active=1');
-    while ($station = $result->fetch(Phalcon\Db::FETCH_ASSOC)) {
-        $stations[] = $station;
+    $result = $db->query('SELECT * FROM solar_project WHERE active=1');
+    while ($project = $result->fetch(Phalcon\Db::FETCH_ASSOC)) {
+        $projects[] = $project;
     }
 
-    return $stations;
+    return $projects;
 }
 
 function getSolarDevices($db)
@@ -33,9 +33,9 @@ function getSolarDevices($db)
 
     $result = $db->query('SELECT * FROM solar_device');
     while ($device = $result->fetch(Phalcon\Db::FETCH_ASSOC)) {
-        $stn = $device['stn'];
+        $prj = $device['prj'];
         $dev = $device['dev'];
-        $devices["$stn-$dev"] = $device;
+        $devices["$prj-$dev"] = $device;
     }
 
     return $devices;
@@ -74,7 +74,7 @@ function getTableColumns($table)
     fileLog("Unknown Table Name: $table");
 }
 
-function importSolarFile($filename, $station, $devices, $db)
+function importSolarFile($filename, $project, $devices, $db)
 {
     // filename: c:\FTP-Backup\125Bermondsey_001EC6053434\mb-001.57BEE4B7_1.log.csv
     $parts = explode('.', basename($filename));
@@ -84,19 +84,19 @@ function importSolarFile($filename, $station, $devices, $db)
     /**
      * [1-mb-001] => Array
      * (
-     *     [stn] => 1
+     *     [prj] => 1
      *     [dev] => mb-001
      *     [name] => Inverter
      *     [table] => solar_data_1
      * )
      */
-    $stn = $station['id'];
-    if (!isset($devices["$stn-$dev"])) {
+    $prj = $project['id'];
+    if (!isset($devices["$prj-$dev"])) {
         fileLog("Invalid Filename: $filename");
         return;
     }
 
-    $device = $devices["$stn-$dev"];
+    $device = $devices["$prj-$dev"];
     $table = $device['table'];
     $columns = getTableColumns($table);
 
@@ -109,7 +109,7 @@ function importSolarFile($filename, $station, $devices, $db)
             };
 
             $data['dev'] = $dev;
-            $data['stn'] = $station['id'];
+            $data['prj'] = $project['id'];
 
             $columnList = '`' . implode('`, `', array_keys($data)) . '`';
             $values = "'" . implode("', '", $data). "'";
@@ -120,7 +120,7 @@ function importSolarFile($filename, $station, $devices, $db)
         fclose($handle);
     }
 
-    $dir = 'C:\\FTP-Backup\\' . basename($station['ftpdir']);
+    $dir = 'C:\\FTP-Backup\\' . basename($project['ftpdir']);
     @mkdir($dir);
 
     $newfile = $dir . '\\' . basename($filename);
@@ -157,14 +157,14 @@ function importSolarData()
      *     [2] => Array (...)
      * )
      */
-    $stations = getSolarStations($db);
+    $projects = getSolarProjects($db);
 
     /**
      * Array
      * (
      *     [1-mb-001] => Array
      *     (
-     *         [stn] => 1
+     *         [prj] => 1
      *         [dev] => mb-001
      *         [name] => Inverter
      *         [table] => solar_data_1
@@ -177,11 +177,11 @@ function importSolarData()
     $devices = getSolarDevices($db);
 
     $fileCount = 0;
-    foreach ($stations as $station) {
-        $dir = $station['ftpdir'];
+    foreach ($projects as $project) {
+        $dir = $project['ftpdir'];
         foreach (glob($dir . '/*.csv') as $filename) {
             $fileCount++;
-            importSolarFile($filename, $station, $devices, $db);
+            importSolarFile($filename, $project, $devices, $db);
         }
     }
 

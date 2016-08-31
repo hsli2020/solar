@@ -29,31 +29,31 @@
 </tr>
 <tr>
   <td>1935 Drew</td>
-  <td>&nbsp;</td>
-  <td>&nbsp;</td>
-  <td>&nbsp;</td>
-  <td>&nbsp;</td>
-  <td>&nbsp;</td>
-  <td>&nbsp;</td>
-  <td>&nbsp;</td>
-  <td>&nbsp;</td>
-  <td>&nbsp;</td>
-  <td>&nbsp;</td>
-  <td>&nbsp;</td>
+  <td>{{ data[1]['EnvKit']['time'] }}</td>
+  <td>{{ data[1]['Inverter'][1] }}</td>
+  <td>{{ data[1]['Inverter'][2] }}</td>
+  <td>{{ data[1]['Inverter'][3] }}</td>
+  <td>{{ data[1]['EnvKit']['IRR'] }}</td>
+  <td>{{ data[1]['EnvKit']['OAT'] }}</td>
+  <td>{{ data[1]['EnvKit']['PANELT'] }}</td>
+  <td>{{ data[1]['GenMeter']['kva'] }}</td>
+  <td>{{ data[1]['GenMeter']['vln_a'] }}</td>
+  <td>{{ data[1]['GenMeter']['vln_b'] }}</td>
+  <td>{{ data[1]['GenMeter']['vln_c'] }}</td>
 </tr>
 <tr>
   <td>125 Bermondsey</td>
-  <td>&nbsp;</td>
-  <td>&nbsp;</td>
-  <td>&nbsp;</td>
-  <td>&nbsp;</td>
-  <td>&nbsp;</td>
-  <td>&nbsp;</td>
-  <td>&nbsp;</td>
-  <td>&nbsp;</td>
-  <td>&nbsp;</td>
-  <td>&nbsp;</td>
-  <td>&nbsp;</td>
+  <td>{{ data[2]['EnvKit']['time'] }}</td>
+  <td>{{ data[2]['Inverter'][1] }}</td>
+  <td>{{ data[2]['Inverter'][2] }}</td>
+  <td>{{ data[2]['Inverter'][3] }}</td>
+  <td>{{ data[2]['EnvKit']['IRR'] }}</td>
+  <td>{{ data[2]['EnvKit']['OAT'] }}</td>
+  <td>{{ data[2]['EnvKit']['PANELT'] }}</td>
+  <td>{{ data[2]['GenMeter']['kva'] }}</td>
+  <td>{{ data[2]['GenMeter']['vln_a'] }}</td>
+  <td>{{ data[2]['GenMeter']['vln_b'] }}</td>
+  <td>{{ data[2]['GenMeter']['vln_c'] }}</td>
 </tr>
 </table>
 </div>

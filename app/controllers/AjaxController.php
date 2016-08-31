@@ -12,17 +12,17 @@ class AjaxController extends ControllerBase
     public function dataAction()
     {
         if ($this->request->isPost()) {
-            $stn = $this->request->getPost('stn');
+            $prj = $this->request->getPost('prj');
             $dev = $this->request->getPost('dev');
             $col = $this->request->getPost('col');
 
            #$this->response->setJsonContent(['status' => 'ERROR', 'message' => 'Unknown column']);
            #$this->response->setJsonContent(['status' => 'OK']);
 
-//$stn=1; $dev='mb-001'; $col='dcvolts';
+//$prj=1; $dev='mb-001'; $col='dcvolts';
 
-            $sql = 'SELECT * FROM solar_device WHERE stn=? AND dev=? LIMIT 1';
-            $result = $this->db->query($sql, array($stn, $dev));
+            $sql = 'SELECT * FROM solar_device WHERE project_id=? AND devcode=? LIMIT 1';
+            $result = $this->db->query($sql, array($prj, $dev));
             $row = $result->fetch();
             $table = $row['table'];
 

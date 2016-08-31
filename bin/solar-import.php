@@ -33,8 +33,8 @@ function getSolarDevices($db)
 
     $result = $db->query('SELECT * FROM solar_device');
     while ($device = $result->fetch(Phalcon\Db::FETCH_ASSOC)) {
-        $prj = $device['prj'];
-        $dev = $device['dev'];
+        $prj = $device['project_id'];
+        $dev = $device['devcode'];
         $devices["$prj-$dev"] = $device;
     }
 
@@ -84,8 +84,8 @@ function importSolarFile($filename, $project, $devices, $db)
     /**
      * [1-mb-001] => Array
      * (
-     *     [prj] => 1
-     *     [dev] => mb-001
+     *     [project_id] => 1
+     *     [devcode] => mb-001
      *     [name] => Inverter
      *     [table] => solar_data_1
      * )
@@ -103,13 +103,15 @@ function importSolarFile($filename, $project, $devices, $db)
     if (($handle = fopen($filename, "r")) !== FALSE) {
         fgetcsv($handle); // skip first line
         while (($fields = fgetcsv($handle)) !== FALSE) {
-            if (($data = array_combine($columns, $fields)) == FALSE) {
+            if (count($columns) != count($fields)) {
                 fileLog("DATA ERROR: $filename\n\t" . implode(', ', $fields));
                 continue;
             };
 
-            $data['dev'] = $dev;
-            $data['prj'] = $project['id'];
+            $data = array_combine($columns, $fields);
+
+            $data['devcode'] = $dev;
+            $data['project_id'] = $project['id'];
 
             $columnList = '`' . implode('`, `', array_keys($data)) . '`';
             $values = "'" . implode("', '", $data). "'";
@@ -164,8 +166,8 @@ function importSolarData()
      * (
      *     [1-mb-001] => Array
      *     (
-     *         [prj] => 1
-     *         [dev] => mb-001
+     *         [project_id] => 1
+     *         [devcode] => mb-001
      *         [name] => Inverter
      *         [table] => solar_data_1
      *     )

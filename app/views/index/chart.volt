@@ -14,7 +14,7 @@
 {% endblock %}
 
 {% block domready %}
-  ajaxCall('/ajax/data', { stn: 2, dev: 'mb-080', col: 'volts_a' },
+  ajaxCall('/ajax/data', { prj: 2, dev: 'mb-080', col: 'volts_a' },
     function(data) {
       var options = {
         series: { lines: { show: true }, shadowSize: 0 },

@@ -61,6 +61,9 @@ class IndexController extends ControllerBase
             $result = $this->db->query($sql)->fetchAll(\Phalcon\Db::FETCH_ASSOC);
             if ($result) {
                 $data[$prj]['EnvKit'] = $result[0];
+
+                $time = $data[$prj]['EnvKit']['time'];
+                $data[$prj]['EnvKit']['time'] = $this->toLocaltime($time);
             }
 
             // GenMeter
@@ -100,5 +103,12 @@ class IndexController extends ControllerBase
     public function chartAction()
     {
         $this->view->pageTitle = 'Chart';
+    }
+
+    protected function toLocaltime($timeStr)
+    {
+        $date = new \DateTime($timeStr, new \DateTimeZone('UTC'));
+        $date->setTimezone(new \DateTimeZone('EST'));
+        return $date->format('Y-m-d H:i:s');
     }
 }

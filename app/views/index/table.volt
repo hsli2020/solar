@@ -28,7 +28,7 @@
   <th>vin C</th>
 </tr>
 <tr>
-  <td>1935 Drew</td>
+  <td>125 Bermondsey</td>
   <td>{{ data[1]['EnvKit']['time'] }}</td>
   <td>{{ data[1]['Inverter'][1] }}</td>
   <td>{{ data[1]['Inverter'][2] }}</td>
@@ -42,7 +42,7 @@
   <td>{{ data[1]['GenMeter']['vln_c'] }}</td>
 </tr>
 <tr>
-  <td>125 Bermondsey</td>
+  <td>1935 Drew</td>
   <td>{{ data[2]['EnvKit']['time'] }}</td>
   <td>{{ data[2]['Inverter'][1] }}</td>
   <td>{{ data[2]['Inverter'][2] }}</td>

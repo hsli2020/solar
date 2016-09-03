@@ -43,6 +43,7 @@ function getSolarDevices($db)
 
 function getTableColumns($table)
 {
+    // TODO: move the column definations to seperated files, solar_data_1.php, etc.
     if ($table == 'solar_data_1') {
         return ['time', 'error', 'low_alarm', 'high_alarm', 'dcvolts', 'kw', 'kwh'];
     }

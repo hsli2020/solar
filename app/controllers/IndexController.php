@@ -2,6 +2,13 @@
 
 namespace App\Controllers;
 
+use app\models\Projects;
+use app\models\Devices;
+use app\models\DataEnvKits;
+use app\models\DataGenMeters;
+use app\models\DataInverterTcp;
+use app\models\DataInverterSerial;
+
 class IndexController extends ControllerBase
 {
     public function indexAction()

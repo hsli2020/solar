@@ -2,12 +2,12 @@
 
 namespace App\Controllers;
 
-use app\models\Projects;
-use app\models\Devices;
-use app\models\DataEnvKits;
-use app\models\DataGenMeters;
-use app\models\DataInverterTcp;
-use app\models\DataInverterSerial;
+use App\Models\Projects;
+use App\Models\Devices;
+use App\Models\DataEnvKits;
+use App\Models\DataGenMeters;
+use App\Models\DataInverterTcp;
+use App\Models\DataInverterSerial;
 
 class IndexController extends ControllerBase
 {

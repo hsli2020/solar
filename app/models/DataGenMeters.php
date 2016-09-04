@@ -34,18 +34,18 @@ class DataGenMeters extends Model
 
         return array(
             'id'         => 'id',
-            'projectId'  => 'project_id',
+            'project_id' => 'projectId',
             'devcode'    => 'devcode',
             'time'       => 'time',
             'error'      => 'error',
-            'lowAlarm'   => 'low_alarm',
-            'highAlarm'  => 'high_alarm',
+            'low_alarm'  => 'lowAlarm',
+            'high_alarm' => 'highAlarm',
             'kva'        => 'kva',
-            'kwhDel'     => 'kwh_del',
-            'kwhRec'     => 'kwh_rec',
-            'vinA'       => 'vln_a',
-            'vinB'       => 'vln_b',
-            'vinC'       => 'vln_c',
+            'kwh_del'    => 'kwhDel',
+            'kwh_rec'    => 'kwhRec',
+            'vln_a'      => 'vinA',
+            'vln_b'      => 'vinB',
+            'vln_c'      => 'vinC',
         );
     }
 }

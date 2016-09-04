@@ -31,12 +31,12 @@ class DataEnvKits extends Model
 
         return array(
             'id'         => 'id',
-            'projectId'  => 'project_id',
+            'project_id' => 'projectId',
             'devcode'    => 'devcode',
             'time'       => 'time',
             'error'      => 'error',
-            'lowAlarm'   => 'low_alarm',
-            'highAlarm'  => 'high_alarm',
+            'low_alarm'  => 'lowAlarm',
+            'high_alarm' => 'highAlarm',
             'OAT'        => 'OAT',
             'PANELT'     => 'PANELT',
             'IRR'        => 'IRR',

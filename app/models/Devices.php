@@ -26,12 +26,12 @@ class Devices extends Model
         // the values their names in the application
 
         return array(
-            'id'        => 'id',
-            'projectId' => 'project_id',
-            'code'      => 'devcode',
-            'name'      => 'name',
-            'table'     => 'table',
-            'desc'      => 'desc',
+            'id'         => 'id',
+            'project_id' => 'projectId',
+            'devcode'    => 'code',
+            'name'       => 'name',
+            'table'      => 'table',
+            'desc'       => 'desc',
         );
     }
 }

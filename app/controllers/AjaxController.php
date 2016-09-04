@@ -30,7 +30,7 @@ class AjaxController extends ControllerBase
             $result = $this->db->query($sql);
             $data = [];
             while ($row = $result->fetch()) {
-                $data[] = [strtotime($row['time']), floatval($row[$col])];
+                $data[] = [strtotime($row['time'])*1000, floatval($row[$col])];
             }
 
             $this->response->setJsonContent(['status' => 'OK', 'data' => $data]);

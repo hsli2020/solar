@@ -25,7 +25,7 @@ class DataInverterSerial extends Model
     public $dcInputVoltage;
     public $dcInputCurrent;
     public $lineFreq;
-    public $lineKw;
+    public $kw;
     public $operatingStatus;
     public $faultWord0;
     public $faultWord1;
@@ -60,7 +60,7 @@ class DataInverterSerial extends Model
             'dc_input_voltage'           => 'dcInputVoltage',
             'dc_input_current'           => 'dcInputCurrent',
             'line_freq'                  => 'lineFreq',
-            'line_kw'                    => 'lineKw',
+            'line_kw'                    => 'kw',
             'inverter_operating_status'  => 'operatingStatus',
             'inverter_fault_word_0'      => 'faultWord0',
             'inverter_fault_word_1'      => 'faultWord1',

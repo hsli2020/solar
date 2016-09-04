@@ -39,24 +39,7 @@
   <!-- Overlay effect when opening sidenav on small screens -->
   <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu"></div>
 
-  {{ javascript_include("/flot/jquery.js") }}
-  {{ javascript_include("/flot/jquery.flot.js") }}
-  {{ javascript_include("/flot/jquery.flot.time.js") }}
-  {{ javascript_include("/flot/jquery.flot.navigate.js") }}
-  {{ javascript_include("/flot/jquery.flot.categories.js") }}
-  {{ javascript_include("/flot/jquery.flot.canvas.js") }}
-  {{ javascript_include("/flot/jquery.flot.crosshair.js") }}
-  {{ javascript_include("/flot/jquery.flot.errorbars.js") }}
-  {{ javascript_include("/flot/jquery.flot.fillbetween.js") }}
-  {{ javascript_include("/flot/jquery.flot.image.js") }}
-  {{ javascript_include("/flot/jquery.flot.pie.js") }}
-  {{ javascript_include("/flot/jquery.flot.resize.js") }}
-  {{ javascript_include("/flot/jquery.flot.selection.js") }}
-  {{ javascript_include("/flot/jquery.flot.stack.js") }}
-  {{ javascript_include("/flot/jquery.flot.symbol.js") }}
-  {{ javascript_include("/flot/jquery.flot.threshold.js") }}
-  {{ javascript_include("/js/script.js") }}
-
+  {% block jsfile %}{% endblock %}
   {% block jscode %}{% endblock %}
 
   <script type="text/javascript">

@@ -43,29 +43,29 @@ class DataInverterSerial extends Model
         // the values their names in the application
 
         return array(
-            'id'                         => 'id'
-            'project_id'                 => 'projectId'
-            'devcode'                    => 'devcode'
-            'time'                       => 'time'
-            'error'                      => 'error'
-            'low_alarm'                  => 'lowAlarm'
-            'high_alarm'                 => 'highAlarm'
-            'total_kwh_del'              => 'totalKwhDel'
-            'volts_a'                    => 'voltsA'
-            'volts_b'                    => 'voltsB'
-            'volts_c'                    => 'voltsC'
-            'current_a'                  => 'currentA'
-            'current_b'                  => 'currentB'
-            'current_c'                  => 'currentC'
-            'dc_input_voltage'           => 'dcInputVoltage'
-            'dc_input_current'           => 'dcInputCurrent'
-            'line_freq'                  => 'lineFreq'
-            'line_kw'                    => 'lineKw'
-            'inverter_operating_status'  => 'operatingStatus'
-            'inverter_fault_word_0'      => 'faultWord0'
-            'inverter_fault_word_1'      => 'faultWord1'
-            'inverter_fault_word_2'      => 'faultWord2'
-            'data_comm_status'           => 'dataCommStatus'
+            'id'                         => 'id',
+            'project_id'                 => 'projectId',
+            'devcode'                    => 'devcode',
+            'time'                       => 'time',
+            'error'                      => 'error',
+            'low_alarm'                  => 'lowAlarm',
+            'high_alarm'                 => 'highAlarm',
+            'total_kwh_del'              => 'totalKwhDel',
+            'volts_a'                    => 'voltsA',
+            'volts_b'                    => 'voltsB',
+            'volts_c'                    => 'voltsC',
+            'current_a'                  => 'currentA',
+            'current_b'                  => 'currentB',
+            'current_c'                  => 'currentC',
+            'dc_input_voltage'           => 'dcInputVoltage',
+            'dc_input_current'           => 'dcInputCurrent',
+            'line_freq'                  => 'lineFreq',
+            'line_kw'                    => 'lineKw',
+            'inverter_operating_status'  => 'operatingStatus',
+            'inverter_fault_word_0'      => 'faultWord0',
+            'inverter_fault_word_1'      => 'faultWord1',
+            'inverter_fault_word_2'      => 'faultWord2',
+            'data_comm_status'           => 'dataCommStatus',
         );
     }
 }

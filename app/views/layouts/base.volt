@@ -19,10 +19,10 @@
   {{ stylesheet_link("/css/style.css") }}
 </head>
 <body class="w3-light-grey">
-  {% include "partials/sidebar.volt" %}
+  {# include "partials/sidebar.volt" #}
   {% include "partials/navbar.volt" %}
 
-  <div class="w3-main" style="margin-left:240px;margin-top:43px;">
+  <div class="w3-main" style="margin-top:43px;">
     <!-- Header -->
     <header class="w3-container" style="padding-top:22px">
         <h5><b><i class="fa fa-dashboard"></i> {{ pageTitle }}</b></h5>

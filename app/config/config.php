@@ -6,6 +6,7 @@ $application = [
     'modelsDir'                => BASE_DIR . '/app/models/',
     'viewsDir'                 => BASE_DIR . '/app/views/',
     'pluginsDir'               => BASE_DIR . '/app/plugins/',
+    'serviceDir'               => BASE_DIR . '/app/services/',
     'libraryDir'               => BASE_DIR . '/app/library/',
     'formsDir'                 => BASE_DIR . '/app/forms/',
     'cacheDir'                 => BASE_DIR . '/app/cache/',

@@ -42,6 +42,12 @@ class IndexController extends ControllerBase
 
        #$inverter = DataInverterSerial::find(['limit' => 10]);
        #$this->view->data = print_r($inverter->toArray(), true);
+
+        $dataService = $this->dataService;
+        $dataService->ping();
+
+        $solarService = $this->solarService;
+        $solarService->ping();
     }
 
     public function tableAction()

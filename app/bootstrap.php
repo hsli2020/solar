@@ -27,6 +27,7 @@ class Bootstrap
         'timezones',
         'breadcrumbs',
         'modelsmetadata',
+        'services',
         'auth',
         'mail',
         'acl',
@@ -96,6 +97,7 @@ class Bootstrap
             'App\Controllers' => $config->application->controllersDir,
             'App\Forms'       => $config->application->formsDir,
             'App\Plugins'     => $config->application->pluginsDir,
+            'App\Service'     => $config->application->serviceDir,
             'App\Library'     => $config->application->libraryDir
         ]);
 
@@ -389,6 +391,20 @@ class Bootstrap
             $breadcrumbs->setSeparator('');
 
             return $breadcrumbs;
+        });
+    }
+
+    /**
+     * Initializes the user-defined services, Custom authentication component
+     */
+    protected function initServices(Config $config, EventsManager $em)
+    {
+        $this->di->setShared('dataService', function () {
+            return new App\Service\DataService();
+        });
+
+        $this->di->setShared('solarService', function () {
+            return new App\Service\SolarService();
         });
     }
 

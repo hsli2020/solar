@@ -23,6 +23,25 @@ class IndexController extends ControllerBase
     public function testAction()
     {
         $this->view->pageTitle = 'Test Page';
+        $this->view->data = __METHOD__;
+
+       #$projects = Projects::find();
+       #$this->view->data = print_r($projects->toArray(), true);
+
+       #$devices = Devices::find();
+       #$this->view->data = print_r($devices->toArray(), true);
+
+       #$envkit = DataEnvKits::find(['limit' => 10]);
+       #$this->view->data = print_r($envkit->toArray(), true);
+
+       #$genMeter = DataGenMeters::find(['limit' => 10]);
+       #$this->view->data = print_r($genMeter->toArray(), true);
+
+       #$inverter = DataInverterTcp::find(['limit' => 10]);
+       #$this->view->data = print_r($inverter->toArray(), true);
+
+       #$inverter = DataInverterSerial::find(['limit' => 10]);
+       #$this->view->data = print_r($inverter->toArray(), true);
     }
 
     public function tableAction()

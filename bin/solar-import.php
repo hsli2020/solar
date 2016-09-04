@@ -43,36 +43,13 @@ function getSolarDevices($db)
 
 function getTableColumns($table)
 {
-    // TODO: move the column definations to seperated files, solar_data_1.php, etc.
-    if ($table == 'solar_data_1') {
-        return ['time', 'error', 'low_alarm', 'high_alarm', 'dcvolts', 'kw', 'kwh'];
-    }
-
-    if ($table == 'solar_data_2') {
-        return ['time', 'error', 'low_alarm', 'high_alarm', 'kw', 'kwh_del', 'kwh_rec'];
-    }
-
-    if ($table == 'solar_data_3') {
-        return ['time', 'error', 'low_alarm', 'high_alarm', 'OAT', 'PANELT', 'IRR'];
-    }
-
-    if ($table == 'solar_data_4') {
-        return [
-            'time', 'error', 'low_alarm', 'high_alarm',
-            'total_kwh_del', 'volts_a', 'volts_b', 'volts_c',
-            'current_a', 'current_b', 'current_c',
-            'dc_input_voltage', 'dc_input_current',
-            'line_freq', 'line_kw', 'inverter_operating_status',
-            'inverter_fault_word_0', 'inverter_fault_word_1',
-            'inverter_fault_word_2', 'data_comm_status'
-        ];
-    }
-
-    if ($table == 'solar_data_5') {
-        return ['time', 'error', 'low_alarm', 'high_alarm', 'kva', 'kwh_del', 'kwh_rec', 'vln_a', 'vln_b', 'vln_c'];
+    if (file_exists("$table.php")) {
+        $columns = include("$table.php");
+        return $columns;
     }
 
     fileLog("Unknown Table Name: $table");
+    return [];
 }
 
 function importSolarFile($filename, $project, $devices, $db)

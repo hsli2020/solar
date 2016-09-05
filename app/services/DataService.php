@@ -165,5 +165,45 @@ class DataService extends Injectable
 
     public function getData($prj, $dev)
     {
+        $titles = [
+            'EnvKit' => [
+                'time'   => 'Time',
+                'OAT'    => 'OAT',
+                'PANELT' => 'PANELT',
+                'IRR'    => 'IRR',
+            ],
+
+            'GenMeter' => [
+                'time'   => 'Time',
+                'kva'    => 'kva',
+                'kwhDel' => 'kwh Del',
+                'kwhRec' => 'kwh Rec',
+                'vinA'   => 'vin A',
+                'vinB'   => 'vin B',
+                'vinC'   => 'vin C',
+            ],
+
+            'InverterTcp' => [
+                'time'    => 'Time',
+                'dcvolts' => 'dcvolts',
+                'kw'      => 'kw',
+                'kwh'     => 'kwh',
+            ],
+
+            'InverterSerial' => [
+                'time'           => 'Time',
+                'totalKwhDel'    => 'Total kwh Del',
+                'voltsA'         => 'Volts A',
+                'voltsB'         => 'Volts B',
+                'voltsC'         => 'Volts C',
+                'currentA'       => 'Current A',
+                'currentB'       => 'Current B',
+                'currentC'       => 'Current C',
+                'dcInputVoltage' => 'DC Input Voltage',
+                'dcInputCurrent' => 'DC Input Current',
+                'lineFreq'       => 'Line Freq',
+                'kw'             => 'kw',
+            ]
+        ];
     }
 }

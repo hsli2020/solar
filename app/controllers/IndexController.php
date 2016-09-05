@@ -43,89 +43,63 @@ class IndexController extends ControllerBase
        #$inverter = DataInverterSerial::find(['limit' => 10]);
        #$this->view->data = print_r($inverter->toArray(), true);
 
-        $dataService = $this->dataService;
-        $dataService->ping();
+       #$dataService = $this->dataService;
+       #$dataService->ping();
 
-        $solarService = $this->solarService;
-        $solarService->ping();
+       #$solarService = $this->solarService;
+       #$solarService->ping();
     }
 
     public function tableAction()
     {
         $this->view->pageTitle = 'Table';
 
-        // TODO: put these stuff to database
-        $projects = [
-            1 => [
-                'EnvKit'   => [ 'table' => 'solar_data_3', 'devcode' => 'mb-071' ],
-                'GenMeter' => [ 'table' => 'solar_data_5', 'devcode' => 'mb-100' ],
-                'Inverter' => [
-                    'table' => 'solar_data_1',
-                    'column' => 'kw',
-                    'devcodes' => [ 'mb-001', 'mb-002', 'mb-003' ]
-                ]
-            ],
+        // Get Projects Information
+        $projects = [];
+        foreach (Projects::find()->toArray() as $project) {
+            $id = $project['id'];
+            $name = $project['name'];
+            $projects[$id] = $name;
+        }
 
-            2 => [
-                'EnvKit'   => [ 'table' => 'solar_data_3', 'devcode' => 'mb-047' ],
-                'GenMeter' => [ 'table' => 'solar_data_5', 'devcode' => 'mb-100' ],
-                'Inverter' => [
-                    'table' => 'solar_data_4',
-                    'column' => 'line_kw',
-                    'devcodes' => [ 'mb-080', 'mb-081', 'mb-xxx' ]
-                ]
-            ]
+        $modelMap = [
+            'solar_data_inverter_tcp' => 'DataInverterTcp',
+            'solar_data_inverter_serial' => 'DataInverterSerial',
+            'solar_data_genmeter' => 'DataGenMeters',
+            'solar_data_envkit' => 'DataEnvKits',
         ];
 
+        // Get Data of Devices
         $data = [];
 
-        foreach ($projects as $prj => $info) {
-            // EnvKit
-            $data[$prj]['EnvKit'] = array (
-                'OAT' => '',
-                'PANELT' => '',
-                'IRR' => '',
-            );
-            $table = $info['EnvKit']['table'];
-            $devcode = $info['EnvKit']['devcode'];
+        $devices = Devices::find();
+        foreach ($devices as $device) {
+            $projectId = $device->projectId;
+            $devcode = $device->code;
+            $devname = $device->name;
 
-            $sql = "SELECT * FROM $table WHERE project_id=$prj AND devcode='$devcode' ORDER BY id DESC LIMIT 1";
-            $result = $this->db->query($sql)->fetchAll(\Phalcon\Db::FETCH_ASSOC);
-            if ($result) {
-                $data[$prj]['EnvKit'] = $result[0];
+            $data[$projectId]['name'] = $projects[$projectId];
 
-                $time = $data[$prj]['EnvKit']['time'];
-                $data[$prj]['EnvKit']['time'] = $this->toLocaltime($time);
+            $criteria = [
+                "conditions" => "projectId=?1 AND devcode=?2 AND error=0",
+                "bind"       => array(1 => $projectId, 2 => $devcode),
+                "order"      => "id DESC",
+                "limit"      => 1
+            ];
+
+            if (!isset($modelMap[$device->table])) {
+                continue;
             }
 
-            // GenMeter
-            $data[$prj]['GenMeter'] = array(
-                'kva'   => '',
-                'vln_a' => '',
-                'vln_b' => '',
-                'vln_c' => '',
-            );
-            $table = $info['GenMeter']['table'];
-            $devcode = $info['GenMeter']['devcode'];
+            $modelClass = 'App\\Models\\'.$modelMap[$device->table];
 
-            $sql = "SELECT * FROM $table WHERE project_id=$prj AND devcode='$devcode' ORDER BY id DESC LIMIT 1";
-            $result = $this->db->query($sql)->fetchAll(\Phalcon\Db::FETCH_ASSOC);
-            if ($result) {
-                $data[$prj]['GenMeter'] = $result[0];
-            }
+            $row = $modelClass::findFirst($criteria);
+            $row->time = $this->toLocalTime($row->time);
 
-            // Inverter 1-2-3
-            $table = $info['Inverter']['table'];
-            $column = $info['Inverter']['column'];
-            $devcodes = $info['Inverter']['devcodes'];
-
-            foreach ($devcodes as $i => $devcode) {
-                $data[$prj]['Inverter'][$i+1] = '';
-                $sql = "SELECT $column FROM $table WHERE project_id=$prj AND devcode='$devcode' ORDER BY id DESC LIMIT 1";
-                $result = $this->db->fetchColumn($sql);
-                if ($result) {
-                    $data[$prj]['Inverter'][$i+1] = $result;
-                }
+            if ($devname == 'Inverter') {
+                $data[$projectId][$devname][] = $row->toArray();
+            } else {
+                $data[$projectId][$devname] = $row->toArray();
             }
         }
 
@@ -141,6 +115,6 @@ class IndexController extends ControllerBase
     {
         $date = new \DateTime($timeStr, new \DateTimeZone('UTC'));
         $date->setTimezone(new \DateTimeZone('EST'));
-        return $date->format('Y-m-d H:i:s');
+        return $date->format('Y-m-d H:i');
     }
 }

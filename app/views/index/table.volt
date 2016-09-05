@@ -27,34 +27,22 @@
   <th>vin B</th>
   <th>vin C</th>
 </tr>
+{% for row in data %}
 <tr>
-  <td>125 Bermondsey</td>
-  <td>{{ data[1]['EnvKit']['time'] }}</td>
-  <td>{{ data[1]['Inverter'][1] }}</td>
-  <td>{{ data[1]['Inverter'][2] }}</td>
-  <td>{{ data[1]['Inverter'][3] }}</td>
-  <td>{{ data[1]['EnvKit']['IRR'] }}</td>
-  <td>{{ data[1]['EnvKit']['OAT'] }}</td>
-  <td>{{ data[1]['EnvKit']['PANELT'] }}</td>
-  <td>{{ data[1]['GenMeter']['kva'] }}</td>
-  <td>{{ data[1]['GenMeter']['vln_a'] }}</td>
-  <td>{{ data[1]['GenMeter']['vln_b'] }}</td>
-  <td>{{ data[1]['GenMeter']['vln_c'] }}</td>
+  <td>{{ row['name'] }}</td>
+  <td>{{ row['EnvKit']['time'] }}</td>
+  {% if row['Inverter'][0] is defined %}<td>{{ row['Inverter'][0]['kw'] }}</td>{% else %}<td>&nbsp;</td>{% endif %}
+  {% if row['Inverter'][1] is defined %}<td>{{ row['Inverter'][1]['kw'] }}</td>{% else %}<td>&nbsp;</td>{% endif %}
+  {% if row['Inverter'][2] is defined %}<td>{{ row['Inverter'][2]['kw'] }}</td>{% else %}<td>&nbsp;</td>{% endif %}
+  <td>{{ row['EnvKit']['IRR'] }}</td>
+  <td>{{ row['EnvKit']['OAT'] }}</td>
+  <td>{{ row['EnvKit']['PANELT'] }}</td>
+  <td>{{ row['GenMeter']['kva'] }}</td>
+  <td>{{ row['GenMeter']['vinA'] }}</td>
+  <td>{{ row['GenMeter']['vinB'] }}</td>
+  <td>{{ row['GenMeter']['vinC'] }}</td>
 </tr>
-<tr>
-  <td>1935 Drew</td>
-  <td>{{ data[2]['EnvKit']['time'] }}</td>
-  <td>{{ data[2]['Inverter'][1] }}</td>
-  <td>{{ data[2]['Inverter'][2] }}</td>
-  <td>{{ data[2]['Inverter'][3] }}</td>
-  <td>{{ data[2]['EnvKit']['IRR'] }}</td>
-  <td>{{ data[2]['EnvKit']['OAT'] }}</td>
-  <td>{{ data[2]['EnvKit']['PANELT'] }}</td>
-  <td>{{ data[2]['GenMeter']['kva'] }}</td>
-  <td>{{ data[2]['GenMeter']['vln_a'] }}</td>
-  <td>{{ data[2]['GenMeter']['vln_b'] }}</td>
-  <td>{{ data[2]['GenMeter']['vln_c'] }}</td>
-</tr>
+{% endfor %}
 </table>
 </div>
 {% endblock %}

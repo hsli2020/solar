@@ -24,6 +24,11 @@ class DataEnvKits extends Model
         $this->setSource('solar_data_envkit');
     }
 
+    public function afterFetch()
+    {
+        $this->time = toLocalTime($this->time);
+    }
+
     public function columnMap()
     {
         // Keys are the real names in the table and

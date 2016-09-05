@@ -27,6 +27,7 @@ class Bootstrap
         'timezones',
         'breadcrumbs',
         'modelsmetadata',
+        'utils',
         'services',
         'auth',
         'mail',

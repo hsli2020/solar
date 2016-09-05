@@ -52,7 +52,7 @@ class DataService extends Injectable
     /**
      * Devices
      */
-    public function getAllDevices($prj, $dev)
+    public function getAllDevices()
     {
         static $devices = [];
 
@@ -66,15 +66,19 @@ class DataService extends Injectable
             }
         }
 
-        if (is_null($prj) && is_null($dev)) {
-            return $devices;
-        }
-
-        $key = $prj.'-'.$dev;
-
-        return $devices[$key] ? $devices[$key] : [];
+        return $devices;
     }
 
+    // $dev='mb-xxx'
+    public function getDevice($prj, $dev)
+    {
+        $devices = $this->getAllDevices();
+
+        $key = $prj.'-'.$dev;
+        return isset($devices[$key]) ? $devices[$key] : [];
+    }
+
+    // $type='Inverter|GenMeter|EnvKit'
     public function getDevicesOfType($prj, $type)
     {
         $devices = [];
@@ -89,7 +93,7 @@ class DataService extends Injectable
 
     public function getTableName($prj, $dev)
     {
-        $device = $this->getAllDevices($prj, $dev);
+        $device = $this->getDevice($prj, $dev);
         return $device['table'];
     }
 

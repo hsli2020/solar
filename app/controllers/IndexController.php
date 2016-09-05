@@ -17,6 +17,7 @@ class IndexController extends ControllerBase
     {
         $this->view->pageTitle = 'Test Page';
         $this->view->data = __METHOD__;
+        $this->view->data = print_r($this->dataService->getDevicesOfType(1, 'EnvKit'), true);
     }
 
     public function tableAction()

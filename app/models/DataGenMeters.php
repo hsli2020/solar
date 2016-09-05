@@ -27,6 +27,11 @@ class DataGenMeters extends Model
         $this->setSource('solar_data_genmeter');
     }
 
+    public function afterFetch()
+    {
+        $this->time = toLocalTime($this->time);
+    }
+
     public function columnMap()
     {
         // Keys are the real names in the table and

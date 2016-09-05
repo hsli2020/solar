@@ -37,6 +37,11 @@ class DataInverterSerial extends Model
         $this->setSource('solar_data_inverter_serial');
     }
 
+    public function afterFetch()
+    {
+        $this->time = toLocalTime($this->time);
+    }
+
     public function columnMap()
     {
         // Keys are the real names in the table and

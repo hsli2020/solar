@@ -24,6 +24,11 @@ class DataInverterTcp extends Model
         $this->setSource('solar_data_inverter_tcp');
     }
 
+    public function afterFetch()
+    {
+        $this->time = toLocalTime($this->time);
+    }
+
     public function columnMap()
     {
         // Keys are the real names in the table and

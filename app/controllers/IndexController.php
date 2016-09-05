@@ -43,8 +43,10 @@ class IndexController extends ControllerBase
        #$inverter = DataInverterSerial::find(['limit' => 10]);
        #$this->view->data = print_r($inverter->toArray(), true);
 
-       #$dataService = $this->dataService;
-       #$dataService->ping();
+        $dataService = $this->dataService;
+        $this->view->data = print_r($dataService->getProjectInfo(), true);
+        $this->view->data = print_r($dataService->getDeviceInfo(1, 'mb-001'), true);
+        $this->view->data = print_r($dataService->getDeviceInfo(), true);
 
        #$solarService = $this->solarService;
        #$solarService->ping();
@@ -56,10 +58,9 @@ class IndexController extends ControllerBase
 
         // Get Projects Information
         $projects = [];
-        foreach (Projects::find()->toArray() as $project) {
+        foreach (Projects::find('active=1')->toArray() as $project) {
             $id = $project['id'];
-            $name = $project['name'];
-            $projects[$id] = $name;
+            $projects[$id] = $project['name'];
         }
 
         $modelMap = [

@@ -95,11 +95,59 @@ class DataService extends Injectable
         return 'App\\Models\\'.$modelMap[$table];
     }
 
-    public function getLatestData($prj, $dev, $fld)
+    /**
+     * Data
+     */
+    public function getSnapshot()
     {
+        $data = [];
+
+        $devices = Devices::find();
+        foreach ($devices as $device) {
+            $projectId = $device->projectId;
+            $devcode = $device->code;
+            $devname = $device->name;
+
+            $data[$projectId]['name'] = $this->getProjectName($projectId);
+
+            $criteria = [
+                "conditions" => "projectId=?1 AND devcode=?2 AND error=0",
+                "bind"       => array(1 => $projectId, 2 => $devcode),
+                "order"      => "id DESC",
+                "limit"      => 1
+            ];
+
+            $modelClass = $this->getModelName($projectId, $devcode);
+
+            $row = $modelClass::findFirst($criteria);
+            $row->time = substr($row->time, 0, -3);
+
+            if ($devname == 'Inverter') {
+                $data[$projectId][$devname][] = $row->toArray();
+            } else {
+                $data[$projectId][$devname] = $row->toArray();
+            }
+        }
+
+        return $data;
     }
 
-    public function getData($prj, $dev, $fld)
+    public function getChartData($prj, $dev, $fld)
+    {
+        $table = $this->getTableName($prj, $dev);
+
+        $sql = "(SELECT `time`, $fld FROM $table WHERE error=0 ORDER BY `time` DESC LIMIT 300) ORDER BY `time` ASC";
+        $result = $this->db->query($sql);
+
+        $data = [];
+        while ($row = $result->fetch()) {
+            $data[] = [strtotime($row['time'])*1000, floatval($row[$fld])];
+        }
+
+        return $data;
+    }
+
+    public function getData($prj, $dev)
     {
     }
 }

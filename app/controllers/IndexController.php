@@ -24,53 +24,14 @@ class IndexController extends ControllerBase
     {
         $this->view->pageTitle = 'Test Page';
         $this->view->data = __METHOD__;
-
-       #$projects = Projects::find();
-       #$this->view->data = print_r($projects->toArray(), true);
-
-       #$devices = Devices::find();
-       #$this->view->data = print_r($devices->toArray(), true);
-
-       #$envkit = DataEnvKits::find(['limit' => 10]);
-       #$this->view->data = print_r($envkit->toArray(), true);
-
-       #$genMeter = DataGenMeters::find(['limit' => 10]);
-       #$this->view->data = print_r($genMeter->toArray(), true);
-
-       #$inverter = DataInverterTcp::find(['limit' => 10]);
-       #$this->view->data = print_r($inverter->toArray(), true);
-
-       #$inverter = DataInverterSerial::find(['limit' => 10]);
-       #$this->view->data = print_r($inverter->toArray(), true);
-
-        $dataService = $this->dataService;
-        $this->view->data = print_r($dataService->getProjectInfo(), true);
-        $this->view->data = print_r($dataService->getDeviceInfo(1, 'mb-001'), true);
-        $this->view->data = print_r($dataService->getDeviceInfo(), true);
-
-       #$solarService = $this->solarService;
-       #$solarService->ping();
     }
 
     public function tableAction()
     {
         $this->view->pageTitle = 'Table';
 
-        // Get Projects Information
-        $projects = [];
-        foreach (Projects::find('active=1')->toArray() as $project) {
-            $id = $project['id'];
-            $projects[$id] = $project['name'];
-        }
+        $dataService = $this->dataService;
 
-        $modelMap = [
-            'solar_data_inverter_tcp' => 'DataInverterTcp',
-            'solar_data_inverter_serial' => 'DataInverterSerial',
-            'solar_data_genmeter' => 'DataGenMeters',
-            'solar_data_envkit' => 'DataEnvKits',
-        ];
-
-        // Get Data of Devices
         $data = [];
 
         $devices = Devices::find();
@@ -79,7 +40,7 @@ class IndexController extends ControllerBase
             $devcode = $device->code;
             $devname = $device->name;
 
-            $data[$projectId]['name'] = $projects[$projectId];
+            $data[$projectId]['name'] = $dataService->getProjectName($projectId);
 
             $criteria = [
                 "conditions" => "projectId=?1 AND devcode=?2 AND error=0",
@@ -88,14 +49,10 @@ class IndexController extends ControllerBase
                 "limit"      => 1
             ];
 
-            if (!isset($modelMap[$device->table])) {
-                continue;
-            }
-
-            $modelClass = 'App\\Models\\'.$modelMap[$device->table];
+            $modelClass = $dataService->getModelName($projectId, $devcode);
 
             $row = $modelClass::findFirst($criteria);
-            $row->time = $this->toLocalTime($row->time);
+           #$row->time = $this->toLocalTime($row->time);
 
             if ($devname == 'Inverter') {
                 $data[$projectId][$devname][] = $row->toArray();

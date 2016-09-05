@@ -13,7 +13,10 @@ use App\Models\DataInverterSerial;
 
 class DataService extends Injectable
 {
-    public function getProjectInfo($id = null)
+    /**
+     * Projects
+     */
+    public function getAllProjects()
     {
         static $projects = [];
 
@@ -21,18 +24,35 @@ class DataService extends Injectable
             $result = Projects::find('active=1');
             foreach ($result as $project) {
                 $id = $project->id;
-                $projects[$id] = $project->name;
+                $projects[$id] = $project->toArray();
             }
         }
 
-        if ($id) {
-            return $projects[$id];
-        } else {
-            return $projects;
-        }
+        return $projects;
     }
 
-    public function getDeviceInfo($prj, $dev)
+    public function getProject($id)
+    {
+        $projects = $this->getAllProjects();
+        return $projects[$id];
+    }
+
+    public function getProjectName($id)
+    {
+        $project = $this->getProject($id);
+        return $project['name'];
+    }
+
+    public function getProjectFtpDir($id)
+    {
+        $project = $this->getProject($id);
+        return $project['ftpdir'];
+    }
+
+    /**
+     * Devices
+     */
+    public function getAllDevices($prj, $dev)
     {
         static $devices = [];
 
@@ -57,7 +77,7 @@ class DataService extends Injectable
 
     public function getTableName($prj, $dev)
     {
-        $device = $this->getDeviceInfo($prj, $dev);
+        $device = $this->getAllDevices($prj, $dev);
         return $device['table'];
     }
 
@@ -72,7 +92,7 @@ class DataService extends Injectable
 
         $table = $this->getTableName($prj, $dev);
 
-        return $modelMap[$table];
+        return 'App\\Models\\'.$modelMap[$table];
     }
 
     public function getLatestData($prj, $dev, $fld)

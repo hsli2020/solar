@@ -75,6 +75,18 @@ class DataService extends Injectable
         return $devices[$key] ? $devices[$key] : [];
     }
 
+    public function getDevicesOfType($prj, $type)
+    {
+        $devices = [];
+
+        $result = Devices::find("projectId=$prj AND type='$type'");
+        foreach ($result as $device) {
+            $devices[] = $device->toArray();
+        }
+
+        return $devices;
+    }
+
     public function getTableName($prj, $dev)
     {
         $device = $this->getAllDevices($prj, $dev);
@@ -106,7 +118,7 @@ class DataService extends Injectable
         foreach ($devices as $device) {
             $projectId = $device->projectId;
             $devcode = $device->code;
-            $devname = $device->name;
+            $devtype = $device->type;
 
             $data[$projectId]['name'] = $this->getProjectName($projectId);
 
@@ -122,10 +134,10 @@ class DataService extends Injectable
             $row = $modelClass::findFirst($criteria);
             $row->time = substr($row->time, 0, -3);
 
-            if ($devname == 'Inverter') {
-                $data[$projectId][$devname][] = $row->toArray();
+            if ($devtype == 'Inverter') {
+                $data[$projectId][$devtype][] = $row->toArray();
             } else {
-                $data[$projectId][$devname] = $row->toArray();
+                $data[$projectId][$devtype] = $row->toArray();
             }
         }
 

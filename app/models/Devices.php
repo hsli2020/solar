@@ -11,7 +11,7 @@ class Devices extends Model
     public $id;
     public $projectId;
     public $code;
-    public $name;
+    public $type;
     public $table;
     public $desc;
 
@@ -29,7 +29,7 @@ class Devices extends Model
             'id'         => 'id',
             'project_id' => 'projectId',
             'devcode'    => 'code',
-            'name'       => 'name',
+            'type'       => 'type',
             'table'      => 'table',
             'desc'       => 'desc',
         );

@@ -34,17 +34,23 @@
 {% endblock %}
 
 {% block domready %}
-  ajaxCall('/ajax/data', { prj: 2, dev: 'mb-080', col: 'volts_a' },
+  ajaxCall('/ajax/data', { prj: 1, dev: 'mb-001', col: 'kw' },
     function(data) {
+      data = data.slice(-200);
       var options = {
-        series: { lines: { show: true }, shadowSize: 0 },
-        xaxis: { mode: 'time',
-                 panRange: [data[0][0], data[data.length-1][0]],
-                 zoomRange: [data[0][0], data[data.length-1][0]] 
-               },
-        yaxis: { panRange: [0, 500] },
-        zoom: { interactive: false },
-        pan: { interactive: true }
+        series: {
+            bars: {	show: true,	barWidth: 10 },
+            //lines: { show: true },
+            shadowSize: 0
+        },
+        xaxis: {
+            mode: 'time',
+            panRange: [data[0][0], data[data.length-1][0]],
+            zoomRange: [data[0][0], data[data.length-1][0]]
+        }//,
+        //yaxis: { panRange: [0, 500] },
+        //zoom: { interactive: false },
+        //pan: { interactive: true }
       };
       $.plot("#placeholder", [ data ], options);
     },

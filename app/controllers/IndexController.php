@@ -9,7 +9,7 @@ class IndexController extends ControllerBase
         $this->view->pageTitle = 'My Dashboard';
         return $this->dispatcher->forward([
             'controller' => 'index',
-            'action' => 'chart'
+            'action' => 'project'
         ]);
     }
 
@@ -20,13 +20,13 @@ class IndexController extends ControllerBase
         $this->view->data = print_r($this->dataService->getDevicesOfType(1, 'EnvKit'), true);
     }
 
-    public function tableAction()
+    public function projectAction()
     {
         $this->view->pageTitle = 'Project';
         $this->view->data = $this->dataService->getSnapshot();
     }
 
-    public function chartAction()
+    public function reportAction()
     {
         $this->view->pageTitle = 'Report';
     }

@@ -22,12 +22,12 @@ class IndexController extends ControllerBase
 
     public function tableAction()
     {
-        $this->view->pageTitle = 'Table';
+        $this->view->pageTitle = 'Project';
         $this->view->data = $this->dataService->getSnapshot();
     }
 
     public function chartAction()
     {
-        $this->view->pageTitle = 'Chart';
+        $this->view->pageTitle = 'Report';
     }
 }

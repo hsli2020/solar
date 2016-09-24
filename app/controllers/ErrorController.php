@@ -2,24 +2,24 @@
 
 namespace App\Controllers;
 
-class ErrorsController extends ControllerBase
+class ErrorController extends ControllerBase
 {
-    public function show401Action()
+    public function error401Action()
     {
         $this->response->setHeader(401, 'Unauthorized');
     }
 
-    public function show403Action()
+    public function error403Action()
     {
         $this->response->setHeader(403, 'Forbidden');
     }
 
-    public function show404Action()
+    public function error404Action()
     {
         $this->response->setHeader(404, 'Not Found');
     }
 
-    public function show500Action()
+    public function error500Action()
     {
         $this->response->setHeader(500, 'Internal Server Error');
     }

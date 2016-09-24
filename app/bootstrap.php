@@ -156,7 +156,7 @@ class Bootstrap
 
         $this->di->setShared('dispatcher', function() use ($em, $di) {
 
-#           $em->attach('dispatch:beforeException', new NotFoundPlugin);
+            $em->attach('dispatch:beforeException', new NotFoundPlugin);
 #           $em->attach('dispatch:beforeDispatch',  new SecurityPlugin($di));
 
             $dispatcher = new \Phalcon\Mvc\Dispatcher();

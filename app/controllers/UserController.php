@@ -23,6 +23,11 @@ class UserController extends ControllerBase
     {
         $this->view->pageTitle = 'User Login';
 
+        $auth = $this->session->get('auth');
+        if (is_array($auth)) {
+            return $this->response->redirect("/");
+        }
+
         if ($this->request->isPost() ) {
 
             // Receiving the variables sent by POST

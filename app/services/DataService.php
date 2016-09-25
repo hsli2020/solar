@@ -157,6 +157,7 @@ class DataService extends Injectable
 
         $data = [];
         while ($row = $result->fetch()) {
+            $row['time'] = toLocalTime($row['time']);
             $data[] = [strtotime($row['time'])*1000, floatval($row[$fld])];
         }
 

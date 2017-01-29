@@ -31,24 +31,6 @@ class DataService extends Injectable
         return $projects;
     }
 
-    public function getProject($id)
-    {
-        $projects = $this->getAllProjects();
-        return $projects[$id];
-    }
-
-    public function getProjectName($id)
-    {
-        $project = $this->getProject($id);
-        return $project['name'];
-    }
-
-    public function getProjectFtpDir($id)
-    {
-        $project = $this->getProject($id);
-        return $project['ftpdir'];
-    }
-
     /**
      * Devices
      */
@@ -57,12 +39,15 @@ class DataService extends Injectable
         static $devices = [];
 
         if (!$devices) {
-           #$result = Devices::find("projectId=$prj AND code='$dev'");
-            $result = Devices::find();
-            foreach ($result as $device) {
-                $projectId = $device->projectId;
-                $devcode = $device->code;
-                $devices[$projectId.'-'.$devcode] = $device->toArray();
+            $projects = $this->getAllProjects();
+            foreach ($projects as $projectId => $project) {
+                $result = Devices::find("projectId=$projectId");
+               #$result = Devices::find();
+                foreach ($result as $device) {
+                   #$projectId = $device->projectId;
+                    $devcode = $device->code;
+                    $devices[$projectId.'-'.$devcode] = $device->toArray();
+                }
             }
         }
 
@@ -100,10 +85,12 @@ class DataService extends Injectable
     public function getModelName($prj, $dev)
     {
         $modelMap = [
-            'solar_data_inverter_tcp' => 'DataInverterTcp',
+            'solar_data_inverter_tcp'    => 'DataInverterTcp',
             'solar_data_inverter_serial' => 'DataInverterSerial',
-            'solar_data_genmeter' => 'DataGenMeters',
-            'solar_data_envkit' => 'DataEnvKits',
+            'solar_data_inverter_sma'    => 'DataInverterSma',
+            'solar_data_inverter_pvp'    => 'DataInverterPvp',
+            'solar_data_genmeter'        => 'DataGenMeters',
+            'solar_data_envkit'          => 'DataEnvKits',
         ];
 
         $table = $this->getTableName($prj, $dev);
@@ -118,30 +105,35 @@ class DataService extends Injectable
     {
         $data = [];
 
-        $devices = Devices::find();
-        foreach ($devices as $device) {
-            $projectId = $device->projectId;
-            $devcode = $device->code;
-            $devtype = $device->type;
+        $projects = $this->getAllProjects();
+        foreach ($projects as $projectId => $project) {
+            $devices = Devices::find("projectId=$projectId");
+            foreach ($devices as $device) {
+               #$projectId = $device->projectId;
+                $devcode = $device->code;
+                $devtype = $device->type;
 
-            $data[$projectId]['name'] = $this->getProjectName($projectId);
+                $data[$projectId]['name'] = $project['name'];
 
-            $criteria = [
-                "conditions" => "projectId=?1 AND devcode=?2 AND error=0",
-                "bind"       => array(1 => $projectId, 2 => $devcode),
-                "order"      => "id DESC",
-                "limit"      => 1
-            ];
+                $criteria = [
+                    "conditions" => "projectId=?1 AND devcode=?2 AND error=0",
+                    "bind"       => array(1 => $projectId, 2 => $devcode),
+                    "order"      => "id DESC",
+                    "limit"      => 1
+                ];
 
-            $modelClass = $this->getModelName($projectId, $devcode);
+                $modelClass = $this->getModelName($projectId, $devcode);
 
-            $row = $modelClass::findFirst($criteria);
-            $row->time = substr($row->time, 0, -3);
+                $row = $modelClass::findFirst($criteria);
+                if ($row) {
+                    $row->time = substr($row->time, 0, -3);
 
-            if ($devtype == 'Inverter') {
-                $data[$projectId][$devtype][] = $row->toArray();
-            } else {
-                $data[$projectId][$devtype] = $row->toArray();
+                    if ($devtype == 'Inverter') {
+                        $data[$projectId][$devtype][] = $row->toArray();
+                    } else {
+                        $data[$projectId][$devtype] = $row->toArray();
+                    }
+                }
             }
         }
 

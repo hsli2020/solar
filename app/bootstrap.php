@@ -400,6 +400,14 @@ class Bootstrap
      */
     protected function initServices(Config $config, EventsManager $em)
     {
+        $this->di->setShared('projectService', function () {
+            return new App\Service\ProjectService();
+        });
+
+        $this->di->setShared('deviceService', function () {
+            return new App\Service\DeviceService();
+        });
+
         $this->di->setShared('dataService', function () {
             return new App\Service\DataService();
         });

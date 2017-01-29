@@ -5,7 +5,7 @@
   table, th, td { border: 1px solid #ddd; }
 </style>
 <div class="w3-container">
-<table class="w3-table w3-white w3-bordered w3-border">
+<table class="w3-table w3-white w3-bordered w3-border w3-centered">
 <tr>
   <td>&nbsp;</td>
   <td>&nbsp;</td>

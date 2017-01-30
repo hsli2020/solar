@@ -203,6 +203,8 @@ class Bootstrap
                 'dbname'   => $config->database->dbname,
             ]);
 
+            Phalcon\Mvc\Model::setup(['notNullValidations' => false]);
+
             // log sql statements
             if (1 == $config->application->debug) {
                 $logger = new Phalcon\Logger\Adapter\File($config->application->logDir . "/db.log");

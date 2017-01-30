@@ -22,4 +22,22 @@ class ProjectService extends Injectable
 
         return $this->projects;
     }
+
+    public function activate($id)
+    {
+        $project = Projects::findFirst($id);
+        if ($project) {
+            $project->active = 1;
+            $project->save();
+        }
+    }
+
+    public function deactivate($id)
+    {
+        $project = Projects::findFirst($id);
+        if ($project) {
+            $project->active = 0;
+            $project->save();
+        }
+    }
 }

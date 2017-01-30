@@ -51,4 +51,17 @@ class DeviceService extends Injectable
 
         return $devices;
     }
+
+    public function add($projectId, $devices)
+    {
+        foreach ($devices as $info) {
+            $device = new Devices();
+            $device->projectId = $projectId;
+            $device->code  = $info['devcode'];
+            $device->type  = $info['devtype'];
+            $device->table = $info['table']; // TODO: getTableName from type
+            $device->desc  = '';
+            $device->save();
+        }
+    }
 }

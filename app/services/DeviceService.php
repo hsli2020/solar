@@ -39,6 +39,20 @@ class DeviceService extends Injectable
         return isset($devices[$key]) ? $devices[$key] : [];
     }
 
+    public function getTable($prj, $dev)
+    {
+        $device = $this->getDevice($prj, $dev);
+        return $device['table'];
+    }
+
+    public function getTableColumns($prj, $dev)
+    {
+        $table = $this->getTable($prj, $dev);
+        $columns = $this->db->fetchAll("DESC $table");
+        unset($columns[0]); // remove id
+        return array_column($columns, 'Field');
+    }
+
     // $type='Inverter|GenMeter|EnvKit'
     public function getDevicesOfType($prj, $type)
     {

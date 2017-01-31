@@ -417,6 +417,10 @@ class Bootstrap
         $this->di->setShared('solarService', function () {
             return new App\Service\SolarService();
         });
+
+        $this->di->setShared('userService', function () {
+            return new App\Service\UserService();
+        });
     }
 
     /**

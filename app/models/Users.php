@@ -23,7 +23,7 @@ class Users extends Model
     {
     }
 
-    public function validation()
+    public function __validation()
     {
         $this->validate(new Uniqueness(
             array(

@@ -41,6 +41,7 @@
   <!-- Overlay effect when opening sidenav on small screens -->
   <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu"></div>
 
+  <script type='text/javascript' src='/js/jquery-2.1.0.min.js'></script>
   {% block jsfile %}{% endblock %}
   {% block jscode %}{% endblock %}
 

@@ -100,6 +100,9 @@ class Bootstrap
             'App\Plugins'     => $config->application->pluginsDir,
             'App\Service'     => $config->application->serviceDir,
             'App\Library'     => $config->application->libraryDir
+            'App\Entity'      => BASE_DIR . '/app/entity/';
+            'App\Repository'  => BASE_DIR . '/app/repository/';
+            'App\Interface'   => BASE_DIR . '/app/interface/';
         ]);
 
         $loader->register();
@@ -420,6 +423,18 @@ class Bootstrap
 
         $this->di->setShared('userService', function () {
             return new App\Service\UserService();
+        });
+
+        $this->di->setShared('reportService', function () {
+            return new App\Service\ReportService();
+        });
+
+        $this->di->setShared('exportService', function () {
+            return new App\Service\ExportService();
+        });
+
+        $this->di->setShared('snapshotService', function () {
+            return new App\Service\SnapshotService();
         });
     }
 

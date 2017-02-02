@@ -5,6 +5,7 @@ namespace App\Service;
 use Phalcon\Di\Injectable;
 
 use App\Models\Projects;
+use App\Models\ProjectDetails;
 
 class ProjectService extends Injectable
 {
@@ -72,5 +73,11 @@ class ProjectService extends Injectable
         if (isset($info['devices'])) {
             $this->deviceService->add($project->id, $info['devices']);
         }
+    }
+
+    public function getDetails($id)
+    {
+        $details = ProjectDetails::findFirst($id);
+        return $details;
     }
 }

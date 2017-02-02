@@ -61,6 +61,10 @@
       document.getElementsByClassName("w3-sidenav")[0].style.display = "none";
       document.getElementsByClassName("w3-overlay")[0].style.display = "none";
     }
+    function AutoRefresh(t) {
+      setTimeout("location.reload(true);", t);
+    }
+    window.onload = AutoRefresh(1000*60*5);
   </script>
 </body>
 </html>

@@ -99,10 +99,10 @@ class Bootstrap
             'App\Forms'       => $config->application->formsDir,
             'App\Plugins'     => $config->application->pluginsDir,
             'App\Service'     => $config->application->serviceDir,
-            'App\Library'     => $config->application->libraryDir
-            'App\Entity'      => BASE_DIR . '/app/entity/';
-            'App\Repository'  => BASE_DIR . '/app/repository/';
-            'App\Interface'   => BASE_DIR . '/app/interface/';
+            'App\Library'     => $config->application->libraryDir,
+            'App\Entity'      => BASE_DIR . '/app/entity/',
+            'App\Repository'  => BASE_DIR . '/app/repository/',
+            'App\Interface'   => BASE_DIR . '/app/interface/',
         ]);
 
         $loader->register();

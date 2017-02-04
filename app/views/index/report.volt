@@ -34,7 +34,7 @@
 {% endblock %}
 
 {% block domready %}
-  ajaxCall('/ajax/data', { prj: 1, dev: 'mb-001', col: 'kw' },
+  ajaxCall('/ajax/data', { prj: 1, dev: 'mb-031', col: 'kw' },
     function(data) {
       data = data.slice(-200);
       var options = {

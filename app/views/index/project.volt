@@ -3,9 +3,13 @@
 {% block main %}
 <style type="text/css">
   table, th, td { border: 1px solid #ddd; }
+  #project th { text-align: center; }
+  #project td { text-align: right; }
+  #project tr td:first-child{ text-align: left; }
 </style>
+
 <div class="w3-container">
-<table class="w3-table w3-white w3-bordered w3-border w3-centered">
+<table id="project" class="w3-table w3-white w3-bordered w3-border w3-centered">
 <tr>
   <td>&nbsp;</td>
   <td>&nbsp;</td>

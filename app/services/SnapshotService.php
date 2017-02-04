@@ -10,6 +10,7 @@ class SnapshotService extends Injectable
 {
     public function load()
     {
+        return $this->db->fetchAll("SELECT * FROM snapshot");
     }
 
     public function generate()

@@ -20,6 +20,12 @@ class IndexController extends ControllerBase
         $this->view->data = print_r($this->dataService->getDevicesOfType(1, 'EnvKit'), true);
     }
 
+    public function dashboardAction()
+    {
+        $this->view->pageTitle = 'Dashboard';
+        $this->view->data = $this->snapshotService->load();
+    }
+
     public function projectAction()
     {
         $this->view->pageTitle = 'Project';

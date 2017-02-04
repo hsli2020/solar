@@ -1,0 +1,46 @@
+GCS Performance Index Conceptual Calculation
+
+Site Specific Inputs:
+=====================
+DC Nameplate Capacity (kW),         13,305,     This is constant. Will never change.
+                                                But it would be good to make it editable as well
+                                                just in case we add more solar panels in the future.
+AC Nameplate Capacity (kW),         10,000,     This is constant. Will never change.
+                                                But it would be good to make it editable as well
+                                                just in case we add more Inverter in the future.
+Module Power Coefficient (%/Co),    -0.43,      Editable; Constant/Default Value,
+Inverter Efficiency (CEC) %:,       98%,        Editable; Constant/Default Value,
+Transformer Loss if Present (%),    1.5%,       Editable; Constant/Default Value,
+Other Loss Assumptions (%):,        2.0%,       Editable; Constant/Default Value,
+
+Data Inputs:
+============
+Avg Irradiance POA (W/m2),          594.816,    This is the IRR_POA, or IRR_CMP_POA value; 
+                                                average in 60Minutes",
+Time-step (minutes),                60,         60 Minute data ,
+Average Module Temp (Degrees C),    37,         Back of Module Temperature (PANELT value),
+Measured Energy (kW),               7,483,      Total Inverter Output (kW); 
+                                                Average in 60 Minutes (If there are multiple
+                                                inverters, We can just sum the total of the
+                                                multiple inverters to make it simpler.)",
+
+Formula (Plain English)
+=======================
+    Theoretical Output = (Sunshine IRR/1000) X DC Nameplate Capacity 
+                       - Module Temperature Losses 
+                       - inverter efficiency losses (limited to inverter nameplate)
+                       - transformer losses - other system losses,
+
+Theoretical Output Calculations:
+================================
+Maximum Theoretical Output kW,      7,914,      ('Avg Irradiance POA' / 1000) * 'DC Name Plate Capacity',
+Temperature Losses kW,              41 ,        ('Maximum Theoretical Output kW'*('Module Power Co-efficient' * (25 - 'Avg Module Temp'))) / 1000,
+Inverter Losses (kW),               157 ,       (1-'Inverter Efficiency) * ('Maximum Theoritcal Output'  -  'Temp Losses kW'),
+"Inverter Clipping 
+(Over Nameplate) Loss (kW)",        -,          "if ('Maximum Theory Output kW' - 'Temperature Losses kW' - 'Inverter Losses kW') > 'AC Name plate Capacity') then 'Maximum Theory Output kW' - 'Temperature Losses kW' - 'Inverter Losses kW' -'AC Name plate Capacity' , else 0",
+Transformer Losses (kW),            116,        ('Maximum Theory Output kW' - 'Temperature Losses kW' - 'Inverter Losses kW' - 'Inverter Clipping Loss kW') * (Transformer Loss %),
+Other System Losses (kW),           152 ,       ('Maximum Theory Output kW' - 'Temperature Losses kW' - 'Inverter Losses kW' - 'Inverter Clipping Loss kW' - 'Transformer Loss kW') * 'Other Loss Assumption',
+Total Losses (%),                   5.89%,      ( 'Temperature Losses kW' + 'Inverter Losses kW' + 'Inverter Clipping Loss kW' + 'Transformer Loss kW' + 'Other System Losses') / 'Maximum Theoretical Output',
+Theoretical Output (kW),            7,447.99,   ('Maximum Theory Output kW' - 'Temperature Losses kW' - 'Inverter Losses kW' - 'Inverter Clipping Loss kW' - 'Transformer Loss kW' - 'Other System Losses'),
+
+GCS Performance Index:,             100.5%,     'Measured Energy kW' / 'Theoretical Output kW'.  This is the Performance Ratio (PR) or Performance Index (PI) we would like to display on the dashboard.,

@@ -3,12 +3,16 @@
 {% block main %}
 <style type="text/css">
   table, th, td { border: 1px solid #ddd; }
+  #snapshot th { text-align: center; }
+  #snapshot td { text-align: right; }
+  #snapshot tr td:first-child{ text-align: left; }
 </style>
+
 <div class="w3-container">
-<table class="w3-table w3-white w3-bordered w3-border w3-centered">
+<table id="snapshot" class="w3-table w3-white w3-bordered w3-border">
 <tr>
-  <th>Site</th>
-  <th>GC PR</th>
+  <th style="vertical-align: middle;">Site</th>
+  <th style="vertical-align: middle;">GC PR</th>
   <th>Current<br>Power</th>
   <th>Irradiance<br>(W/m<sup>2</sup>)</th>
   <th>Inverters<br>Generating</th>

@@ -22,7 +22,7 @@ class DeviceService extends Injectable
                 $result = Devices::find("projectId=$projectId");
                 foreach ($result as $device) {
                     $devcode = $device->code;
-                    $this->devices[$projectId.'-'.$devcode] = $device->toArray();
+                    $this->devices[$projectId][$devcode] = $device->toArray();
                 }
             }
         }
@@ -34,9 +34,7 @@ class DeviceService extends Injectable
     public function getDevice($prj, $dev)
     {
         $devices = $this->getAll();
-
-        $key = $prj.'-'.$dev;
-        return isset($devices[$key]) ? $devices[$key] : [];
+        return isset($devices[$prj][$dev]) ? $devices[$prj][$dev] : [];
     }
 
     public function getTable($prj, $dev)

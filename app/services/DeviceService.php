@@ -51,6 +51,22 @@ class DeviceService extends Injectable
         return array_column($columns, 'Field');
     }
 
+    public function getModelName($prj, $dev)
+    {
+        $modelMap = [
+            'solar_data_inverter_tcp'    => 'DataInverterTcp',
+            'solar_data_inverter_serial' => 'DataInverterSerial',
+            'solar_data_inverter_sma'    => 'DataInverterSma',
+            'solar_data_inverter_pvp'    => 'DataInverterPvp',
+            'solar_data_genmeter'        => 'DataGenMeters',
+            'solar_data_envkit'          => 'DataEnvKits',
+        ];
+
+        $table = $this->getTable($prj, $dev);
+
+        return 'App\\Models\\'.$modelMap[$table];
+    }
+
     // $type='Inverter|GenMeter|EnvKit'
     public function getDevicesOfType($prj, $type)
     {

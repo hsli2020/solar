@@ -29,12 +29,15 @@ class ProjectService extends Injectable
     {
         $project = Projects::findFirst($id);
         // TODO: convert to entity ($this->toEntity(project))
-        return $project;
+        if ($project) {
+            return $project->toArray();
+        }
+        return false;
     }
 
     public function getFtpDir($id)
     {
-        $project = Projects::findFirst($id);
+        $project = $this->get($id);
         if ($project) {
             return $project['ftpdir'];
         }

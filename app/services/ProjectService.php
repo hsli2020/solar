@@ -44,6 +44,24 @@ class ProjectService extends Injectable
         return false;
     }
 
+    public function getDcSize($id)
+    {
+        $project = $this->get($id);
+        if ($project) {
+            return $project['DC_Nameplate_Capacity'];
+        }
+        return false;
+    }
+
+    public function getAcSize($id)
+    {
+        $project = $this->get($id);
+        if ($project) {
+            return $project['AC_Nameplate_Capacity'];
+        }
+        return false;
+    }
+
     public function activate($id)
     {
         $project = Projects::findFirst($id);

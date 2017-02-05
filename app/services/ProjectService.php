@@ -35,6 +35,15 @@ class ProjectService extends Injectable
         return false;
     }
 
+    public function getName($id)
+    {
+        $project = $this->get($id);
+        if ($project) {
+            return $project['name'];
+        }
+        return false;
+    }
+
     public function getFtpDir($id)
     {
         $project = $this->get($id);

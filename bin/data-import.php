@@ -29,7 +29,7 @@ class DataImport
             }
         }
 
-        $this->log("Importing completed, $fileCount file(s) imported.");
+        $this->log("Importing completed, $fileCount file(s) imported.\n");
     }
 
     protected function importFile($filename, $project, $devices)

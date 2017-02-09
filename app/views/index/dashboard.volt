@@ -8,6 +8,10 @@
   #snapshot tr td:first-child{ text-align: left; }
 </style>
 
+{%- macro tablecell(row, key) %}
+  <td{%- if row['error'][key] is defined %} class="w3-deep-orange"{%- endif %}>{{ row[key] }}</td>
+{%- endmacro %}
+
 <div class="w3-container">
 <table id="snapshot" class="w3-table w3-white w3-bordered w3-border">
 <tr>
@@ -21,13 +25,13 @@
 </tr>
 {% for row in data %}
 <tr>
-  <td>{{ row['project_name'] }}</td>
-  <td {% if row['error']['GCPR'] is defined %}class="w3-deep-orange"{% endif %}>{{ row['GCPR'] }}</td>
-  <td {% if row['error']['current_power'] is defined %}class="w3-deep-orange"{% endif %}>{{ row['current_power'] }}</td>
-  <td {% if row['error']['irradiance'] is defined %}class="w3-deep-orange"{% endif %}>{{ row['irradiance'] }}</td>
-  <td {% if row['error']['inverters_generating'] is defined %}class="w3-deep-orange"{% endif %}>{{ row['inverters_generating'] }}</td>
-  <td {% if row['error']['devices_communicating'] is defined %}class="w3-deep-orange"{% endif %}>{{ row['devices_communicating'] }}</td>
-  <td {% if row['error']['last_com'] is defined %}class="w3-deep-orange"{% endif %}>{{ row['last_com'] }}</td>
+  {{ tablecell(row, 'project_name') }}
+  {{ tablecell(row, 'GCPR') }}
+  {{ tablecell(row, 'current_power') }}
+  {{ tablecell(row, 'irradiance') }}
+  {{ tablecell(row, 'inverters_generating') }}
+  {{ tablecell(row, 'devices_communicating') }}
+  {{ tablecell(row, 'last_com') }}
 </tr>
 {% endfor %}
 </table>

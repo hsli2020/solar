@@ -10,7 +10,34 @@ class SnapshotService extends Injectable
 {
     public function load()
     {
-        return $this->db->fetchAll("SELECT * FROM snapshot");
+        $result = $this->db->fetchAll("SELECT * FROM snapshot");
+
+        foreach ($result as $key => $val) {
+            $result[$key]['error'] = [];
+
+            if ($val['GCPR'] < 95) {
+                $result[$key]['error']['GCPR'] = 1;
+            }
+
+           #$result[$key]['error']['current_power'] = 1;
+           #$result[$key]['error']['irradiance'] = 1;
+
+            list($a, $b) = explode('/', $val['inverters_generating']);
+            if ($a != $b) {
+                $result[$key]['error']['inverters_generating'] = 1;
+            }
+
+            list($a, $b) = explode('/', $val['devices_communicating']);
+            if ($a != $b) {
+                $result[$key]['error']['devices_communicating'] = 1;
+            }
+
+           #$result[$key]['error']['last_com'] = 1;
+           #$result[$key]['error']['Avg_Irradiance_POA'] = 1;
+           #$result[$key]['error']['Avg_Module_Temp'] = 1;
+           #$result[$key]['error']['Measured_Energy'] = 1;
+        }
+        return $result;
     }
 
     public function generate()

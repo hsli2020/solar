@@ -22,12 +22,12 @@
 {% for row in data %}
 <tr>
   <td>{{ row['project_name'] }}</td>
-  <td>{{ row['GCPR'] }}</td>
-  <td>{{ row['current_power'] }}</td>
-  <td>{{ row['irradiance'] }}</td>
-  <td>{{ row['inverters_generating'] }}</td>
-  <td>{{ row['devices_communicating'] }}</td>
-  <td>{{ row['last_com'] }}</td>
+  <td {% if row['error']['GCPR'] is defined %}class="w3-deep-orange"{% endif %}>{{ row['GCPR'] }}</td>
+  <td {% if row['error']['current_power'] is defined %}class="w3-deep-orange"{% endif %}>{{ row['current_power'] }}</td>
+  <td {% if row['error']['irradiance'] is defined %}class="w3-deep-orange"{% endif %}>{{ row['irradiance'] }}</td>
+  <td {% if row['error']['inverters_generating'] is defined %}class="w3-deep-orange"{% endif %}>{{ row['inverters_generating'] }}</td>
+  <td {% if row['error']['devices_communicating'] is defined %}class="w3-deep-orange"{% endif %}>{{ row['devices_communicating'] }}</td>
+  <td {% if row['error']['last_com'] is defined %}class="w3-deep-orange"{% endif %}>{{ row['last_com'] }}</td>
 </tr>
 {% endfor %}
 </table>

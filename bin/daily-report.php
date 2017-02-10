@@ -92,6 +92,15 @@ class DailyReport
     {
         $mail = new PHPMailer();
 
+       #$mail->SMTPDebug = 3;
+        $mail->isSMTP();
+        $mail->Host = '10.6.200.200';
+        $mail->SMTPAuth = false;
+       #$mail->Username = 'user@example.com';
+       #$mail->Password = 'secret';
+       #$mail->SMTPSecure = 'tls';
+       #$mail->Port = 587;
+
         //$filename = str_replace('\\', '/', $filename);
 
         // From email address and name
@@ -107,9 +116,10 @@ class DailyReport
         // Send HTML or Plain Text email
         $mail->isHTML(true);
 
-        $mail->Subject = "Daily Report";
-        $mail->Body = "<i>Mail body in HTML</i>";
-        $mail->AltBody = "This is the plain text version of the email content";
+        $today = date('Y-m-d');
+        $mail->Subject = "Daily Solar Energy Production Report ($today)";
+        $mail->Body = "Please find the <b>Daily Report</b> in attachment.";
+        $mail->AltBody = "Please find the Daily Report in attachment.";
 
         if (!$mail->send()) {
             $this->log("Mailer Error: " . $mail->ErrorInfo);

@@ -92,14 +92,12 @@ class DailyReport
     {
         $mail = new PHPMailer();
 
-       #$mail->SMTPDebug = 3;
+        $mail->SMTPDebug = 3;
         $mail->isSMTP();
         $mail->Host = '10.6.200.200';
+        $mail->Port = 25;
         $mail->SMTPAuth = false;
-       #$mail->Username = 'user@example.com';
-       #$mail->Password = 'secret';
-       #$mail->SMTPSecure = 'tls';
-       #$mail->Port = 587;
+        $mail->SMTPSecure = false;
 
         //$filename = str_replace('\\', '/', $filename);
 

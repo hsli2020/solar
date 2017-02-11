@@ -40,6 +40,7 @@ class DailyReport
 		$sheet->setCellValue("B3", date('F-d-Y'));
 
 		$row = 10;
+        $index = 1;
 
         $projects = $this->projectService->getAll();
         $devices  = $this->deviceService->getAll();
@@ -62,19 +63,32 @@ class DailyReport
 			*/
 			$refdata = $this->dataService->getRefData($project['id'], date('Y'), date('m'));
 
-			$sheet->setCellValue("A$row", $project['id']);
-			$sheet->setCellValue("B$row", $project['name']);
-			$sheet->setCellValue("C$row", date('d/m/Y', strtotime('yesterday')));
-			$sheet->setCellValue("D$row", $project['DC_Nameplate_Capacity']);
-			$sheet->setCellValue("E$row", $project['AC_Nameplate_Capacity']);
-			$sheet->setCellValue("F$row", $refdata['Reference_Production']); // ??
-			$sheet->setCellValue("G$row", $refdata['Expected_Production']); // ??
-			$sheet->setCellValue("H$row", $refdata['Measured_Production']); // ??
-			$sheet->setCellValue("I$row", $refdata['Measured_Insolation']); // ??
-			$sheet->setCellValue("J$row", $refdata['IE_Snow_Loss_Estimate']); // ??
-			$sheet->setCellValue("K$row", $refdata['Actual_Production']); // ??
-			$sheet->setCellValue("L$row", $refdata['Actual_Production']); // ??
-			$sheet->setCellValue("M$row", $refdata['Actual_Production']); // ??
+			$project_Name        = $project['name'];
+			$date                = date('d/m/Y', strtotime('yesterday'));
+			$capacity_AC         = $project['AC_Nameplate_Capacity'];
+			$capacity_DC         = $project['DC_Nameplate_Capacity'];;
+			$budget              = $refdata['Stonebridge_Base']);
+			$expected            = $refdata['Expected_Production'];
+			$measured_Production = $refdata['Measured_Production'];
+			$measured_Insolation = $refdata['Measured_Insolation'];
+			$IE_POA_Insolation   = $refdata['IE_Snow_Loss_Estimate'];
+			$actual_Budget       = $refdata['Actual_Production'];
+			$actual_Expected     = $refdata['Actual_Production'];
+			$weather_Performance = $refdata['Actual_Production'];
+
+			$sheet->setCellValue("A$row", $index++);
+			$sheet->setCellValue("B$row", $project_Name);
+			$sheet->setCellValue("C$row", $date);
+			$sheet->setCellValue("D$row", $capacity_AC);
+			$sheet->setCellValue("E$row", $capacity_DC);
+			$sheet->setCellValue("F$row", $budget);
+			$sheet->setCellValue("G$row", $expected);
+			$sheet->setCellValue("H$row", $measured_Production);
+			$sheet->setCellValue("I$row", $measured_Insolation);
+			$sheet->setCellValue("J$row", $IE_POA_Insolation);
+			$sheet->setCellValue("K$row", $actual_Budget);
+			$sheet->setCellValue("L$row", $actual_Expected);
+			$sheet->setCellValue("M$row", $weather_Performance);
 			$row++;
 		}
 

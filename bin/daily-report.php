@@ -19,13 +19,15 @@ class DailyReport
 
         $this->log('Start sending daily report');
 
-        $filename = $this->generateDailyReport();
-
+        $report   = $this->generateDailyReport();
+        $filename = $this->generateXls($report);
+        $html     = $this->generateHtml($report);
+echo $html;
         $users = $this->userService->getAll();
 
         foreach ($users as $user) {
             $email = $user['email'];
-#           $this->sendDailyReport($email, $filename);
+#           $this->sendDailyReport($email, $html, $filename);
         }
 
         $this->log("Daily report sending completed.\n");
@@ -33,73 +35,148 @@ class DailyReport
 
     protected function generateDailyReport()
     {
-		$excel = PHPExcel_IOFactory::load("./templates/DailyReport-v1.xls");
-		$excel->setActiveSheetIndex(0);  //set first sheet as active
-
-		$sheet = $excel->getActiveSheet();
-		$sheet->setCellValue("B3", date('F-d-Y'));
-
-		$row = 10;
-        $index = 1;
-
         $projects = $this->projectService->getAll();
         $devices  = $this->deviceService->getAll();
 
-		foreach ($projects as $project) {
+        $report = [];
+        foreach ($projects as $project) {
             $projectId = $project['id'];
-			/*(
-				[Reference_Insolation] => 80.50
-				[Reference_Production] => 38388.37
-				[Stonebridge_Base] => 36628.72
-				[Measured_Insolation] =>
-				[Measured_Production] =>
-				[Expected_Production] =>
-				[Actual_Production] =>
-				[IE_Snow_Loss_Estimate] => 0.00
-				[Plant_Availability] =>
-				[Grid_Availability] =>
-			)*/
+            /*(
+                [Reference_Insolation] => 80.50
+                [Reference_Production] => 38388.37
+                [Stonebridge_Base] => 36628.72
+                [Measured_Insolation] =>
+                [Measured_Production] =>
+                [Expected_Production] =>
+                [Actual_Production] =>
+                [IE_Snow_Loss_Estimate] => 0.00
+                [Plant_Availability] =>
+                [Grid_Availability] =>
+            )*/
             $refdata = $this->dataService->getRefData($projectId, date('Y'), date('m'));
 
-			$project_Name        = $project['name'];
-			$date                = date('d/m/Y', strtotime('yesterday'));
-			$capacity_AC         = $project['AC_Nameplate_Capacity'];
-			$capacity_DC         = $project['DC_Nameplate_Capacity'];;
-			$budget              = $refdata['Stonebridge_Base'];
+            $project_Name        = $project['name'];
+            $date                = date('d/m/Y', strtotime('yesterday'));
+            $capacity_AC         = $project['AC_Nameplate_Capacity'];
+            $capacity_DC         = $project['DC_Nameplate_Capacity'];;
+            $budget              = $refdata['Stonebridge_Base'];
 
-			$measured_Production = $this->getMeasuredProduction($projectId);
-			$measured_Insolation = $this->getMeasuredInsolation($projectId);
-			$IE_POA_Insolation   = $this->getIEPOAInsolation($projectId);
+            $measured_Production = $this->getMeasuredProduction($projectId);
+            $measured_Insolation = $this->getMeasuredInsolation($projectId);
+            $IE_POA_Insolation   = $this->getIEPOAInsolation($projectId);
 
-			$expected            = $this->getExpected($measured_Insolation, $IE_POA_Insolation, $budget);
-			$actual_Budget       = $this->getActualBudget();
-			$actual_Expected     = $this->getActualExpected();
-			$weather_Performance = $this->getWeatherPerformance($measured_Insolation, $IE_POA_Insolation);
+            $expected            = $this->getExpected($measured_Insolation, $IE_POA_Insolation, $budget);
+            $actual_Budget       = $this->getActualBudget();
+            $actual_Expected     = $this->getActualExpected();
+            $weather_Performance = $this->getWeatherPerformance($measured_Insolation, $IE_POA_Insolation);
 
-			$sheet->setCellValue("A$row", $index++);
-			$sheet->setCellValue("B$row", $project_Name);
-			$sheet->setCellValue("C$row", $date);
-			$sheet->setCellValue("D$row", $capacity_AC);
-			$sheet->setCellValue("E$row", $capacity_DC);
-			$sheet->setCellValue("F$row", $budget);
-			$sheet->setCellValue("G$row", $expected);
-			$sheet->setCellValue("H$row", $measured_Production);
-			$sheet->setCellValue("I$row", $measured_Insolation);
-			$sheet->setCellValue("J$row", $IE_POA_Insolation);
-			$sheet->setCellValue("K$row", $actual_Budget);
-			$sheet->setCellValue("L$row", $actual_Expected);
-			$sheet->setCellValue("M$row", $weather_Performance);
-			$row++;
-		}
+            $report[] = compact(
+                'project_Name',
+                'date',
+                'capacity_AC',
+                'capacity_DC',
+                'budget',
+                'measured_Production',
+                'measured_Insolation',
+                'IE_POA_Insolation',
+                'expected',
+                'actual_Budget',
+                'actual_Expected',
+                'weather_Performance'
+            );
+        }
 
-		$today = date('Ymd');
-		$filename = BASE_DIR . "/app/logs/DailyReport-$today.xls";
+        return $report;
+    }
 
-		//downloadable file is in Excel 2003 format (.xls)
-		$xlsWriter = PHPExcel_IOFactory::createWriter($excel, 'Excel5');
-		$xlsWriter->save($filename);
+    protected function generateXls($report)
+    {
+        $excel = PHPExcel_IOFactory::load("./templates/DailyReport-v1.xls");
+        $excel->setActiveSheetIndex(0);  //set first sheet as active
+
+        $sheet = $excel->getActiveSheet();
+        $sheet->setCellValue("B3", date('F-d-Y'));
+
+        $row = 10;
+        $index = 1;
+
+        foreach ($report as $data) {
+            $sheet->setCellValue("A$row", $index++);
+            $sheet->setCellValue("B$row", $data['project_Name']);
+            $sheet->setCellValue("C$row", $data['date']);
+            $sheet->setCellValue("D$row", $data['capacity_AC']);
+            $sheet->setCellValue("E$row", $data['capacity_DC']);
+            $sheet->setCellValue("F$row", $data['budget']);
+            $sheet->setCellValue("G$row", $data['expected']);
+            $sheet->setCellValue("H$row", $data['measured_Production']);
+            $sheet->setCellValue("I$row", $data['measured_Insolation']);
+            $sheet->setCellValue("J$row", $data['IE_POA_Insolation']);
+            $sheet->setCellValue("K$row", $data['actual_Budget']);
+            $sheet->setCellValue("L$row", $data['actual_Expected']);
+            $sheet->setCellValue("M$row", $data['weather_Performance']);
+            $row++;
+        }
+
+        $today = date('Ymd');
+        $filename = BASE_DIR . "/app/logs/DailyReport-$today.xls";
+
+        //downloadable file is in Excel 2003 format (.xls)
+        $xlsWriter = PHPExcel_IOFactory::createWriter($excel, 'Excel5');
+        $xlsWriter->save($filename);
 
         return $filename;
+    }
+
+    protected function generateHtml($report)
+    {
+        $lines = [];
+
+        $lines[] = "<!DOCTYPE html>";
+        $lines[] = "<html>";
+        $lines[] = "<head>";
+        $lines[] =   '<meta charset="utf-8" />';
+        $lines[] =   "<style>";
+        $lines[] =     "table { border-collapse: collapse; }";
+        $lines[] =     "table, td, th { border: 1px solid gray; padding: 5px 5px; }";
+        $lines[] =   "</style>";
+        $lines[] = "</head>";
+        $lines[] = "<body>";
+
+        $lines[] = "<p>Following is the <b>Daily Solar Energy Production Report</b></p>";
+
+        $lines[] = "<table>";
+        $lines[] = "<tr>";
+        $lines[] =   "<th>No.</th>";
+        $lines[] =   "<th>Project Name</th>";
+        $lines[] =   "<th>Date</th>";
+        $lines[] =   "<th>Capacity AC</th>";
+        $lines[] =   "<th>Capacity DC</th>";
+        $lines[] =   "<th>Budget</th>";
+        $lines[] =   "<th>Expected</th>";
+        $lines[] =   "<th>Mesured Production</th>";
+        $lines[] =   "<th>Measured POA Insolation</th>";
+        $lines[] =   "<th>IE POA Insolation</th>";
+        $lines[] =   "<th>Actual /Budget</th>";
+        $lines[] =   "<th>Actual /Expected</th>";
+        $lines[] =   "<th>Weather Performance</th>";
+        $lines[] = "</tr>";
+
+        $index = 1;
+        foreach ($report as $data) {
+            $lines[] = "<tr>";
+            $lines[] = "  <td>". $index++. "</td>";
+            $lines[] = "  <td>" . implode("</td>\n  <td>", $data) . "</td>";
+            $lines[] = "</tr>\n";
+        }
+
+        $lines[] = "</table>";
+
+        $lines[] = "<p>The <b>Daily Report</b> is also attached in MS Excel format.</p>";
+
+        $lines[] = "</body>";
+        $lines[] = "</html>";
+
+        return implode("\n", $lines);
     }
 
     protected function getMeasuredProduction($prj)
@@ -119,6 +196,8 @@ class DailyReport
 
     protected function getExpected($measured_Insolation, $IE_POA_Insolation, $budget)
     {
+        return 0;
+
         if (empty($IE_POA_Insolation)) {
             return 0;
         }
@@ -128,16 +207,20 @@ class DailyReport
 
     protected function getActualBudget()
     {
+        return 1;
         return 'TODO';
     }
 
     protected function getActualExpected()
     {
+        return 1;
         return 'TODO';
     }
 
     protected function getWeatherPerformance($measured_Insolation, $IE_POA_Insolation)
     {
+        return 0;
+
         if (empty($IE_POA_Insolation)) {
             return 0;
         }
@@ -145,7 +228,7 @@ class DailyReport
         return ($measured_Insolation / $IE_POA_Insolation);
     }
 
-    protected function sendDailyReport($recepient, $filename)
+    protected function sendDailyReport($recepient, $body, $filename)
     {
         $mail = new PHPMailer();
 
@@ -157,31 +240,21 @@ class DailyReport
             ]
         ];
 
+        $today = date('Y-m-d');
+
         $mail->SMTPDebug = 3;
         $mail->isSMTP();
         $mail->Host = '10.6.200.200';
         $mail->Port = 25;
         $mail->SMTPAuth = false;
         $mail->SMTPSecure = false;
-
-        //$filename = str_replace('\\', '/', $filename);
-
-        // From email address and name
         $mail->From = "no-reply@greatcirclesolar.com";
         $mail->FromName = "Great Circle Solar";
-
-        // To address and name
         $mail->addAddress($recepient);
-
-        // Provide file path and name of the attachments
         $mail->addAttachment($filename, basename($filename));
-
-        // Send HTML or Plain Text email
         $mail->isHTML(true);
-
-        $today = date('Y-m-d');
         $mail->Subject = "Daily Solar Energy Production Report ($today)";
-        $mail->Body = "Please find the <b>Daily Report</b> in attachment.";
+        $mail->Body = $body;
         $mail->AltBody = "Please find the Daily Report in attachment.";
 
         if (!$mail->send()) {

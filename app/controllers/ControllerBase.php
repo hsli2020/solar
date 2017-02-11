@@ -13,6 +13,8 @@ class ControllerBase extends Controller
 
     public function beforeExecuteRoute(Dispatcher $dispatcher)
     {
+        return true;
+
         $controllerName = $dispatcher->getControllerName();
 
         // Only check permissions on private controllers

@@ -10,6 +10,8 @@ use App\Models\DataEnvKits;
 use App\Models\DataGenMeters;
 use App\Models\DataInverterTcp;
 use App\Models\DataInverterSerial;
+use App\Models\DataInverterSma;
+use App\Models\DataInverterPvp;
 
 class DataService extends Injectable
 {
@@ -68,24 +70,120 @@ class DataService extends Injectable
         return $data;
     }
 
-    public function getIRR()
+    public function getIRR($prj, $period)
     {
+        $device  = $this->deviceService->getDevicesOfType($prj, 'EnvKit');
+        $devcode = $device[0]; // only one envkit per site
+
+        $criteria = $this->getEnvKitCriteria($prj, $devcode, $period);
+        $criteria["column"] = "IRR";
+
+        $result = DataEnvKits::average($criteria);
+
+        return $$result;
     }
 
-    public function getTMP()
+    public function getTMP($prj, $period)
     {
+        $device  = $this->deviceService->getDevicesOfType($prj, 'EnvKit');
+        $devcode = $device[0]; // only one envkit per site
+
+        $criteria = $this->getEnvKitCriteria($prj, $devcode, $period);
+        $criteria["column"] = "PANELT";
+
+        $result = DataEnvKits::average($criteria);
+
+        return $result;
     }
 
-    public function getKW()
+    public function getKW($prj, $period)
     {
+        $devices = $this->deviceService->getDevicesOfType($prj, 'Inverter');
+
+        $sum = 0;
+        foreach ($devices as $device) {
+            $criteria = $this->getInverterCriteria($prj, $devcode, $period);
+            $criteria["column"] = "kw";
+            $modelClass = $this->deviceService->getModelName($prj, $devcode);
+            $result = $modelClass::average($criteria);
+            $sum += $result;
+        }
+
+        return $sum / count($devices);
     }
 
-    public function getAvgIRR()
+    protected function getEnvKitCriteria($prj, $devcode, $period)
     {
+        list($start, $end) = $this->getPeriod($period);
+
+        $criteria = [
+            'conditions' => implode(' AND ', [
+                'projectId = :projectId:',
+                'code = :devcode:',
+                'time > :start: AND time < :end:',
+                'error = 0',
+            ]),
+            "bind" => [
+                'projectId' => $prj,
+                'devcode'   => $devcode,
+                'start'     => $start,
+                'end'       => $end,
+            ],
+        ];
+
+        return $criteria;
     }
 
-    public function getKWH()
+    public function getInverterCriteria($prj, $devcode, $period)
     {
+        list($start, $end) = $this->getPeriod($period);
+
+        $criteria = [
+            'conditions' => implode(' AND ', [
+                'projectId = :projectId:',
+                'code = :devcode:',
+                'time > :start: AND time < :end:',
+                'error = 0',
+            ]),
+            "bind" => [
+                'projectId' => $prj,
+                'devcode'   => $devcode,
+                'start'     => $start,
+                'end'       => $end,
+            ],
+        ];
+
+        return $criteria;
+    }
+
+    public function getPeriod($period)
+    {
+        switch (strtoupper($period)) {
+        case 'HOURLY':
+            // last hour
+            $start = date('Y-m-d H:00:00', strtotime('-1 hours'));
+            $end = date('Y-m-d H:00:00');
+            break;
+
+        case 'DAILY':
+            // yesterday
+            $yesterday = strtotime('-1 day');
+            $start = date('Y-m-d 00:00:00', $yesterday);
+            $end = date('Y-m-d 23:59:59', $yesterday);
+            break;
+
+        case 'MONTHLY':
+            // last month
+            $start = date('Y-m-01 00:00:00', strtotime('-1 months'));
+            $end = date('Y-m-01 00:00:00');
+            break;
+
+        default:
+            throw InvalidArgumentException("Bad argument '$period'");
+            break;
+        }
+
+        return [ $start, $end ];
     }
 
     public function getRefData($prj, $year, $month)

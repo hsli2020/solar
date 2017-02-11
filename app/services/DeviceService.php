@@ -79,6 +79,7 @@ class DeviceService extends Injectable
             $devices[] = $device->toArray();
         }
 
+        return array_column($devices, 'code');
         return array_column($devices, 'table', 'code');
     }
 

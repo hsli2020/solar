@@ -39,7 +39,7 @@ class UserController extends ControllerBase
                 "username = :username: AND password = :password: AND active = 'Y'",
                 "bind" => array(
                     'username' => $username,
-                    'password' => md5($password),
+                    'password' => md5($password), // TODO: md5(hash('sha256', $password))
                 )
             ));
 

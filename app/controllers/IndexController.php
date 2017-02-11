@@ -6,7 +6,6 @@ class IndexController extends ControllerBase
 {
     public function indexAction()
     {
-        $this->view->pageTitle = 'My Dashboard';
         return $this->dispatcher->forward([
             'controller' => 'index',
             'action' => 'project'
@@ -28,7 +27,7 @@ class IndexController extends ControllerBase
 
     public function projectAction()
     {
-        $this->view->pageTitle = 'Project';
+        $this->view->pageTitle = 'Projects';
         $this->view->data = $this->dataService->getSnapshot();
     }
 

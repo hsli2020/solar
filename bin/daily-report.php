@@ -25,7 +25,7 @@ class DailyReport
 
         foreach ($users as $user) {
             $email = $user['email'];
-            $this->sendDailyReport($email, $filename);
+#           $this->sendDailyReport($email, $filename);
         }
 
         $this->log("Daily report sending completed.\n");
@@ -46,9 +46,8 @@ class DailyReport
         $devices  = $this->deviceService->getAll();
 
 		foreach ($projects as $project) {
-			/*
-			Array
-			(
+            $projectId = $project['id'];
+			/*(
 				[Reference_Insolation] => 80.50
 				[Reference_Production] => 38388.37
 				[Stonebridge_Base] => 36628.72
@@ -59,22 +58,23 @@ class DailyReport
 				[IE_Snow_Loss_Estimate] => 0.00
 				[Plant_Availability] =>
 				[Grid_Availability] =>
-			)
-			*/
-			$refdata = $this->dataService->getRefData($project['id'], date('Y'), date('m'));
+			)*/
+            $refdata = $this->dataService->getRefData($projectId, date('Y'), date('m'));
 
 			$project_Name        = $project['name'];
 			$date                = date('d/m/Y', strtotime('yesterday'));
 			$capacity_AC         = $project['AC_Nameplate_Capacity'];
 			$capacity_DC         = $project['DC_Nameplate_Capacity'];;
-			$budget              = $refdata['Stonebridge_Base']);
-			$expected            = $refdata['Expected_Production'];
-			$measured_Production = $refdata['Measured_Production'];
-			$measured_Insolation = $refdata['Measured_Insolation'];
-			$IE_POA_Insolation   = $refdata['IE_Snow_Loss_Estimate'];
-			$actual_Budget       = $refdata['Actual_Production'];
-			$actual_Expected     = $refdata['Actual_Production'];
-			$weather_Performance = $refdata['Actual_Production'];
+			$budget              = $refdata['Stonebridge_Base'];
+
+			$measured_Production = $this->getMeasuredProduction($projectId);
+			$measured_Insolation = $this->getMeasuredInsolation($projectId);
+			$IE_POA_Insolation   = $this->getIEPOAInsolation($projectId);
+
+			$expected            = $this->getExpected($measured_Insolation, $IE_POA_Insolation, $budget);
+			$actual_Budget       = $this->getActualBudget();
+			$actual_Expected     = $this->getActualExpected();
+			$weather_Performance = $this->getWeatherPerformance($measured_Insolation, $IE_POA_Insolation);
 
 			$sheet->setCellValue("A$row", $index++);
 			$sheet->setCellValue("B$row", $project_Name);
@@ -100,6 +100,49 @@ class DailyReport
 		$xlsWriter->save($filename);
 
         return $filename;
+    }
+
+    protected function getMeasuredProduction($prj)
+    {
+        return 'TODO';
+    }
+
+    protected function getMeasuredInsolation($prj)
+    {
+        return 'TODO';
+    }
+
+    protected function getIEPOAInsolation($prj)
+    {
+        return 'TODO';
+    }
+
+    protected function getExpected($measured_Insolation, $IE_POA_Insolation, $budget)
+    {
+        if (empty($IE_POA_Insolation)) {
+            return 0;
+        }
+
+        return ($measured_Insolation / $IE_POA_Insolation) * $budget;
+    }
+
+    protected function getActualBudget()
+    {
+        return 'TODO';
+    }
+
+    protected function getActualExpected()
+    {
+        return 'TODO';
+    }
+
+    protected function getWeatherPerformance($measured_Insolation, $IE_POA_Insolation)
+    {
+        if (empty($IE_POA_Insolation)) {
+            return 0;
+        }
+
+        return ($measured_Insolation / $IE_POA_Insolation);
     }
 
     protected function sendDailyReport($recepient, $filename)

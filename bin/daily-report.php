@@ -129,54 +129,11 @@ echo $html;
 
     protected function generateHtml($report)
     {
-        $lines = [];
-
-        $lines[] = "<!DOCTYPE html>";
-        $lines[] = "<html>";
-        $lines[] = "<head>";
-        $lines[] =   '<meta charset="utf-8" />';
-        $lines[] =   "<style>";
-        $lines[] =     "table { border-collapse: collapse; }";
-        $lines[] =     "table, td, th { border: 1px solid gray; padding: 5px 5px; }";
-        $lines[] =   "</style>";
-        $lines[] = "</head>";
-        $lines[] = "<body>";
-
-        $lines[] = "<p>Following is the <b>Daily Solar Energy Production Report</b></p>";
-
-        $lines[] = "<table>";
-        $lines[] = "<tr>";
-        $lines[] =   "<th>No.</th>";
-        $lines[] =   "<th>Project Name</th>";
-        $lines[] =   "<th>Date</th>";
-        $lines[] =   "<th>Capacity AC</th>";
-        $lines[] =   "<th>Capacity DC</th>";
-        $lines[] =   "<th>Budget</th>";
-        $lines[] =   "<th>Expected</th>";
-        $lines[] =   "<th>Mesured Production</th>";
-        $lines[] =   "<th>Measured POA Insolation</th>";
-        $lines[] =   "<th>IE POA Insolation</th>";
-        $lines[] =   "<th>Actual /Budget</th>";
-        $lines[] =   "<th>Actual /Expected</th>";
-        $lines[] =   "<th>Weather Performance</th>";
-        $lines[] = "</tr>";
-
-        $index = 1;
-        foreach ($report as $data) {
-            $lines[] = "<tr>";
-            $lines[] = "  <td>". $index++. "</td>";
-            $lines[] = "  <td>" . implode("</td>\n  <td>", $data) . "</td>";
-            $lines[] = "</tr>\n";
-        }
-
-        $lines[] = "</table>";
-
-        $lines[] = "<p>The <b>Daily Report</b> is also attached in MS Excel format.</p>";
-
-        $lines[] = "</body>";
-        $lines[] = "</html>";
-
-        return implode("\n", $lines);
+        ob_start();
+        include("templates/daily-report.tpl");
+        $content = ob_get_contents();
+        ob_end_clean();
+        return $content;
     }
 
     protected function getMeasuredProduction($prj)

@@ -92,6 +92,14 @@ class DailyReport
     {
         $mail = new PHPMailer();
 
+        $mail->SMTPOptions = [
+            'ssl' => [
+                'verify_peer' => false,
+                'verify_peer_name' => false,
+                'allow_self_signed' => true
+            ]
+        ];
+
         $mail->SMTPDebug = 3;
         $mail->isSMTP();
         $mail->Host = '10.6.200.200';

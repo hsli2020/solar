@@ -138,17 +138,21 @@ echo $html;
 
     protected function getMeasuredProduction($prj)
     {
-        return 'TODO';
+        return $this->dataService->getKW($prj, 'DAILY');
     }
 
     protected function getMeasuredInsolation($prj)
     {
-        return 'TODO';
+        return $this->dataService->getIRR($prj, 'DAILY');
     }
 
     protected function getIEPOAInsolation($prj)
     {
-        return 'TODO';
+        $project = $this->projectService->get($prj);
+        if ($project) {
+            return $project['IE_Insolation'];
+        }
+        return 0;
     }
 
     protected function getExpected($measured_Insolation, $IE_POA_Insolation, $budget)

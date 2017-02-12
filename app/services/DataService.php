@@ -78,7 +78,7 @@ class DataService extends Injectable
         $criteria = $this->getEnvKitCriteria($prj, $devcode, $period);
         $criteria["column"] = "IRR";
 
-        $result = DataEnvKits::average($criteria);
+        $result = DataEnvKits::sum($criteria);
 
         return $result;
     }
@@ -105,11 +105,11 @@ class DataService extends Injectable
             $criteria = $this->getInverterCriteria($prj, $devcode, $period);
             $criteria["column"] = "kw";
             $modelClass = $this->deviceService->getModelName($prj, $devcode);
-            $result = $modelClass::average($criteria);
+            $result = $modelClass::sum($criteria);
             $sum += $result;
         }
 
-        return $sum / count($devices);
+        return $sum;
     }
 
     protected function getEnvKitCriteria($prj, $devcode, $period)

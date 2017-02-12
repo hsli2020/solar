@@ -155,13 +155,13 @@ echo $html;
     protected function getMeasuredProduction($prj)
     {
         $result = $this->dataService->getKW($prj, 'DAILY');
-        return round($result, 2);
+        return round($result / 60.0, 2);
     }
 
     protected function getMeasuredInsolation($prj)
     {
         $result = $this->dataService->getIRR($prj, 'DAILY');
-        return round($result, 2);
+        return round($result / 60.0 / 1000.0, 2);
     }
 
     protected function getExpected($measured_Insolation, $IE_POA_Insolation, $budget)

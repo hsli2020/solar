@@ -136,7 +136,7 @@ class DailyReport
     protected function generateHtml($report)
     {
         ob_start();
-        include("templates/daily-report.tpl");
+        include(__DIR__ . "/templates/daily-report.tpl");
         $content = ob_get_contents();
         ob_end_clean();
         return $content;

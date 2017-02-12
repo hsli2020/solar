@@ -13,11 +13,10 @@
 
 <table>
 <tr>
-  <th>No.</th>
-  <th>Project Name</th>
-  <th>Date</th>
-  <th>Capacity AC</th>
-  <th>Capacity DC</th>
+  <th rowspan="2">No.</th>
+  <th rowspan="2">Project Name</th>
+  <th rowspan="2">Date</th>
+  <th colspan="2">Capacity<br>(kW)</th>
   <th>Budget</th>
   <th>Expected</th>
   <th>Mesured Production</th>
@@ -26,6 +25,18 @@
   <th>Actual /Budget</th>
   <th>Actual /Expected</th>
   <th>Weather Performance</th>
+</tr>
+<tr>
+  <th>AC</th>
+  <th>DC</th>
+  <th>(kWh)</th>
+  <th>kWh</th>
+  <th>(kWh)</th>
+  <th>kWh/m<sup>2</sup></th>
+  <th>kWh/m<sup>2</sup></th>
+  <th>%</th>
+  <th>%</th>
+  <th>%</</th>
 </tr>
 
 <?php $index = 1; ?>

@@ -102,6 +102,7 @@ class SnapshotService extends Injectable
     {
         return rand(3, 4).'/4';
     }
+
     protected function getLastCom($prj)
     {
         return date('Y-m-d H:i:s');

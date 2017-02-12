@@ -80,7 +80,7 @@ class DataService extends Injectable
 
         $result = DataEnvKits::average($criteria);
 
-        return $$result;
+        return $result;
     }
 
     public function getTMP($prj, $period)
@@ -101,7 +101,7 @@ class DataService extends Injectable
         $devices = $this->deviceService->getDevicesOfType($prj, 'Inverter');
 
         $sum = 0;
-        foreach ($devices as $device) {
+        foreach ($devices as $devcode) {
             $criteria = $this->getInverterCriteria($prj, $devcode, $period);
             $criteria["column"] = "kw";
             $modelClass = $this->deviceService->getModelName($prj, $devcode);
@@ -119,7 +119,7 @@ class DataService extends Injectable
         $criteria = [
             'conditions' => implode(' AND ', [
                 'projectId = :projectId:',
-                'code = :devcode:',
+                'devcode = :devcode:',
                 'time > :start: AND time < :end:',
                 'error = 0',
             ]),
@@ -141,7 +141,7 @@ class DataService extends Injectable
         $criteria = [
             'conditions' => implode(' AND ', [
                 'projectId = :projectId:',
-                'code = :devcode:',
+                'devcode = :devcode:',
                 'time > :start: AND time < :end:',
                 'error = 0',
             ]),

@@ -59,9 +59,11 @@ echo $html;
             $date                = date('d/m/Y', strtotime('yesterday'));
             $capacity_AC         = $project['AC_Nameplate_Capacity'];
             $capacity_DC         = $project['DC_Nameplate_Capacity'];;
-           #$IE_POA_Insolation   = $project['IE_Insolation'];
-            $budget              = $refdata['Stonebridge_Base'];
 
+           #$IE_POA_Insolation   = $project['IE_Insolation'];
+           #$budget              = $refdata['Stonebridge_Base'];
+
+            $budget              = $this->getBudget($refdata['Stonebridge_Base']);
             $IE_POA_Insolation   = $this->getIEPOAInsolation($project);
 
             $measured_Production = $this->getMeasuredProduction($projectId);
@@ -136,6 +138,12 @@ echo $html;
         $content = ob_get_contents();
         ob_end_clean();
         return $content;
+    }
+
+    protected function getBudget($refdata)
+    {
+        $budget = $refdata['Stonebridge_Base'];
+        return $budget;
     }
 
     protected function getIEPOAInsolation($project)

@@ -32,7 +32,18 @@
 <?php foreach ($report as $data) { ?>
 <tr>
   <td><?= $index++; ?></td>
-  <td><?= implode("</td>\n  <td>", $data); ?></td>
+  <td><?= $data['project_Name']; ?></td>
+  <td><?= $data['date']; ?></td>
+  <td><?= $data['capacity_AC']; ?></td>
+  <td><?= $data['capacity_DC']; ?></td>
+  <td><?= $data['budget']; ?></td>
+  <td><?= $data['expected']; ?></td>
+  <td><?= $data['measured_Production']; ?></td>
+  <td><?= $data['measured_Insolation']; ?></td>
+  <td><?= $data['IE_POA_Insolation']; ?></td>
+  <td><?= $data['actual_Budget']; ?></td>
+  <td><?= $data['actual_Expected']; ?></td>
+  <td><?= $data['weather_Performance']; ?></td>
 </tr>
 <?php } ?>
 </table>

@@ -59,7 +59,7 @@ echo $html;
             $date                = date('d/m/Y', strtotime('yesterday'));
             $capacity_AC         = $project['AC_Nameplate_Capacity'];
             $capacity_DC         = $project['DC_Nameplate_Capacity'];;
-            $IE_POA_Insolation   = $project['IE_Insolation'];
+           #$IE_POA_Insolation   = $project['IE_Insolation'];
             $budget              = $refdata['Stonebridge_Base'];
 
             $IE_POA_Insolation   = $this->getIEPOAInsolation($project);
@@ -78,10 +78,10 @@ echo $html;
                 'capacity_AC',
                 'capacity_DC',
                 'budget',
+                'expected',
                 'measured_Production',
                 'measured_Insolation',
                 'IE_POA_Insolation',
-                'expected',
                 'actual_Budget',
                 'actual_Expected',
                 'weather_Performance'

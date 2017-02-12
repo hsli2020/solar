@@ -63,7 +63,7 @@ echo $html;
            #$IE_POA_Insolation   = $project['IE_Insolation'];
            #$budget              = $refdata['Stonebridge_Base'];
 
-            $budget              = $this->getBudget($refdata['Stonebridge_Base']);
+            $budget              = $this->getBudget($refdata);
             $IE_POA_Insolation   = $this->getIEPOAInsolation($project);
 
             $measured_Production = $this->getMeasuredProduction($projectId);
@@ -167,7 +167,7 @@ echo $html;
     protected function getExpected($measured_Insolation, $IE_POA_Insolation, $budget)
     {
         if (empty($IE_POA_Insolation)) {
-            return 0;
+            return '';
         }
 
         return round(($measured_Insolation / $IE_POA_Insolation) * $budget, 2);
@@ -175,8 +175,8 @@ echo $html;
 
     protected function getActualBudget($measured_Production , $budget)
     {
-        if ($budget == 0) {
-            return '0%';
+        if (empty($budget)) {
+            return '';
         }
 
         return (round($measured_Production / $budget, 4) * 100) . '%';
@@ -184,8 +184,8 @@ echo $html;
 
     protected function getActualExpected($measured_Production , $expected)
     {
-        if ($expected == 0) {
-            return '0%';
+        if (empty($expected)) {
+            return '';
         }
 
         return (round($measured_Production / $expected, 4) * 100) . '%';
@@ -194,7 +194,7 @@ echo $html;
     protected function getWeatherPerformance($measured_Insolation, $IE_POA_Insolation)
     {
         if (empty($IE_POA_Insolation)) {
-            return '0%';
+            return '';
         }
 
         return (round($measured_Insolation / $IE_POA_Insolation, 4) * 100) . '%';

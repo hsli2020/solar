@@ -22,12 +22,14 @@ class DailyReport
         $report   = $this->generateDailyReport();
         $filename = $this->generateXls($report);
         $html     = $this->generateHtml($report);
-echo $html;
+
+#echo $html;
+
         $users = $this->userService->getAll();
 
         foreach ($users as $user) {
             $email = $user['email'];
-#           $this->sendDailyReport($email, $html, $filename);
+            $this->sendDailyReport($email, $html, $filename);
         }
 
         $this->log("Daily report sending completed.\n");

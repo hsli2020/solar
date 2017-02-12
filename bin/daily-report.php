@@ -62,6 +62,8 @@ echo $html;
             $IE_POA_Insolation   = $project['IE_Insolation'];
             $budget              = $refdata['Stonebridge_Base'];
 
+            $IE_POA_Insolation   = $this->getIEPOAInsolation($project);
+
             $measured_Production = $this->getMeasuredProduction($projectId);
             $measured_Insolation = $this->getMeasuredInsolation($projectId);
 
@@ -136,14 +138,22 @@ echo $html;
         return $content;
     }
 
+    protected function getIEPOAInsolation($project)
+    {
+        $days = date("t");
+        return round($project['IE_Insolation'] / $days, 2);
+    }
+
     protected function getMeasuredProduction($prj)
     {
-        return $this->dataService->getKW($prj, 'DAILY');
+        $result = $this->dataService->getKW($prj, 'DAILY');
+        return round($result, 2);
     }
 
     protected function getMeasuredInsolation($prj)
     {
-        return $this->dataService->getIRR($prj, 'DAILY');
+        $result = $this->dataService->getIRR($prj, 'DAILY');
+        return round($result, 2);
     }
 
     protected function getExpected($measured_Insolation, $IE_POA_Insolation, $budget)
@@ -152,7 +162,7 @@ echo $html;
             return 0;
         }
 
-        return ($measured_Insolation / $IE_POA_Insolation) * $budget;
+        return round(($measured_Insolation / $IE_POA_Insolation) * $budget, 2);
     }
 
     protected function getActualBudget($measured_Production , $budget)

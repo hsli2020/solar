@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <style>
     table { border-collapse: collapse; }
-    table, td, th { border: 1px solid gray; padding: 5px 5px; }
+    table, td, th { border: 1px solid gray; padding: 5px 5px; text-align: center; }
   </style>
 </head>
 <body>

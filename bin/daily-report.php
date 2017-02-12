@@ -59,15 +59,15 @@ echo $html;
             $date                = date('d/m/Y', strtotime('yesterday'));
             $capacity_AC         = $project['AC_Nameplate_Capacity'];
             $capacity_DC         = $project['DC_Nameplate_Capacity'];;
+            $IE_POA_Insolation   = $project['IE_Insolation'];
             $budget              = $refdata['Stonebridge_Base'];
 
             $measured_Production = $this->getMeasuredProduction($projectId);
             $measured_Insolation = $this->getMeasuredInsolation($projectId);
-            $IE_POA_Insolation   = $this->getIEPOAInsolation($projectId);
 
             $expected            = $this->getExpected($measured_Insolation, $IE_POA_Insolation, $budget);
-            $actual_Budget       = $this->getActualBudget();
-            $actual_Expected     = $this->getActualExpected();
+            $actual_Budget       = $this->getActualBudget($measured_Production , $budget);
+            $actual_Expected     = $this->getActualExpected($measured_Production , $expected);
             $weather_Performance = $this->getWeatherPerformance($measured_Insolation, $IE_POA_Insolation);
 
             $report[] = compact(
@@ -146,19 +146,8 @@ echo $html;
         return $this->dataService->getIRR($prj, 'DAILY');
     }
 
-    protected function getIEPOAInsolation($prj)
-    {
-        $project = $this->projectService->get($prj);
-        if ($project) {
-            return $project['IE_Insolation'];
-        }
-        return 0;
-    }
-
     protected function getExpected($measured_Insolation, $IE_POA_Insolation, $budget)
     {
-        return 0;
-
         if (empty($IE_POA_Insolation)) {
             return 0;
         }
@@ -166,27 +155,31 @@ echo $html;
         return ($measured_Insolation / $IE_POA_Insolation) * $budget;
     }
 
-    protected function getActualBudget()
+    protected function getActualBudget($measured_Production , $budget)
     {
-        return 1;
-        return 'TODO';
+        if ($budget == 0) {
+            return '0%';
+        }
+
+        return (round($measured_Production / $budget, 4) * 100) . '%';
     }
 
-    protected function getActualExpected()
+    protected function getActualExpected($measured_Production , $expected)
     {
-        return 1;
-        return 'TODO';
+        if ($expected == 0) {
+            return '0%';
+        }
+
+        return (round($measured_Production / $expected, 4) * 100) . '%';
     }
 
     protected function getWeatherPerformance($measured_Insolation, $IE_POA_Insolation)
     {
-        return 0;
-
         if (empty($IE_POA_Insolation)) {
-            return 0;
+            return '0%';
         }
 
-        return ($measured_Insolation / $IE_POA_Insolation);
+        return (round($measured_Insolation / $IE_POA_Insolation, 4) * 100) . '%';
     }
 
     protected function sendDailyReport($recepient, $body, $filename)

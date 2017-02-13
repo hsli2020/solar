@@ -168,7 +168,7 @@ class DailyReport
 
     protected function getExpected($measured_Insolation, $IE_POA_Insolation, $budget)
     {
-        if (empty($IE_POA_Insolation)) {
+        if (empty($IE_POA_Insolation) || empty($budget)) {
             return '';
         }
 
@@ -216,13 +216,13 @@ class DailyReport
 
         $today = date('Y-m-d');
 
-        $mail->SMTPDebug = 3;
+#       $mail->SMTPDebug = 3;
         $mail->isSMTP();
         $mail->Host = '10.6.200.200';
         $mail->Port = 25;
         $mail->SMTPAuth = false;
         $mail->SMTPSecure = false;
-        $mail->From = "no-reply@greatcirclesolar.com";
+        $mail->From = "OMS@greatcirclesolar.ca";
         $mail->FromName = "Great Circle Solar";
         $mail->addAddress($recepient);
         $mail->addAttachment($filename, basename($filename));

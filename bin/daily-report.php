@@ -97,7 +97,7 @@ class DailyReport
 
     protected function generateXls($report)
     {
-        $excel = PHPExcel_IOFactory::load("./templates/DailyReport-v1.xls");
+        $excel = PHPExcel_IOFactory::load(__DIR__ . "/templates/DailyReport-v1.xls");
         $excel->setActiveSheetIndex(0);  //set first sheet as active
 
         $sheet = $excel->getActiveSheet();

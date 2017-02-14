@@ -214,7 +214,11 @@ class DataService extends Injectable
         $Avg_Module_Temp          = $this->getTMP($prj, 'HOURLY') / 60.0; // PANELT
         $Measured_Energy          = $this->getKW($prj,  'HOURLY');        // sum 60 minutes
 
+        if ($DC_Nameplate_Capacity == 0) return 0;
+
         $Maximum_Theory_Output = ($Avg_Irradiance_POA / 1000) * $DC_Nameplate_Capacity;
+
+        if ($Maximum_Theory_Output == 0) return 0;
 
         $Temperature_Losses = ($Maximum_Theory_Output * ($Module_Power_Coefficient * (25 - $Avg_Module_Temp))) / 1000.0;
         $Inverter_Losses = (1 - $Inverter_Efficiency) * ($Maximum_Theory_Output - $Temperature_Losses);
@@ -229,6 +233,8 @@ class DataService extends Injectable
         $Other_System_Losses = ($Maximum_Theory_Output - $Temperature_Losses - $Inverter_Losses - $Inverter_Clipping_Loss - $Transformer_Loss) * $Other_Loss;
         $Total_Losses = ($Temperature_Losses + $Inverter_Losses + $Inverter_Clipping_Loss + $Transformer_Loss + $Other_System_Losses) / $Maximum_Theory_Output;
         $Theoretical_Output = ($Maximum_Theory_Output - $Temperature_Losses - $Inverter_Losses - $Inverter_Clipping_Loss - $Transformer_Loss - $Other_System_Losses);
+
+        if ($Theoretical_Output == 0) return 0;
 
         $GCS_Performance_Index = $Measured_Energy / $Theoretical_Output;
 

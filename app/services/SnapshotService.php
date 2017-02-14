@@ -87,13 +87,13 @@ class SnapshotService extends Injectable
 
     protected function getCurrentPower($prj)
     {
-        $kw = $this->dataService->getKW($prj);
+        $kw = $this->dataService->getKW($prj, 'LATEST');
         return round($kw, 2);
     }
 
     protected function getIrradiance($prj)
     {
-        $irr = $this->dataService->getIRR($prj);
+        $irr = $this->dataService->getIRR($prj, 'LATEST');
         return round($irr, 2);
     }
 

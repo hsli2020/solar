@@ -30,11 +30,46 @@ class DeviceService extends Injectable
         return $this->devices;
     }
 
+    public function getDevices($prj)
+    {
+        $devices = $this->getAll();
+        return isset($devices[$prj]) ? $devices[$prj] : [];
+    }
+
     // $dev='mb-xxx'
     public function getDevice($prj, $dev)
     {
         $devices = $this->getAll();
         return isset($devices[$prj][$dev]) ? $devices[$prj][$dev] : [];
+    }
+
+    public function getInverters($prj)
+    {
+        return $this->getDevicesOfType($prj, 'Inverter');
+    }
+
+    public function getGenMeter($prj)
+    {
+        return $this->getDevicesOfType($prj, 'GenMeter');
+    }
+
+    public function getEnvKit($prj)
+    {
+        return $this->getDevicesOfType($prj, 'EnvKit');
+    }
+
+    // $type='Inverter|GenMeter|EnvKit'
+    public function getDevicesOfType($prj, $type)
+    {
+        $devices = [];
+
+        $result = Devices::find("projectId=$prj AND type='$type'");
+        foreach ($result as $device) {
+            $devices[] = $device->toArray();
+        }
+
+        return array_column($devices, 'code');
+        return array_column($devices, 'table', 'code');
     }
 
     public function getTable($prj, $dev)
@@ -67,20 +102,6 @@ class DeviceService extends Injectable
         $table = $this->getTable($prj, $dev);
 
         return 'App\\Models\\'.$modelMap[$table];
-    }
-
-    // $type='Inverter|GenMeter|EnvKit'
-    public function getDevicesOfType($prj, $type)
-    {
-        $devices = [];
-
-        $result = Devices::find("projectId=$prj AND type='$type'");
-        foreach ($result as $device) {
-            $devices[] = $device->toArray();
-        }
-
-        return array_column($devices, 'code');
-        return array_column($devices, 'table', 'code');
     }
 
     public function add($projectId, $devices)

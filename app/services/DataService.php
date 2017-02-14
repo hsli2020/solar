@@ -134,7 +134,7 @@ class DataService extends Injectable
         return $criteria;
     }
 
-    public function getInverterCriteria($prj, $devcode, $period)
+    protected function getInverterCriteria($prj, $devcode, $period)
     {
         list($start, $end) = $this->getPeriod($period);
 
@@ -156,7 +156,7 @@ class DataService extends Injectable
         return $criteria;
     }
 
-    public function getPeriod($period)
+    protected function getPeriod($period)
     {
         switch (strtoupper($period)) {
         case 'HOURLY':

@@ -91,7 +91,7 @@ class DataService extends Injectable
         $criteria = $this->getEnvKitCriteria($prj, $devcode, $period);
         $criteria["column"] = "PANELT";
 
-        $result = DataEnvKits::average($criteria);
+        $result = DataEnvKits::sum($criteria);
 
         return $result;
     }
@@ -120,7 +120,7 @@ class DataService extends Injectable
             'conditions' => implode(' AND ', [
                 'projectId = :projectId:',
                 'devcode = :devcode:',
-                'time > :start: AND time < :end:',
+                'time >= :start: AND time < :end:',
                 'error = 0',
             ]),
             "bind" => [
@@ -142,7 +142,7 @@ class DataService extends Injectable
             'conditions' => implode(' AND ', [
                 'projectId = :projectId:',
                 'devcode = :devcode:',
-                'time > :start: AND time < :end:',
+                'time >= :start: AND time < :end:',
                 'error = 0',
             ]),
             "bind" => [
@@ -178,6 +178,12 @@ class DataService extends Injectable
             $end = date('Y-m-01 00:00:00');
             break;
 
+        case 'LATEST':
+            // last minute (15 minutes ago)
+            $start = date('Y-m-d H:i:00', strtotime('-15 minute'));
+            $end = date('Y-m-d H:i:00', strtotime('-14 minute'));
+            break;
+
         default:
             throw InvalidArgumentException("Bad argument '$period'");
             break;
@@ -204,9 +210,9 @@ class DataService extends Injectable
         $Transformer_Loss         = $site['Transformer_Loss'];
         $Other_Loss               = $site['Other_Loss'];
 
-        $Avg_Irradiance_POA       = 594.816;  // avg 60 minutes
-        $Avg_Module_Temp          = 37;          // PANELT
-        $Measured_Energy          = 7483;        // sum 60 minutes
+        $Avg_Irradiance_POA       = $this->getIRR($prj, 'HOURLY') / 60.0; // avg 60 minutes
+        $Avg_Module_Temp          = $this->getTMP($prj, 'HOURLY') / 60.0; // PANELT
+        $Measured_Energy          = $this->getKW($prj,  'HOURLY');        // sum 60 minutes
 
         $Maximum_Theory_Output = ($Avg_Irradiance_POA / 1000) * $DC_Nameplate_Capacity;
 

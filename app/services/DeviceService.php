@@ -50,12 +50,14 @@ class DeviceService extends Injectable
 
     public function getGenMeter($prj)
     {
-        return $this->getDevicesOfType($prj, 'GenMeter');
+        $meter = $this->getDevicesOfType($prj, 'GenMeter');
+        return $meter[0]; // current($meter);
     }
 
     public function getEnvKit($prj)
     {
-        return $this->getDevicesOfType($prj, 'EnvKit');
+        $envkit = $this->getDevicesOfType($prj, 'EnvKit');
+        return $envkit[0]; // current($envkit);
     }
 
     // $type='Inverter|GenMeter|EnvKit'

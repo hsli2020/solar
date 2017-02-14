@@ -99,7 +99,7 @@ class SnapshotService extends Injectable
 
     protected function getInvertersGenerating($prj)
     {
-        $inverters = $this->deviceService->getDevicesOfType($prj, 'Inverter');
+        $inverters = $this->deviceService->getInverters($prj);
         $total = count($inverters);
 
         // TODO: $this->dataService->getWorkingInverters($prj);

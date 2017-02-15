@@ -23,7 +23,7 @@ class DailyReport
         $filename = $this->generateXls($report);
         $html     = $this->generateHtml($report);
 
-#echo $html;
+echo $html; return;
 
         $users = $this->userService->getAll();
 
@@ -38,57 +38,42 @@ class DailyReport
     protected function generateDailyReport()
     {
         $projects = $this->projectService->getAll();
-        $devices  = $this->deviceService->getAll();
 
         $report = [];
         foreach ($projects as $project) {
             $projectId = $project['id'];
-            /*(
-                [Reference_Insolation] => 80.50
-                [Reference_Production] => 38388.37
-                [Stonebridge_Base] => 36628.72
-                [Measured_Insolation] =>
-                [Measured_Production] =>
-                [Expected_Production] =>
-                [Actual_Production] =>
-                [IE_Snow_Loss_Estimate] => 0.00
-                [Plant_Availability] =>
-                [Grid_Availability] =>
-            )*/
             $refdata = $this->dataService->getRefData($projectId, date('Y'), date('m'));
 
-            $project_Name        = $project['name'];
-            $date                = date('d/m/Y', strtotime('yesterday'));
-            $capacity_AC         = $project['AC_Nameplate_Capacity'];
-            $capacity_DC         = $project['DC_Nameplate_Capacity'];;
-
-           #$IE_POA_Insolation   = $project['IE_Insolation'];
-           #$budget              = $refdata['Stonebridge_Base'];
-
-            $budget              = $this->getBudget($refdata);
-            $IE_POA_Insolation   = $this->getIEPOAInsolation($project);
-
-            $measured_Production = $this->getMeasuredProduction($projectId);
-            $measured_Insolation = $this->getMeasuredInsolation($projectId);
-
-            $expected            = $this->getExpected($measured_Insolation, $IE_POA_Insolation, $budget);
-            $actual_Budget       = $this->getActualBudget($measured_Production , $budget);
-            $actual_Expected     = $this->getActualExpected($measured_Production , $expected);
-            $weather_Performance = $this->getWeatherPerformance($measured_Insolation, $IE_POA_Insolation);
+            $Project_Name        = $project['name'];
+            $Date                = date('d/m/Y', strtotime('yesterday'));
+            $Capacity_AC         = $project['AC_Nameplate_Capacity'];
+            $Capacity_DC         = $project['DC_Nameplate_Capacity'];;
+            $Monthly_Budget      = $this->getMonthlyBudget($refdata);
+            $IE_Insolation       = $this->getIEInsolation($project);
+            $Total_Insolation    = $this->getTotalInsolation($projectId);
+            $Total_Energy        = $this->getTotalEnergy($projectId);
+            $Daily_Expected      = $this->getDailyExpected($projectId);
+            $Daily_Production    = $this->getDailyProduction($projectId);
+            $Measured_Insolation = $this->getMeasuredInsolation($projectId);
+            $Actual_Budget       = $this->getActualBudget($Daily_Production, $Monthly_Budget);
+            $Actual_Expected     = $this->getActualExpected($Daily_Production, $Daily_Expected);
+            $Weather_Performance = $this->getWeatherPerformance($Measured_Insolation, $IE_Insolation);
 
             $report[] = compact(
-                'project_Name',
-                'date',
-                'capacity_AC',
-                'capacity_DC',
-                'budget',
-                'expected',
-                'measured_Production',
-                'measured_Insolation',
-                'IE_POA_Insolation',
-                'actual_Budget',
-                'actual_Expected',
-                'weather_Performance'
+                'Project_Name',
+                'Date',
+                'Capacity_AC',
+                'Capacity_DC',
+                'Monthly_Budget',
+                'IE_Insolation',
+                'Total_Insolation',
+                'Total_Energy',
+                'Daily_Expected',
+                'Daily_Production',
+                'Measured_Insolation',
+                'Actual_Budget',
+                'Actual_Expected',
+                'Weather_Performance'
             );
         }
 
@@ -97,7 +82,7 @@ class DailyReport
 
     protected function generateXls($report)
     {
-        $excel = PHPExcel_IOFactory::load(__DIR__ . "/templates/DailyReport-v1.xls");
+        $excel = PHPExcel_IOFactory::load(__DIR__ . "/templates/DailyReport-v2.xlsx");
         $excel->setActiveSheetIndex(0);  //set first sheet as active
 
         $sheet = $excel->getActiveSheet();
@@ -108,26 +93,27 @@ class DailyReport
 
         foreach ($report as $data) {
             $sheet->setCellValue("A$row", $index++);
-            $sheet->setCellValue("B$row", $data['project_Name']);
-            $sheet->setCellValue("C$row", $data['date']);
-            $sheet->setCellValue("D$row", $data['capacity_AC']);
-            $sheet->setCellValue("E$row", $data['capacity_DC']);
-            $sheet->setCellValue("F$row", $data['budget']);
-            $sheet->setCellValue("G$row", $data['expected']);
-            $sheet->setCellValue("H$row", $data['measured_Production']);
-            $sheet->setCellValue("I$row", $data['measured_Insolation']);
-            $sheet->setCellValue("J$row", $data['IE_POA_Insolation']);
-            $sheet->setCellValue("K$row", $data['actual_Budget']);
-            $sheet->setCellValue("L$row", $data['actual_Expected']);
-            $sheet->setCellValue("M$row", $data['weather_Performance']);
+            $sheet->setCellValue("B$row", $data['Project_Name']);
+            $sheet->setCellValue("C$row", $data['Date']);
+            $sheet->setCellValue("D$row", $data['Capacity_AC']);
+            $sheet->setCellValue("E$row", $data['Capacity_DC']);
+            $sheet->setCellValue("F$row", $data['Monthly_Budget']);
+            $sheet->setCellValue("G$row", $data['IE_Insolation']);
+            $sheet->setCellValue("H$row", $data['Total_Insolation']);
+            $sheet->setCellValue("I$row", $data['Total_Energy']);
+            $sheet->setCellValue("J$row", $data['Daily_Expected']);
+            $sheet->setCellValue("K$row", $data['Daily_Production']);
+            $sheet->setCellValue("L$row", $data['Measured_Insolation']);
+            $sheet->setCellValue("M$row", $data['Actual_Budget']);
+            $sheet->setCellValue("N$row", $data['Actual_Expected']);
+            $sheet->setCellValue("O$row", $data['Weather_Performance']);
             $row++;
         }
 
         $today = date('Ymd');
-        $filename = BASE_DIR . "/app/logs/DailyReport-$today.xls";
+        $filename = BASE_DIR . "/app/logs/DailyReport-$today.xlsx";
 
-        //downloadable file is in Excel 2003 format (.xls)
-        $xlsWriter = PHPExcel_IOFactory::createWriter($excel, 'Excel5');
+        $xlsWriter = PHPExcel_IOFactory::createWriter($excel, 'Excel2007');
         $xlsWriter->save($filename);
 
         return $filename;
@@ -136,47 +122,60 @@ class DailyReport
     protected function generateHtml($report)
     {
         ob_start();
+        $date = date('F d, Y', strtotime('yesterday'));
         include(__DIR__ . "/templates/daily-report.tpl");
         $content = ob_get_contents();
         ob_end_clean();
         return $content;
     }
 
-    protected function getBudget($refdata)
+    protected function getMonthlyBudget($refdata)
     {
+        return 1234; //substr(__FUNCTION__, 3);
         $budget = $refdata['Stonebridge_Base'];
         return $budget;
     }
 
-    protected function getIEPOAInsolation($project)
+    protected function getIEInsolation($project)
     {
+        return 1234; //substr(__FUNCTION__, 3);
         $days = date("t");
         return round($project['IE_Insolation'] / $days, 2);
     }
 
-    protected function getMeasuredProduction($prj)
+    protected function getTotalInsolation($prj)
     {
-        $result = $this->dataService->getKW($prj, 'DAILY');
-        return round($result / 60.0, 2);
-    }
-
-    protected function getMeasuredInsolation($prj)
-    {
+        return 1234; //substr(__FUNCTION__, 3);
         $result = $this->dataService->getIRR($prj, 'DAILY');
         return round($result / 60.0 / 1000.0, 2);
     }
 
-    protected function getExpected($measured_Insolation, $IE_POA_Insolation, $budget)
+    protected function getTotalEnergy($prj)
     {
-        if (empty($IE_POA_Insolation) || empty($budget)) {
-            return '';
-        }
-
-        return round(($measured_Insolation / $IE_POA_Insolation) * $budget, 2);
+        return 1234; //substr(__FUNCTION__, 3);
+        $result = $this->dataService->getKW($prj, 'DAILY');
+        return round($result / 60.0, 2);
     }
 
+    protected function getDailyExpected($projectId)
+    {
+        return 1234; //substr(__FUNCTION__, 3);
+    }
+
+    protected function getDailyProduction($projectId)
+    {
+        return 1234; //substr(__FUNCTION__, 3);
+    }
+
+    protected function getMeasuredInsolation($projectId)
+    {
+        return 1234; //substr(__FUNCTION__, 3);
+    }
+
+    // getActualBudget($Daily_Production , $Monthly_Budget);
     protected function getActualBudget($measured_Production , $budget)
     {
+        return 1234; //substr(__FUNCTION__, 3);
         if (empty($budget)) {
             return '';
         }
@@ -184,8 +183,10 @@ class DailyReport
         return (round($measured_Production / $budget, 4) * 100) . '%';
     }
 
+    // getActualExpected($Daily_Production , $Daily_Expected);
     protected function getActualExpected($measured_Production , $expected)
     {
+        return 1234; //substr(__FUNCTION__, 3);
         if (empty($expected)) {
             return '';
         }
@@ -193,8 +194,10 @@ class DailyReport
         return (round($measured_Production / $expected, 4) * 100) . '%';
     }
 
+    // getWeatherPerformance($Measured_Insolation, $IE_Insolation);
     protected function getWeatherPerformance($measured_Insolation, $IE_POA_Insolation)
     {
+        return 1234; //substr(__FUNCTION__, 3);
         if (empty($IE_POA_Insolation)) {
             return '';
         }

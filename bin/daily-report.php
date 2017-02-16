@@ -183,7 +183,7 @@ echo $html; return;
             return '';
         }
 
-        return (round($Total_Energy / $budget, 4) * 100) . '%';
+        return (round($Total_Energy / $Monthly_Budget, 4) * 100) . '%';
     }
 
     protected function getActualExpected($Total_Energy, $Monthly_Budget, $Weather_Performance)

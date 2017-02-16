@@ -13,6 +13,15 @@
 
 <table>
 <tr>
+  <th></th>
+  <th colspan="2"></th>
+  <th colspan="2">Budget Production</th>
+  <th colspan="2">Month-to-Date</th>
+  <th colspan="2">Daily Energy Production</th>
+  <th>Insolation</th>
+  <th colspan="3">Monthly Performance</th>
+</tr>
+<tr>
   <!-- <th rowspan="2">No.</th> -->
   <th rowspan="2">Project Name</th>
   <!-- <th rowspan="2">Date</th> -->

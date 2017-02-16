@@ -52,12 +52,14 @@ echo $html; return;
             $IE_Insolation       = $this->getIEInsolation($project);
             $Total_Insolation    = $this->getTotalInsolation($projectId);
             $Total_Energy        = $this->getTotalEnergy($projectId);
-            $Daily_Expected      = $this->getDailyExpected($projectId);
-            $Daily_Production    = $this->getDailyProduction($projectId);
             $Measured_Insolation = $this->getMeasuredInsolation($projectId);
-            $Actual_Budget       = $this->getActualBudget($Daily_Production, $Monthly_Budget);
-            $Actual_Expected     = $this->getActualExpected($Daily_Production, $Daily_Expected);
-            $Weather_Performance = $this->getWeatherPerformance($Measured_Insolation, $IE_Insolation);
+            $Daily_Expected      = $this->getDailyExpected($Measured_Insolation, $IE_Insolation, $Monthly_Budget);
+            $Daily_Production    = $this->getDailyProduction($projectId);
+            $Weather_Performance = $this->getWeatherPerformance($Total_Insolation, $IE_Insolation);
+            $Actual_Budget       = $this->getActualBudget($Total_Energy, $Monthly_Budget);
+            $Actual_Expected     = $this->getActualExpected($Total_Energy, $Monthly_Budget, $Weather_Performance);
+
+            $Weather_Performance = (round($Weather_Performance, 4) * 100) . '%';
 
             $report[] = compact(
                 'Project_Name',
@@ -101,7 +103,7 @@ echo $html; return;
             $sheet->setCellValue("G$row", $data['IE_Insolation']);
             $sheet->setCellValue("H$row", $data['Total_Insolation']);
             $sheet->setCellValue("I$row", $data['Total_Energy']);
-            $sheet->setCellValue("J$row", $data['Daily_Expected']);
+           #$sheet->setCellValue("J$row", $data['Daily_Expected']);
             $sheet->setCellValue("K$row", $data['Daily_Production']);
             $sheet->setCellValue("L$row", $data['Measured_Insolation']);
             $sheet->setCellValue("M$row", $data['Actual_Budget']);
@@ -131,78 +133,75 @@ echo $html; return;
 
     protected function getMonthlyBudget($refdata)
     {
-        return 1234; //substr(__FUNCTION__, 3);
         $budget = $refdata['Stonebridge_Base'];
         return $budget;
     }
 
     protected function getIEInsolation($project)
     {
-        return 1234; //substr(__FUNCTION__, 3);
-        $days = date("t");
-        return round($project['IE_Insolation'] / $days, 2);
+        return $project['IE_Insolation'];
+       #$days = date("t");
+       #return round($project['IE_Insolation'] / $days, 2);
     }
 
     protected function getTotalInsolation($prj)
     {
-        return 1234; //substr(__FUNCTION__, 3);
-        $result = $this->dataService->getIRR($prj, 'DAILY');
+        $result = $this->dataService->getIRR($prj, 'MONTHLY');
         return round($result / 60.0 / 1000.0, 2);
     }
 
     protected function getTotalEnergy($prj)
     {
-        return 1234; //substr(__FUNCTION__, 3);
+        $result = $this->dataService->getKW($prj, 'MONTHLY');
+        return round($result / 60.0, 2);
+    }
+
+    protected function getDailyExpected($Measured_Insolation, $IE_Insolation, $Monthly_Budget)
+    {
+        if (!$IE_Insolation) {
+            return '';
+        }
+
+        return ($Measured_Insolation / $IE_Insolation) * $Monthly_Budget;
+    }
+
+    protected function getDailyProduction($prj)
+    {
         $result = $this->dataService->getKW($prj, 'DAILY');
         return round($result / 60.0, 2);
     }
 
-    protected function getDailyExpected($projectId)
+    protected function getMeasuredInsolation($prj)
     {
-        return 1234; //substr(__FUNCTION__, 3);
+        $result = $this->dataService->getIRR($prj, 'DAILY');
+        return round($result / 60.0 / 1000.0, 2);
     }
 
-    protected function getDailyProduction($projectId)
+    protected function getActualBudget($Total_Energy, $Monthly_Budget)
     {
-        return 1234; //substr(__FUNCTION__, 3);
-    }
-
-    protected function getMeasuredInsolation($projectId)
-    {
-        return 1234; //substr(__FUNCTION__, 3);
-    }
-
-    // getActualBudget($Daily_Production , $Monthly_Budget);
-    protected function getActualBudget($measured_Production , $budget)
-    {
-        return 1234; //substr(__FUNCTION__, 3);
-        if (empty($budget)) {
+        if (empty($Monthly_Budget)) {
             return '';
         }
 
-        return (round($measured_Production / $budget, 4) * 100) . '%';
+        return (round($Total_Energy / $budget, 4) * 100) . '%';
     }
 
-    // getActualExpected($Daily_Production , $Daily_Expected);
-    protected function getActualExpected($measured_Production , $expected)
+    protected function getActualExpected($Total_Energy, $Monthly_Budget, $Weather_Performance)
     {
-        return 1234; //substr(__FUNCTION__, 3);
-        if (empty($expected)) {
+        if (empty($Monthly_Budget)) {
             return '';
         }
 
-        return (round($measured_Production / $expected, 4) * 100) . '%';
+        return (round($Total_Energy / $Monthly_Budget * $Weather_Performance, 4) * 100) . '%';
     }
 
-    // getWeatherPerformance($Measured_Insolation, $IE_Insolation);
-    protected function getWeatherPerformance($measured_Insolation, $IE_POA_Insolation)
+    protected function getWeatherPerformance($Total_Insolation, $IE_Insolation)
     {
-        return 1234; //substr(__FUNCTION__, 3);
-        if (empty($IE_POA_Insolation)) {
+        if (empty($IE_Insolation)) {
             return '';
         }
 
-        return (round($measured_Insolation / $IE_POA_Insolation, 4) * 100) . '%';
+        return $Total_Insolation / $IE_Insolation;
     }
 
     protected function sendDailyReport($recepient, $body, $filename)

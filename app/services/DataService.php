@@ -173,9 +173,9 @@ class DataService extends Injectable
             break;
 
         case 'MONTHLY':
-            // last month
-            $start = date('Y-m-01 00:00:00', strtotime('-1 months'));
-            $end = date('Y-m-01 00:00:00');
+            // month-to-date
+            $start = date('Y-m-01 00:00:00');
+            $end = date('Y-m-d 00:00:00');
             break;
 
         case 'LATEST':

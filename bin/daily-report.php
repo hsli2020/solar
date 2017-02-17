@@ -23,7 +23,7 @@ class DailyReport
         $filename = $this->generateXls($report);
         $html     = $this->generateHtml($report);
 
-echo $html; return;
+file_put_contents('a.html', $html); return;
 
         $users = $this->userService->getAll();
 

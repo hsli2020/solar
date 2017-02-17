@@ -23,7 +23,13 @@ class DailyReport
         $filename = $this->generateXls($report);
         $html     = $this->generateHtml($report);
 
-file_put_contents('a.html', $html); return;
+        // if this script is running on my local computer, stop sending emails.
+        // this makes debugging easier.
+
+        if (gethostname() == 'Home') {
+            file_put_contents('a.html', $html);
+            return;
+        }
 
         $users = $this->userService->getAll();
 

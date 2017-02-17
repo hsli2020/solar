@@ -162,7 +162,7 @@ file_put_contents('a.html', $html); return;
             return '';
         }
 
-        return ($Measured_Insolation / $IE_Insolation) * $Monthly_Budget;
+        return round(($Measured_Insolation / $IE_Insolation) * $Monthly_Budget, 2);
     }
 
     protected function getDailyProduction($prj)

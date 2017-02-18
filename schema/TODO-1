@@ -1,0 +1,165 @@
+# 1)
+UPDATE solar_device SET `desc` = 'PVP'    WHERE id=1;
+UPDATE solar_device SET `desc` = 'PVP'    WHERE id=2;
+UPDATE solar_device SET `desc` = 'PVP'    WHERE id=3;
+UPDATE solar_device SET `desc` = 'SERIAL' WHERE id=6;
+UPDATE solar_device SET `desc` = 'SERIAL' WHERE id=7;
+UPDATE solar_device SET `desc` = 'SMA'    WHERE id=12;
+UPDATE solar_device SET `desc` = 'PVP'    WHERE id=16;
+UPDATE solar_device SET `desc` = 'SMA'    WHERE id=19;
+UPDATE solar_device SET `desc` = 'SMA'    WHERE id=20;
+
+# 2)
+ALTER TABLE `solar_device` ADD COLUMN `model` VARCHAR(40) NOT NULL AFTER `table`;
+
+# 3)
+UPDATE solar_device SET model='DataInverterPvp'    WHERE id=1;
+UPDATE solar_device SET model='DataInverterPvp'    WHERE id=2;
+UPDATE solar_device SET model='DataInverterPvp'    WHERE id=3;
+UPDATE solar_device SET model='DataGenMeters'      WHERE id=4;
+UPDATE solar_device SET model='DataEnvKits'        WHERE id=5;
+UPDATE solar_device SET model='DataInverterSerial' WHERE id=6;
+UPDATE solar_device SET model='DataInverterSerial' WHERE id=7;
+UPDATE solar_device SET model='DataGenMeters'      WHERE id=8;
+UPDATE solar_device SET model='DataEnvKits'        WHERE id=9;
+UPDATE solar_device SET model='DataGenMeters'      WHERE id=10;
+UPDATE solar_device SET model='DataEnvKits'        WHERE id=11;
+UPDATE solar_device SET model='DataInverterSma'    WHERE id=12;
+UPDATE solar_device SET model='DataGenMeters'      WHERE id=14;
+UPDATE solar_device SET model='DataEnvKits'        WHERE id=15;
+UPDATE solar_device SET model='DataInverterPvp'    WHERE id=16;
+UPDATE solar_device SET model='DataGenMeters'      WHERE id=17;
+UPDATE solar_device SET model='DataEnvKits'        WHERE id=18;
+UPDATE solar_device SET model='DataInverterSma'    WHERE id=19;
+UPDATE solar_device SET model='DataInverterSma'    WHERE id=20;
+
+# 4)
+CREATE TABLE p1_mb_031_inverter LIKE solar_data_inverter_pvp;
+CREATE TABLE p1_mb_032_inverter LIKE solar_data_inverter_pvp;
+CREATE TABLE p1_mb_033_inverter LIKE solar_data_inverter_pvp;
+CREATE TABLE p1_mb_011_genmeter LIKE solar_data_genmeter;
+CREATE TABLE p2_mb_071_envkit   LIKE solar_data_envkit;
+CREATE TABLE p2_mb_080_inverter LIKE solar_data_inverter_serial;
+CREATE TABLE p2_mb_081_inverter LIKE solar_data_inverter_serial;
+CREATE TABLE p2_mb_011_genmeter LIKE solar_data_genmeter;
+CREATE TABLE p1_mb_071_envkit   LIKE solar_data_envkit;
+CREATE TABLE p3_mb_011_genmeter LIKE solar_data_genmeter;
+CREATE TABLE p3_mb_071_envkit   LIKE solar_data_envkit;
+CREATE TABLE p3_mb_031_inverter LIKE solar_data_inverter_sma;
+CREATE TABLE p4_mb_011_genmeter LIKE solar_data_genmeter;
+CREATE TABLE p4_mb_071_envkit   LIKE solar_data_envkit;
+CREATE TABLE p4_mb_031_inverter LIKE solar_data_inverter_pvp;
+CREATE TABLE p5_mb_011_genmeter LIKE solar_data_genmeter;
+CREATE TABLE p5_mb_071_envkit   LIKE solar_data_envkit;
+CREATE TABLE p5_mb_031_inverter LIKE solar_data_inverter_sma;
+CREATE TABLE p5_mb_003_inverter LIKE solar_data_inverter_sma;
+
+# 5)
+UPDATE solar_device SET `table`='p1_mb_031_inverter' WHERE id=1;
+UPDATE solar_device SET `table`='p1_mb_032_inverter' WHERE id=2;
+UPDATE solar_device SET `table`='p1_mb_033_inverter' WHERE id=3;
+UPDATE solar_device SET `table`='p1_mb_011_genmeter' WHERE id=4;
+UPDATE solar_device SET `table`='p2_mb_071_envkit'   WHERE id=5;
+UPDATE solar_device SET `table`='p2_mb_080_inverter' WHERE id=6;
+UPDATE solar_device SET `table`='p2_mb_081_inverter' WHERE id=7;
+UPDATE solar_device SET `table`='p2_mb_011_genmeter' WHERE id=8;
+UPDATE solar_device SET `table`='p1_mb_071_envkit'   WHERE id=9;
+UPDATE solar_device SET `table`='p3_mb_011_genmeter' WHERE id=10;
+UPDATE solar_device SET `table`='p3_mb_071_envkit'   WHERE id=11;
+UPDATE solar_device SET `table`='p3_mb_031_inverter' WHERE id=12;
+UPDATE solar_device SET `table`='p4_mb_011_genmeter' WHERE id=14;
+UPDATE solar_device SET `table`='p4_mb_071_envkit'   WHERE id=15;
+UPDATE solar_device SET `table`='p4_mb_031_inverter' WHERE id=16;
+UPDATE solar_device SET `table`='p5_mb_011_genmeter' WHERE id=17;
+UPDATE solar_device SET `table`='p5_mb_071_envkit'   WHERE id=18;
+UPDATE solar_device SET `table`='p5_mb_031_inverter' WHERE id=19;
+UPDATE solar_device SET `table`='p5_mb_003_inverter' WHERE id=20;
+
+# 6)
+INSERT INTO p1_mb_031_inverter SELECT * FROM solar_data_inverter_pvp    WHERE project_id=1 AND devcode='mb-031';
+INSERT INTO p1_mb_032_inverter SELECT * FROM solar_data_inverter_pvp    WHERE project_id=1 AND devcode='mb-032';
+INSERT INTO p1_mb_033_inverter SELECT * FROM solar_data_inverter_pvp    WHERE project_id=1 AND devcode='mb-033';
+INSERT INTO p1_mb_011_genmeter SELECT * FROM solar_data_genmeter        WHERE project_id=1 AND devcode='mb-011';
+INSERT INTO p2_mb_071_envkit   SELECT * FROM solar_data_envkit          WHERE project_id=2 AND devcode='mb-071';
+INSERT INTO p2_mb_080_inverter SELECT * FROM solar_data_inverter_serial WHERE project_id=2 AND devcode='mb-080';
+INSERT INTO p2_mb_081_inverter SELECT * FROM solar_data_inverter_serial WHERE project_id=2 AND devcode='mb-081';
+INSERT INTO p2_mb_011_genmeter SELECT * FROM solar_data_genmeter        WHERE project_id=2 AND devcode='mb-011';
+INSERT INTO p1_mb_071_envkit   SELECT * FROM solar_data_envkit          WHERE project_id=1 AND devcode='mb-071';
+INSERT INTO p3_mb_011_genmeter SELECT * FROM solar_data_genmeter        WHERE project_id=3 AND devcode='mb-011';
+INSERT INTO p3_mb_071_envkit   SELECT * FROM solar_data_envkit          WHERE project_id=3 AND devcode='mb-071';
+INSERT INTO p3_mb_031_inverter SELECT * FROM solar_data_inverter_sma    WHERE project_id=3 AND devcode='mb-031';
+INSERT INTO p4_mb_011_genmeter SELECT * FROM solar_data_genmeter        WHERE project_id=4 AND devcode='mb-011';
+INSERT INTO p4_mb_071_envkit   SELECT * FROM solar_data_envkit          WHERE project_id=4 AND devcode='mb-071';
+INSERT INTO p4_mb_031_inverter SELECT * FROM solar_data_inverter_pvp    WHERE project_id=4 AND devcode='mb-031';
+INSERT INTO p5_mb_011_genmeter SELECT * FROM solar_data_genmeter        WHERE project_id=5 AND devcode='mb-011';
+INSERT INTO p5_mb_071_envkit   SELECT * FROM solar_data_envkit          WHERE project_id=5 AND devcode='mb-071';
+INSERT INTO p5_mb_031_inverter SELECT * FROM solar_data_inverter_sma    WHERE project_id=5 AND devcode='mb-031';
+INSERT INTO p5_mb_003_inverter SELECT * FROM solar_data_inverter_sma    WHERE project_id=5 AND devcode='mb-003';
+
+# 7)
+ALTER TABLE p1_mb_031_inverter  DROP COLUMN `project_id`, DROP COLUMN `devcode`;
+ALTER TABLE p1_mb_032_inverter  DROP COLUMN `project_id`, DROP COLUMN `devcode`;
+ALTER TABLE p1_mb_033_inverter  DROP COLUMN `project_id`, DROP COLUMN `devcode`;
+ALTER TABLE p1_mb_011_genmeter  DROP COLUMN `project_id`, DROP COLUMN `devcode`;
+ALTER TABLE p2_mb_071_envkit    DROP COLUMN `project_id`, DROP COLUMN `devcode`;
+ALTER TABLE p2_mb_080_inverter  DROP COLUMN `project_id`, DROP COLUMN `devcode`;
+ALTER TABLE p2_mb_081_inverter  DROP COLUMN `project_id`, DROP COLUMN `devcode`;
+ALTER TABLE p2_mb_011_genmeter  DROP COLUMN `project_id`, DROP COLUMN `devcode`;
+ALTER TABLE p1_mb_071_envkit    DROP COLUMN `project_id`, DROP COLUMN `devcode`;
+ALTER TABLE p3_mb_011_genmeter  DROP COLUMN `project_id`, DROP COLUMN `devcode`;
+ALTER TABLE p3_mb_071_envkit    DROP COLUMN `project_id`, DROP COLUMN `devcode`;
+ALTER TABLE p3_mb_031_inverter  DROP COLUMN `project_id`, DROP COLUMN `devcode`;
+ALTER TABLE p4_mb_011_genmeter  DROP COLUMN `project_id`, DROP COLUMN `devcode`;
+ALTER TABLE p4_mb_071_envkit    DROP COLUMN `project_id`, DROP COLUMN `devcode`;
+ALTER TABLE p4_mb_031_inverter  DROP COLUMN `project_id`, DROP COLUMN `devcode`;
+ALTER TABLE p5_mb_011_genmeter  DROP COLUMN `project_id`, DROP COLUMN `devcode`;
+ALTER TABLE p5_mb_071_envkit    DROP COLUMN `project_id`, DROP COLUMN `devcode`;
+ALTER TABLE p5_mb_031_inverter  DROP COLUMN `project_id`, DROP COLUMN `devcode`;
+ALTER TABLE p5_mb_003_inverter  DROP COLUMN `project_id`, DROP COLUMN `devcode`;
+
+# 8)
+SET @newid=0; UPDATE p1_mb_031_inverter SET id=(@newid:=@newid+1) WHERE 1=1 ORDER BY id;
+SET @newid=0; UPDATE p1_mb_032_inverter SET id=(@newid:=@newid+1) WHERE 1=1 ORDER BY id;
+SET @newid=0; UPDATE p1_mb_033_inverter SET id=(@newid:=@newid+1) WHERE 1=1 ORDER BY id;
+SET @newid=0; UPDATE p1_mb_011_genmeter SET id=(@newid:=@newid+1) WHERE 1=1 ORDER BY id;
+SET @newid=0; UPDATE p2_mb_071_envkit   SET id=(@newid:=@newid+1) WHERE 1=1 ORDER BY id;
+SET @newid=0; UPDATE p2_mb_080_inverter SET id=(@newid:=@newid+1) WHERE 1=1 ORDER BY id;
+SET @newid=0; UPDATE p2_mb_081_inverter SET id=(@newid:=@newid+1) WHERE 1=1 ORDER BY id;
+SET @newid=0; UPDATE p2_mb_011_genmeter SET id=(@newid:=@newid+1) WHERE 1=1 ORDER BY id;
+SET @newid=0; UPDATE p1_mb_071_envkit   SET id=(@newid:=@newid+1) WHERE 1=1 ORDER BY id;
+SET @newid=0; UPDATE p3_mb_011_genmeter SET id=(@newid:=@newid+1) WHERE 1=1 ORDER BY id;
+SET @newid=0; UPDATE p3_mb_071_envkit   SET id=(@newid:=@newid+1) WHERE 1=1 ORDER BY id;
+SET @newid=0; UPDATE p3_mb_031_inverter SET id=(@newid:=@newid+1) WHERE 1=1 ORDER BY id;
+SET @newid=0; UPDATE p4_mb_011_genmeter SET id=(@newid:=@newid+1) WHERE 1=1 ORDER BY id;
+SET @newid=0; UPDATE p4_mb_071_envkit   SET id=(@newid:=@newid+1) WHERE 1=1 ORDER BY id;
+SET @newid=0; UPDATE p4_mb_031_inverter SET id=(@newid:=@newid+1) WHERE 1=1 ORDER BY id;
+SET @newid=0; UPDATE p5_mb_011_genmeter SET id=(@newid:=@newid+1) WHERE 1=1 ORDER BY id;
+SET @newid=0; UPDATE p5_mb_071_envkit   SET id=(@newid:=@newid+1) WHERE 1=1 ORDER BY id;
+SET @newid=0; UPDATE p5_mb_031_inverter SET id=(@newid:=@newid+1) WHERE 1=1 ORDER BY id;
+SET @newid=0; UPDATE p5_mb_003_inverter SET id=(@newid:=@newid+1) WHERE 1=1 ORDER BY id;
+
+SET @newid=0; UPDATE solar_device SET id=(@newid:=@newid+1) WHERE 1=1 ORDER BY id;
+
+# 9)
+    $modelMap = [
+        'p1_mb_031_inverter' => 'DataInverterPvp',
+        'p1_mb_032_inverter' => 'DataInverterPvp',
+        'p1_mb_033_inverter' => 'DataInverterPvp',
+        'p1_mb_011_genmeter' => 'DataGenMeters',
+        'p2_mb_071_envkit'   => 'DataEnvKits',
+        'p2_mb_080_inverter' => 'DataInverterSerial',
+        'p2_mb_081_inverter' => 'DataInverterSerial',
+        'p2_mb_011_genmeter' => 'DataGenMeters',
+        'p1_mb_071_envkit'   => 'DataEnvKits',
+        'p3_mb_011_genmeter' => 'DataGenMeters',
+        'p3_mb_071_envkit'   => 'DataEnvKits',
+        'p3_mb_031_inverter' => 'DataInverterSma',
+        'p4_mb_011_genmeter' => 'DataGenMeters',
+        'p4_mb_071_envkit'   => 'DataEnvKits',
+        'p4_mb_031_inverter' => 'DataInverterPvp',
+        'p5_mb_011_genmeter' => 'DataGenMeters',
+        'p5_mb_071_envkit'   => 'DataEnvKits',
+        'p5_mb_031_inverter' => 'DataInverterSma',
+        'p5_mb_003_inverter' => 'DataInverterSma',
+    ];
+

@@ -1,0 +1,662 @@
+Public Member Functions
+=======================
+ 	construct($orientation='P', $unit='mm', $format='A4', $unicode=true, $encoding='UTF-8', $diskcache=false, $pdfa=false)
+ 	destruct()
+ 	setPageUnit($unit)
+ 	setPageOrientation($orientation, $autopagebreak='', $bottommargin='')
+ 	setSpacesRE($re='/[^\S\xa0]/')
+ 	setRTL($enable, $resetx=true)
+ 	getRTL()
+ 	setTempRTL($mode)
+ 	isRTLTextDir()
+ 	setLastH($h)
+ 	getCellHeight($fontsize, $padding=TRUE)
+ 	resetLastH()
+ 	getLastH()
+ 	setImageScale($scale)
+ 	getImageScale()
+ 	getPageDimensions($pagenum='')
+ 	getPageWidth($pagenum='')
+ 	getPageHeight($pagenum='')
+ 	getBreakMargin($pagenum='')
+ 	getScaleFactor()
+ 	SetMargins($left, $top, $right=-1, $keepmargins=false)
+ 	SetLeftMargin($margin)
+ 	SetTopMargin($margin)
+ 	SetRightMargin($margin)
+ 	SetCellPadding($pad)
+ 	setCellPaddings($left='', $top='', $right='', $bottom='')
+ 	getCellPaddings()
+ 	setCellMargins($left='', $top='', $right='', $bottom='')
+ 	getCellMargins()
+ 	SetAutoPageBreak($auto, $margin=0)
+ 	getAutoPageBreak()
+ 	SetDisplayMode($zoom, $layout='SinglePage', $mode='UseNone')
+ 	SetCompression($compress=true)
+ 	setSRGBmode($mode=false)
+ 	SetDocInfoUnicode($unicode=true)
+ 	SetTitle($title)
+ 	SetSubject($subject)
+ 	SetAuthor($author)
+ 	SetKeywords($keywords)
+ 	SetCreator($creator)
+ 	Error($msg)
+ 	Open()
+ 	Close()
+ 	setPage($pnum, $resetmargins=false)
+ 	lastPage($resetmargins=false)
+ 	getPage()
+ 	getNumPages()
+ 	addTOCPage($orientation='', $format='', $keepmargins=false)
+ 	endTOCPage()
+ 	AddPage($orientation='', $format='', $keepmargins=false, $tocpage=false)
+ 	endPage($tocpage=false)
+ 	startPage($orientation='', $format='', $tocpage=false)
+ 	setPageMark()
+ 	setHeaderData($ln='', $lw=0, $ht='', $hs='', $tc=array(0, 0, 0), $lc=array(0, 0, 0))
+ 	setFooterData($tc=array(0, 0, 0), $lc=array(0, 0, 0))
+ 	getHeaderData()
+ 	setHeaderMargin($hm=10)
+ 	getHeaderMargin()
+ 	setFooterMargin($fm=10)
+ 	getFooterMargin()
+ 	setPrintHeader($val=true)
+ 	setPrintFooter($val=true)
+ 	getImageRBX()
+ 	getImageRBY()
+ 	resetHeaderTemplate()
+ 	setHeaderTemplateAutoreset($val=true)
+ 	Header()
+ 	Footer()
+ 	PageNo()
+ 	getAllSpotColors()
+ 	AddSpotColor($name, $c, $m, $y, $k)
+ 	setSpotColor($type, $name, $tint=100)
+ 	SetDrawSpotColor($name, $tint=100)
+ 	SetFillSpotColor($name, $tint=100)
+ 	SetTextSpotColor($name, $tint=100)
+ 	setColorArray($type, $color, $ret=false)
+ 	SetDrawColorArray($color, $ret=false)
+ 	SetFillColorArray($color, $ret=false)
+ 	SetTextColorArray($color, $ret=false)
+ 	setColor($type, $col1=0, $col2=-1, $col3=-1, $col4=-1, $ret=false, $name='')
+ 	SetDrawColor($col1=0, $col2=-1, $col3=-1, $col4=-1, $ret=false, $name='')
+ 	SetFillColor($col1=0, $col2=-1, $col3=-1, $col4=-1, $ret=false, $name='')
+ 	SetTextColor($col1=0, $col2=-1, $col3=-1, $col4=-1, $ret=false, $name='')
+ 	GetStringWidth($s, $fontname='', $fontstyle='', $fontsize=0, $getarray=false)
+ 	GetArrStringWidth($sa, $fontname='', $fontstyle='', $fontsize=0, $getarray=false)
+ 	GetCharWidth($char, $notlast=true)
+ 	getRawCharWidth($char)
+ 	GetNumChars($s)
+ 	AddFont($family, $style='', $fontfile='', $subset='default')
+ 	SetFont($family, $style='', $size=null, $fontfile='', $subset='default', $out=true)
+ 	SetFontSize($size, $out=true)
+ 	getFontBBox()
+ 	getAbsFontMeasure($s)
+ 	getCharBBox($char)
+ 	getFontDescent($font, $style='', $size=0)
+ 	getFontAscent($font, $style='', $size=0)
+ 	isCharDefined($char, $font='', $style='')
+ 	replaceMissingChars($text, $font='', $style='', $subs=array())
+ 	SetDefaultMonospacedFont($font)
+ 	AddLink()
+ 	SetLink($link, $y=0, $page=-1)
+ 	Link($x, $y, $w, $h, $link, $spaces=0)
+ 	Annotation($x, $y, $w, $h, $text, $opt=array('Subtype'=>'Text'), $spaces=0)
+ 	Text($x, $y, $txt, $fstroke=false, $fclip=false, $ffill=true, $border=0, $ln=0, $align='', $fill=false, $link='', $stretch=0, $ignore_min_height=false, $calign='T', $valign='M', $rtloff=false)
+ 	AcceptPageBreak()
+ 	Cell($w, $h=0, $txt='', $border=0, $ln=0, $align='', $fill=false, $link='', $stretch=0, $ignore_min_height=false, $calign='T', $valign='M')
+ 	MultiCell($w, $h, $txt, $border=0, $align='J', $fill=false, $ln=1, $x='', $y='', $reseth=true, $stretch=0, $ishtml=false, $autopadding=true, $maxh=0, $valign='T', $fitcell=false)
+ 	getNumLines($txt, $w=0, $reseth=false, $autopadding=true, $cellpadding='', $border=0)
+ 	getStringHeight($w, $txt, $reseth=false, $autopadding=true, $cellpadding='', $border=0)
+ 	Write($h, $txt, $link='', $fill=false, $align='', $ln=false, $stretch=0, $firstline=false, $firstblock=false, $maxh=0, $wadj=0, $margin='')
+ 	Image($file, $x='', $y='', $w=0, $h=0, $type='', $link='', $align='', $resize=false, $dpi=300, $palign='', $ismask=false, $imgmask=false, $border=0, $fitbox=false, $hidden=false, $fitonpage=false, $alt=false, $altimgs=array())
+ 	Ln($h='', $cell=false)
+ 	GetX()
+ 	GetAbsX()
+ 	GetY()
+ 	SetX($x, $rtloff=false)
+ 	SetY($y, $resetx=true, $rtloff=false)
+ 	SetXY($x, $y, $rtloff=false)
+ 	SetAbsX($x)
+ 	SetAbsY($y)
+ 	SetAbsXY($x, $y)
+ 	Output($name='doc.pdf', $dest='I')
+ 	_destroy($destroyall=false, $preserve_objcopy=false)
+ 	setExtraXMP($xmp)
+ 	setDocCreationTimestamp($time)
+ 	setDocModificationTimestamp($time)
+ 	getDocCreationTimestamp()
+ 	getDocModificationTimestamp()
+ 	setHeaderFont($font)
+ 	getHeaderFont()
+ 	setFooterFont($font)
+ 	getFooterFont()
+ 	setLanguageArray($language)
+ 	getPDFData()
+ 	addHtmlLink($url, $name, $fill=false, $firstline=false, $color='', $style=-1, $firstblock=false)
+ 	pixelsToUnits($px)
+ 	unhtmlentities($text_to_convert)
+ 	SetProtection($permissions=array('print', 'modify', 'copy', 'annot-forms', 'fill-forms', 'extract', 'assemble', 'print-high'), $user_pass='', $owner_pass=null, $mode=0, $pubkeys=null)
+ 	StartTransform()
+ 	StopTransform()
+ 	ScaleX($s_x, $x='', $y='')
+ 	ScaleY($s_y, $x='', $y='')
+ 	ScaleXY($s, $x='', $y='')
+ 	Scale($s_x, $s_y, $x='', $y='')
+ 	MirrorH($x='')
+ 	MirrorV($y='')
+ 	MirrorP($x='', $y='')
+ 	MirrorL($angle=0, $x='', $y='')
+ 	TranslateX($t_x)
+ 	TranslateY($t_y)
+ 	Translate($t_x, $t_y)
+ 	Rotate($angle, $x='', $y='')
+ 	SkewX($angle_x, $x='', $y='')
+ 	SkewY($angle_y, $x='', $y='')
+ 	Skew($angle_x, $angle_y, $x='', $y='')
+ 	SetLineWidth($width)
+ 	GetLineWidth()
+ 	SetLineStyle($style, $ret=false)
+ 	Line($x1, $y1, $x2, $y2, $style=array())
+ 	Rect($x, $y, $w, $h, $style='', $border_style=array(), $fill_color=array())
+ 	Curve($x0, $y0, $x1, $y1, $x2, $y2, $x3, $y3, $style='', $line_style=array(), $fill_color=array())
+ 	Polycurve($x0, $y0, $segments, $style='', $line_style=array(), $fill_color=array())
+ 	Ellipse($x0, $y0, $rx, $ry='', $angle=0, $astart=0, $afinish=360, $style='', $line_style=array(), $fill_color=array(), $nc=2)
+ 	Circle($x0, $y0, $r, $angstr=0, $angend=360, $style='', $line_style=array(), $fill_color=array(), $nc=2)
+ 	PolyLine($p, $style='', $line_style=array(), $fill_color=array())
+ 	Polygon($p, $style='', $line_style=array(), $fill_color=array(), $closed=true)
+ 	RegularPolygon($x0, $y0, $r, $ns, $angle=0, $draw_circle=false, $style='', $line_style=array(), $fill_color=array(), $circle_style='', $circle_outLine_style=array(), $circle_fill_color=array())
+ 	StarPolygon($x0, $y0, $r, $nv, $ng, $angle=0, $draw_circle=false, $style='', $line_style=array(), $fill_color=array(), $circle_style='', $circle_outLine_style=array(), $circle_fill_color=array())
+ 	RoundedRect($x, $y, $w, $h, $r, $round_corner='1111', $style='', $border_style=array(), $fill_color=array())
+ 	RoundedRectXY($x, $y, $w, $h, $rx, $ry, $round_corner='1111', $style='', $border_style=array(), $fill_color=array())
+ 	Arrow($x0, $y0, $x1, $y1, $head_style=0, $arm_size=5, $arm_angle=15)
+ 	setDestination($name, $y=-1, $page='', $x=-1)
+ 	getDestination()
+ 	setBookmark($txt, $level=0, $y=-1, $page='', $style='', $color=array(0, 0, 0), $x=-1, $link='')
+ 	Bookmark($txt, $level=0, $y=-1, $page='', $style='', $color=array(0, 0, 0), $x=-1, $link='')
+ 	IncludeJS($script)
+ 	addJavascriptObject($script, $onload=false)
+ 	setFormDefaultProp($prop=array())
+ 	getFormDefaultProp()
+ 	TextField($name, $w, $h, $prop=array(), $opt=array(), $x='', $y='', $js=false)
+ 	RadioButton($name, $w, $prop=array(), $opt=array(), $onvalue='On', $checked=false, $x='', $y='', $js=false)
+ 	ListBox($name, $w, $h, $values, $prop=array(), $opt=array(), $x='', $y='', $js=false)
+ 	ComboBox($name, $w, $h, $values, $prop=array(), $opt=array(), $x='', $y='', $js=false)
+ 	CheckBox($name, $w, $checked=false, $prop=array(), $opt=array(), $onvalue='Yes', $x='', $y='', $js=false)
+ 	Button($name, $w, $h, $caption, $action, $prop=array(), $opt=array(), $x='', $y='', $js=false)
+ 	setUserRights($enable=true, $document='/FullSave', $annots='/Create/Delete/Modify/Copy/Import/Export', $form='/Add/Delete/FillIn/Import/Export/SubmitStandalone/SpawnTemplate', $signature='/Modify', $ef='/Create/Delete/Modify/Import', $formex='')
+ 	setSignature($signing_cert='', $private_key='', $private_key_password='', $extracerts='', $cert_type=2, $info=array(), $approval='')
+ 	setSignatureAppearance($x=0, $y=0, $w=0, $h=0, $page=-1, $name='')
+ 	addEmptySignatureAppearance($x=0, $y=0, $w=0, $h=0, $page=-1, $name='')
+ 	setTimeStamp($tsa_host='', $tsa_username='', $tsa_password='', $tsa_cert='')
+ 	startPageGroup($page='')
+ 	setStartingPageNumber($num=1)
+ 	getAliasRightShift()
+ 	getAliasNbPages()
+ 	getAliasNumPage()
+ 	getPageGroupAlias()
+ 	getPageNumGroupAlias()
+ 	getGroupPageNo()
+ 	getGroupPageNoFormatted()
+ 	PageNoFormatted()
+ 	startLayer($name='', $print=true, $view=true, $lock=true)
+ 	endLayer()
+ 	setVisibility($v)
+ 	setOverprint($stroking=true, $nonstroking='', $mode=0)
+ 	getOverprint()
+ 	setAlpha($stroking=1, $bm='Normal', $nonstroking='', $ais=false)
+ 	getAlpha()
+ 	setJPEGQuality($quality)
+ 	setDefaultTableColumns($cols=4)
+ 	setCellHeightRatio($h)
+ 	getCellHeightRatio()
+ 	setPDFVersion($version='1.7')
+ 	setViewerPreferences($preferences)
+ 	colorRegistrationBar($x, $y, $w, $h, $transition=true, $vertical=false, $colors='A, R, G, B, C, M, Y, K')
+ 	cropMark($x, $y, $w, $h, $type='T, R, B, L', $color=array(100, 100, 100, 100,'All'))
+ 	registrationMark($x, $y, $r, $double=false, $cola=array(100, 100, 100, 100,'All'), $colb=array(0, 0, 0, 0,'None'))
+ 	registrationMarkCMYK($x, $y, $r)
+ 	LinearGradient($x, $y, $w, $h, $col1=array(), $col2=array(), $coords=array(0, 0, 1, 0))
+ 	RadialGradient($x, $y, $w, $h, $col1=array(), $col2=array(), $coords=array(0.5, 0.5, 0.5, 0.5, 1))
+ 	CoonsPatchMesh($x, $y, $w, $h, $col1=array(), $col2=array(), $col3=array(), $col4=array(), $coords=array(0.00, 0.0, 0.33, 0.00, 0.67, 0.00, 1.00, 0.00, 1.00, 0.33, 1.00, 0.67, 1.00, 1.00, 0.67, 1.00, 0.33, 1.00, 0.00, 1.00, 0.00, 0.67, 0.00, 0.33), $coords_min=0, $coords_max=1, $antialias=false)
+ 	Gradient($type, $coords, $stops, $background=array(), $antialias=false)
+ 	PieSector($xc, $yc, $r, $a, $b, $style='FD', $cw=true, $o=90)
+ 	PieSectorXY($xc, $yc, $rx, $ry, $a, $b, $style='FD', $cw=false, $o=0, $nc=2)
+ 	ImageEps($file, $x='', $y='', $w=0, $h=0, $link='', $useBoundingBox=true, $align='', $palign='', $border=0, $fitonpage=false, $fixoutvals=false)
+ 	setBarcode($bc='')
+ 	getBarcode()
+ 	write1DBarcode($code, $type, $x='', $y='', $w='', $h='', $xres='', $style='', $align='')
+ 	write2DBarcode($code, $type, $x='', $y='', $w='', $h='', $style='', $align='', $distort=false)
+ 	getMargins()
+ 	getOriginalMargins()
+ 	getFontSize()
+ 	getFontSizePt()
+ 	getFontFamily()
+ 	getFontStyle()
+ 	fixHTMLCode($html, $default_css='', $tagvs='', $tidy_options='')
+ 	getCSSPadding($csspadding, $width=0)
+ 	getCSSMargin($cssmargin, $width=0)
+ 	getCSSBorderMargin($cssbspace, $width=0)
+ 	getHTMLFontUnits($val, $refsize=12, $parent_size=12, $defaultunit='pt')
+ 	serializeTCPDFtagParameters($data)
+ 	writeHTMLCell($w, $h, $x, $y, $html='', $border=0, $ln=0, $fill=false, $reseth=true, $align='', $autopadding=true)
+ 	writeHTML($html, $ln=true, $fill=false, $reseth=false, $cell=false, $align='')
+ 	setLIsymbol($symbol='!')
+ 	SetBooklet($booklet=true, $inner=-1, $outer=-1)
+ 	setHtmlVSpace($tagvs)
+ 	setListIndentWidth($width)
+ 	setOpenCell($isopen)
+ 	setHtmlLinksStyle($color=array(0, 0, 255), $fontstyle='U')
+ 	getHTMLUnitToUnits($htmlval, $refsize=1, $defaultunit='px', $points=false)
+ 	movePage($frompage, $topage)
+ 	deletePage($page)
+ 	copyPage($page=0)
+ 	addTOC($page='', $numbersfont='', $filler='.', $toc_name='TOC', $style='', $color=array(0, 0, 0))
+ 	addHTMLTOC($page='', $toc_name='TOC', $templates=array(), $correct_align=true, $style='', $color=array(0, 0, 0))
+ 	startTransaction()
+ 	commitTransaction()
+ 	rollbackTransaction($self=false)
+ 	setEqualColumns($numcols=0, $width=0, $y='')
+ 	resetColumns()
+ 	setColumnsArray($columns)
+ 	selectColumn($col='')
+ 	getColumn()
+ 	getNumberOfColumns()
+ 	setTextRenderingMode($stroke=0, $fill=true, $clip=false)
+ 	setTextShadow($params=array('enabled'=>false, 'depth_w'=>0, 'depth_h'=>0, 'color'=>false, 'opacity'=>1, 'blend_mode'=>'Normal'))
+ 	getTextShadow()
+ 	hyphenateText($text, $patterns, $dictionary=array(), $leftmin=1, $rightmin=2, $charmin=1, $charmax=8)
+ 	setRasterizeVectorImages($mode)
+ 	setFontSubsetting($enable=true)
+ 	getFontSubsetting()
+ 	stringLeftTrim($str, $replace='')
+ 	stringRightTrim($str, $replace='')
+ 	stringTrim($str, $replace='')
+ 	isUnicodeFont()
+ 	getFontFamilyName($fontfamily)
+ 	startTemplate($w=0, $h=0, $group=false)
+ 	endTemplate()
+ 	printTemplate($id, $x='', $y='', $w=0, $h=0, $align='', $palign='', $fitonpage=false)
+ 	setFontStretching($perc=100)
+ 	getFontStretching()
+ 	setFontSpacing($spacing=0)
+ 	getFontSpacing()
+ 	getPageRegions()
+ 	setPageRegions($regions=array())
+ 	addPageRegion($region)
+ 	removePageRegion($key)
+ 	ImageSVG($file, $x='', $y='', $w=0, $h=0, $link='', $align='', $palign='', $border=0, $fitonpage=false)
+Protected Member Functions
+==========================
+ 	setPageFormat ($format, $orientation=‘P’)
+ 	adjustCellPadding ($brd=0)
+ 	setContentMark ($page=0)
+ 	setHeader ()
+ 	setFooter ()
+ 	inPageBody ()
+ 	setTableHeader ()
+ 	getFontsList ()
+ 	_putEmbeddedFiles ()
+ 	checkPageBreak ($h=0, $y=“, $addpage=true)
+ 	getCellCode ($w, $h=0, $txt=“, $border=0, $ln=0, $align=”, $fill=false, $link=“, $stretch=0, $ignore_min_height=false, $calign=’T’, $valign=’M’)
+ 	replaceChar ($oldchar, $newchar)
+ 	getCellBorder ($x, $y, $w, $h, $brd)
+ 	getRemainingWidth ()
+ 	fitBlock ($w, $h, $x, $y, $fitonpage=false)
+ 	ImagePngAlpha ($file, $x, $y, $wpx, $hpx, $w, $h, $type, $link, $align, $resize, $dpi, $palign, $filehash=“)
+ 	getGDgamma ($img, $c)
+ 	_dochecks ()
+ 	getInternalPageNumberAliases ($a= “)
+ 	getAllInternalPageNumberAliases ()
+ 	replaceRightShiftPageNumAliases ($page, $aliases, $diff)
+ 	setPageBoxTypes ($boxes)
+ 	_putpages ()
+ 	_getannotsrefs ($n)
+ 	_putannotsobjs ()
+ 	_putAPXObject ($w=0, $h=0, $stream=“)
+ 	_putfonts ()
+ 	_puttruetypeunicode ($font)
+ 	_putcidfont0 ($font)
+ 	_putimages ()
+ 	_putxobjects ()
+ 	_putspotcolors ()
+ 	_getxobjectdict ()
+ 	_putresourcedict ()
+ 	_putresources ()
+ 	_putinfo ()
+ 	_putXMP ()
+ 	_putcatalog ()
+ 	_putviewerpreferences ()
+ 	_putheader ()
+ 	_enddoc ()
+ 	_beginpage ($orientation=“, $format=”)
+ 	_endpage ()
+ 	_newobj ()
+ 	_getobj ($objid=“)
+ 	_dounderline ($x, $y, $txt)
+ 	_dounderlinew ($x, $y, $w)
+ 	_dolinethrough ($x, $y, $txt)
+ 	_dolinethroughw ($x, $y, $w)
+ 	_dooverline ($x, $y, $txt)
+ 	_dooverlinew ($x, $y, $w)
+ 	_datastring ($s, $n=0)
+ 	_datestring ($n=0, $timestamp=0)
+ 	_textstring ($s, $n=0)
+ 	_getrawstream ($s, $n=0)
+ 	_out ($s)
+ 	_objectkey ($n)
+ 	_encrypt_data ($n, $s)
+ 	_putencryption ()
+ 	_Uvalue ()
+ 	_UEvalue ()
+ 	_Ovalue ()
+ 	_OEvalue ()
+ 	_fixAES256Password ($password)
+ 	_generateencryptionkey ()
+ 	Transform ($tm)
+ 	_outPoint ($x, $y)
+ 	_outLine ($x, $y)
+ 	_outRect ($x, $y, $w, $h, $op)
+ 	_outCurve ($x1, $y1, $x2, $y2, $x3, $y3)
+ 	_outCurveV ($x2, $y2, $x3, $y3)
+ 	_outCurveY ($x1, $y1, $x3, $y3)
+ 	_outellipticalarc ($xc, $yc, $rx, $ry, $xang=0, $angs=0, $angf=360, $pie=false, $nc=2, $startpoint=true, $ccw=true, $svg=false)
+ 	_putdests ()
+ 	sortBookmarks ()
+ 	_putbookmarks ()
+ 	_putjavascript ()
+ 	_addfield ($type, $name, $x, $y, $w, $h, $prop)
+ 	_putsignature ()
+ 	getSignatureAppearanceArray ($x=0, $y=0, $w=0, $h=0, $page=-1, $name=“)
+ 	applyTSA ($signature)
+ 	_putocg ()
+ 	addExtGState ($parms)
+ 	setExtGState ($gs)
+ 	_putextgstates ()
+ 	Clip ($x, $y, $w, $h)
+ 	_putshaders ()
+ 	getCSSBorderWidth ($width)
+ 	getCSSBorderDashStyle ($style)
+ 	getCSSBorderStyle ($cssborder)
+ 	getCSSFontSpacing ($spacing, $parent=0)
+ 	getCSSFontStretching ($stretch, $parent=100)
+ 	getHtmlDomArray ($html)
+ 	getSpaceString ()
+ 	getHashForTCPDFtagParams ($data)
+ 	unserializeTCPDFtagParameters ($data)
+ 	openHTMLTagHandler ($dom, $key, $cell)
+ 	closeHTMLTagHandler ($dom, $key, $cell, $maxbottomliney=0)
+ 	addHTMLVertSpace ($hbz=0, $hb=0, $cell=false, $firsttag=false, $lasttag=false)
+ 	getBorderStartPosition ()
+ 	drawHTMLTagBorder ($tag, $xmax)
+ 	swapMargins ($reverse=true)
+ 	putHtmlListBullet ($listdepth, $listtype=“, $size=10)
+ 	getGraphicVars ()
+ 	setGraphicVars ($gvars, $extended=false)
+ 	_outSaveGraphicsState ()
+ 	_outRestoreGraphicsState ()
+ 	setBuffer ($data)
+ 	replaceBuffer ($data)
+ 	getBuffer ()
+ 	setPageBuffer ($page, $data, $append=false)
+ 	getPageBuffer ($page)
+ 	setImageBuffer ($image, $data)
+ 	setImageSubBuffer ($image, $key, $data)
+ 	getImageBuffer ($image)
+ 	setFontBuffer ($font, $data)
+ 	setFontSubBuffer ($font, $key, $data)
+ 	getFontBuffer ($font)
+ 	hyphenateWord ($word, $patterns, $dictionary=array(), $leftmin=1, $rightmin=2, $charmin=1, $charmax=8)
+ 	checkPageRegions ($h, $x, $y)
+ 	convertSVGtMatrix ($tm)
+ 	SVGTransform ($tm)
+ 	setSVGStyles ($svgstyle, $prevsvgstyle, $x=0, $y=0, $w=1, $h=1, $clip_function=“, $clip_params=array())
+ 	SVGPath ($d, $style=“)
+ 	removeTagNamespace ($name)
+ 	startSVGElementHandler ($parser, $name, $attribs, $ctm=array())
+ 	endSVGElementHandler ($parser, $name)
+ 	segSVGContentHandler ($parser, $data)
+Protected Attributes
+====================
+ 	$page
+ 	$n
+ 	$offsets = array()
+ 	$pageobjects = array()
+ 	$buffer
+ 	$pages = array()
+ 	$state
+ 	$compress
+ 	$CurOrientation
+ 	$pagedim = array()
+ 	$k
+ 	$fwPt
+ 	$fhPt
+ 	$wPt
+ 	$hPt
+ 	$w
+ 	$h
+ 	$lMargin
+ 	$rMargin
+ 	$clMargin
+ 	$crMargin
+ 	$tMargin
+ 	$bMargin
+ 	$cell_padding = array(’T’ => 0, ‘R’ => 0, ‘B’ => 0, ‘L’ => 0)
+ 	$cell_margin = array(’T’ => 0, ‘R’ => 0, ‘B’ => 0, ‘L’ => 0)
+ 	$x
+ 	$y
+ 	$lasth
+ 	$LineWidth
+ 	$CoreFonts
+ 	$fonts = array()
+ 	$FontFiles = array()
+ 	$diffs = array()
+ 	$images = array()
+ 	$svg_tag_depth = 0
+ 	$PageAnnots = array()
+ 	$links = array()
+ 	$FontFamily
+ 	$FontStyle
+ 	$FontAscent
+ 	$FontDescent
+ 	$underline
+ 	$overline
+ 	$CurrentFont
+ 	$FontSizePt
+ 	$FontSize
+ 	$DrawColor
+ 	$FillColor
+ 	$TextColor
+ 	$ColorFlag
+ 	$AutoPageBreak
+ 	$PageBreakTrigger
+ 	$InHeader = false
+ 	$InFooter = false
+ 	$ZoomMode
+ 	$LayoutMode
+ 	$docinfounicode = true
+ 	$title = “
+ 	$subject = “
+ 	$author = “
+ 	$keywords = “
+ 	$creator = “
+ 	$starting_page_number = 1
+ 	$img_rb_x
+ 	$img_rb_y
+ 	$imgscale = 1
+ 	$isunicode = false
+ 	$PDFVersion = ‘1.7’
+ 	$header_xobjid = false
+ 	$header_xobj_autoreset = false
+ 	$header_margin
+ 	$footer_margin
+ 	$original_lMargin
+ 	$original_rMargin
+ 	$header_font
+ 	$footer_font
+ 	$l
+ 	$barcode = false
+ 	$print_header = true
+ 	$print_footer = true
+ 	$header_logo = “
+ 	$header_logo_width = 30
+ 	$header_title = “
+ 	$header_string = “
+ 	$header_text_color = array(0,0,0)
+ 	$header_line_color = array(0,0,0)
+ 	$footer_text_color = array(0,0,0)
+ 	$footer_line_color = array(0,0,0)
+ 	$txtshadow = array(‘enabled’=>false, ‘depth_w’=>0, ‘depth_h’=>0, ‘color’=>false, ‘opacity’=>1, ‘blend_mode’=>‘Normal’)
+ 	$default_table_columns = 4
+ 	$HREF = array()
+ 	$fontlist = array()
+ 	$fgcolor
+ 	$listordered = array()
+ 	$listcount = array()
+ 	$listnum = 0
+ 	$listindent = 0
+ 	$listindentlevel = 0
+ 	$bgcolor
+ 	$tempfontsize = 10
+ 	$lispacer = “
+ 	$encoding = ‘UTF-8’
+ 	$internal_encoding
+ 	$rtl = false
+ 	$tmprtl = false
+ 	$encrypted
+ 	$encryptdata = array()
+ 	$last_enc_key
+ 	$last_enc_key_c
+ 	$file_id
+ 	$outlines = array()
+ 	$OutlineRoot
+ 	$javascript = “
+ 	$n_js
+ 	$linethrough
+ 	$ur = array()
+ 	$dpi = 72
+ 	$newpagegroup = array()
+ 	$pagegroups = array()
+ 	$currpagegroup = 0
+ 	$extgstates
+ 	$jpeg_quality
+ 	$cell_height_ratio = K_CELL_HEIGHT_RATIO
+ 	$viewer_preferences
+ 	$PageMode
+ 	$gradients = array()
+ 	$intmrk = array()
+ 	$bordermrk = array()
+ 	$emptypagemrk = array()
+ 	$cntmrk = array()
+ 	$footerpos = array()
+ 	$footerlen = array()
+ 	$newline = true
+ 	$endlinex = 0
+ 	$linestyleWidth = “
+ 	$linestyleCap = ‘0 J’
+ 	$linestyleJoin = ‘0 j’
+ 	$linestyleDash = ‘[] 0 d’
+ 	$openMarkedContent = false
+ 	$htmlvspace = 0
+ 	$spot_colors = array()
+ 	$lisymbol = “
+ 	$epsmarker = ‘x#!#EPS#!#x’
+ 	$transfmatrix = array()
+ 	$transfmatrix_key = 0
+ 	$booklet = false
+ 	$feps = 0.005
+ 	$tagvspaces = array()
+ 	$customlistindent = -1
+ 	$opencell = true
+ 	$embeddedfiles = array()
+ 	$premode = false
+ 	$transfmrk = array()
+ 	$htmlLinkColorArray = array(0, 0, 255)
+ 	$htmlLinkFontStyle = ‘U’
+ 	$numpages = 0
+ 	$pagelen = array()
+ 	$numimages = 0
+ 	$imagekeys = array()
+ 	$bufferlen = 0
+ 	$numfonts = 0
+ 	$fontkeys = array()
+ 	$font_obj_ids = array()
+ 	$pageopen = array()
+ 	$default_monospaced_font = ‘courier’
+ 	$objcopy
+ 	$cache_file_length = array()
+ 	$thead = “
+ 	$theadMargins = array()
+ 	$sign = false
+ 	$signature_data = array()
+ 	$signature_max_length = 11742
+ 	$signature_appearance = array(‘page’ => 1, ‘rect’ => ‘0 0 0 0’)
+ 	$empty_signature_appearance = array()
+ 	$tsa_timestamp = false
+ 	$tsa_data = array()
+ 	$re_spaces = ‘/[^\S\xa0]/’
+ 	$re_space = array(‘p’ => ‘[^\S\xa0]‘, ’m’ => “)
+ 	$sig_obj_id = 0
+ 	$page_obj_id = array()
+ 	$form_obj_id = array()
+ 	$default_form_prop = array(‘lineWidth’=>1, ‘borderStyle’=>‘solid’, ‘fillColor’=>array(255, 255, 255), ‘strokeColor’=>array(128, 128, 128))
+ 	$js_objects = array()
+ 	$form_action = “
+ 	$form_enctype = ‘application/x-www-form-urlencoded’
+ 	$form_mode = ‘post’
+ 	$annotation_fonts = array()
+ 	$radiobutton_groups = array()
+ 	$radio_groups = array()
+ 	$textindent = 0
+ 	$start_transaction_page = 0
+ 	$start_transaction_y = 0
+ 	$inthead = false
+ 	$columns = array()
+ 	$num_columns = 1
+ 	$current_column = 0
+ 	$column_start_page = 0
+ 	$maxselcol = array(‘page’ => 0, ‘column’ => 0)
+ 	$colxshift = array(‘x’ => 0, ’s’ => array(‘H’ => 0, ‘V’ => 0), ‘p’ => array(‘L’ => 0, ’T’ => 0, ‘R’ => 0, ‘B’ => 0))
+ 	$textrendermode = 0
+ 	$textstrokewidth = 0
+ 	$strokecolor
+ 	$pdfunit = ‘mm’
+ 	$tocpage = false
+ 	$rasterize_vector_images = false
+ 	$font_subsetting = true
+ 	$default_graphic_vars = array()
+ 	$xobjects = array()
+ 	$inxobj = false
+ 	$xobjid = “
+ 	$font_stretching = 100
+ 	$font_spacing = 0
+ 	$page_regions = array()
+ 	$check_page_regions = true
+ 	$pdflayers = array()
+ 	$dests = array()
+ 	$n_dests
+ 	$efnames = array()
+ 	$svgdir = “
+ 	$svgunit = ‘px’
+ 	$svggradients = array()
+ 	$svggradientid = 0
+ 	$svgdefsmode = false
+ 	$svgdefs = array()
+ 	$svgclipmode = false
+ 	$svgclippaths = array()
+ 	$svgcliptm = array()
+ 	$svgclipid = 0
+ 	$svgtext = “
+ 	$svgtextmode = array()
+ 	$svgstyles
+ 	$force_srgb = false
+ 	$pdfa_mode = false
+ 	$doc_creation_timestamp
+ 	$doc_modification_timestamp
+ 	$custom_xmp = “
+ 	$overprint = array(‘OP’ => false, ‘op’ => false, ‘OPM’ => 0)
+ 	$alpha = array(‘CA’ => 1, ‘ca’ => 1, ‘BM’ => ‘/Normal’, ‘AIS’ => false)
+ 	$page_boxes = array(‘MediaBox’, ‘CropBox’, ‘BleedBox’, ‘TrimBox’, ‘ArtBox’)
+ 	$tcpdflink = true
+ 	$gdgammacache = array()

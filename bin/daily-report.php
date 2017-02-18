@@ -26,7 +26,8 @@ class DailyReport
         // if this script is running on my local computer, stop sending emails.
         // this makes debugging easier.
 
-        if (gethostname() == 'Home') {
+       #if (gethostname() == 'Home') {
+        if (0) {
             file_put_contents('a.html', $html);
             return;
         }
@@ -48,14 +49,14 @@ class DailyReport
         $report = [];
         foreach ($projects as $project) {
             $projectId = $project['id'];
-            $refdata = $this->dataService->getRefData($projectId, date('Y'), date('m'));
+            $monthly = $this->dataService->getMonthlyBudget($projectId, date('Y'), date('m'));
 
             $Project_Name        = $project['name'];
             $Date                = date('d/m/Y', strtotime('yesterday'));
             $Capacity_AC         = $project['AC_Nameplate_Capacity'];
             $Capacity_DC         = $project['DC_Nameplate_Capacity'];;
-            $Monthly_Budget      = $this->getMonthlyBudget($refdata);
-            $IE_Insolation       = $this->getIEInsolation($project);
+            $Monthly_Budget      = $monthly['Budget']; // $this->getMonthlyBudget($monthly);
+            $IE_Insolation       = $monthly['IE_POA_Insolation']; // $this->getIEInsolation($monthly);
             $Total_Insolation    = $this->getTotalInsolation($projectId);
             $Total_Energy        = $this->getTotalEnergy($projectId);
             $Measured_Insolation = $this->getMeasuredInsolation($projectId);
@@ -137,17 +138,16 @@ class DailyReport
         return $content;
     }
 
-    protected function getMonthlyBudget($refdata)
+    protected function getMonthlyBudget($monthly)
     {
-        $budget = $refdata['Stonebridge_Base'];
-        return $budget;
+        return $monthly['Budget'];
     }
 
-    protected function getIEInsolation($project)
+    protected function getIEInsolation($monthly)
     {
-        return $project['IE_Insolation'];
+        return $monthly['IE_POA_Insolation'];
        #$days = date("t");
-       #return round($project['IE_Insolation'] / $days, 2);
+       #return round($montyly['IE_POA_Insolation'] / $days, 2);
     }
 
     protected function getTotalInsolation($prj)

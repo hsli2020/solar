@@ -198,6 +198,12 @@ class DataService extends Injectable
             WHERE project_id=$prj AND year=$year AND month=$month");
     }
 
+    public function getMonthlyBudget($prj, $year, $month)
+    {
+        return $this->db->fetchOne("SELECT * FROM monthly_budget
+            WHERE project_id=$prj AND year=$year AND month=$month");
+    }
+
     public function getPR($prj)
     {
         $site = $this->projectService->get($prj);

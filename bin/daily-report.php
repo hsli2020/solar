@@ -68,7 +68,7 @@ class DailyReport
 
             $Weather_Performance = (round($Weather_Performance, 4) * 100) . '%';
 
-            $report[] = compact(
+            $report[$projectId] = compact(
                 'Project_Name',
                 'Date',
                 'Capacity_AC',

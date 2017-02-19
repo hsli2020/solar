@@ -120,8 +120,7 @@ class DailyReport
         }
 
         $today = date('Ymd');
-        $userId = $user['id'];
-        $filename = BASE_DIR . "/app/logs/DailyReport-$today-u$userId.xlsx";
+        $filename = BASE_DIR . "/app/logs/DailyReport-$today.xlsx";
 
         $xlsWriter = PHPExcel_IOFactory::createWriter($excel, 'Excel2007');
         $xlsWriter->save($filename);

@@ -19,22 +19,14 @@ class DailyReport
 
         $this->log('Start sending daily report');
 
-        $report   = $this->generateDailyReport();
-        $filename = $this->generateXls($report);
-        $html     = $this->generateHtml($report);
-
-        // if this script is running on my local computer, stop sending emails.
-        // this makes debugging easier.
-
-       #if (gethostname() == 'Home') {
-        if (0) {
-            file_put_contents('a.html', $html);
-            return;
-        }
+        $report = $this->generateDailyReport();
 
         $users = $this->userService->getAll();
 
         foreach ($users as $user) {
+            $filename = $this->generateXls($user, $report);
+            $html = $this->generateHtml($user, $report);
+
             $email = $user['email'];
             $this->sendDailyReport($email, $html, $filename);
         }
@@ -89,8 +81,10 @@ class DailyReport
         return $report;
     }
 
-    protected function generateXls($report)
+    protected function generateXls($user, $report)
     {
+        $report = $this->getUserSpecificReport($user, $report);
+
         $excel = PHPExcel_IOFactory::load(__DIR__ . "/templates/DailyReport-v2.xlsx");
         $excel->setActiveSheetIndex(0);  //set first sheet as active
 
@@ -128,14 +122,29 @@ class DailyReport
         return $filename;
     }
 
-    protected function generateHtml($report)
+    protected function generateHtml($user, $report)
     {
+        $report = $this->getUserSpecificReport($user, $report);
+
         ob_start();
         $date = date('F d, Y', strtotime('yesterday'));
         include(__DIR__ . "/templates/daily-report.tpl");
         $content = ob_get_contents();
         ob_end_clean();
         return $content;
+    }
+
+    protected function getUserSpecificReport($user, $report)
+    {
+        $result = [];
+
+        $projects = $this->userService->getSpecificProjects($user['id']);
+
+        foreach ($projects as $id) {
+            $result[$id] = $report[$id];
+        }
+
+        return $result;
     }
 
     protected function getMonthlyBudget($monthly)

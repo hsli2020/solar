@@ -90,4 +90,16 @@ class UserService extends Injectable
 
         return $user->id;
     }
+
+    public function getSpecificProjects($userId)
+    {
+        $sql = "SELECT projects FROM user_projects WHERE user_id=$userId";
+
+        $result = $this->db->fetchOne($sql);
+        if ($result) {
+            return explode(',', $result['projects']);
+        }
+
+        return [];
+    }
 }

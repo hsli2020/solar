@@ -27,6 +27,12 @@ class DailyReport
             $filename = $this->generateXls($user, $report);
             $html = $this->generateHtml($user, $report);
 
+            if (0) {
+                $uid = $user['id'];
+                file_put_contents("u-$uid.html", $html);
+                continue;
+            }
+
             $email = $user['email'];
             $this->sendDailyReport($email, $html, $filename);
         }
@@ -114,7 +120,8 @@ class DailyReport
         }
 
         $today = date('Ymd');
-        $filename = BASE_DIR . "/app/logs/DailyReport-$today.xlsx";
+        $userId = $user['id'];
+        $filename = BASE_DIR . "/app/logs/DailyReport-$today-u$userId.xlsx";
 
         $xlsWriter = PHPExcel_IOFactory::createWriter($excel, 'Excel2007');
         $xlsWriter->save($filename);

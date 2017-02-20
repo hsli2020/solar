@@ -97,6 +97,10 @@ class UserService extends Injectable
 
         $result = $this->db->fetchOne($sql);
         if ($result) {
+            if ($result['projects'] == '*') {
+                $allProjects = $this->projectService->getAll();
+                return array_keys($allProjects);
+            }
             return explode(',', $result['projects']);
         }
 

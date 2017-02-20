@@ -147,7 +147,9 @@ class DailyReport
         $projects = $this->userService->getSpecificProjects($user['id']);
 
         foreach ($projects as $id) {
-            $result[$id] = $report[$id];
+            if (isset($report[$id])) {
+                $result[$id] = $report[$id];
+            }
         }
 
         return $result;

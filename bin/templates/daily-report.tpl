@@ -17,9 +17,8 @@
   <th colspan="2"></th>
   <th colspan="2">Budget Production</th>
   <th colspan="2">Month-to-Date</th>
-  <th colspan="2">Daily Energy Production</th>
-  <th>Insolation</th>
-  <th colspan="3">Monthly Performance</th>
+  <th colspan="3">Daily Energy Production</th>
+  <th colspan="3">Month-to-date Performance</th>
 </tr>
 <tr>
   <!-- <th rowspan="2">No.</th> -->
@@ -28,10 +27,10 @@
   <th colspan="2">Capacity<br>(kW)</th>
   <th>Monthly Budget</th>
   <th>IE POA Insolation</th>
-  <th>Total Insolation</th>
   <th>Total Energy</th>
+  <th>Total Insolation</th>
   <th>Daily Expected</th>
-  <th>Daily Production</th>
+  <th>Measured Production</th>
   <th>Measured POA Insolation</th>
   <th>Actual /Budget</th>
   <th>Actual /Expected</th>
@@ -42,8 +41,8 @@
   <th>DC</th>
   <th>kWh</th>
   <th>kWh/m<sup>2</sup></th>
-  <th>kWh/m<sup>2</sup></th>
   <th>kWh</th>
+  <th>kWh/m<sup>2</sup></th>
   <th>kWh</th>
   <th>kWh</th>
   <th>kWh/m<sup>2</sup></th>
@@ -62,8 +61,8 @@
   <td><?= $data['Capacity_DC']; ?></td>
   <td><?= $data['Monthly_Budget']; ?></td>
   <td><?= $data['IE_Insolation']; ?></td>
-  <td><?= $data['Total_Insolation']; ?></td>
   <td><?= $data['Total_Energy']; ?></td>
+  <td><?= $data['Total_Insolation']; ?></td>
   <td><?= $data['Daily_Expected']; ?></td>
   <td><?= $data['Daily_Production']; ?></td>
   <td><?= $data['Measured_Insolation']; ?></td>

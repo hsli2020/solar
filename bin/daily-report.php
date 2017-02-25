@@ -63,12 +63,13 @@ class DailyReport
             $Measured_Production = $this->getMeasuredProduction($projectId);
             $Gen_Meter_Reading   = $this->getGenMeterReading($projectId);
 
-            $Daily_Expected      = $this->getDailyExpected($Measured_Insolation, $IE_Insolation, $Monthly_Budget);
-            $Daily_Production    = $this->getDailyProduction($Monthly_Budget);
+            $Daily_Budget        = $this->getDailyProduction($Monthly_Budget);
             $Daily_Insolation    = $this->getDailyInsolation($IE_Insolation);
-            $Weather_Performance = $this->getWeatherPerformance($Total_Insolation, $IE_Insolation);
-            $Actual_Budget       = $this->getActualBudget($Total_Energy, $Monthly_Budget);
-            $Actual_Expected     = $this->getActualExpected($Total_Energy, $Monthly_Budget, $Weather_Performance);
+            $Daily_Expected      = $this->getDailyExpected($Measured_Insolation, $Daily_Insolation, $Daily_Budget);
+
+            $Weather_Performance = $this->getWeatherPerformance($Total_Insolation, $Daily_Insolation);
+            $Actual_Budget       = $this->getActualBudget($Total_Energy, $Daily_Budget);
+            $Actual_Expected     = $this->getActualExpected($Total_Energy, $Daily_Budget, $Weather_Performance);
 
             $Weather_Performance = (round($Weather_Performance, 4) * 100) . '%';
 
@@ -82,7 +83,7 @@ class DailyReport
                 'Total_Insolation',
                 'Total_Energy',
                 'Daily_Expected',
-                'Daily_Production',
+                'Daily_Budget',
                 'Daily_Insolation',
                 'Measured_Insolation',
                 'Measured_Production',
@@ -119,7 +120,7 @@ class DailyReport
             $sheet->setCellValue("G$row", $data['IE_Insolation']);
             $sheet->setCellValue("H$row", $data['Total_Insolation']);
             $sheet->setCellValue("I$row", $data['Total_Energy']);
-            $sheet->setCellValue("J$row", $data['Daily_Production']);
+            $sheet->setCellValue("J$row", $data['Daily_Budget']);
            #$sheet->setCellValue("K$row", $data['Daily_Expected']);
             $sheet->setCellValue("L$row", $data['Daily_Insolation']);
             $sheet->setCellValue("M$row", $data['Measured_Insolation']);
@@ -194,13 +195,13 @@ class DailyReport
         return round($result / 60.0, 2);
     }
 
-    protected function getDailyExpected($Measured_Insolation, $IE_Insolation, $Monthly_Budget)
+    protected function getDailyExpected($Measured_Insolation, $Daily_Insolation, $Daily_Budget)
     {
-        if (!$IE_Insolation) {
+        if (!$Daily_Insolation) {
             return '';
         }
 
-        return round(($Measured_Insolation / $IE_Insolation) * $Monthly_Budget, 2);
+        return round(($Measured_Insolation / $Daily_Insolation) * $Daily_Budget, 2);
     }
 
     protected function getDailyProduction($Monthly_Budget)
@@ -227,31 +228,34 @@ class DailyReport
         return round($result / 60.0, 2);
     }
 
-    protected function getActualBudget($Total_Energy, $Monthly_Budget)
+    protected function getActualBudget($Total_Energy, $Daily_Budget)
     {
-        if (empty($Monthly_Budget)) {
+        if (empty($Daily_Budget)) {
             return '';
         }
 
-        return (round($Total_Energy / $Monthly_Budget, 4) * 100) . '%';
+        $days = date("j");
+        return (round($Total_Energy / ($Daily_Budget * $days), 4) * 100) . '%';
     }
 
-    protected function getActualExpected($Total_Energy, $Monthly_Budget, $Weather_Performance)
+    protected function getActualExpected($Total_Energy, $Daily_Production, $Weather_Performance)
     {
-        if (empty($Monthly_Budget)) {
+        if (empty($Daily_Production)) {
             return '';
         }
 
-        return (round($Total_Energy / $Monthly_Budget * $Weather_Performance, 4) * 100) . '%';
+        $days = date("j");
+        return (round($Total_Energy / ($Daily_Production * $days * $Weather_Performance), 4) * 100) . '%';
     }
 
-    protected function getWeatherPerformance($Total_Insolation, $IE_Insolation)
+    protected function getWeatherPerformance($Total_Insolation, $Daily_Insolation)
     {
-        if (empty($IE_Insolation)) {
+        if (empty($Daily_Insolation)) {
             return '';
         }
 
-        return $Total_Insolation / $IE_Insolation;
+        $days = date("j");
+        return $Total_Insolation / ($Daily_Insolation * $days);
     }
 
     protected function getGenMeterReading($prj)

@@ -55,11 +55,17 @@ class DailyReport
             $Capacity_DC         = $project['DC_Nameplate_Capacity'];;
             $Monthly_Budget      = $monthly['Budget']; // $this->getMonthlyBudget($monthly);
             $IE_Insolation       = $monthly['IE_POA_Insolation']; // $this->getIEInsolation($monthly);
+
             $Total_Insolation    = $this->getTotalInsolation($projectId);
             $Total_Energy        = $this->getTotalEnergy($projectId);
+
             $Measured_Insolation = $this->getMeasuredInsolation($projectId);
+            $Measured_Production = $this->getMeasuredProduction($projectId);
+            $Gen_Meter_Reading   = $this->getGenMeterReading($projectId);
+
             $Daily_Expected      = $this->getDailyExpected($Measured_Insolation, $IE_Insolation, $Monthly_Budget);
-            $Daily_Production    = $this->getDailyProduction($projectId);
+            $Daily_Production    = $this->getDailyProduction($Monthly_Budget);
+            $Daily_Insolation    = $this->getDailyInsolation($IE_Insolation);
             $Weather_Performance = $this->getWeatherPerformance($Total_Insolation, $IE_Insolation);
             $Actual_Budget       = $this->getActualBudget($Total_Energy, $Monthly_Budget);
             $Actual_Expected     = $this->getActualExpected($Total_Energy, $Monthly_Budget, $Weather_Performance);
@@ -77,10 +83,13 @@ class DailyReport
                 'Total_Energy',
                 'Daily_Expected',
                 'Daily_Production',
+                'Daily_Insolation',
                 'Measured_Insolation',
+                'Measured_Production',
                 'Actual_Budget',
                 'Actual_Expected',
-                'Weather_Performance'
+                'Weather_Performance',
+                'Gen_Meter_Reading',
             );
         }
 
@@ -110,12 +119,15 @@ class DailyReport
             $sheet->setCellValue("G$row", $data['IE_Insolation']);
             $sheet->setCellValue("H$row", $data['Total_Insolation']);
             $sheet->setCellValue("I$row", $data['Total_Energy']);
-           #$sheet->setCellValue("J$row", $data['Daily_Expected']);
-            $sheet->setCellValue("K$row", $data['Daily_Production']);
-            $sheet->setCellValue("L$row", $data['Measured_Insolation']);
-            $sheet->setCellValue("M$row", $data['Actual_Budget']);
-            $sheet->setCellValue("N$row", $data['Actual_Expected']);
-            $sheet->setCellValue("O$row", $data['Weather_Performance']);
+            $sheet->setCellValue("J$row", $data['Daily_Production']);
+           #$sheet->setCellValue("K$row", $data['Daily_Expected']);
+            $sheet->setCellValue("L$row", $data['Daily_Insolation']);
+            $sheet->setCellValue("M$row", $data['Measured_Insolation']);
+            $sheet->setCellValue("N$row", $data['Measured_Production']);
+            $sheet->setCellValue("O$row", $data['Gen_Meter_Reading']);
+            $sheet->setCellValue("P$row", $data['Actual_Budget']);
+            $sheet->setCellValue("Q$row", $data['Actual_Expected']);
+            $sheet->setCellValue("R$row", $data['Weather_Performance']);
             $row++;
         }
 
@@ -188,16 +200,28 @@ class DailyReport
         return round(($Measured_Insolation / $IE_Insolation) * $Monthly_Budget, 2);
     }
 
-    protected function getDailyProduction($prj)
+    protected function getDailyProduction($Monthly_Budget)
     {
-        $result = $this->dataService->getKW($prj, 'DAILY');
-        return round($result / 60.0, 2);
+        $days = date("t");
+        return round($Monthly_Budget / $days, 2);
+    }
+
+    protected function getDailyInsolation($IE_Insolation)
+    {
+        $days = date("t");
+        return round($IE_Insolation / $days, 2);
     }
 
     protected function getMeasuredInsolation($prj)
     {
         $result = $this->dataService->getIRR($prj, 'DAILY');
         return round($result / 60.0 / 1000.0, 2);
+    }
+
+    protected function getMeasuredProduction($projectId)
+    {
+        $result = $this->dataService->getKW($prj, 'DAILY');
+        return round($result / 60.0, 2);
     }
 
     protected function getActualBudget($Total_Energy, $Monthly_Budget)
@@ -225,6 +249,12 @@ class DailyReport
         }
 
         return $Total_Insolation / $IE_Insolation;
+    }
+
+    protected function getGenMeterReading($projectId)
+    {
+        $result = $this->dataService->getKWHREC($prj, 'DAILY');
+        return round($result, 2);
     }
 
     protected function sendDailyReport($recepient, $body, $filename)

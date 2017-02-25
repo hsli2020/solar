@@ -112,6 +112,22 @@ class DataService extends Injectable
         return $sum;
     }
 
+    public function getKWHREC($prj, $period)
+    {
+        $device  = $this->deviceService->getDevicesOfType($prj, 'GenMeter');
+        $devcode = $device[0]; // only one genmeter per site
+
+        $criteria = $this->getGenMeterCriteria($prj, $devcode, $period);
+
+        $criteria["order"]  = "time";
+        $first = DataGenMeters::findFirst($criteria);
+
+        $criteria["order"]  = "time DESC";
+        $last = DataGenMeters::findFirst($criteria);
+
+        return $last->kwhRec - $first->kwhRec;
+    }
+
     protected function getEnvKitCriteria($prj, $devcode, $period)
     {
         list($start, $end) = $this->getPeriod($period);
@@ -135,6 +151,28 @@ class DataService extends Injectable
     }
 
     protected function getInverterCriteria($prj, $devcode, $period)
+    {
+        list($start, $end) = $this->getPeriod($period);
+
+        $criteria = [
+            'conditions' => implode(' AND ', [
+                'projectId = :projectId:',
+                'devcode = :devcode:',
+                'time >= :start: AND time < :end:',
+                'error = 0',
+            ]),
+            "bind" => [
+                'projectId' => $prj,
+                'devcode'   => $devcode,
+                'start'     => $start,
+                'end'       => $end,
+            ],
+        ];
+
+        return $criteria;
+    }
+
+    protected function getGenMeterCriteria($prj, $devcode, $period)
     {
         list($start, $end) = $this->getPeriod($period);
 

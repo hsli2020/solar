@@ -89,7 +89,7 @@ class DailyReport
                 'Actual_Budget',
                 'Actual_Expected',
                 'Weather_Performance',
-                'Gen_Meter_Reading',
+                'Gen_Meter_Reading'
             );
         }
 
@@ -100,7 +100,7 @@ class DailyReport
     {
         $report = $this->getUserSpecificReport($user, $report);
 
-        $excel = PHPExcel_IOFactory::load(__DIR__ . "/templates/DailyReport-v2.xlsx");
+        $excel = PHPExcel_IOFactory::load(__DIR__ . "/templates/DailyReport-v3.xlsx");
         $excel->setActiveSheetIndex(0);  //set first sheet as active
 
         $sheet = $excel->getActiveSheet();
@@ -130,6 +130,9 @@ class DailyReport
             $sheet->setCellValue("R$row", $data['Weather_Performance']);
             $row++;
         }
+
+        $sheet->setCellValue("B21", date("t"));
+        $sheet->setCellValue("B22", date("j"));
 
         $today = date('Ymd');
         $filename = BASE_DIR . "/app/logs/DailyReport-$today.xlsx";
@@ -218,7 +221,7 @@ class DailyReport
         return round($result / 60.0 / 1000.0, 2);
     }
 
-    protected function getMeasuredProduction($projectId)
+    protected function getMeasuredProduction($prj)
     {
         $result = $this->dataService->getKW($prj, 'DAILY');
         return round($result / 60.0, 2);
@@ -251,7 +254,7 @@ class DailyReport
         return $Total_Insolation / $IE_Insolation;
     }
 
-    protected function getGenMeterReading($projectId)
+    protected function getGenMeterReading($prj)
     {
         $result = $this->dataService->getKWHREC($prj, 'DAILY');
         return round($result, 2);

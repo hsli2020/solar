@@ -64,7 +64,7 @@
   <td><?= $data['Total_Energy']; ?></td>
   <td><?= $data['Total_Insolation']; ?></td>
   <td><?= $data['Daily_Expected']; ?></td>
-  <td><?= $data['Daily_Production']; ?></td>
+  <td><?= $data['Measured_Production']; ?></td>
   <td><?= $data['Measured_Insolation']; ?></td>
   <td><?= $data['Actual_Budget']; ?></td>
   <td><?= $data['Actual_Expected']; ?></td>

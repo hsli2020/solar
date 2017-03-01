@@ -58,9 +58,9 @@ class SnapshotService extends Injectable
             $devicesCommunicating = $this->getDevicesCommunicating($id);
             $lastCom = $this->getLastCom($id);
 
-            $avgIrradiancePOA = $this->getAvgIrradiancePOA($id);
-            $avgModuleTemp = $this->getAvgModuleTemp($id);
-            $measuredEnergy = $this->getMeasuredEnergy($id);
+#           $avgIrradiancePOA = $this->getAvgIrradiancePOA($id);
+#           $avgModuleTemp = $this->getAvgModuleTemp($id);
+#           $measuredEnergy = $this->getMeasuredEnergy($id);
 
             $sql = "REPLACE INTO snapshot SET"
                  . " project_id = $id,"
@@ -70,10 +70,10 @@ class SnapshotService extends Injectable
                  . " irradiance = '$irradiance',"
                  . " inverters_generating = '$invertersGenerating',"
                  . " devices_communicating = '$devicesCommunicating',"
-                 . " last_com = '$lastCom',"
-                 . " Avg_Irradiance_POA = $avgIrradiancePOA,"
-                 . " Avg_Module_Temp = $avgModuleTemp,"
-                 . " Measured_Energy = $measuredEnergy";
+                 . " last_com = '$lastCom'";
+#                . " Avg_Irradiance_POA = $avgIrradiancePOA,"
+#                . " Avg_Module_Temp = $avgModuleTemp,"
+#                . " Measured_Energy = $measuredEnergy";
 
             $this->db->execute($sql);
         }
@@ -124,7 +124,7 @@ class SnapshotService extends Injectable
         return date('Y-m-d H:i:s');
     }
 
-    protected function getAvgIrradiancePOA($prj) { return '0.0'; }
-    protected function getAvgModuleTemp($prj)    { return '0.0'; }
-    protected function getMeasuredEnergy($prj)   { return '0.0'; }
+#   protected function getAvgIrradiancePOA($prj) { return '0.0'; }
+#   protected function getAvgModuleTemp($prj)    { return '0.0'; }
+#   protected function getMeasuredEnergy($prj)   { return '0.0'; }
 }

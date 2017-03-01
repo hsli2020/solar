@@ -199,27 +199,27 @@ class DataService extends Injectable
         switch (strtoupper($period)) {
         case 'HOURLY':
             // last hour
-            $start = date('Y-m-d H:00:00', strtotime('-1 hours'));
-            $end = date('Y-m-d H:00:00');
+            $start = gmdate('Y-m-d H:00:00', strtotime('-1 hours'));
+            $end = gmdate('Y-m-d H:00:00');
             break;
 
         case 'DAILY':
             // yesterday
             $yesterday = strtotime('-1 day');
-            $start = date('Y-m-d 00:00:00', $yesterday);
-            $end = date('Y-m-d 23:59:59', $yesterday);
+            $start = gmdate('Y-m-d 00:00:00', $yesterday);
+            $end = gmdate('Y-m-d 23:59:59', $yesterday);
             break;
 
         case 'MONTHLY':
             // month-to-date
-            $start = date('Y-m-01 00:00:00');
-            $end = date('Y-m-d 00:00:00');
+            $start = gmdate('Y-m-01 00:00:00');
+            $end = gmdate('Y-m-d 00:00:00');
             break;
 
         case 'LATEST':
             // last minute (15 minutes ago)
-            $start = date('Y-m-d H:i:00', strtotime('-15 minute'));
-            $end = date('Y-m-d H:i:00', strtotime('-14 minute'));
+            $start = gmdate('Y-m-d H:i:00', strtotime('-15 minute'));
+            $end = gmdate('Y-m-d H:i:00', strtotime('-14 minute'));
             break;
 
         default:

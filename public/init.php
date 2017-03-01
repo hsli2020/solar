@@ -1,6 +1,7 @@
 <?php
 
 error_reporting(E_ALL);
+date_default_timezone_set("America/Toronto");
 
 define('BASE_DIR', dirname(__DIR__));
 #define('APP_DIR', BASE_DIR . '/app');

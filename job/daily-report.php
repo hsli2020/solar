@@ -15,8 +15,6 @@ class DailyReport
 
     public function run()
     {
-        date_default_timezone_set("America/Toronto");
-
         $this->log('Start sending daily report');
 
         $report = $this->generateDailyReport();

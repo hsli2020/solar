@@ -22,7 +22,7 @@ function fpr()
 #       if (isset($_SERVER['HTTP_REFERER']))
 #           $str .= "\tHTTP_REFERER = ".$_SERVER['HTTP_REFERER']."\n";
         $str .= "\n";
-        unlink($filename);
+#       unlink($filename);
         error_log($str, 3, $filename);
     }
 

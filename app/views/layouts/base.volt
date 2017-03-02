@@ -43,7 +43,10 @@
 
   <script type='text/javascript' src='/js/jquery-2.1.0.min.js'></script>
   {% block jsfile %}{% endblock %}
-  {% block jscode %}{% endblock %}
+
+  <script type="text/javascript">
+    {% block jscode %}{% endblock %}
+  </script>
 
   <script type="text/javascript">
     $(document).ready(function() {
@@ -62,10 +65,6 @@
       document.getElementsByClassName("w3-sidenav")[0].style.display = "none";
       document.getElementsByClassName("w3-overlay")[0].style.display = "none";
     }
-    function AutoRefresh(t) {
-      setTimeout("location.reload(true);", t);
-    }
-    window.onload = AutoRefresh(1000*60*5);
   </script>
 </body>
 </html>

@@ -14,6 +14,7 @@ class Devices extends Model
     public $code;
     public $type;
     public $table;
+    public $model;
     public $desc;
 
     public function initialize()
@@ -32,6 +33,7 @@ class Devices extends Model
             'devcode'    => 'code',
             'type'       => 'type',
             'table'      => 'table',
+            'model'      => 'model',
             'desc'       => 'desc',
         );
     }

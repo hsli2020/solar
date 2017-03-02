@@ -214,6 +214,12 @@ class DataService extends Injectable
             // month-to-date
             $start = gmdate('Y-m-01 00:00:00');
             $end = gmdate('Y-m-d 00:00:00');
+
+            // first day of the month, go back to last month
+            if (date('d') == '01') {
+                $start = gmdate('Y-m-01 00:00:00', strtotime('-1 month'));
+                $end = gmdate('Y-m-d 00:00:00', strtotime('-1 day'));
+            }
             break;
 
         case 'LATEST':

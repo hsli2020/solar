@@ -433,6 +433,10 @@ class Bootstrap
             return new App\Service\DailyReportService();
         });
 
+        $this->di->setShared('monthlyReportService', function () {
+            return new App\Service\MonthlyReportService();
+        });
+
         $this->di->setShared('exportService', function () {
             return new App\Service\ExportService();
         });

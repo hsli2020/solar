@@ -93,8 +93,11 @@ class DataService extends Injectable
        #$criteria["column"] = "IRR";
 
         $result = DataEnvKits::findFirst($criteria);
+        if (!$result) {
+           #fpr($criteria);
+        }
 
-        return $result->IRR;
+        return $result ? $result->IRR : 0;
     }
 
     public function getTMP($prj, $period)
@@ -138,9 +141,13 @@ class DataService extends Injectable
 
             $modelClass = $this->deviceService->getModelName($prj, $devcode);
 
-            $result = $modelClass::firstFirst($criteria);
+            $result = $modelClass::findFirst($criteria);
 
-            $sum += $result->kw;
+            if ($result) {
+                $sum += $result->kw;
+            } else {
+               #fpr($criteria);
+            }
         }
 
         return $sum;

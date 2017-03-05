@@ -14,13 +14,16 @@ function fpr()
     if ($first) {
         $first = false;
         $str = sprintf("%'-30s %s %'-30s\n", '-', date('Y-m-d H:i:s'), '-');
-        $str .= "\tHTTP_HOST    = ".$_SERVER['HTTP_HOST']."\n";
-#       $str .= "\tSERVER_NAME  = ".$_SERVER['SERVER_NAME']."\n";
-        $str .= "\tREQUEST_URI  = ".$_SERVER['REQUEST_URI']."\n";
-        $str .= "\tQUERY_STRING = ".$_SERVER['QUERY_STRING']."\n";
-#       $str .= "\tUSER_AGENT   = ".$_SERVER['HTTP_USER_AGENT']."\n";
-#       if (isset($_SERVER['HTTP_REFERER']))
-#           $str .= "\tHTTP_REFERER = ".$_SERVER['HTTP_REFERER']."\n";
+        if (PHP_SAPI != 'cli') {
+        #   $str .= "\tHTTP_HOST    = ".$_SERVER['HTTP_HOST']."\n";
+        #   $str .= "\tSERVER_NAME  = ".$_SERVER['SERVER_NAME']."\n";
+        #   $str .= "\tREQUEST_URI  = ".$_SERVER['REQUEST_URI']."\n";
+        #   $str .= "\tQUERY_STRING = ".$_SERVER['QUERY_STRING']."\n";
+        #   $str .= "\tUSER_AGENT   = ".$_SERVER['HTTP_USER_AGENT']."\n";
+        #   if (isset($_SERVER['HTTP_REFERER'])) {
+        #       $str .= "\tHTTP_REFERER = ".$_SERVER['HTTP_REFERER']."\n";
+        #   }
+        }
         $str .= "\n";
 #       unlink($filename);
         error_log($str, 3, $filename);

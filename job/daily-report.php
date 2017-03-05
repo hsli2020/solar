@@ -128,8 +128,8 @@ class DailyReport
             $row++;
         }
 
-        $sheet->setCellValue("B21", date("t"));
-        $sheet->setCellValue("B22", date("j"));
+        $sheet->setCellValue("B22", date("t"));
+        $sheet->setCellValue("B23", date("j"));
 
         $today = date('Ymd');
         $filename = BASE_DIR . "/app/logs/DailyReport-$today.xlsx";

@@ -15,7 +15,7 @@ class SnapshotService extends Injectable
         foreach ($result as $key => $val) {
             $result[$key]['error'] = [];
 
-            if ($val['GCPR'] < 95) {
+            if ($val['GCPR'] < 60) {
                 $result[$key]['error']['GCPR'] = 1;
             }
 

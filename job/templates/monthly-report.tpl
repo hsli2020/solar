@@ -27,7 +27,7 @@
   <th>Budget<br>[kWh]</th>
   <th>Actual<br>Budget</th>
   <th>Actual<br>Expected</th>
-  <th>Weather<br>Performance%</th>
+  <th>Weather<br>Performance</th>
 </tr>
 
 <?php $index = 1; ?>

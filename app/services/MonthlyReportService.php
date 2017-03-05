@@ -15,10 +15,11 @@ class MonthlyReportService extends Injectable
         $this->report = [];
         foreach ($projects as $project) {
             $projectId = $project['id'];
-            $monthly = $this->dataService->getMonthlyBudget($projectId, date('Y'), date('m'));
+            $lastMon = strtotime('-1 month');
+            $monthly = $this->dataService->getMonthlyBudget($projectId, date('Y', $lastMon), date('m', $lastMon));
 
             $Project_Name        = $project['name'];
-            $Date                = date('M-Y', strtotime('-1 month'));
+            $Date                = date('M-Y', $lastMon);
             $Monthly_Budget      = $monthly['Budget'];
             $IE_Insolation       = $monthly['IE_POA_Insolation'];
 
@@ -139,7 +140,7 @@ class MonthlyReportService extends Injectable
 
     protected function getInsolationActual($prj)
     {
-        return $this->dataService->getIRR($prj, 'LAST-MONTH');
+        return $this->dataService->getIRR($prj, 'LAST-MONTH') / 60.0 / 1000.0;
     }
 
     protected function getInsolationReference($monthly)
@@ -160,7 +161,7 @@ class MonthlyReportService extends Injectable
 
     protected function getEnergyMeasured($prj)
     {
-        return $this->dataService->getKW($prj, 'LAST-MONTH');
+        return $this->dataService->getKW($prj, 'LAST-MONTH') / 60.0;
     }
 
     protected function getEnergyBudget($monthly)

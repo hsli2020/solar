@@ -43,8 +43,8 @@ function getSolarDevices($db)
 
 function getTableColumns($table)
 {
-    if (file_exists(__DIR__ . "/$table.php")) {
-        $columns = include("$table.php");
+    if (file_exists(__DIR__ . "/config/$table.php")) {
+        $columns = include(__DIR__ . "/config/$table.php");
         return $columns;
     }
 

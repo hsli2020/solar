@@ -437,6 +437,10 @@ class Bootstrap
             return new App\Service\MonthlyReportService();
         });
 
+        $this->di->setShared('importService', function () {
+            return new App\Service\ImportService();
+        });
+
         $this->di->setShared('exportService', function () {
             return new App\Service\ExportService();
         });

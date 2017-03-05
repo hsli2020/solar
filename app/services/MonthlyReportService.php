@@ -22,15 +22,15 @@ class MonthlyReportService extends Injectable
             $Monthly_Budget      = $monthly['Budget'];
             $IE_Insolation       = $monthly['IE_POA_Insolation'];
 
-            $Insolation_Actual   = $this->getInsolationActual();
-            $Insolation_Reference= $this->getInsolationReference();
-            $Energy_Expected     = $this->getEnergyExpected();
-            $Energy_Measured     = $this->getEnergyMeasured();
-            $Energy_Budget       = $this->getEnergyBudget();
+            $Insolation_Actual   = $this->getInsolationActual($projectId);
+            $Insolation_Reference= $this->getInsolationReference($monthly);
+            $Energy_Measured     = $this->getEnergyMeasured($projectId);
+            $Energy_Expected     = $this->getEnergyExpected($Insolation_Actual, $Insolation_Reference, $Monthly_Budget);
+            $Energy_Budget       = $this->getEnergyBudget($monthly);
 
-            $Weather_Performance = $this->getWeatherPerformance();
-            $Actual_Budget       = $this->getActualBudget();
-            $Actual_Expected     = $this->getActualExpected();
+            $Weather_Performance = $this->getWeatherPerformance($Energy_Expected, $Energy_Budget);
+            $Actual_Budget       = $this->getActualBudget($Energy_Measured, $Energy_Budget);
+            $Actual_Expected     = $this->getActualExpected($Energy_Measured, $Energy_Expected);
 
             $this->report[$projectId] = [
                 'Project_Name'          =>  $Project_Name,
@@ -137,44 +137,68 @@ class MonthlyReportService extends Injectable
         return $result;
     }
 
-    protected function getInsolationActual()
+    protected function getInsolationActual($prj)
     {
-        return 0;
+        return $this->dataService->getIRR($prj, 'MONTHLY');
     }
 
-    protected function getInsolationReference()
+    protected function getInsolationReference($monthly)
     {
-        return 0;
+         return $monthly['IE_POA_Insolation'];
     }
 
-    protected function getEnergyExpected()
+    protected function getEnergyExpected($Insolation_Actual, $Insolation_Reference, $Monthly_Budget)
     {
-        return 0;
+        // ("MEASURED INSOLATION"/INSOLATION REFERENCE") * (REFERENCE PRODUCTION KWH)
+
+        if ($Insolation_Reference == 0) {
+            return 0;
+        }
+
+        return ($Insolation_Actual / $Insolation_Reference) * $Monthly_Budget;
     }
 
-    protected function getEnergyMeasured()
+    protected function getEnergyMeasured($prj)
     {
-        return 0;
+        return $this->dataService->getKW($prj, 'MONTHLY');
     }
 
-    protected function getEnergyBudget()
+    protected function getEnergyBudget($monthly)
     {
-        return 0;
+        return $monthly['Budget'];
     }
 
-    protected function getWeatherPerformance()
+    protected function getWeatherPerformance($Energy_Expected, $Energy_Budget)
     {
-        return 0;
+        // "EXPECTED KWH" / "REFERENCE KWH"
+
+        if ($Energy_Budget == 0) {
+            return 0;
+        }
+
+        return $Energy_Expected / $Energy_Budget;
     }
 
-    protected function getActualBudget()
+    protected function getActualBudget($Energy_Measured, $Energy_Budget)
     {
-        return 0;
+        // "MEASURED PRODUCTION" / "REFERENCE PRODUCTION"
+
+        if ($Energy_Budget == 0) {
+            return 0;
+        }
+
+        return $Energy_Measured / $Energy_Budget;
     }
 
-    protected function getActualExpected()
+    protected function getActualExpected($Energy_Measured, $Energy_Expected)
     {
-        return 0;
+        // "MEASURED PRODUCTION" / "EXPECTED PRODUCTION"
+
+        if ($Energy_Expected == 0) {
+            return 0;
+        }
+
+        return $Energy_Measured / $Energy_Expected;
     }
 
     protected function sendMonthlyReport($recepient, $body, $filename)

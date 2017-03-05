@@ -251,7 +251,7 @@ class DataService extends Injectable
             $end = gmdate('Y-m-d 23:59:59', $yesterday);
             break;
 
-        case 'MONTHLY':
+        case 'MONTH-TO-DATE':
             // month-to-date
             $start = gmdate('Y-m-01 00:00:00');
             $end = gmdate('Y-m-d 00:00:00');
@@ -261,6 +261,12 @@ class DataService extends Injectable
                 $start = gmdate('Y-m-01 00:00:00', strtotime('-1 month'));
                 $end = gmdate('Y-m-d 00:00:00', strtotime('-1 day'));
             }
+            break;
+
+        case 'LAST-MONTH':
+            // last-month
+            $start = gmdate('Y-m-01 00:00:00', strtotime('-1 month'));
+            $end = gmdate('Y-m-d 00:00:00', strtotime('-1 day'));
             break;
 
         case 'LATEST':

@@ -176,13 +176,13 @@ class DailyReportService extends Injectable
 
     protected function getTotalInsolation($prj)
     {
-        $result = $this->dataService->getIRR($prj, 'MONTHLY');
+        $result = $this->dataService->getIRR($prj, 'MONTH-TO-DATE');
         return $result / 60.0 / 1000.0;
     }
 
     protected function getTotalEnergy($prj)
     {
-        $result = $this->dataService->getKW($prj, 'MONTHLY');
+        $result = $this->dataService->getKW($prj, 'MONTH-TO-DATE');
         return $result / 60.0;
     }
 

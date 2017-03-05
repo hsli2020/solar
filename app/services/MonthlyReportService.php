@@ -139,7 +139,7 @@ class MonthlyReportService extends Injectable
 
     protected function getInsolationActual($prj)
     {
-        return $this->dataService->getIRR($prj, 'MONTHLY');
+        return $this->dataService->getIRR($prj, 'LAST-MONTH');
     }
 
     protected function getInsolationReference($monthly)
@@ -160,7 +160,7 @@ class MonthlyReportService extends Injectable
 
     protected function getEnergyMeasured($prj)
     {
-        return $this->dataService->getKW($prj, 'MONTHLY');
+        return $this->dataService->getKW($prj, 'LAST-MONTH');
     }
 
     protected function getEnergyBudget($monthly)

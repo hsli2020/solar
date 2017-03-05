@@ -6,8 +6,6 @@ register_shutdown_function("checkForFatal");
 set_error_handler("errorHandler");
 set_exception_handler("exceptionHandler");
 
-const EOL = "\n";
-
 // error logger
 //
 function logError($msg)   { trigger_error($msg, E_USER_ERROR); }

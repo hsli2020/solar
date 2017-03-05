@@ -67,7 +67,9 @@ class ImportService extends Injectable
         }
 
         $dir = 'C:\\FTP-Backup\\' . basename($project['ftpdir']);
-        @mkdir($dir);
+        if (!file_exists($dir) && !is_dir($dir)) {
+            mkdir($dir);
+        }
 
         $newfile = $dir . '\\' . basename($filename);
         rename($filename, $newfile);

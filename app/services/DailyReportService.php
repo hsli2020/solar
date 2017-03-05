@@ -39,7 +39,7 @@ class DailyReportService extends Injectable
             $Actual_Budget       = $this->getActualBudget($Total_Energy, $Daily_Budget);
             $Actual_Expected     = $this->getActualExpected($Total_Energy, $Daily_Budget, $Weather_Performance);
 
-            $report[$projectId] = [
+            $this->report[$projectId] = [
                 'Project_Name'          =>  $Project_Name,
                 'Date'                  =>  $Date,
                 'Capacity_AC'           =>  number_format($Capacity_AC,         1, '.', ''),
@@ -286,8 +286,7 @@ class DailyReportService extends Injectable
 
         if (!$mail->send()) {
             $this->log("Mailer Error: " . $mail->ErrorInfo);
-        }
-        else {
+        } else {
             $this->log("Daily report sent to $recepient.");
         }
     }

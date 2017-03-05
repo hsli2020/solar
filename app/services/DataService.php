@@ -166,7 +166,7 @@ class DataService extends Injectable
         $criteria["order"]  = "time DESC";
         $last = DataGenMeters::findFirst($criteria);
 
-        return $last->kwhRec - $first->kwhRec;
+        return ($first && $last) ? $last->kwhRec - $first->kwhRec : 0;
     }
 
     protected function getEnvKitCriteria($prj, $devcode, $period)

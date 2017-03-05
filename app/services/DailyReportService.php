@@ -77,7 +77,7 @@ class DailyReportService extends Injectable
 
             if ($debug) {
                 $uid = $user['id'];
-                file_put_contents(BASE_DIR . "/app/logs/u-$uid.html", $html);
+                file_put_contents(BASE_DIR . "/app/logs/d-u-$uid.html", $html);
                 continue;
             }
 
@@ -91,7 +91,7 @@ class DailyReportService extends Injectable
     {
         $report = $this->getUserSpecificReport($user, $report);
 
-        $excel = PHPExcel_IOFactory::load("./templates/DailyReport-v3.xlsx");
+        $excel = \PHPExcel_IOFactory::load("./templates/DailyReport-v3.xlsx");
         $excel->setActiveSheetIndex(0);  //set first sheet as active
 
         $sheet = $excel->getActiveSheet();
@@ -128,7 +128,7 @@ class DailyReportService extends Injectable
         $today = date('Ymd');
         $filename = BASE_DIR . "/app/logs/DailyReport-$today.xlsx";
 
-        $xlsWriter = PHPExcel_IOFactory::createWriter($excel, 'Excel2007');
+        $xlsWriter = \PHPExcel_IOFactory::createWriter($excel, 'Excel2007');
         $xlsWriter->save($filename);
 
         return $filename;
@@ -189,7 +189,7 @@ class DailyReportService extends Injectable
     protected function getDailyExpected($Measured_Insolation, $Daily_Insolation, $Daily_Budget)
     {
         if (!$Daily_Insolation) {
-            return '';
+            return 0;
         }
 
         return ($Measured_Insolation / $Daily_Insolation) * $Daily_Budget;
@@ -222,7 +222,7 @@ class DailyReportService extends Injectable
     protected function getActualBudget($Total_Energy, $Daily_Budget)
     {
         if (empty($Daily_Budget)) {
-            return '';
+            return 0;
         }
 
         $days = date("j");
@@ -232,7 +232,7 @@ class DailyReportService extends Injectable
     protected function getActualExpected($Total_Energy, $Daily_Production, $Weather_Performance)
     {
         if (empty($Daily_Production)) {
-            return '';
+            return 0;
         }
 
         $days = date("j");
@@ -242,7 +242,7 @@ class DailyReportService extends Injectable
     protected function getWeatherPerformance($Total_Insolation, $Daily_Insolation)
     {
         if (empty($Daily_Insolation)) {
-            return '';
+            return 0;
         }
 
         $days = date("j");

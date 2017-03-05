@@ -63,7 +63,7 @@ class MonthlyReportService extends Injectable
 
             if ($debug) {
                 $uid = $user['id'];
-                file_put_contents(BASE_DIR . "/app/logs/m-$uid.html", $html);
+                file_put_contents(BASE_DIR . "/app/logs/m-u-$uid.html", $html);
                 continue;
             }
 

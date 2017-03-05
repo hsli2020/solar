@@ -83,6 +83,20 @@ class DataService extends Injectable
         return $result;
     }
 
+    // only for SnapshotService
+    public function getLatestIRR($prj)
+    {
+        $device  = $this->deviceService->getDevicesOfType($prj, 'EnvKit');
+        $devcode = $device[0]; // only one envkit per site
+
+        $criteria = $this->getEnvKitCriteria($prj, $devcode, 'LATEST');
+       #$criteria["column"] = "IRR";
+
+        $result = DataEnvKits::findFirst($criteria);
+
+        return $result->IRR;
+    }
+
     public function getTMP($prj, $period)
     {
         $device  = $this->deviceService->getDevicesOfType($prj, 'EnvKit');
@@ -107,6 +121,26 @@ class DataService extends Injectable
             $modelClass = $this->deviceService->getModelName($prj, $devcode);
             $result = $modelClass::sum($criteria);
             $sum += $result;
+        }
+
+        return $sum;
+    }
+
+    // only for SnapshotService
+    public function getLatestKW($prj)
+    {
+        $devices = $this->deviceService->getDevicesOfType($prj, 'Inverter');
+
+        $sum = 0;
+        foreach ($devices as $devcode) {
+            $criteria = $this->getInverterCriteria($prj, $devcode, 'LATEST');
+           #$criteria["column"] = "kw";
+
+            $modelClass = $this->deviceService->getModelName($prj, $devcode);
+
+            $result = $modelClass::firstFirst($criteria);
+
+            $sum += $result->kw;
         }
 
         return $sum;
@@ -225,7 +259,7 @@ class DataService extends Injectable
         case 'LATEST':
             // last minute (15 minutes ago)
             $start = gmdate('Y-m-d H:i:00', strtotime('-15 minute'));
-            $end = gmdate('Y-m-d H:i:00', strtotime('-14 minute'));
+            $end = gmdate('Y-m-d H:i:30', strtotime('-14 minute'));
             break;
 
         default:

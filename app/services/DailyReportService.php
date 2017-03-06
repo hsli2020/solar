@@ -257,7 +257,7 @@ class DailyReportService extends Injectable
 
     protected function sendDailyReport($recepient, $body, $filename)
     {
-        $mail = new PHPMailer();
+        $mail = new \PHPMailer();
 
         $mail->SMTPOptions = [
             'ssl' => [

@@ -266,7 +266,7 @@ class DataService extends Injectable
         case 'LAST-MONTH':
             // last-month
             $start = gmdate('Y-m-01 00:00:00', strtotime('-1 month'));
-            $end   = gmdate('Y-m-t 12:59:59',  strtotime('-1 month'));
+            $end   = gmdate('Y-m-t 23:59:59',  strtotime('-1 month'));
             break;
 
         case 'LATEST':

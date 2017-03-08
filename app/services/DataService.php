@@ -239,12 +239,14 @@ class DataService extends Injectable
     {
         switch (strtoupper($period)) {
         case 'HOURLY':
+        case 'LAST-HOUR':
             // last hour
             $start = gmdate('Y-m-d H:00:00', strtotime('-1 hours'));
             $end   = gmdate('Y-m-d H:00:00');
             break;
 
         case 'DAILY':
+        case 'YESTERDAY':
             // yesterday
             $yesterday = strtotime('-1 day');
             $start = gmdate('Y-m-d 00:00:00', $yesterday);
@@ -258,15 +260,17 @@ class DataService extends Injectable
 
             // first day of the month, go back to last month
             if (date('d') == '01') {
-                $start = gmdate('Y-m-01 00:00:00', strtotime('-1 month'));
-                $end   = gmdate('Y-m-d 00:00:00',  strtotime('-1 day'));
+                $start = gmdate('Y-m-01 00:00:00', strtotime('-1 month'));  // first day of last month
+                #$end  = gmdate('Y-m-d 00:00:00',  strtotime('-1 day'));
+                $end   = gmdate('Y-m-01 00:00:00');     // first day of current month
             }
             break;
 
         case 'LAST-MONTH':
             // last-month
-            $start = gmdate('Y-m-01 00:00:00', strtotime('-1 month'));
-            $end   = gmdate('Y-m-t 23:59:59',  strtotime('-1 month'));
+            $start = gmdate('Y-m-01 00:00:00', strtotime('-1 month'));  // first day of last month
+            #$end  = gmdate('Y-m-t 23:59:59',  strtotime('-1 month'));
+            $end   = gmdate('Y-m-01 00:00:00');     // first day of current month
             break;
 
         case 'LATEST':

@@ -37,8 +37,8 @@
   <td><?= $data['Date']; ?></td>
   <td><?= $data['Insolation_Actual']; ?></td>
   <td><?= $data['Insolation_Reference']; ?></td>
-  <td><?= $data['Energy_Expected']; ?></td>
   <td><?= $data['Energy_Measured']; ?></td>
+  <td><?= $data['Energy_Expected']; ?></td>
   <td><?= $data['Energy_Budget']; ?></td>
   <td><?= $data['Actual_Budget']; ?></td>
   <td><?= $data['Actual_Expected']; ?></td>

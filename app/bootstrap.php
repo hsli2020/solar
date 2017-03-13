@@ -100,6 +100,7 @@ class Bootstrap
             'App\Plugins'     => $config->application->pluginsDir,
             'App\Service'     => $config->application->serviceDir,
             'App\Library'     => $config->application->libraryDir,
+            'App\System'      => BASE_DIR . '/app/system/',
             'App\Entity'      => BASE_DIR . '/app/entity/',
             'App\Repository'  => BASE_DIR . '/app/repository/',
             'App\Interface'   => BASE_DIR . '/app/interface/',

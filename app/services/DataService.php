@@ -280,7 +280,7 @@ class DataService extends Injectable
             break;
 
         default:
-            throw InvalidArgumentException("Bad argument '$period'");
+            throw new InvalidArgumentException("Bad argument '$period'");
             break;
         }
 

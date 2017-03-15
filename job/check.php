@@ -70,7 +70,7 @@ function getPeriod($period)
         break;
 
     default:
-        throw InvalidArgumentException("Bad argument '$period'");
+        throw new InvalidArgumentException("Bad argument '$period'");
         break;
     }
 
@@ -161,6 +161,7 @@ function getIRR($db, $project, $period)
                       "time>='$start' AND time<'$end' AND error=0";
 #       echo $sql, EOL;
         $res = $db->fetchColumn($sql, 'IRR');
+
         $result += $res;
     }
 
@@ -206,8 +207,12 @@ if (count($argv) > 2) {
 
 $db = getDatabaseConnection();
 
+$KW  = getKW($db,  $prj, $period);
+$IRR = getIRR($db, $prj, $period);
+$GM  = getGM($db,  $prj, $period);
+
 echo 'PRJ = ', $prj, EOL;
-echo 'KW  = ', getKW($db,  $prj, $period), EOL;
-echo 'IRR = ', getIRR($db, $prj, $period), EOL;
-echo 'GM  = ', getGM($db,  $prj, $period), EOL;
+echo 'KW  = ', $KW,  EOL;
+echo 'IRR = ', $IRR, EOL;
+echo 'GM  = ', $GM,  EOL;
 

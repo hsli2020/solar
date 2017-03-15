@@ -8,7 +8,7 @@ class IndexController extends ControllerBase
     {
         return $this->dispatcher->forward([
             'controller' => 'index',
-            'action' => 'project'
+            'action' => 'dashboard'
         ]);
     }
 

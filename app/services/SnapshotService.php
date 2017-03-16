@@ -44,8 +44,7 @@ class SnapshotService extends Injectable
     {
         $projects = $this->projectService->getAll();
 
-        // TODO: to UTC
-        $this->start = date('Y-m-d H:i:00', strtotime('-15 minutes'));
+        $this->start = gmdate('Y-m-d H:i:00', strtotime('-15 minutes'));
 
         foreach ($projects as $project) {
             $id = $project['id'];

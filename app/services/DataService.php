@@ -153,6 +153,20 @@ class DataService extends Injectable
         return $sum;
     }
 
+    // only for SnapshotService
+    public function getLatestTime($prj)
+    {
+        $device  = $this->deviceService->getDevicesOfType($prj, 'EnvKit');
+        $devcode = $device[0]; // only one envkit per site
+
+        $criteria = $this->getEnvKitCriteria($prj, $devcode, 'LATEST');
+        $modelClass = $this->deviceService->getModelName($prj, $devcode);
+
+        $result = $modelClass::findFirst($criteria);
+
+        return $result->time;
+    }
+
     public function getKWHREC($prj, $period)
     {
         $device  = $this->deviceService->getDevicesOfType($prj, 'GenMeter');
@@ -275,8 +289,8 @@ class DataService extends Injectable
 
         case 'LATEST':
             // last minute (15 minutes ago)
-            $start = gmdate('Y-m-d H:i:00', strtotime('-15 minute'));
-            $end   = gmdate('Y-m-d H:i:30', strtotime('-14 minute'));
+            $start = gmdate('Y-m-d H:i:00', strtotime('-20 minute'));
+            $end   = gmdate('Y-m-d H:i:30', strtotime('-19 minute'));
             break;
 
         default:

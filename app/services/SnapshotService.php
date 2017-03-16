@@ -44,8 +44,6 @@ class SnapshotService extends Injectable
     {
         $projects = $this->projectService->getAll();
 
-        $this->start = gmdate('Y-m-d H:i:00', strtotime('-15 minutes'));
-
         foreach ($projects as $project) {
             $id = $project['id'];
             $name = $project['name'];
@@ -120,7 +118,7 @@ class SnapshotService extends Injectable
 
     protected function getLastCom($prj)
     {
-        return date('Y-m-d H:i:s');
+        return $this->dataService->getLatestTime($prj);
     }
 
 #   protected function getAvgIrradiancePOA($prj) { return '0.0'; }

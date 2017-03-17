@@ -164,7 +164,7 @@ class DataService extends Injectable
 
         $result = $modelClass::findFirst($criteria);
 
-        return $result->time;
+        return $result ? $result->time : gmdate('Y-m-d H:i:00', strtotime('-20 minute'));
     }
 
     public function getKWHREC($prj, $period)

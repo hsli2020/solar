@@ -16,7 +16,7 @@ class EnvKit extends Device
                 "WHERE project_id=$projectId AND devcode='$code' AND ".
                       "time>='$start' AND time<'$end' AND error=0";
 
-        $result = $this->fetchOne($sql);
+        $result = $this->db->fetchOne($sql);
         if ($result) {
             return $result['IRR'] / 60.0 / 1000.0;
         }

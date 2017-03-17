@@ -18,10 +18,10 @@ class GenMeter extends Device
                 "WHERE project_id=$projectId AND devcode='$code' AND ".
                       "time>='$start' AND time<'$end' AND error=0";
 
-        $result = $db->fetchOne("$sql ORDER BY time");
+        $result = $this->db->fetchOne("$sql ORDER BY time");
         $first = $result['kwh'];
 
-        $result = $db->fetchOne("$sql ORDER BY time DESC");
+        $result = $this->db->fetchOne("$sql ORDER BY time DESC");
         $last = $result['kwh'];
 
         return $last - $first;

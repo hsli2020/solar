@@ -18,9 +18,9 @@ class Inverter extends Device
                 "WHERE project_id=$projectId AND devcode='$code' AND ".
                       "time>='$start' AND time<'$end' AND error=0";
 
-        $result = $this->fetchOne($sql);
+        $result = $this->db->fetchOne($sql);
         if ($result) {
-            return $result['kw'] / 60.0;
+            return $result['kw'] / 60.0; // to kwH
         }
 
         return 0;

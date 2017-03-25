@@ -18,7 +18,7 @@
 
   {{ stylesheet_link("/css/style.css") }}
 </head>
-<body class="w3-light-grey">
+<body>
   {# include "partials/sidebar.volt" #}
   {% include "partials/navbar.volt" %}
 
@@ -31,7 +31,7 @@
     {% block main %}{% endblock %}
 
     <!-- Footer -->
-    <footer class="w3-container w3-padding-16 w3-light-grey" style="text-align:center">
+    <footer class="w3-container w3-padding-16" style="text-align:center">
       {% block footer %}{% endblock %}
     </footer>
   </div>

@@ -14,7 +14,7 @@
     {%- set classes = classes ~ " w3-deep-orange" %}
   {%- endif %}
   <td class="{{ classes }}">{{ row[key] }}</td>
-{%- endmacro %}
+{% endmacro %}
 
 <div class="w3-container">
 <table id="snapshot" class="w3-table w3-white w3-bordered w3-border">

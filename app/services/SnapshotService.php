@@ -12,6 +12,10 @@ class SnapshotService extends Injectable
     {
         $result = $this->db->fetchAll("SELECT * FROM snapshot");
 
+        $totalPower = 0;
+        $totalProjectSizeAC = 0;
+        $sumPR = 0;
+
         foreach ($result as $key => $val) {
             $result[$key]['error'] = [];
 
@@ -32,12 +36,21 @@ class SnapshotService extends Injectable
                 $result[$key]['error']['devices_communicating'] = 1;
             }
 
+            $sumPR += $val['GCPR'];
+            $totalPower += $val['current_power'];
+            $totalProjectSizeAC += $val['project_size_ac'];
+
            #$result[$key]['error']['last_com'] = 1;
            #$result[$key]['error']['Avg_Irradiance_POA'] = 1;
            #$result[$key]['error']['Avg_Module_Temp'] = 1;
            #$result[$key]['error']['Measured_Energy'] = 1;
         }
-        return $result;
+
+        $total['current_power']   = number_format($totalPower);
+        $total['project_size_ac'] = number_format($totalProjectSizeAC);
+        $total['PR'] = number_format($sumPR / count($result));
+
+        return [ 'rows' => $result, 'total' => $total ];
     }
 
     public function generate()

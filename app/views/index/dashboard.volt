@@ -15,29 +15,32 @@
     z-index: 0;
     font-size: 80px;
     color: rgba(0, 0, 0, 0.09);
- }
+  }
+  .bg-red  { background-color: #f56954 !important; }
+  .bg-blue { background-color: #3c8dbc !important; }
+  .bg-teal { background-color: #39cccc !important; }
 </style>
 
 <div id="statsbox" class="w3-row-padding w3-margin-bottom">
   <div class="w3-third">
-    <div class="w3-container w3-indigo w3-padding-12">
-      <div class="w3-right numval">99</div>
+    <div class="w3-container bg-blue w3-text-white w3-padding-12">
+      <div class="w3-right numval">{{ data['total']['project_size_ac'] }}</div>
       <div class="w3-clear"></div>
       <div class="w3-right label">Total Project Size KWAC</div>
       <div class="w3-left icon"><i class="fa fa-bar-chart"></i></div>
     </div>
   </div>
   <div class="w3-third">
-    <div class="w3-container w3-cyan w3-text-white w3-padding-12">
-      <div class="w3-right numval">23</div>
+    <div class="w3-container bg-teal w3-text-white w3-padding-12">
+      <div class="w3-right numval">{{ data['total']['current_power'] }}</div>
       <div class="w3-clear"></div>
       <div class="w3-right label">Total Current Power</div>
       <div class="w3-left icon"><i class="fa fa-area-chart"></i></div>
     </div>
   </div>
   <div class="w3-third">
-    <div class="w3-container w3-light-green w3-text-white w3-padding-12">
-      <div class="w3-right numval">50</div>
+    <div class="w3-container bg-red w3-text-white w3-padding-12">
+      <div class="w3-right numval">{{ data['total']['PR'] }}</div>
       <div class="w3-clear"></div>
       <div class="w3-right label">Production, Performance %</div>
       <div class="w3-left icon"><i class="fa fa-line-chart"></i></div>
@@ -65,7 +68,7 @@
   <th>Devices<br>Communicating</th>
   <th>Data Received<br>(Time Stamp)</th>
 </tr>
-{% for row in data %}
+{% for row in data['rows'] %}
 <tr>
   {{ tablecell(row, 'project_name',          '') }}
   {{ tablecell(row, 'GCPR',                  '') }}

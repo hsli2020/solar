@@ -24,8 +24,8 @@
 
   <div class="w3-main" style="margin-top:43px;">
     <!-- Header -->
-    <header class="w3-container" style="padding-top:22px">
-        <h5><b><i class="fa fa-dashboard"></i> {{ pageTitle }}</b></h5>
+    <header class="w3-container">
+      <h3><b><i class="fa fa-dashboard"></i> {{ pageTitle }}</b></h3>
     </header>
 
     {% block main %}{% endblock %}

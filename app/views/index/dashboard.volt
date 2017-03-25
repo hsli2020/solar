@@ -10,8 +10,7 @@
   #statsbox .label  { font-size: 12px; }
   #statsbox .icon {
     position: absolute;
-    top: 90px;
-    bottom: 5px;
+    top: 115px;
     z-index: 0;
     font-size: 80px;
     color: rgba(0, 0, 0, 0.09);
@@ -19,9 +18,26 @@
   .bg-red  { background-color: #f56954 !important; }
   .bg-blue { background-color: #3c8dbc !important; }
   .bg-teal { background-color: #39cccc !important; }
+  .w3-border { border: 5px solid #eee !important; }
+  ul#breadcrumb { list-style: none; margin: 0; padding: 0; }
+  ul#breadcrumb li { display: inline; }
 </style>
 
 <div id="statsbox" class="w3-row-padding w3-margin-bottom">
+
+  <div class="w3-row-padding w3-margin-bottom">
+    <div class="w3-container w3-light-grey w3-padding-4 w3-small w3-text-grey">
+      <ul id="breadcrumb">
+        <li><i class="fa fa-home w3-small"></i></li>
+        <li>Home</li>
+        <li>&nbsp; &#10095; &nbsp;</li>
+        <li>Welcome</li>
+        <li>&nbsp;  &#10095; &nbsp;</li>
+        <li>{{ today }}</li>
+      </ul>
+    </div>
+  </div>
+
   <div class="w3-third">
     <div class="w3-container bg-blue w3-text-white w3-padding-12">
       <div class="w3-right numval">{{ data['total']['project_size_ac'] }}</div>

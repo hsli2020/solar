@@ -21,11 +21,11 @@
 <tr>
   <th style="vertical-align: middle;">Site</th>
   <th style="vertical-align: middle;">GC PR</th>
-  <th>Current<br>Power</th>
+  <th>Current Power<br>(kW)</th>
   <th>Irradiance<br>(W/m<sup>2</sup>)</th>
   <th>Inverters<br>Generating</th>
   <th>Devices<br>Communicating</th>
-  <th>Last Com<br>(mins ago)</th>
+  <th>Data Received<br>(Time Stamp)</th>
 </tr>
 {% for row in data %}
 <tr>

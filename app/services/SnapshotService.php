@@ -47,6 +47,7 @@ class SnapshotService extends Injectable
         foreach ($projects as $project) {
             $id = $project['id'];
             $name = $project['name'];
+            $sizeAC = round($project['AC_Nameplate_Capacity']);
 
             $GCPR = $this->getGCPR($id);
             $currentPower = $this->getCurrentPower($id);
@@ -62,6 +63,7 @@ class SnapshotService extends Injectable
             $sql = "REPLACE INTO snapshot SET"
                  . " project_id = $id,"
                  . " project_name = '$name',"
+                 . " project_size_ac = '$sizeAC',"
                  . " GCPR = '$GCPR',"
                  . " current_power = '$currentPower',"
                  . " irradiance = '$irradiance',"

@@ -6,7 +6,44 @@
   #snapshot th { text-align: center; }
   #snapshot td { text-align: right; }
   #snapshot tr td:first-child{ text-align: left; }
+  #statsbox .numval { font-size: 24px; }
+  #statsbox .label  { font-size: 12px; }
+  #statsbox .icon {
+    position: absolute;
+    top: 90px;
+    bottom: 5px;
+    z-index: 0;
+    font-size: 80px;
+    color: rgba(0, 0, 0, 0.09);
+ }
 </style>
+
+<div id="statsbox" class="w3-row-padding w3-margin-bottom">
+  <div class="w3-third">
+    <div class="w3-container w3-indigo w3-padding-12">
+      <div class="w3-right numval">99</div>
+      <div class="w3-clear"></div>
+      <div class="w3-right label">Total Project Size KWAC</div>
+      <div class="w3-left icon"><i class="fa fa-bar-chart"></i></div>
+    </div>
+  </div>
+  <div class="w3-third">
+    <div class="w3-container w3-cyan w3-text-white w3-padding-12">
+      <div class="w3-right numval">23</div>
+      <div class="w3-clear"></div>
+      <div class="w3-right label">Total Current Power</div>
+      <div class="w3-left icon"><i class="fa fa-area-chart"></i></div>
+    </div>
+  </div>
+  <div class="w3-third">
+    <div class="w3-container w3-light-green w3-text-white w3-padding-12">
+      <div class="w3-right numval">50</div>
+      <div class="w3-clear"></div>
+      <div class="w3-right label">Production, Performance %</div>
+      <div class="w3-left icon"><i class="fa fa-line-chart"></i></div>
+    </div>
+  </div>
+</div>
 
 {%- macro tablecell(row, key, align) %}
   {%- set classes = align %}

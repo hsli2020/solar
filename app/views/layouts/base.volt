@@ -33,8 +33,6 @@
     <!-- Footer -->
     <footer class="w3-container w3-padding-16 w3-light-grey" style="text-align:center">
       {% block footer %}{% endblock %}
-      <img src="/img/GCS.png" style="margin-right: 50px">
-      <img src="/img/Firelight.png">
     </footer>
   </div>
 

@@ -303,12 +303,6 @@ class DataService extends Injectable
         return [ $start, $end ];
     }
 
-    public function getRefData($prj, $year, $month)
-    {
-        return $this->db->fetchOne("SELECT * FROM project_reference_data
-            WHERE project_id=$prj AND year=$year AND month=$month");
-    }
-
     public function getMonthlyBudget($prj, $year, $month)
     {
         return $this->db->fetchOne("SELECT * FROM monthly_budget

@@ -1,0 +1,9 @@
+.git/
+bin/
+doc/
+schema/
+tmp/
+filelist
+tt.php
+README.md
+app/logs/

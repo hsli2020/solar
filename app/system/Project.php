@@ -86,6 +86,42 @@ class Project
             WHERE project_id=$prj AND year=$year AND month=$month");
     }
 
+    public function getIRR($period)
+    {
+        $envkit = $this->envkits[0];
+        return $envkit->getIRR($period);
+    }
+
+    public function getLatestIRR()
+    {
+        $envkit = $this->envkits[0];
+        return $envkit->getLatestIRR($period);
+    }
+
+    public function getTMP($period)
+    {
+        $envkit = $this->envkits[0];
+        return $envkit->getTMP($period);
+    }
+
+    public function getKW($period)
+    {
+        $sum = 0;
+        foreach ($this->inverters as $inverter) {
+            $sum += $inverter->getKW($period);
+        }
+        return $sum;
+    }
+
+    public function getLatestKW($period)
+    {
+        $sum = 0;
+        foreach ($this->inverters as $inverter) {
+            $sum += $inverter->getLatestKW($period);
+        }
+        return $sum;
+    }
+
     public function __get($prop)
     {
         if (isset($this->$prop)) {
@@ -93,5 +129,46 @@ class Project
         }
 
         return null;
+    }
+
+    public function getPR()
+    {
+        $DC_Nameplate_Capacity    = $this->capacityDC;
+        $AC_Nameplate_Capacity    = $this->capacityAC;
+
+        $Module_Power_Coefficient = $this->modulePowerCoefficient;
+        $Inverter_Efficiency      = $this->inverterEfficiency;
+        $Transformer_Loss         = $this->transformerLoss;
+        $Other_Loss               = $this->otherLoss;
+
+        $Avg_Irradiance_POA       = $this->getIRR('HOURLY') / 60.0; // avg 60 minutes
+        $Avg_Module_Temp          = $this->getTMP('HOURLY') / 60.0; // PANELT
+        $Measured_Energy          = $this->getKW('HOURLY');        // sum 60 minutes
+
+        if ($DC_Nameplate_Capacity == 0) return 0;
+
+        $Maximum_Theory_Output = ($Avg_Irradiance_POA / 1000) * $DC_Nameplate_Capacity;
+
+        if ($Maximum_Theory_Output == 0) return 0;
+
+        $Temperature_Losses = ($Maximum_Theory_Output * ($Module_Power_Coefficient * (25 - $Avg_Module_Temp))) / 1000.0;
+        $Inverter_Losses = (1 - $Inverter_Efficiency) * ($Maximum_Theory_Output - $Temperature_Losses);
+
+        if (($Maximum_Theory_Output - $Temperature_Losses - $Inverter_Losses) > $AC_Nameplate_Capacity) {
+            $Inverter_Clipping_Loss = $Maximum_Theory_Output - $Temperature_Losses - $Inverter_Losses - $AC_Nameplate_Capacity;
+        } else {
+            $Inverter_Clipping_Loss = 0;
+        }
+
+        $Transformer_Losses  = ($Maximum_Theory_Output - $Temperature_Losses - $Inverter_Losses - $Inverter_Clipping_Loss) * $Transformer_Loss;
+        $Other_System_Losses = ($Maximum_Theory_Output - $Temperature_Losses - $Inverter_Losses - $Inverter_Clipping_Loss - $Transformer_Loss) * $Other_Loss;
+        $Total_Losses = ($Temperature_Losses + $Inverter_Losses + $Inverter_Clipping_Loss + $Transformer_Loss + $Other_System_Losses) / $Maximum_Theory_Output;
+        $Theoretical_Output = ($Maximum_Theory_Output - $Temperature_Losses - $Inverter_Losses - $Inverter_Clipping_Loss - $Transformer_Loss - $Other_System_Losses);
+
+        if ($Theoretical_Output == 0) return 0;
+
+        $GCS_Performance_Index = $Measured_Energy / $Theoretical_Output;
+
+        return $GCS_Performance_Index;
     }
 }

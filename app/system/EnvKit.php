@@ -12,20 +12,59 @@ class EnvKit extends Device
 
         list($start, $end) = $this->getPeriod($period);
 
-        $sql = "SELECT SUM(IRR) IRR FROM $table ".
+        $sql = "SELECT SUM(IRR) irr FROM $table ".
                 "WHERE project_id=$projectId AND devcode='$code' AND ".
                       "time>='$start' AND time<'$end' AND error=0";
 
         $result = $this->db->fetchOne($sql);
         if ($result) {
-            return $result['IRR'] / 60.0 / 1000.0;
+            return $result['irr'] / 60.0 / 1000.0;
         }
 
         return 0;
     }
 
+    public function getLatestIRR()
+    {
+    }
+
     public function getOAT($period)
     {
+        $projectId = $this->project->getId();
+        $table = $this->table;
+        $code = $this->code;
+
         list($start, $end) = $this->getPeriod($period);
+
+        $sql = "SELECT SUM(OAT) tmp FROM $table ".
+                "WHERE project_id=$projectId AND devcode='$code' AND ".
+                      "time>='$start' AND time<'$end' AND error=0";
+
+        $result = $this->db->fetchOne($sql);
+        if ($result) {
+            return $result['tmp'];
+        }
+
+        return 0;
+    }
+
+    public function getTMP($period)
+    {
+        $projectId = $this->project->getId();
+        $table = $this->table;
+        $code = $this->code;
+
+        list($start, $end) = $this->getPeriod($period);
+
+        $sql = "SELECT SUM(PANELT) tmp FROM $table ".
+                "WHERE project_id=$projectId AND devcode='$code' AND ".
+                      "time>='$start' AND time<'$end' AND error=0";
+
+        $result = $this->db->fetchOne($sql);
+        if ($result) {
+            return $result['tmp'];
+        }
+
+        return 0;
     }
 }

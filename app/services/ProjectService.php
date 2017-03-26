@@ -36,6 +36,9 @@ class ProjectService extends Injectable
 
     public function get($id)
     {
+        if (!$this->projects) {
+            $this->getAll();
+        }
         return $this->projects[$id];
     }
 }

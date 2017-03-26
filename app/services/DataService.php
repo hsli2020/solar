@@ -19,6 +19,8 @@ class DataService extends Injectable
     {
         $data = [];
 
+        list($start, $end) = $this->getPeriod('LATEST');
+
         $projects = $this->projectService->getAll();
         foreach ($projects as $projectId => $project) {
             $devices = Devices::find("projectId=$projectId");
@@ -30,8 +32,8 @@ class DataService extends Injectable
                 $data[$projectId]['name'] = $project['name'];
 
                 $criteria = [
-                    "conditions" => "projectId=?1 AND devcode=?2 AND error=0",
-                    "bind"       => array(1 => $projectId, 2 => $devcode),
+                    "conditions" => "projectId=:project: AND devcode=:devcode: AND time >= :start: AND time < :end: AND error=0",
+                    "bind"       => ['project' => $projectId, 'devcode' => $devcode, 'start' => $start, 'end' => $end],
                     "order"      => "id DESC",
                     "limit"      => 1
                 ];
@@ -289,8 +291,8 @@ class DataService extends Injectable
 
         case 'LATEST':
             // last minute (15 minutes ago)
-            $start = gmdate('Y-m-d H:i:00', strtotime('-20 minute'));
-            $end   = gmdate('Y-m-d H:i:30', strtotime('-19 minute'));
+            $start = gmdate('Y-m-d H:i:00', strtotime('-16 minute'));
+            $end   = gmdate('Y-m-d H:i:30', strtotime('-15 minute'));
             break;
 
         default:

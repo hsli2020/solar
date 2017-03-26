@@ -1,0 +1,9 @@
+# !/bin/bash
+
+# clear cache
+rm app/cache/metaData/*.php 2> /dev/null
+rm app/cache/volt/*.php 2> /dev/null
+
+#rsync --chmod=a=rw,Da+x
+#rsync --chmod=ugo=rwX
+ rsync -v -rlt -z --no-p --no-g --no-o --delete --exclude-from 'bin/rsync-exclude' --chmod=ugo=rwX "/cygdrive/C/xampp/htdocs/solar/" "75.98.194.226::SolarDev"

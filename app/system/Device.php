@@ -75,6 +75,15 @@ abstract class Device
         return [ $start, $end ];
     }
 
+    public function __get($prop)
+    {
+        if (isset($this->$prop)) {
+            return $this->$prop;
+        }
+
+        return null;
+    }
+
     protected function getLatestTime()
     {
     }

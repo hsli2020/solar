@@ -18,23 +18,21 @@
 
   {{ stylesheet_link("/css/style.css") }}
 </head>
-<body class="w3-light-grey">
+<body>
   {# include "partials/sidebar.volt" #}
   {% include "partials/navbar.volt" %}
 
   <div class="w3-main" style="margin-top:43px;">
     <!-- Header -->
-    <header class="w3-container" style="padding-top:22px">
-        <h5><b><i class="fa fa-dashboard"></i> {{ pageTitle }}</b></h5>
+    <header class="w3-container">
+      <h3><b><i class="fa fa-dashboard"></i> {{ pageTitle }}</b></h3>
     </header>
 
     {% block main %}{% endblock %}
 
     <!-- Footer -->
-    <footer class="w3-container w3-padding-16 w3-light-grey" style="text-align:center">
+    <footer class="w3-container w3-padding-16" style="text-align:center">
       {% block footer %}{% endblock %}
-      <img src="/img/GCS.png" style="margin-right: 50px">
-      <img src="/img/Firelight.png">
     </footer>
   </div>
 

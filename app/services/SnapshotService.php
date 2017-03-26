@@ -12,6 +12,9 @@ class SnapshotService extends Injectable
     {
         $result = $this->db->fetchAll("SELECT * FROM snapshot");
 
+        $totalPower = 0;
+        $totalProjectSizeAC = 0;
+
         foreach ($result as $key => $val) {
             $result[$key]['error'] = [];
 
@@ -32,12 +35,20 @@ class SnapshotService extends Injectable
                 $result[$key]['error']['devices_communicating'] = 1;
             }
 
+            $totalPower += $val['current_power'];
+            $totalProjectSizeAC += $val['project_size_ac'];
+
            #$result[$key]['error']['last_com'] = 1;
            #$result[$key]['error']['Avg_Irradiance_POA'] = 1;
            #$result[$key]['error']['Avg_Module_Temp'] = 1;
            #$result[$key]['error']['Measured_Energy'] = 1;
         }
-        return $result;
+
+        $total['current_power']   = number_format($totalPower);
+        $total['project_size_ac'] = number_format($totalProjectSizeAC);
+        $total['performance'] = number_format($totalPower / $totalProjectSizeAC * 100);
+
+        return [ 'rows' => $result, 'total' => $total ];
     }
 
     public function generate()
@@ -47,6 +58,7 @@ class SnapshotService extends Injectable
         foreach ($projects as $project) {
             $id = $project['id'];
             $name = $project['name'];
+            $sizeAC = round($project['AC_Nameplate_Capacity']);
 
             $GCPR = $this->getGCPR($id);
             $currentPower = $this->getCurrentPower($id);
@@ -62,6 +74,7 @@ class SnapshotService extends Injectable
             $sql = "REPLACE INTO snapshot SET"
                  . " project_id = $id,"
                  . " project_name = '$name',"
+                 . " project_size_ac = '$sizeAC',"
                  . " GCPR = '$GCPR',"
                  . " current_power = '$currentPower',"
                  . " irradiance = '$irradiance',"
@@ -79,19 +92,19 @@ class SnapshotService extends Injectable
     protected function getGCPR($prj)
     {
         $pr = $this->dataService->getPR($prj);
-        return round($pr, 2).'%';
+        return round($pr).'%';
     }
 
     protected function getCurrentPower($prj)
     {
         $kw = $this->dataService->getLatestKW($prj);
-        return round($kw, 2);
+        return round($kw);
     }
 
     protected function getIrradiance($prj)
     {
         $irr = $this->dataService->getLatestIRR($prj);
-        return round($irr, 2);
+        return round($irr);
     }
 
     protected function getInvertersGenerating($prj)

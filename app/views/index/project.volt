@@ -55,7 +55,7 @@
   function AutoRefresh(t) {
     setTimeout("location.reload(true);", t);
   }
-  window.onload = AutoRefresh(1000*60*5);
+  window.onload = AutoRefresh(1000*60*1);
 {% endblock %}
 
 {% block domready %}

@@ -21,8 +21,9 @@ class IndexController extends ControllerBase
 
     public function dashboardAction()
     {
-        $this->view->pageTitle = 'Dashboard';
+        $this->view->pageTitle = 'GCS Dashboard';
         $this->view->data = $this->snapshotService->load();
+        $this->view->today = date('l, F jS Y');
     }
 
     public function projectAction()

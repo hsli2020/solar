@@ -56,7 +56,7 @@
   </div>
   <div class="w3-third">
     <div class="w3-container bg-red w3-text-white w3-padding-12">
-      <div class="w3-right numval">{{ data['total']['PR'] }}</div>
+      <div class="w3-right numval">{{ data['total']['performance'] }}</div>
       <div class="w3-clear"></div>
       <div class="w3-right label">Production, Performance %</div>
       <div class="w3-left icon"><i class="fa fa-line-chart"></i></div>

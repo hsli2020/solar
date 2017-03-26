@@ -14,7 +14,6 @@ class SnapshotService extends Injectable
 
         $totalPower = 0;
         $totalProjectSizeAC = 0;
-        $sumPR = 0;
 
         foreach ($result as $key => $val) {
             $result[$key]['error'] = [];
@@ -36,7 +35,6 @@ class SnapshotService extends Injectable
                 $result[$key]['error']['devices_communicating'] = 1;
             }
 
-            $sumPR += $val['GCPR'];
             $totalPower += $val['current_power'];
             $totalProjectSizeAC += $val['project_size_ac'];
 
@@ -48,7 +46,7 @@ class SnapshotService extends Injectable
 
         $total['current_power']   = number_format($totalPower);
         $total['project_size_ac'] = number_format($totalProjectSizeAC);
-        $total['PR'] = number_format($sumPR / count($result));
+        $total['performance'] = number_format($totalPower / $totalProjectSizeAC);
 
         return [ 'rows' => $result, 'total' => $total ];
     }

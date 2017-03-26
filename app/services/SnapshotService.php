@@ -46,7 +46,7 @@ class SnapshotService extends Injectable
 
         $total['current_power']   = number_format($totalPower);
         $total['project_size_ac'] = number_format($totalProjectSizeAC);
-        $total['performance'] = number_format($totalPower / $totalProjectSizeAC);
+        $total['performance'] = number_format($totalPower / $totalProjectSizeAC * 100);
 
         return [ 'rows' => $result, 'total' => $total ];
     }

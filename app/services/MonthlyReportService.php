@@ -14,18 +14,18 @@ class MonthlyReportService extends Injectable
 
         $this->report = [];
         foreach ($projects as $project) {
-            $projectId = $project['id'];
+            $projectId = $project->id;
             $lastMon = strtotime('-1 month');
-            $monthly = $this->dataService->getMonthlyBudget($projectId, date('Y', $lastMon), date('m', $lastMon));
+            $monthly = $project->getMonthlyBudget(date('Y', $lastMon), date('m', $lastMon));
 
-            $Project_Name        = $project['name'];
+            $Project_Name        = $project->name;
             $Date                = date('M-Y', $lastMon);
             $Monthly_Budget      = $monthly['Budget'];
             $IE_Insolation       = $monthly['IE_POA_Insolation'];
 
-            $Insolation_Actual   = $this->getInsolationActual($projectId);
+            $Insolation_Actual   = $this->getInsolationActual($project);
             $Insolation_Reference= $this->getInsolationReference($monthly);
-            $Energy_Measured     = $this->getEnergyMeasured($projectId);
+            $Energy_Measured     = $this->getEnergyMeasured($project);
             $Energy_Expected     = $this->getEnergyExpected($Insolation_Actual, $Insolation_Reference, $Monthly_Budget);
             $Energy_Budget       = $this->getEnergyBudget($monthly);
 
@@ -138,9 +138,9 @@ class MonthlyReportService extends Injectable
         return $result;
     }
 
-    protected function getInsolationActual($prj)
+    protected function getInsolationActual($project)
     {
-        return $this->dataService->getIRR($prj, 'LAST-MONTH') / 60.0 / 1000.0;
+        return $project->getIRR('LAST-MONTH') / 60.0 / 1000.0;
     }
 
     protected function getInsolationReference($monthly)
@@ -159,9 +159,9 @@ class MonthlyReportService extends Injectable
         return ($Insolation_Actual / $Insolation_Reference) * $Monthly_Budget;
     }
 
-    protected function getEnergyMeasured($prj)
+    protected function getEnergyMeasured($project)
     {
-        return $this->dataService->getKW($prj, 'LAST-MONTH') / 60.0;
+        return $project->getKW('LAST-MONTH') / 60.0;
     }
 
     protected function getEnergyBudget($monthly)

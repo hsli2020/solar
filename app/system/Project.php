@@ -67,6 +67,26 @@ class Project
         }
     }
 
+    public function getDeviceCount()
+    {
+        return count($this->inverters) + count($this->envkits) + count($this->genmeters);
+    }
+
+    public function getInverters()
+    {
+        return $this->inverters;
+    }
+
+    public function getEnvKits()
+    {
+        return $this->envkits;
+    }
+
+    public function getGenMeters()
+    {
+        return $this->genmeters;
+    }
+
     public function getMonthlyBudget($year, $month)
     {
         $prj = $this->id;

@@ -56,20 +56,16 @@ class SnapshotService extends Injectable
         $projects = $this->projectService->getAll();
 
         foreach ($projects as $project) {
-            $id = $project['id'];
-            $name = $project['name'];
-            $sizeAC = round($project['AC_Nameplate_Capacity']);
+            $id = $project->id;
+            $name = $project->name;
+            $sizeAC = round($project->capacityAC);
 
-            $GCPR = $this->getGCPR($id);
-            $currentPower = $this->getCurrentPower($id);
-            $irradiance = $this->getIrradiance($id);
-            $invertersGenerating = $this->getInvertersGenerating($id);
-            $devicesCommunicating = $this->getDevicesCommunicating($id);
-            $lastCom = $this->getLastCom($id);
-
-#           $avgIrradiancePOA = $this->getAvgIrradiancePOA($id);
-#           $avgModuleTemp = $this->getAvgModuleTemp($id);
-#           $measuredEnergy = $this->getMeasuredEnergy($id);
+            $GCPR = $this->getGCPR($project);
+            $currentPower = $this->getCurrentPower($project);
+            $irradiance = $this->getIrradiance($project);
+            $invertersGenerating = $this->getInvertersGenerating($project);
+            $devicesCommunicating = $this->getDevicesCommunicating($project);
+            $lastCom = $this->getLastCom($project);
 
             $sql = "REPLACE INTO snapshot SET"
                  . " project_id = $id,"
@@ -81,60 +77,51 @@ class SnapshotService extends Injectable
                  . " inverters_generating = '$invertersGenerating',"
                  . " devices_communicating = '$devicesCommunicating',"
                  . " last_com = '$lastCom'";
-#                . " Avg_Irradiance_POA = $avgIrradiancePOA,"
-#                . " Avg_Module_Temp = $avgModuleTemp,"
-#                . " Measured_Energy = $measuredEnergy";
 
             $this->db->execute($sql);
         }
     }
 
-    protected function getGCPR($prj)
+    protected function getGCPR($project)
     {
-        $pr = $this->dataService->getPR($prj);
+        $pr = $project->getPR();
         return round($pr).'%';
     }
 
-    protected function getCurrentPower($prj)
+    protected function getCurrentPower($project)
     {
-        $kw = $this->dataService->getLatestKW($prj);
+        $kw = $project->getLatestKW();
         return round($kw);
     }
 
-    protected function getIrradiance($prj)
+    protected function getIrradiance($project)
     {
-        $irr = $this->dataService->getLatestIRR($prj);
+        $irr = $project->getLatestIRR();
         return round($irr);
     }
 
-    protected function getInvertersGenerating($prj)
+    protected function getInvertersGenerating($project)
     {
-        $inverters = $this->deviceService->getInverters($prj);
-        $total = count($inverters);
+        $total = count($project->inverters);
 
-        // TODO: $this->dataService->getWorkingInverters($prj);
+        // TODO: $this->dataService->getWorkingInverters($project->id);
         $working = $total;
 
         return "$working/$total";
     }
 
-    protected function getDevicesCommunicating($prj)
+    protected function getDevicesCommunicating($project)
     {
-        $devices = $this->deviceService->getDevices($prj);
-        $total = count($devices);
+        $total = $project->getDeviceCount();
 
-        // TODO: $this->dataService->getWorkingDevices($prj);
+        // TODO: $this->dataService->getWorkingDevices($project->id);
         $working = $total;
 
         return "$working/$total";
     }
 
-    protected function getLastCom($prj)
+    protected function getLastCom($project)
     {
-        return $this->dataService->getLatestTime($prj);
+        return $project->getLatestTime();
     }
-
-#   protected function getAvgIrradiancePOA($prj) { return '0.0'; }
-#   protected function getAvgModuleTemp($prj)    { return '0.0'; }
-#   protected function getMeasuredEnergy($prj)   { return '0.0'; }
 }

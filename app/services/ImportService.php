@@ -17,7 +17,7 @@ class ImportService extends Injectable
 
         $fileCount = 0;
         foreach ($projects as $project) {
-            $dir = $project['ftpdir'];
+            $dir = $project->ftpdir;
             foreach (glob($dir . '/*.csv') as $filename) {
                 $fileCount++;
                 $this->importFile($filename, $project, $devices);
@@ -34,7 +34,7 @@ class ImportService extends Injectable
         $dev  = $parts[0]; // mb-001
         $hash = $parts[1]; // 57BEE4B7_1
 
-        $prj = $project['id'];
+        $prj = $project->id;
         if (!isset($devices[$prj][$dev])) {
             $this->log("Invalid Filename: $filename");
             return;

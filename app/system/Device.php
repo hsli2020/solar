@@ -23,6 +23,37 @@ abstract class Device
         $this->db = $this->di->get('db');
     }
 
+    protected function getTable()
+    {
+        return $this->table;
+    }
+
+    public function getTableColumns()
+    {
+        $table = $this->getTable();
+        $columns = $this->db->fetchAll("DESC $table");
+        unset($columns[0]); // remove id
+        unset($columns[1]); // remove project_id
+        unset($columns[2]); // remove devcode
+        return array_column($columns, 'Field');
+    }
+
+    public function getClassName()
+    {
+        $modelMap = [
+            'solar_data_inverter_tcp'    => 'DataInverterTcp',
+            'solar_data_inverter_serial' => 'DataInverterSerial',
+            'solar_data_inverter_sma'    => 'DataInverterSma',
+            'solar_data_inverter_pvp'    => 'DataInverterPvp',
+            'solar_data_genmeter'        => 'DataGenMeters',
+            'solar_data_envkit'          => 'DataEnvKits',
+        ];
+
+        $table = $this->getTable();
+
+        return 'App\\Models\\'.$modelMap[$table];
+    }
+
     protected function getPeriod($period)
     {
         switch (strtoupper($period)) {

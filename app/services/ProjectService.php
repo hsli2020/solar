@@ -4,8 +4,7 @@ namespace App\Service;
 
 use Phalcon\Di\Injectable;
 
-use App\Models\Projects;
-use App\Models\ProjectDetails;
+use App\System\Project;
 
 class ProjectService extends Injectable
 {
@@ -14,11 +13,21 @@ class ProjectService extends Injectable
     public function getAll(/* $includeInactive = false */)
     {
         if (!$this->projects) {
-            $result = Projects::find('active=1');
-            foreach ($result as $project) {
-                $id = $project->id;
-                // TODO: convert to entity ($this->toEntity(project))
-                $this->projects[$id] = $project->toArray();
+            $sql = "SELECT * FROM solar_project WHERE active=1";
+            $projects = $this->db->fetchAll($sql);
+
+            foreach ($projects as $project) {
+                $id = $project['id'];
+                $object = new Project($project);
+
+                $sql = "SELECT * FROM solar_device WHERE project_id='$id'";
+                $devices = $this->db->fetchAll($sql);
+
+                foreach ($devices as $device) {
+                    $object->initDevices($device);
+                }
+
+                $this->projects[$id] = $object;
             }
         }
 
@@ -27,12 +36,7 @@ class ProjectService extends Injectable
 
     public function get($id)
     {
-        $project = Projects::findFirst($id);
-        // TODO: convert to entity ($this->toEntity(project))
-        if ($project) {
-            return $project->toArray();
-        }
-        return false;
+        return $this->projects[$id];
     }
 
     public function getName($id)

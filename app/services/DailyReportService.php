@@ -14,22 +14,22 @@ class DailyReportService extends Injectable
 
         $this->report = [];
         foreach ($projects as $project) {
-            $projectId = $project['id'];
-            $monthly = $this->dataService->getMonthlyBudget($projectId, date('Y'), date('m'));
+            $projectId = $project->id;
+            $monthly = $project->getMonthlyBudget(date('Y'), date('m'));
 
-            $Project_Name        = $project['name'];
+            $Project_Name        = $project->name;
             $Date                = date('d/m/Y', strtotime('yesterday'));
-            $Capacity_AC         = $project['AC_Nameplate_Capacity'];
-            $Capacity_DC         = $project['DC_Nameplate_Capacity'];;
+            $Capacity_AC         = $project->capacityAC;
+            $Capacity_DC         = $project->capacityDC;;
             $Monthly_Budget      = $monthly['Budget']; // $this->getMonthlyBudget($monthly);
             $IE_Insolation       = $monthly['IE_POA_Insolation']; // $this->getIEInsolation($monthly);
 
-            $Total_Insolation    = $this->getTotalInsolation($projectId);
-            $Total_Energy        = $this->getTotalEnergy($projectId);
+            $Total_Insolation    = $this->getTotalInsolation($project);
+            $Total_Energy        = $this->getTotalEnergy($project);
 
-            $Measured_Insolation = $this->getMeasuredInsolation($projectId);
-            $Measured_Production = $this->getMeasuredProduction($projectId);
-            $Gen_Meter_Reading   = $this->getGenMeterReading($projectId);
+            $Measured_Insolation = $this->getMeasuredInsolation($project);
+            $Measured_Production = $this->getMeasuredProduction($project);
+            $Gen_Meter_Reading   = $this->getGenMeterReading($project);
 
             $Daily_Budget        = $this->getDailyProduction($Monthly_Budget);
             $Daily_Insolation    = $this->getDailyInsolation($IE_Insolation);
@@ -174,15 +174,15 @@ class DailyReportService extends Injectable
        #return $montyly['IE_POA_Insolation'] / $days;
     }
 
-    protected function getTotalInsolation($prj)
+    protected function getTotalInsolation($project)
     {
-        $result = $this->dataService->getIRR($prj, 'MONTH-TO-DATE');
+        $result = $project->getIRR('MONTH-TO-DATE');
         return $result / 60.0 / 1000.0;
     }
 
-    protected function getTotalEnergy($prj)
+    protected function getTotalEnergy($project)
     {
-        $result = $this->dataService->getKW($prj, 'MONTH-TO-DATE');
+        $result = $project->getKW('MONTH-TO-DATE');
         return $result / 60.0;
     }
 
@@ -207,15 +207,15 @@ class DailyReportService extends Injectable
         return $IE_Insolation / $days;
     }
 
-    protected function getMeasuredInsolation($prj)
+    protected function getMeasuredInsolation($project)
     {
-        $result = $this->dataService->getIRR($prj, 'DAILY');
+        $result = $project->getIRR('DAILY');
         return $result / 60.0 / 1000.0;
     }
 
-    protected function getMeasuredProduction($prj)
+    protected function getMeasuredProduction($project)
     {
-        $result = $this->dataService->getKW($prj, 'DAILY');
+        $result = $project->getKW('DAILY');
         return $result / 60.0;
     }
 
@@ -249,9 +249,9 @@ class DailyReportService extends Injectable
         return $Total_Insolation / ($Daily_Insolation * $days);
     }
 
-    protected function getGenMeterReading($prj)
+    protected function getGenMeterReading($project)
     {
-        $result = $this->dataService->getKWHREC($prj, 'DAILY');
+        $result = $project->getKWH('DAILY');
         return $result;
     }
 

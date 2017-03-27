@@ -23,7 +23,7 @@ abstract class Device
         $this->db = $this->di->get('db');
     }
 
-    protected function getTable()
+    public function getTable()
     {
         return $this->table;
     }

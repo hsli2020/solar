@@ -92,7 +92,7 @@ class SnapshotService extends Injectable
     protected function getGCPR($prj)
     {
         $pr = $this->dataService->getPR($prj);
-        return round($pr).'%';
+        return round($pr * 100).'%';
     }
 
     protected function getCurrentPower($prj)

@@ -329,7 +329,7 @@ class DataService extends Injectable
 
         $Avg_Irradiance_POA       = $this->getIRR($prj, 'HOURLY') / 60.0; // avg 60 minutes
         $Avg_Module_Temp          = $this->getTMP($prj, 'HOURLY') / 60.0; // PANELT
-        $Measured_Energy          = $this->getKW($prj,  'HOURLY');        // sum 60 minutes
+        $Measured_Energy          = $this->getKW($prj,  'HOURLY') / 60.0; // sum 60 minutes
 
         if ($DC_Nameplate_Capacity == 0) return 0;
 

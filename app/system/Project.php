@@ -176,7 +176,7 @@ class Project
 
         $Avg_Irradiance_POA       = $this->getIRR('HOURLY') / 60.0; // avg 60 minutes
         $Avg_Module_Temp          = $this->getTMP('HOURLY') / 60.0; // PANELT
-        $Measured_Energy          = $this->getKW('HOURLY');        // sum 60 minutes
+        $Measured_Energy          = $this->getKW('HOURLY')  / 60.0; // sum 60 minutes
 
         if ($DC_Nameplate_Capacity == 0) return 0;
 

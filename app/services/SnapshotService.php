@@ -85,7 +85,7 @@ class SnapshotService extends Injectable
     protected function getGCPR($project)
     {
         $pr = $project->getPR();
-        return round($pr).'%';
+        return round($pr * 100).'%';
     }
 
     protected function getCurrentPower($project)

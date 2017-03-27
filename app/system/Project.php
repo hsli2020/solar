@@ -17,6 +17,7 @@ class Project
     protected $transformerLoss        = 0.015;
     protected $otherLoss              = 0.02;
 
+    protected $devices   = [];  // all devices
     protected $inverters = [];
     protected $envkits   = [];
     protected $genmeters = [];
@@ -50,15 +51,21 @@ class Project
 
         switch (strtoupper($type)) {
         case 'INVERTER':
-            $this->inverters[$code] = new Inverter($this, $code, $table, $model);
+            $inverter = new Inverter($this, $code, $table, $model);
+            $this->inverters[$code] = $inverter;
+            $this->devices[$code] = $inverter;
             break;
 
         case 'ENVKIT':
-            $this->envkits[$code] = new EnvKit($this, $code, $table, $model);
+            $envkit = new EnvKit($this, $code, $table, $model);
+            $this->envkits[$code] = $envkit;
+            $this->devices[$code] = $envkit;
             break;
 
         case 'GENMETER':
-            $this->genmeters[$code] = new GenMeter($this, $code, $table, $model);
+            $genmeter = new GenMeter($this, $code, $table, $model);
+            $this->genmeters[$code] = $genmeter;
+            $this->devices[$code] = $genmeter;
             break;
 
         default:
@@ -67,9 +74,15 @@ class Project
         }
     }
 
+    public function getDevices()
+    {
+        return $this->devices;
+    }
+
     public function getDeviceCount()
     {
-        return count($this->inverters) + count($this->envkits) + count($this->genmeters);
+        return count($this->devices);
+       #return count($this->inverters) + count($this->envkits) + count($this->genmeters);
     }
 
     public function getInverters()

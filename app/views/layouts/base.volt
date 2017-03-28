@@ -25,7 +25,8 @@
   <div class="w3-main" style="margin-top:43px;">
     <!-- Header -->
     <header class="w3-container">
-      <h3><b><i class="fa fa-dashboard"></i> {{ pageTitle }}</b></h3>
+      <img src="/img/gcs-logo-3.png" style="width: 64px; margin-right: 20px;">
+      <h3 style="display:inline;">{{ pageTitle }}</h3>
     </header>
 
     {% block main %}{% endblock %}

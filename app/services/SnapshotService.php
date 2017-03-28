@@ -14,29 +14,40 @@ class SnapshotService extends Injectable
 
         $totalPower = 0;
         $totalProjectSizeAC = 0;
+        $averageIrradiance = 0;
 
         foreach ($result as $key => $val) {
             $result[$key]['error'] = [];
 
-            if ($val['GCPR'] < 60) {
-                $result[$key]['error']['GCPR'] = 1;
+            if ($val['GCPR'] >= 90) {
+                $result[$key]['error']['GCPR'] = '';
+            }
+            else if ($val['GCPR'] >= 80) {
+                $result[$key]['error']['GCPR'] = 'text-blue';
+            }
+            else if ($val['GCPR'] >= 65) {
+                $result[$key]['error']['GCPR'] = 'text-purple';
+            }
+            else { // ($val['GCPR'] < 65)
+                $result[$key]['error']['GCPR'] = 'red';
             }
 
            #$result[$key]['error']['current_power'] = 1;
            #$result[$key]['error']['irradiance'] = 1;
 
             list($a, $b) = explode('/', $val['inverters_generating']);
-            if ($a != $b) {
-                $result[$key]['error']['inverters_generating'] = 1;
+            if ($val['current_power'] < 2 && $val['irradiance'] >= 100) {
+                $result[$key]['error']['inverters_generating'] = 'red';
             }
 
             list($a, $b) = explode('/', $val['devices_communicating']);
             if ($a != $b) {
-                $result[$key]['error']['devices_communicating'] = 1;
+                $result[$key]['error']['devices_communicating'] = 'red';
             }
 
             $totalPower += $val['current_power'];
             $totalProjectSizeAC += $val['project_size_ac'];
+            $averageIrradiance += $val['irradiance'];
 
            #$result[$key]['error']['last_com'] = 1;
            #$result[$key]['error']['Avg_Irradiance_POA'] = 1;
@@ -44,8 +55,9 @@ class SnapshotService extends Injectable
            #$result[$key]['error']['Measured_Energy'] = 1;
         }
 
-        $total['current_power']   = number_format($totalPower);
+        $total['current_power'] = number_format($totalPower);
         $total['project_size_ac'] = number_format($totalProjectSizeAC);
+        $total['average_irradiance'] = number_format($averageIrradiance/count($result));
         $total['performance'] = number_format($totalPower / $totalProjectSizeAC * 100);
 
         return [ 'rows' => $result, 'total' => $total ];

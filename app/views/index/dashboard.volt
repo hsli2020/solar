@@ -18,6 +18,7 @@
   .bg-red  { background-color: #f56954 !important; }
   .bg-blue { background-color: #3c8dbc !important; }
   .bg-teal { background-color: #39cccc !important; }
+  .bg-purple { background-color: #8F5E99 !important; }
   .w3-border { border: 5px solid #eee !important; }
   ul#breadcrumb { list-style: none; margin: 0; padding: 0; }
   ul#breadcrumb li { display: inline; }
@@ -38,7 +39,7 @@
     </div>
   </div>
 
-  <div class="w3-third">
+  <div class="w3-quarter">
     <div class="w3-container bg-blue w3-text-white w3-padding-12">
       <div class="w3-right numval">{{ data['total']['project_size_ac'] }}</div>
       <div class="w3-clear"></div>
@@ -46,7 +47,7 @@
       <div class="w3-left icon"><i class="fa fa-bar-chart"></i></div>
     </div>
   </div>
-  <div class="w3-third">
+  <div class="w3-quarter">
     <div class="w3-container bg-teal w3-text-white w3-padding-12">
       <div class="w3-right numval">{{ data['total']['current_power'] }}</div>
       <div class="w3-clear"></div>
@@ -54,7 +55,15 @@
       <div class="w3-left icon"><i class="fa fa-area-chart"></i></div>
     </div>
   </div>
-  <div class="w3-third">
+  <div class="w3-quarter">
+    <div class="w3-container bg-purple w3-text-white w3-padding-12">
+      <div class="w3-right numval">{{ data['total']['average_irradiance'] }}</div>
+      <div class="w3-clear"></div>
+      <div class="w3-right label">Average Irradiance, w/m<sup>2</sup></div>
+      <div class="w3-left icon"><i class="fa fa-dashboard"></i></div>
+    </div>
+  </div>
+  <div class="w3-quarter">
     <div class="w3-container bg-red w3-text-white w3-padding-12">
       <div class="w3-right numval">{{ data['total']['performance'] }}</div>
       <div class="w3-clear"></div>
@@ -67,7 +76,7 @@
 {%- macro tablecell(row, key, align) %}
   {%- set classes = align %}
   {%- if row['error'][key] is defined %}
-    {%- set classes = classes ~ " w3-deep-orange" %}
+    {%- set classes = classes ~ ' w3-' ~ row['error'][key] %}
   {%- endif %}
   <td class="{{ classes }}">{{ row[key] }}</td>
 {% endmacro %}
@@ -76,7 +85,7 @@
 <table id="snapshot" class="w3-table w3-white w3-bordered w3-border">
 <tr>
   <th style="vertical-align: middle;">Site</th>
-  <th style="vertical-align: middle;">GC PR</th>
+  <th style="vertical-align: middle;">GC PI</th>
   <th>Project Size<br>(AC)</th>
   <th>Current Power<br>(kW)</th>
   <th>Irradiance<br>(W/m<sup>2</sup>)</th>

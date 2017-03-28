@@ -24,9 +24,9 @@
 
   <div class="w3-main" style="margin-top:43px;">
     <!-- Header -->
-    <header class="w3-container" style="display: flex;">
-      <img src="/img/gcs-logo-3.png" style="width: 64px; height: 55px; margin-right: 15px;">
-      <h3 style="display:inline;">{{ pageTitle }}</h3>
+    <header class="w3-container">
+      <img class="w3-left" src="/img/gcs-logo-3.png" style="width: 64px; height: 55px; margin-right: 15px;">
+      <h3 class="w3-left">{{ pageTitle }}</h3>
     </header>
 
     {% block main %}{% endblock %}

@@ -7,7 +7,7 @@
     <a href="#" class="w3-hover-teal">Export Data <i class="fa fa-caret-down"></i></a>
     <div class="w3-dropdown-content w3-white w3-card-4">
       <a href="#" class="w3-hover-teal">Calendar</a>
-      <a href="#" class="w3-hover-teal">Data Range</a
+      <a href="#" class="w3-hover-teal">Data Range</a>
     </div>
   </li>
   <li class="w3-dropdown-hover w3-right">

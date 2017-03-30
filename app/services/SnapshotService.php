@@ -35,9 +35,11 @@ class SnapshotService extends Injectable
            #$result[$key]['error']['current_power'] = 1;
            #$result[$key]['error']['irradiance'] = 1;
 
-            list($a, $b) = explode('/', $val['inverters_generating']);
             if ($val['current_power'] < 2 && $val['irradiance'] >= 100) {
                 $result[$key]['error']['inverters_generating'] = 'red';
+            } else if ($val['current_power'] < 4) {
+                list($a, $b) = explode('/', $val['inverters_generating']);
+                $result[$key]['inverters_generating'] = "0/$b";
             }
 
             list($a, $b) = explode('/', $val['devices_communicating']);

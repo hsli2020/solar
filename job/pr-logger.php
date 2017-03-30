@@ -13,8 +13,8 @@ $projects = $projectService->getAll();
 foreach ($projects as $project) {
     $id = $project['id'];
     $name = $project['name'];
-    $PR = $dataService->getPR($id);
-    fputs($fp, sprintf("%d  %-25s %-24s %0.2f%%\n", $id, $name, date('Y-m-d H:i:s'), $PR));
+    $PR = round($dataService->getPR($id)*100).'%';
+    fputs($fp, sprintf("%d  %-25s %-24s %d%%\n", $id, $name, date('Y-m-d H:i:s'), $PR));
 }
 fputs($fp, "\n");
 

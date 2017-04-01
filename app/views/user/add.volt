@@ -17,7 +17,7 @@
           <input class="w3-input w3-border w3-margin-bottom" placeholder="Enter Email" name="email" type="text">
 
           <label><b>Password</b></label>
-          <input class="w3-input w3-border" placeholder="Enter Password" name="password" required type="password">
+          <input class="w3-input w3-border w3-margin-bottom" placeholder="Enter Password" name="password" required type="password">
 
           <input type="hidden" name="{{ security.getTokenKey() }}" value="{{ security.getToken() }}"/>
 

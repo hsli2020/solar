@@ -57,4 +57,19 @@ class UserController extends ControllerBase
         $this->session->destroy();
         return $this->response->redirect("/user/login");
     }
+
+    public function changePasswordAction()
+    {
+        echo __METHOD__;
+    }
+
+    public function resetPasswordAction()
+    {
+        echo __METHOD__;
+    }
+
+    public function forgotPasswordAction()
+    {
+        echo __METHOD__;
+    }
 }

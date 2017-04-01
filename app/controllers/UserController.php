@@ -63,11 +63,13 @@ class UserController extends ControllerBase
     {
         $this->view->pageTitle = 'User Login';
 
+        // user has to be logged-in to operate
         $auth = $this->session->get('auth');
         if (!is_array($auth)) {
             return $this->response->redirect("/user/login");
         }
 
+        // user has to be admin to operate
         if ($auth['role'] != 1) {
             return $this->response->redirect("/");
         }
@@ -96,7 +98,39 @@ class UserController extends ControllerBase
 
     public function changePasswordAction()
     {
-        echo __METHOD__;
+        $this->view->pageTitle = 'Change Password';
+
+        // user has to be logged-in to operate
+        $auth = $this->session->get('auth');
+        if (!is_array($auth)) {
+            return $this->response->redirect("/user/login");
+        }
+
+        if ($this->request->isPost() && $this->security->checkToken()) {
+            $oldPassword  = $this->request->getPost('password_old');
+            $newPassword  = $this->request->getPost('password_new');
+            $retypePasswd = $this->request->getPost('password_new_retype');
+
+            if ($newPassword != $retypePasswd) {
+                return; // retry
+            }
+
+            $username = $auth['username'];
+
+            $user = Users::findFirstByUsername($username);
+
+            if ($user && $this->security->checkHash($oldPassword, $user->password)) {
+                try {
+                    $user->password = $this->security->hash($newPassword);
+                    $user->save();
+                } catch (\Exception $e) {
+                    //fpr($e->getMessage());
+                    return; // retry
+                }
+
+                return $this->response->redirect("/");
+            }
+        }
     }
 
     public function resetPasswordAction()
@@ -111,11 +145,15 @@ class UserController extends ControllerBase
 
     public function seedAction()
     {
+        return;
+
+        // user has to be logged-in to operate
         $auth = $this->session->get('auth');
         if (!is_array($auth)) {
             return $this->response->redirect("/user/login");
         }
 
+        // user has to be admin to operate
         if ($auth['role'] != 1) {
             return $this->response->redirect("/");
         }

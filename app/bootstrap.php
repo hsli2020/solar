@@ -29,6 +29,7 @@ class Bootstrap
         'modelsmetadata',
         'utils',
         'services',
+        'security',
         'auth',
         'mail',
         'acl',
@@ -457,6 +458,18 @@ class Bootstrap
 
         $this->di->setShared('snapshotService', function () {
             return new App\Service\SnapshotService();
+        });
+    }
+
+    protected function initSecurity(Config $config, EventsManager $em)
+    {
+        $this->di->setShared('security', function () {
+            $security = new Phalcon\Security();
+
+            // Set the password hashing factor to 12 rounds
+            $security->setWorkFactor(12);
+
+            return $security;
         });
     }
 

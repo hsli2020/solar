@@ -76,10 +76,16 @@ class UserController extends ControllerBase
 
     public function seedAction()
     {
-        $userIds = [ 1, 2, 3, 4 ];
-        foreach ($userIds as $id) {
+        // the passwords got from http://passwordsgenerator.net/
+        $passwords = [
+            1 => 'gcshs12345',
+            2 => 'gcsws12345',
+            3 => 'bp8V4FSJdU',
+            4 => 'aegb4Sy2Ad',
+        ];
+
+        foreach ($passwords as $id => $password) {
             $user = Users::findFirst($id);
-            $password = 'gcs' . substr($user->username, 0, 2) . '123';
             $user->password = $this->security->hash($password);
             $user->save();
         }

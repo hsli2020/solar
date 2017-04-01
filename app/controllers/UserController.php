@@ -28,28 +28,29 @@ class UserController extends ControllerBase
             return $this->response->redirect("/");
         }
 
-        if ($this->request->isPost() ) {
+        $username = '';
 
+        if ($this->request->isPost() && $this->security->checkToken()) {
             // Receiving the variables sent by POST
-            $username = $this->filter->sanitize($this->request->getPost('username'), "trim");
-            $password = $this->filter->sanitize($this->request->getPost('password'), "trim");
+            $username = $this->request->getPost('username', 'trim');
+            $password = $this->request->getPost('password', 'trim');
 
             // find user in the database
-            $user = Users::findFirst(array(
-                "username = :username: AND password = :password: AND active = 'Y'",
-                "bind" => array(
-                    'username' => $username,
-                    'password' => md5($password), // TODO: md5(hash('sha256', $password))
-                )
-            ));
+            $user = Users::findFirstByUsername($username);
 
-            if (!empty($user)) {
+            if ($user && $user->active == 'Y' && $this->security->checkHash($password, $user->password)) {
                 $this->_registerSession($user);
                 return $this->response->redirect("/");
+            } else {
+                // To protect against timing attacks. Regardless of whether a user exists or not,
+                // the script will take roughly the same amount as it will always be computing a hash.
+                $this->security->hash(rand());
             }
 
             //$this->getFlashSession('error', 'Wrong email/password.', false);
         }
+
+        $this->view->username = $username;
     }
 
     public function logoutAction()

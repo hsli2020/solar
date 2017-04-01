@@ -15,9 +15,10 @@
       <form class="w3-container" method="POST">
         <div class="w3-section">
           <label><b>Username</b></label>
-          <input class="w3-input w3-border w3-margin-bottom" placeholder="Enter Username" name="username" required autofocus type="text">
+          <input class="w3-input w3-border w3-margin-bottom" placeholder="Enter Username" name="username" required autofocus type="text" value="{{ username }}">
           <label><b>Password</b></label>
           <input class="w3-input w3-border" placeholder="Enter Password" name="password" required type="password">
+          <input type="hidden" name="<?= $this->security->getTokenKey() ?>" value="<?= $this->security->getToken() ?>"/>
           <button class="w3-btn-block w3-green w3-section w3-padding" type="submit">Login</button>
         </div>
       </form>

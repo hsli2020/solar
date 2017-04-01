@@ -150,6 +150,15 @@ class Bootstrap
                 $router->add($route, $items->params->toArray())->setName($items->name);
             }
 
+            // dash in url: /user/change-password
+            $router->add('/([a-zA-Z\-]+)/([a-zA-Z\-]+)/:params', array(
+                'controller' => 1,
+                'action' => 2,
+                'params' => 3
+            ))->convert('action', function($action) {
+                return Phalcon\Text::lower(Phalcon\Text::camelize($action));
+            });
+
             return $router;
         });
     }

@@ -9,6 +9,7 @@ class ControllerBase extends Controller
 {
     public function initialize()
     {
+        $this->view->auth = $this->session->get('auth');
     }
 
     public function beforeExecuteRoute(Dispatcher $dispatcher)

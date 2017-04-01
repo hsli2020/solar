@@ -14,12 +14,13 @@
     <a href="#" class="w3-hover-green">Profile <i class="fa fa-caret-down"></i></a>
     <div class="w3-dropdown-content w3-white w3-card-4" style="right:0">
       <a href="#" class="w3-hover-green">Settings</a>
+      {% if auth['role'] == 1 -%}
+      <a href="/user/add" class="w3-hover-green">Add New User</a>
+      {% endif -%}
       <a href="/user/change-password" class="w3-hover-green">Change Password</a>
       <a href="/user/logout" class="w3-hover-green">Log Out</a>
     </div>
   </li>
-  <li class="w3-right"><a href="#" class="w3-hover-teal"><i class="fa fa-home w3-medium"></i></a></li>
-  <li class="w3-right"><a href="#" class="w3-hover-teal"><i class="fa fa-trash w3-medium"></i></a></li>
-  <li class="w3-right"><a href="#" class="w3-hover-teal"><i class="fa fa-plane w3-medium"></i></a></li>
+  <li class="w3-right"><a href="#" class="w3-hover-teal">{{ auth['username'] }}</a></li>
 </ul>
 </div>

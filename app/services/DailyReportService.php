@@ -35,9 +35,9 @@ class DailyReportService extends Injectable
             $Daily_Insolation    = $this->getDailyInsolation($IE_Insolation);
             $Daily_Expected      = $this->getDailyExpected($Measured_Insolation, $Daily_Insolation, $Daily_Budget);
 
-            $Weather_Performance = $this->getWeatherPerformance($Total_Insolation, $Daily_Insolation);
-            $Actual_Budget       = $this->getActualBudget($Total_Energy, $Daily_Budget);
-            $Actual_Expected     = $this->getActualExpected($Total_Energy, $Daily_Budget, $Weather_Performance);
+            $Weather_Performance = $this->getWeatherPerformance($Total_Insolation, $IE_Insolation);
+            $Actual_Budget       = $this->getActualBudget($Total_Energy, $Monthly_Budget);
+            $Actual_Expected     = $this->getActualExpected($Total_Energy, $Monthly_Budget, $Weather_Performance);
 
             $this->report[$projectId] = [
                 'Project_Name'          =>  $Project_Name,
@@ -219,34 +219,31 @@ class DailyReportService extends Injectable
         return $result / 60.0;
     }
 
-    protected function getActualBudget($Total_Energy, $Daily_Budget)
+    protected function getActualBudget($Total_Energy, $Monthly_Budget)
     {
-        if (empty($Daily_Budget)) {
+        if (empty($Monthly_Budget)) {
             return 0;
         }
 
-        $days = date("j");
-        return $Total_Energy / ($Daily_Budget * $days);
+        return $Total_Energy / $Monthly_Budget;
     }
 
-    protected function getActualExpected($Total_Energy, $Daily_Production, $Weather_Performance)
+    protected function getActualExpected($Total_Energy, $Monthly_Budget, $Weather_Performance)
     {
-        if (empty($Daily_Production)) {
+        if (empty($Monthly_Budget)) {
             return 0;
         }
 
-        $days = date("j");
-        return $Total_Energy / ($Daily_Production * $days * $Weather_Performance);
+        return $Total_Energy / ($Monthly_Budget * $Weather_Performance);
     }
 
-    protected function getWeatherPerformance($Total_Insolation, $Daily_Insolation)
+    protected function getWeatherPerformance($Total_Insolation, $IE_Insolation)
     {
-        if (empty($Daily_Insolation)) {
+        if (empty($IE_Insolation)) {
             return 0;
         }
 
-        $days = date("j");
-        return $Total_Insolation / ($Daily_Insolation * $days);
+        return $Total_Insolation / $IE_Insolation;
     }
 
     protected function getGenMeterReading($prj)

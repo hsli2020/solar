@@ -3,7 +3,7 @@
 {% block main %}
 <div class="container">
   <div class="w3-modal" style="display: block;">
-    <div class="w3-modal-content w3-card-8" style="max-width:350px">
+    <div class="w3-modal-content w3-card-8" style="max-width:500px">
       <header class="w3-container w3-teal">
         <h5>Change Password</h5>
       </header>
@@ -14,14 +14,32 @@
 
       <form class="w3-container" method="POST">
         <div class="w3-section">
-          <label><b>Old Password</b></label>
-          <input class="w3-input w3-border w3-margin-bottom" placeholder="Enter Old Password" name="password_old" required autofocus type="password">
+          <div class="w3-row-padding">
+            <div class="w3-third">
+              <label><b>Old Password</b></label>
+            </div>
+            <div class="w3-twothird">
+              <input class="w3-input w3-border w3-margin-bottom" placeholder="Enter Old Password" name="password_old" required autofocus type="password">
+            </div>
+          </div>
 
-          <label><b>New Password</b></label>
-          <input class="w3-input w3-border w3-margin-bottom" placeholder="Enter New Password" name="password_new" required type="password">
+          <div class="w3-row-padding">
+            <div class="w3-third">
+              <label><b>New Password</b></label>
+            </div>
+            <div class="w3-twothird">
+              <input class="w3-input w3-border w3-margin-bottom" placeholder="Enter New Password" name="password_new" required type="password">
+            </div>
+          </div>
 
-          <label><b>Confirm</b></label>
-          <input class="w3-input w3-border w3-margin-bottom" placeholder="Re-type New Password" name="password_new_retype" required type="password">
+          <div class="w3-row-padding">
+            <div class="w3-third">
+              <label><b>Confirm</b></label>
+            </div>
+            <div class="w3-twothird">
+              <input class="w3-input w3-border w3-margin-bottom" placeholder="Re-type New Password" name="password_new_retype" required type="password">
+            </div>
+          </div>
 
           <input type="hidden" name="{{ security.getTokenKey() }}" value="{{ security.getToken() }}"/>
 

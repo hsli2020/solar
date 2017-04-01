@@ -3,7 +3,7 @@
 {% block main %}
 <div class="container">
   <div class="w3-modal" style="display: block;">
-    <div class="w3-modal-content w3-card-8" style="max-width:400px">
+    <div class="w3-modal-content w3-card-8" style="max-width:450px">
       <header class="w3-container w3-blue-grey">
         <h5>Add New User</h5>
       </header>
@@ -25,7 +25,7 @@
 
           <div class="w3-row-padding">
             <div class="w3-third">
-              <label><b>Email</b></label>
+              <label><b>Email Address</b></label>
             </div>
             <div class="w3-twothird">
               <input class="w3-input w3-border w3-margin-bottom" placeholder="Enter Email" name="email" type="text">

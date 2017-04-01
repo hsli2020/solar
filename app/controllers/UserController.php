@@ -61,7 +61,7 @@ class UserController extends ControllerBase
 
     public function addAction()
     {
-        $this->view->pageTitle = 'User Login';
+        $this->view->pageTitle = 'Add New User';
 
         // user has to be logged-in to operate
         $auth = $this->session->get('auth');

@@ -15,7 +15,7 @@
       <form class="w3-container" method="POST">
         <div class="w3-section">
           <div class="w3-row-padding">
-            <div class="w3-third">
+            <div class="w3-third w3-padding-8">
               <label><b>Old Password</b></label>
             </div>
             <div class="w3-twothird">
@@ -24,7 +24,7 @@
           </div>
 
           <div class="w3-row-padding">
-            <div class="w3-third">
+            <div class="w3-third w3-padding-8">
               <label><b>New Password</b></label>
             </div>
             <div class="w3-twothird">
@@ -33,8 +33,8 @@
           </div>
 
           <div class="w3-row-padding">
-            <div class="w3-third">
-              <label><b>Confirm</b></label>
+            <div class="w3-third w3-padding-8">
+              <label><b>Confirmation</b></label>
             </div>
             <div class="w3-twothird">
               <input class="w3-input w3-border w3-margin-bottom" placeholder="Re-type New Password" name="password_new_retype" required type="password">

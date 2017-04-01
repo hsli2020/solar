@@ -15,7 +15,7 @@
       <form class="w3-container" method="POST">
         <div class="w3-section">
           <div class="w3-row-padding">
-            <div class="w3-third">
+            <div class="w3-third w3-padding-8">
               <label><b>Username</b></label>
             </div>
             <div class="w3-twothird">
@@ -24,7 +24,7 @@
           </div>
 
           <div class="w3-row-padding">
-            <div class="w3-third">
+            <div class="w3-third w3-padding-8">
               <label><b>Email Address</b></label>
             </div>
             <div class="w3-twothird">
@@ -33,7 +33,7 @@
           </div>
 
           <div class="w3-row-padding">
-            <div class="w3-third">
+            <div class="w3-third w3-padding-8">
               <label><b>Password</b></label>
             </div>
             <div class="w3-twothird">

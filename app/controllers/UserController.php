@@ -72,4 +72,17 @@ class UserController extends ControllerBase
     {
         echo __METHOD__;
     }
+
+    public function seedAction()
+    {
+        $userIds = [ 1, 2, 3, 4 ];
+        foreach ($userIds as $id) {
+            $user = Users::findFirst($id);
+            $password = 'gcs' . substr($user->username, 0, 2) . '123';
+            $user->password = $this->security->hash($password);
+            $user->save();
+        }
+
+        echo "<h2>users seeding is done.</h2>";
+    }
 }

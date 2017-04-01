@@ -25,7 +25,7 @@
   <div class="w3-main" style="margin-top:43px;">
     <!-- Header -->
     <header class="w3-container w3-padding-top w3-padding-bottom">
-      <img class="w3-left" src="/img/gcs-logo-64.png" style="width: 64px; height: 55px; margin-right: 15px;">
+      <img class="w3-left" src="/img/gcs-logo-64x55.png" style="width: 64px; height: 55px; margin-right: 15px;">
       <h3 class="w3-left">{{ pageTitle }}</h3>
     </header>
 

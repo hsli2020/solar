@@ -5,7 +5,7 @@
   <div class="w3-modal" style="display: block;">
     <div class="w3-modal-content w3-card-8 w3-padding" style="max-width:350px">
       <p style="text-align: center;">
-        <img src="/img/GCS.png">
+        <img src="/img/gcs-logo-name-223x38.png">
       </p>
 
       <div class="w3-center">

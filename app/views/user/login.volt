@@ -4,7 +4,11 @@
 <div class="container">
   <div class="w3-modal" style="display: block;">
     <div class="w3-modal-content w3-card-8 w3-padding" style="max-width:350px">
-      <div class="w3-center"><br>
+      <p style="text-align: center;">
+        <img src="/img/GCS.png">
+      </p>
+
+      <div class="w3-center">
         <img src="/img/avatar_2x.png" alt="Avatar" style="width:30%" class="w3-circle w3-margin-top">
       </div>
 

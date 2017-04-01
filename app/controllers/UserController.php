@@ -59,6 +59,41 @@ class UserController extends ControllerBase
         return $this->response->redirect("/user/login");
     }
 
+    public function addAction()
+    {
+        $this->view->pageTitle = 'User Login';
+
+        $auth = $this->session->get('auth');
+        if (!is_array($auth)) {
+            return $this->response->redirect("/user/login");
+        }
+
+        if ($auth['role'] != 1) {
+            return $this->response->redirect("/");
+        }
+
+        if ($this->request->isPost() && $this->security->checkToken()) {
+            $username = $this->request->getPost('username', 'trim');
+            $password = $this->request->getPost('password', 'trim');
+            $email    = $this->request->getPost('email',    'trim');
+
+            try {
+                $user = new Users();
+                $user->username = $username;
+                $user->email    = $email;
+                $user->role     = 0; // TODO ??
+                $user->active   = 'Y';
+                $user->password = $this->security->hash($password);
+                $user->save();
+            } catch (\Exception $e) {
+                //fpr($e->getMessage());
+                return;
+            }
+
+            //return $this->response->redirect("/");
+        }
+    }
+
     public function changePasswordAction()
     {
         echo __METHOD__;
@@ -76,6 +111,15 @@ class UserController extends ControllerBase
 
     public function seedAction()
     {
+        $auth = $this->session->get('auth');
+        if (!is_array($auth)) {
+            return $this->response->redirect("/user/login");
+        }
+
+        if ($auth['role'] != 1) {
+            return $this->response->redirect("/");
+        }
+
         // the passwords got from http://passwordsgenerator.net/
         $passwords = [
             1 => 'gcshs12345',

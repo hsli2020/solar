@@ -92,8 +92,8 @@ class MonthlyReportService extends Injectable
             $sheet->setCellValue("C$row", $data['Date']);
             $sheet->setCellValue("D$row", $data['Insolation_Actual']);
             $sheet->setCellValue("E$row", $data['Insolation_Reference']);
-            $sheet->setCellValue("F$row", $data['Energy_Expected']);
-            $sheet->setCellValue("G$row", $data['Energy_Measured']);
+            $sheet->setCellValue("F$row", $data['Energy_Measured']);
+            $sheet->setCellValue("G$row", $data['Energy_Expected']);
             $sheet->setCellValue("H$row", $data['Energy_Budget']);
             $sheet->setCellValue("I$row", $data['Actual_Budget']);
             $sheet->setCellValue("J$row", $data['Actual_Expected']);

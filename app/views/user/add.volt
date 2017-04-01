@@ -3,7 +3,11 @@
 {% block main %}
 <div class="container">
   <div class="w3-modal" style="display: block;">
-    <div class="w3-modal-content w3-card-8 w3-padding" style="max-width:350px">
+    <div class="w3-modal-content w3-card-8" style="max-width:350px">
+      <header class="w3-container w3-blue-grey">
+        <h5>Add New User</h5>
+      </header>
+
       <p style="text-align: center;">
         <img src="/img/gcs-logo-name-223x38.png">
       </p>
@@ -21,7 +25,7 @@
 
           <input type="hidden" name="{{ security.getTokenKey() }}" value="{{ security.getToken() }}"/>
 
-          <button class="w3-btn-block w3-green w3-section w3-padding" type="submit">Add New User</button>
+          <button class="w3-btn-block w3-blue-grey w3-section w3-padding" type="submit">Add New User</button>
         </div>
       </form>
     </div>

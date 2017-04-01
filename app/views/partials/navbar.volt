@@ -11,14 +11,14 @@
     </div>
   </li>
   <li class="w3-dropdown-hover w3-right">
-    <a href="#" class="w3-hover-green">Profile <i class="fa fa-caret-down"></i></a>
+    <a href="#" class="w3-hover-teal">Profile <i class="fa fa-caret-down"></i></a>
     <div class="w3-dropdown-content w3-white w3-card-4" style="right:0">
-      <a href="#" class="w3-hover-green">Settings</a>
+      <a href="#" class="w3-hover-teal">Settings</a>
       {% if auth['role'] == 1 -%}
-      <a href="/user/add" class="w3-hover-green">Add New User</a>
+      <a href="/user/add" class="w3-hover-teal">Add New User</a>
       {% endif -%}
-      <a href="/user/change-password" class="w3-hover-green">Change Password</a>
-      <a href="/user/logout" class="w3-hover-green">Log Out</a>
+      <a href="/user/change-password" class="w3-hover-teal">Change Password</a>
+      <a href="/user/logout" class="w3-hover-teal">Log out</a>
     </div>
   </li>
   <li class="w3-right"><a href="#" class="w3-hover-teal">{{ auth['username'] }}</a></li>

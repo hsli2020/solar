@@ -3,7 +3,7 @@
 {% block main %}
 <div class="container">
   <div class="w3-modal" style="display: block;">
-    <div class="w3-modal-content w3-card-8" style="max-width:350px">
+    <div class="w3-modal-content w3-card-8" style="max-width:400px">
       <header class="w3-container w3-blue-grey">
         <h5>Add New User</h5>
       </header>
@@ -14,14 +14,32 @@
 
       <form class="w3-container" method="POST">
         <div class="w3-section">
-          <label><b>Username</b></label>
-          <input class="w3-input w3-border w3-margin-bottom" placeholder="Enter Username" name="username" required autofocus type="text">
+          <div class="w3-row-padding">
+            <div class="w3-third">
+              <label><b>Username</b></label>
+            </div>
+            <div class="w3-twothird">
+              <input class="w3-input w3-border w3-margin-bottom" placeholder="Enter Username" name="username" required autofocus type="text">
+            </div>
+          </div>
 
-          <label><b>Email</b></label>
-          <input class="w3-input w3-border w3-margin-bottom" placeholder="Enter Email" name="email" type="text">
+          <div class="w3-row-padding">
+            <div class="w3-third">
+              <label><b>Email</b></label>
+            </div>
+            <div class="w3-twothird">
+              <input class="w3-input w3-border w3-margin-bottom" placeholder="Enter Email" name="email" type="text">
+            </div>
+          </div>
 
-          <label><b>Password</b></label>
-          <input class="w3-input w3-border w3-margin-bottom" placeholder="Enter Password" name="password" required type="password">
+          <div class="w3-row-padding">
+            <div class="w3-third">
+              <label><b>Password</b></label>
+            </div>
+            <div class="w3-twothird">
+              <input class="w3-input w3-border w3-margin-bottom" placeholder="Enter Password" name="password" required type="password">
+            </div>
+          </div>
 
           <input type="hidden" name="{{ security.getTokenKey() }}" value="{{ security.getToken() }}"/>
 

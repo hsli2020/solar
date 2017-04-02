@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\Users;
+use App\Models\UserProjects;
 
 class UserController extends ControllerBase
 {
@@ -90,8 +91,14 @@ class UserController extends ControllerBase
                 $user->password = $this->security->hash($password);
                 $user->save();
 
+                $userProjects = new UserProjects();
+                $userProjects->userId = $user->id;
+                $userProjects->projects = '*'; // all projects by default
+                $userProjects->save();
+
                 $this->flashSession->success("The user '$username' added successfully.");
             } catch (\Exception $e) {
+               #fpr($e->getMessage());
                #$this->flashSession->error($e->getMessage());
                 $this->flashSession->error("Failed to add user '$username'");
                 return;

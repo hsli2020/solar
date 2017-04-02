@@ -14,6 +14,27 @@
 
   <style>
     html,body,h1,h2,h3,h4,h5 {font-family: "Segoe UI",Arial,sans-serif}
+    #toast {
+        height:auto;
+        position:absolute;
+        right:20px;
+        bottom:20px;
+        color: #F0F0F0;
+        font-family: Calibri;
+        font-size: 20px;
+        padding:10px;
+        text-align:center;
+        border-radius: 2px;
+        -webkit-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
+        -moz-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
+        box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
+    }
+    #toast.error {
+        background-color: #880000;
+    }
+    #toast.success {
+        background-color: #008800;
+    }
   </style>
 
   {{ stylesheet_link("/css/style.css") }}
@@ -37,6 +58,12 @@
     </footer>
   </div>
 
+  {% for type, messages in flashSession.getMessages() %}
+    {% for message in messages %}
+      <div id="toast" class="{{ type }}" style="display:none;">{{ message }}</div>
+    {% endfor%}
+  {% endfor %}
+
   <!-- Overlay effect when opening sidenav on small screens -->
   <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu"></div>
 
@@ -49,6 +76,7 @@
 
   <script type="text/javascript">
     $(document).ready(function() {
+      $('#toast').fadeIn(400).delay(3000).fadeOut(400);
       {% block domready %}{% endblock %}
     });
   </script>

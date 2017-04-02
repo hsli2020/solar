@@ -16,7 +16,8 @@ class IndexController extends ControllerBase
     {
         $this->view->pageTitle = 'Test Page';
         $this->view->data = __METHOD__;
-        $this->view->data = print_r($this->deviceService->getDevicesOfType(1, 'EnvKit'), true);
+       #$this->view->data = print_r($this->deviceService->getDevicesOfType(1, 'EnvKit'), true);
+        $this->flashSession->success('Some shit happened');
     }
 
     public function dashboardAction()

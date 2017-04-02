@@ -40,8 +40,10 @@ class UserController extends ControllerBase
 
             if ($user && $user->active == 'Y' && $this->security->checkHash($password, $user->password)) {
                 $this->_registerSession($user);
+                $this->flashSession->success("Welcome, $username");
                 return $this->response->redirect("/");
             } else {
+                $this->flashSession->error('Wrong Username/password.');
                 // To protect against timing attacks. Regardless of whether a user exists or not,
                 // the script will take roughly the same amount as it will always be computing a hash.
                 $this->security->hash(rand());

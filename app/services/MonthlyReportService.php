@@ -59,6 +59,11 @@ class MonthlyReportService extends Injectable
         $users = $this->userService->getAll();
 
         foreach ($users as $user) {
+            if (strpos($user['email'], '@') === false) {
+                $this->log("Skip sending monthly report to {$user['username']}, no email.");
+                continue;
+            }
+
             $filename = $this->generateXls($user, $report);
             $html = $this->generateHtml($user, $report);
 

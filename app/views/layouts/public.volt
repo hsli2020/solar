@@ -28,6 +28,7 @@
         -webkit-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
         -moz-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
         box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
+        z-index: 999;
     }
     #toast.error {
         background-color: #880000;
@@ -45,12 +46,15 @@
     {% block main %}{% endblock %}
   </div>
 
-  {% for type, messages in flashSession.getMessages() %}
-    {% for message in messages %}
-      <div id="toast" class="{{ type }}" style="display:none;">{{ message }}</div>
-    {% endfor%}
-  {% endfor %}
+  {% if flashSession.has('error') -%}
+    <div id="toast" class="error" style="display:none;">{{ flashSession.output() }}</div>
+  {% endif %}
 
+  {% if flashSession.has('success') -%}
+    <div id="toast" class="success" style="display:none;">{{ flashSession.output() }}</div>
+  {% endif %}
+
+  <script type='text/javascript' src='/js/jquery-2.1.0.min.js'></script>
   {% block jsfile %}{% endblock %}
   {% block jscode %}{% endblock %}
 

@@ -58,11 +58,13 @@
     </footer>
   </div>
 
-  {% for type, messages in flashSession.getMessages() %}
-    {% for message in messages %}
-      <div id="toast" class="{{ type }}" style="display:none;">{{ message }}</div>
-    {% endfor%}
-  {% endfor %}
+  {% if flashSession.has('error') -%}
+    <div id="toast" class="error" style="display:none;">{{ flashSession.output() }}</div>
+  {% endif %}
+
+  {% if flashSession.has('success') -%}
+    <div id="toast" class="success" style="display:none;">{{ flashSession.output() }}</div>
+  {% endif %}
 
   <!-- Overlay effect when opening sidenav on small screens -->
   <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu"></div>
@@ -87,7 +89,7 @@
       document.getElementsByClassName("w3-sidenav")[0].style.display = "block";
       document.getElementsByClassName("w3-overlay")[0].style.display = "block";
     }
-     
+
     function w3_close() {
       document.getElementsByClassName("w3-sidenav")[0].style.display = "none";
       document.getElementsByClassName("w3-overlay")[0].style.display = "none";

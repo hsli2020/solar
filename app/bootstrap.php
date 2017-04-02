@@ -347,19 +347,19 @@ class Bootstrap
     {
         $this->di->setShared('flash', function () {
             return new Phalcon\Flash\Direct([
-                'error'   => 'alert alert-danger fade in',
-                'success' => 'alert alert-success fade in',
-                'notice'  => 'alert alert-info fade in',
-                'warning' => 'alert alert-warning fade in',
+                'error'   => '', // 'alert alert-danger fade in',
+                'success' => '', // 'alert alert-success fade in',
+                'notice'  => '', // 'alert alert-info fade in',
+                'warning' => '', // 'alert alert-warning fade in',
             ]);
         });
 
         $this->di->setShared('flashSession', function () {
             return new Phalcon\Flash\Session([
-                'error'   => 'alert alert-danger fade in',
-                'success' => 'alert alert-success fade in',
-                'notice'  => 'alert alert-info fade in',
-                'warning' => 'alert alert-warning fade in',
+                'error'   => '', // 'alert alert-danger fade in',
+                'success' => '', // 'alert alert-success fade in',
+                'notice'  => '', // 'alert alert-info fade in',
+                'warning' => '', // 'alert alert-warning fade in',
             ]);
         });
     }

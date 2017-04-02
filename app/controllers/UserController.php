@@ -40,7 +40,7 @@ class UserController extends ControllerBase
 
             if ($user && $user->active == 'Y' && $this->security->checkHash($password, $user->password)) {
                 $this->_registerSession($user);
-                $this->flashSession->success("Welcome, $username");
+                $this->flashSession->success("Welcome, $username!");
                 return $this->response->redirect("/");
             } else {
                 $this->flashSession->error('Wrong Username/password.');
@@ -89,8 +89,11 @@ class UserController extends ControllerBase
                 $user->active   = 'Y';
                 $user->password = $this->security->hash($password);
                 $user->save();
+
+                $this->flashSession->success("The user '$username' added successfully.");
             } catch (\Exception $e) {
-                //fpr($e->getMessage());
+               #$this->flashSession->error($e->getMessage());
+                $this->flashSession->error("Failed to add user '$username'");
                 return;
             }
 
@@ -125,6 +128,7 @@ class UserController extends ControllerBase
                 try {
                     $user->password = $this->security->hash($newPassword);
                     $user->save();
+                    $this->flashSession->success("Your password changed successfully.");
                 } catch (\Exception $e) {
                     //fpr($e->getMessage());
                     return; // retry

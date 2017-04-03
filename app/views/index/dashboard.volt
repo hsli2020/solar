@@ -57,7 +57,7 @@
   </div>
   <div class="w3-quarter">
     <div class="w3-container bg-purple w3-text-white">
-      <div class="w3-left icon"><i class="fa fa-dashboard"></i></div>
+      <div class="w3-left icon"><i class="fa fa-pie-chart"></i></div>
       <div class="w3-right w3-padding-12">
         <div class="numval">{{ data['total']['average_irradiance'] }}</div>
         <div class="label">Average Irradiance, w/m<sup>2</sup></div>

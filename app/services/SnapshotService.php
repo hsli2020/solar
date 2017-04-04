@@ -10,13 +10,35 @@ class SnapshotService extends Injectable
 {
     public function load()
     {
+        $nothing = [
+            'rows'  => [],
+            'total' => [
+                'current_power' => '',
+                'project_size_ac' => '',
+                'average_irradiance' => '',
+                'performance' => '',
+            ]
+        ];
+
         $result = $this->db->fetchAll("SELECT * FROM snapshot");
+
+        $auth = $this->session->get('auth');
+        if (!is_array($auth)) {
+            return $nothing; // if user not logged in, display nothing
+        }
+
+        $userProjects = $this->userService->getSpecificProjects($auth['id']);
 
         $totalPower = 0;
         $totalProjectSizeAC = 0;
         $averageIrradiance = 0;
 
+        $data = [];
         foreach ($result as $key => $val) {
+            if (!in_array($val['project_id'], $userProjects)) {
+                continue; // the project dosen't belong to current user
+            }
+
             $result[$key]['error'] = [];
 
             if ($val['GCPR'] >= 90) {
@@ -55,6 +77,8 @@ class SnapshotService extends Injectable
            #$result[$key]['error']['Avg_Irradiance_POA'] = 1;
            #$result[$key]['error']['Avg_Module_Temp'] = 1;
            #$result[$key]['error']['Measured_Energy'] = 1;
+
+            $data[$key] = $result[$key];
         }
 
         $total['current_power'] = number_format($totalPower);
@@ -62,7 +86,7 @@ class SnapshotService extends Injectable
         $total['average_irradiance'] = number_format($averageIrradiance/count($result));
         $total['performance'] = number_format($totalPower / $totalProjectSizeAC * 100);
 
-        return [ 'rows' => $result, 'total' => $total ];
+        return [ 'rows' => $data, 'total' => $total ];
     }
 
     public function generate()

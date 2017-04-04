@@ -91,7 +91,7 @@ class UserService extends Injectable
         return $user->id;
     }
 
-    public function getSpecificProjects($userId)
+    public function getUserProjects($userId)
     {
         $sql = "SELECT projects FROM user_projects WHERE user_id=$userId";
 

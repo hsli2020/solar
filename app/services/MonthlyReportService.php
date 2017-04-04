@@ -132,7 +132,7 @@ class MonthlyReportService extends Injectable
     {
         $result = [];
 
-        $projects = $this->userService->getSpecificProjects($user['id']);
+        $projects = $this->userService->getUserProjects($user['id']);
 
         foreach ($projects as $id) {
             if (isset($report[$id])) {

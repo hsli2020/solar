@@ -27,7 +27,7 @@ class SnapshotService extends Injectable
             return $nothing; // if user not logged in, display nothing
         }
 
-        $userProjects = $this->userService->getSpecificProjects($auth['id']);
+        $userProjects = $this->userService->getUserProjects($auth['id']);
 
         $totalPower = 0;
         $totalProjectSizeAC = 0;

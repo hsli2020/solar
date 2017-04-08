@@ -6,4 +6,3 @@ $di = \Phalcon\Di::getDefault();
 
 $dailyReport = $di->get('dailyReportService');
 $dailyReport->generate();
-$dailyReport->send(true);

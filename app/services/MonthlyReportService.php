@@ -54,7 +54,7 @@ class MonthlyReportService extends Injectable
 
     public function save()
     {
-        $filename = $this->getFilename();
+        $filename = $this->getFilename(date('Ymd'));
         $json = json_encode($this->report, JSON_PRETTY_PRINT);
         file_put_contents($filename, $json);
     }
@@ -63,7 +63,7 @@ class MonthlyReportService extends Injectable
     {
         $this->log('Start sending monthly report');
 
-        $filename = $this->getFilename();
+        $filename = $this->getFilename(date('Ymd', strtotime('-1 day')));
         if (!file_exists($filename)) {
             $this->log("File '$filename' doesn't exist, monthly report not sent");
             return;
@@ -89,10 +89,9 @@ class MonthlyReportService extends Injectable
         $this->log("Monthly report sending completed.\n");
     }
 
-    protected function getFilename()
+    protected function getFilename($date)
     {
-        $today = date('Ymd');
-        return BASE_DIR . "/app/logs/monthly-report-$today.json";
+        return BASE_DIR . "/app/logs/monthly-report-$date.json";
     }
 
     protected function generateXls($user, $report)

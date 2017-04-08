@@ -67,7 +67,7 @@ class DailyReportService extends Injectable
 
     public function save()
     {
-        $filename = $this->getFilename();
+        $filename = $this->getFilename(date('Ymd'));
         $json = json_encode($this->report, JSON_PRETTY_PRINT);
         file_put_contents($filename, $json);
     }
@@ -76,7 +76,7 @@ class DailyReportService extends Injectable
     {
         $this->log('Start sending daily report');
 
-        $filename = $this->getFilename();
+        $filename = $this->getFilename(date('Ymd', strtotime('-1 day')));
         if (!file_exists($filename)) {
             $this->log("File '$filename' doesn't exist, daily report not sent");
             return;
@@ -102,10 +102,9 @@ class DailyReportService extends Injectable
         $this->log("Daily report sending completed.\n");
     }
 
-    protected function getFilename()
+    protected function getFilename($date)
     {
-        $today = date('Ymd');
-        return BASE_DIR . "/app/logs/daily-report-$today.json";
+        return BASE_DIR . "/app/logs/daily-report-$date.json";
     }
 
     protected function generateXls($user, $report)

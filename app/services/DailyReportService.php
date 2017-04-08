@@ -60,14 +60,30 @@ class DailyReportService extends Injectable
             ];
         }
 
+        $this->save();
+
         return $this->report;
     }
 
-    public function send($debug = false)
+    public function save()
+    {
+        $filename = $this->getFilename();
+        $json = json_encode($this->report, JSON_PRETTY_PRINT);
+        file_put_contents($filename, $json);
+    }
+
+    public function send()
     {
         $this->log('Start sending daily report');
 
-        $report = $this->report;
+        $filename = $this->getFilename();
+        if (!file_exists($filename)) {
+            $this->log("File '$filename' doesn't exist, daily report not sent");
+            return;
+        }
+
+        $json = file_get_contents($filename);
+        $report = json_decode($json);
 
         $users = $this->userService->getAll();
 
@@ -80,16 +96,16 @@ class DailyReportService extends Injectable
             $filename = $this->generateXls($user, $report);
             $html = $this->generateHtml($user, $report);
 
-            if ($debug) {
-                $uid = $user['id'];
-                file_put_contents(BASE_DIR . "/app/logs/d-u-$uid.html", $html);
-                continue;
-            }
-
             $this->sendDailyReport($user['email'], $html, $filename);
         }
 
         $this->log("Daily report sending completed.\n");
+    }
+
+    protected function getFilename()
+    {
+        $today = date('Ymd');
+        return BASE_DIR . "/app/logs/daily-report-$today.json";
     }
 
     protected function generateXls($user, $report)

@@ -14,6 +14,27 @@
 
   <style>
     html,body,h1,h2,h3,h4,h5 {font-family: "Segoe UI",Arial,sans-serif}
+    #toast {
+        height:auto;
+        position:absolute;
+        right:20px;
+        bottom:20px;
+        color: #F0F0F0;
+        font-family: Calibri;
+        font-size: 20px;
+        padding:10px;
+        text-align:center;
+        border-radius: 2px;
+        -webkit-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
+        -moz-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
+        box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
+    }
+    #toast.error {
+        background-color: #880000;
+    }
+    #toast.success {
+        background-color: #008800;
+    }
   </style>
 
   {{ stylesheet_link("/css/style.css") }}
@@ -24,8 +45,9 @@
 
   <div class="w3-main" style="margin-top:43px;">
     <!-- Header -->
-    <header class="w3-container">
-      <h3><b><i class="fa fa-dashboard"></i> {{ pageTitle }}</b></h3>
+    <header class="w3-container w3-padding-top w3-padding-bottom">
+      <img class="w3-left" src="/img/gcs-logo-64x55.png" style="width: 64px; height: 55px; margin-right: 15px;">
+      <h3 class="w3-left">{{ pageTitle }}</h3>
     </header>
 
     {% block main %}{% endblock %}
@@ -35,6 +57,14 @@
       {% block footer %}{% endblock %}
     </footer>
   </div>
+
+  {% if flashSession.has('error') -%}
+    <div id="toast" class="error" style="display:none;">{{ flashSession.output() }}</div>
+  {% endif %}
+
+  {% if flashSession.has('success') -%}
+    <div id="toast" class="success" style="display:none;">{{ flashSession.output() }}</div>
+  {% endif %}
 
   <!-- Overlay effect when opening sidenav on small screens -->
   <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu"></div>
@@ -48,6 +78,7 @@
 
   <script type="text/javascript">
     $(document).ready(function() {
+      $('#toast').fadeIn(400).delay(3000).fadeOut(400);
       {% block domready %}{% endblock %}
     });
   </script>
@@ -58,7 +89,7 @@
       document.getElementsByClassName("w3-sidenav")[0].style.display = "block";
       document.getElementsByClassName("w3-overlay")[0].style.display = "block";
     }
-     
+
     function w3_close() {
       document.getElementsByClassName("w3-sidenav")[0].style.display = "none";
       document.getElementsByClassName("w3-overlay")[0].style.display = "none";

@@ -70,7 +70,7 @@ function importSolarFile($filename, $project, $devices, $db)
      */
     $prj = $project['id'];
     if (!isset($devices["$prj-$dev"])) {
-        fileLog("Invalid Filename: $filename");
+        //fileLog("Invalid Filename: $filename");
         return;
     }
 
@@ -100,11 +100,11 @@ function importSolarFile($filename, $project, $devices, $db)
         fclose($handle);
     }
 
-    $dir = 'C:\\FTP-Backup\\' . basename($project['ftpdir']);
-    @mkdir($dir);
+#   $dir = 'C:\\FTP-Backup\\' . basename($project['ftpdir']);
+#   @mkdir($dir);
 
-    $newfile = $dir . '\\' . basename($filename);
-    rename($filename, $newfile);
+#   $newfile = $dir . '\\' . basename($filename);
+#   rename($filename, $newfile);
 }
 
 function fileLog($str)
@@ -162,6 +162,12 @@ function importSolarData()
         foreach (glob($dir . '/*.csv') as $filename) {
             $fileCount++;
             importSolarFile($filename, $project, $devices, $db);
+
+            $dir = 'C:\\FTP-Backup\\' . basename($project['ftpdir']);
+            @mkdir($dir);
+
+            $newfile = $dir . '\\' . basename($filename);
+            rename($filename, $newfile);
         }
     }
 

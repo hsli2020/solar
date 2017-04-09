@@ -29,6 +29,7 @@ class Bootstrap
         'modelsmetadata',
         'utils',
         'services',
+        'security',
         'auth',
         'mail',
         'acl',
@@ -149,6 +150,15 @@ class Bootstrap
             foreach ($config['routes'] as $route => $items) {
                 $router->add($route, $items->params->toArray())->setName($items->name);
             }
+
+            // dash in url: /user/change-password
+            $router->add('/([a-zA-Z\-]+)/([a-zA-Z\-]+)/:params', array(
+                'controller' => 1,
+                'action' => 2,
+                'params' => 3
+            ))->convert('action', function($action) {
+                return Phalcon\Text::lower(Phalcon\Text::camelize($action));
+            });
 
             return $router;
         });
@@ -337,19 +347,19 @@ class Bootstrap
     {
         $this->di->setShared('flash', function () {
             return new Phalcon\Flash\Direct([
-                'error'   => 'alert alert-danger fade in',
-                'success' => 'alert alert-success fade in',
-                'notice'  => 'alert alert-info fade in',
-                'warning' => 'alert alert-warning fade in',
+                'error'   => '', // 'alert alert-danger fade in',
+                'success' => '', // 'alert alert-success fade in',
+                'notice'  => '', // 'alert alert-info fade in',
+                'warning' => '', // 'alert alert-warning fade in',
             ]);
         });
 
         $this->di->setShared('flashSession', function () {
             return new Phalcon\Flash\Session([
-                'error'   => 'alert alert-danger fade in',
-                'success' => 'alert alert-success fade in',
-                'notice'  => 'alert alert-info fade in',
-                'warning' => 'alert alert-warning fade in',
+                'error'   => '', // 'alert alert-danger fade in',
+                'success' => '', // 'alert alert-success fade in',
+                'notice'  => '', // 'alert alert-info fade in',
+                'warning' => '', // 'alert alert-warning fade in',
             ]);
         });
     }
@@ -448,6 +458,18 @@ class Bootstrap
 
         $this->di->setShared('snapshotService', function () {
             return new App\Service\SnapshotService();
+        });
+    }
+
+    protected function initSecurity(Config $config, EventsManager $em)
+    {
+        $this->di->setShared('security', function () {
+            $security = new Phalcon\Security();
+
+            // Set the password hashing factor to 12 rounds
+            $security->setWorkFactor(12);
+
+            return $security;
         });
     }
 

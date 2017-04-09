@@ -6,4 +6,3 @@ $di = \Phalcon\Di::getDefault();
 
 $monthlyReport = $di->get('monthlyReportService');
 $monthlyReport->generate();
-$monthlyReport->send(true);

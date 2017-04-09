@@ -14,6 +14,28 @@
 
   <style>
     html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
+    #toast {
+        height:auto;
+        position:absolute;
+        right:20px;
+        bottom:20px;
+        color: #F0F0F0;
+        font-family: Calibri;
+        font-size: 20px;
+        padding:10px;
+        text-align:center;
+        border-radius: 2px;
+        -webkit-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
+        -moz-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
+        box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
+        z-index: 999;
+    }
+    #toast.error {
+        background-color: #880000;
+    }
+    #toast.success {
+        background-color: #008800;
+    }
   </style>
 
   {{ stylesheet_link("/css/style.css") }}
@@ -24,11 +46,21 @@
     {% block main %}{% endblock %}
   </div>
 
+  {% if flashSession.has('error') -%}
+    <div id="toast" class="error" style="display:none;">{{ flashSession.output() }}</div>
+  {% endif %}
+
+  {% if flashSession.has('success') -%}
+    <div id="toast" class="success" style="display:none;">{{ flashSession.output() }}</div>
+  {% endif %}
+
+  <script type='text/javascript' src='/js/jquery-2.1.0.min.js'></script>
   {% block jsfile %}{% endblock %}
   {% block jscode %}{% endblock %}
 
   <script type="text/javascript">
     $(document).ready(function() {
+      $('#toast').fadeIn(400).delay(3000).fadeOut(400);
       {% block domready %}{% endblock %}
     });
   </script>

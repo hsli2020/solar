@@ -18,7 +18,7 @@ class DailyReportService extends Injectable
             $monthly = $project->getMonthlyBudget(date('Y'), date('m'));
 
             $Project_Name        = $project->name;
-            $Date                = date('d/m/Y', strtotime('yesterday'));
+            $Date                = date('d/m/Y');
             $Capacity_AC         = $project->capacityAC;
             $Capacity_DC         = $project->capacityDC;;
             $Monthly_Budget      = $monthly['Budget']; // $this->getMonthlyBudget($monthly);
@@ -60,31 +60,51 @@ class DailyReportService extends Injectable
             ];
         }
 
+        $this->save();
+
         return $this->report;
     }
 
-    public function send($debug = false)
+    public function save()
+    {
+        $filename = $this->getFilename(date('Ymd'));
+        $json = json_encode($this->report, JSON_PRETTY_PRINT);
+        file_put_contents($filename, $json);
+    }
+
+    public function send()
     {
         $this->log('Start sending daily report');
 
-        $report = $this->report;
+        $filename = $this->getFilename(date('Ymd', strtotime('-1 day')));
+        if (!file_exists($filename)) {
+            $this->log("File '$filename' doesn't exist, daily report not sent");
+            return;
+        }
+
+        $json = file_get_contents($filename);
+        $report = json_decode($json);
 
         $users = $this->userService->getAll();
 
         foreach ($users as $user) {
-            $filename = $this->generateXls($user, $report);
-            $html = $this->generateHtml($user, $report);
-
-            if ($debug) {
-                $uid = $user['id'];
-                file_put_contents(BASE_DIR . "/app/logs/d-u-$uid.html", $html);
+            if (strpos($user['email'], '@') === false) {
+                $this->log("Skip sending daily report to {$user['username']}, no email.");
                 continue;
             }
+
+            $filename = $this->generateXls($user, $report);
+            $html = $this->generateHtml($user, $report);
 
             $this->sendDailyReport($user['email'], $html, $filename);
         }
 
         $this->log("Daily report sending completed.\n");
+    }
+
+    protected function getFilename($date)
+    {
+        return BASE_DIR . "/app/logs/daily-report-$date.json";
     }
 
     protected function generateXls($user, $report)
@@ -151,7 +171,7 @@ class DailyReportService extends Injectable
     {
         $result = [];
 
-        $projects = $this->userService->getSpecificProjects($user['id']);
+        $projects = $this->userService->getUserProjects($user['id']);
 
         foreach ($projects as $id) {
             if (isset($report[$id])) {
@@ -209,13 +229,13 @@ class DailyReportService extends Injectable
 
     protected function getMeasuredInsolation($project)
     {
-        $result = $project->getIRR('DAILY');
+        $result = $project->getIRR('TODAY');
         return $result / 60.0 / 1000.0;
     }
 
     protected function getMeasuredProduction($project)
     {
-        $result = $project->getKW('DAILY');
+        $result = $project->getKW('TODAY');
         return $result / 60.0;
     }
 
@@ -251,7 +271,7 @@ class DailyReportService extends Injectable
 
     protected function getGenMeterReading($project)
     {
-        $result = $project->getKWH('DAILY');
+        $result = $project->getKWH('TODAY');
         return $result;
     }
 

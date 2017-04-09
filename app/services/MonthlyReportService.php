@@ -15,11 +15,10 @@ class MonthlyReportService extends Injectable
         $this->report = [];
         foreach ($projects as $project) {
             $projectId = $project->id;
-            $lastMon = strtotime('-1 month');
-            $monthly = $project->getMonthlyBudget(date('Y', $lastMon), date('m', $lastMon));
+            $monthly = $project->getMonthlyBudget(date('Y'), date('m'));
 
             $Project_Name        = $project->name;
-            $Date                = date('M-Y', $lastMon);
+            $Date                = date('M-Y');
             $Monthly_Budget      = $monthly['Budget'];
             $IE_Insolation       = $monthly['IE_POA_Insolation'];
 
@@ -47,31 +46,51 @@ class MonthlyReportService extends Injectable
             ];
         }
 
+        $this->save();
+
         return $this->report;
     }
 
-    public function send($debug = false)
+    public function save()
+    {
+        $filename = $this->getFilename(date('Ymd'));
+        $json = json_encode($this->report, JSON_PRETTY_PRINT);
+        file_put_contents($filename, $json);
+    }
+
+    public function send()
     {
         $this->log('Start sending monthly report');
 
-        $report = $this->report;
+        $filename = $this->getFilename(date('Ymd', strtotime('-1 day')));
+        if (!file_exists($filename)) {
+            $this->log("File '$filename' doesn't exist, monthly report not sent");
+            return;
+        }
+
+        $json = file_get_contents($filename);
+        $report = json_decode($json);
 
         $users = $this->userService->getAll();
 
         foreach ($users as $user) {
-            $filename = $this->generateXls($user, $report);
-            $html = $this->generateHtml($user, $report);
-
-            if ($debug) {
-                $uid = $user['id'];
-                file_put_contents(BASE_DIR . "/app/logs/m-u-$uid.html", $html);
+            if (strpos($user['email'], '@') === false) {
+                $this->log("Skip sending monthly report to {$user['username']}, no email.");
                 continue;
             }
+
+            $filename = $this->generateXls($user, $report);
+            $html = $this->generateHtml($user, $report);
 
             $this->sendMonthlyReport($user['email'], $html, $filename);
         }
 
         $this->log("Monthly report sending completed.\n");
+    }
+
+    protected function getFilename($date)
+    {
+        return BASE_DIR . "/app/logs/monthly-report-$date.json";
     }
 
     protected function generateXls($user, $report)
@@ -81,7 +100,7 @@ class MonthlyReportService extends Injectable
         $excel = \PHPExcel_IOFactory::load("./templates/MonthlyReport-v1.xlsx");
         $excel->setActiveSheetIndex(0);  //set first sheet as active
 
-        $monthYear = date('F Y', strtotime('-1 month'));
+        $monthYear = date('F Y');
         $sheet = $excel->getActiveSheet();
         $sheet->setCellValue("B1", "MONTHLY REPORT SUMMARY\n$monthYear");
 
@@ -92,8 +111,8 @@ class MonthlyReportService extends Injectable
             $sheet->setCellValue("C$row", $data['Date']);
             $sheet->setCellValue("D$row", $data['Insolation_Actual']);
             $sheet->setCellValue("E$row", $data['Insolation_Reference']);
-            $sheet->setCellValue("F$row", $data['Energy_Expected']);
-            $sheet->setCellValue("G$row", $data['Energy_Measured']);
+            $sheet->setCellValue("F$row", $data['Energy_Measured']);
+            $sheet->setCellValue("G$row", $data['Energy_Expected']);
             $sheet->setCellValue("H$row", $data['Energy_Budget']);
             $sheet->setCellValue("I$row", $data['Actual_Budget']);
             $sheet->setCellValue("J$row", $data['Actual_Expected']);
@@ -127,7 +146,7 @@ class MonthlyReportService extends Injectable
     {
         $result = [];
 
-        $projects = $this->userService->getSpecificProjects($user['id']);
+        $projects = $this->userService->getUserProjects($user['id']);
 
         foreach ($projects as $id) {
             if (isset($report[$id])) {
@@ -140,7 +159,7 @@ class MonthlyReportService extends Injectable
 
     protected function getInsolationActual($project)
     {
-        return $project->getIRR('LAST-MONTH') / 60.0 / 1000.0;
+        return $project->getIRR('THIS-MONTH') / 60.0 / 1000.0;
     }
 
     protected function getInsolationReference($monthly)
@@ -161,7 +180,7 @@ class MonthlyReportService extends Injectable
 
     protected function getEnergyMeasured($project)
     {
-        return $project->getKW('LAST-MONTH') / 60.0;
+        return $project->getKW('THIS-MONTH') / 60.0;
     }
 
     protected function getEnergyBudget($monthly)

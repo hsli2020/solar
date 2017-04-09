@@ -19,7 +19,7 @@ class DataService extends Injectable
     {
         $data = [];
 
-        list($start, $end) = $this->getPeriod('LATEST');
+        list($start, $end) = $this->getPeriod('X-MINUTES-AGO');
 
         $projects = $this->projectService->getAll();
         foreach ($projects as $projectId => $project) {
@@ -91,7 +91,7 @@ class DataService extends Injectable
         $device  = $this->deviceService->getDevicesOfType($prj, 'EnvKit');
         $devcode = $device[0]; // only one envkit per site
 
-        $criteria = $this->getEnvKitCriteria($prj, $devcode, 'LATEST');
+        $criteria = $this->getEnvKitCriteria($prj, $devcode, 'X-MINUTES-AGO');
        #$criteria["column"] = "IRR";
 
         $result = DataEnvKits::findFirst($criteria);
@@ -138,7 +138,7 @@ class DataService extends Injectable
 
         $sum = 0;
         foreach ($devices as $devcode) {
-            $criteria = $this->getInverterCriteria($prj, $devcode, 'LATEST');
+            $criteria = $this->getInverterCriteria($prj, $devcode, 'X-MINUTES-AGO');
            #$criteria["column"] = "kw";
 
             $modelClass = $this->deviceService->getModelName($prj, $devcode);
@@ -161,7 +161,7 @@ class DataService extends Injectable
         $device  = $this->deviceService->getDevicesOfType($prj, 'EnvKit');
         $devcode = $device[0]; // only one envkit per site
 
-        $criteria = $this->getEnvKitCriteria($prj, $devcode, 'LATEST');
+        $criteria = $this->getEnvKitCriteria($prj, $devcode, 'X-MINUTES-AGO');
         $modelClass = $this->deviceService->getModelName($prj, $devcode);
 
         $result = $modelClass::findFirst($criteria);
@@ -253,43 +253,32 @@ class DataService extends Injectable
 
     protected function getPeriod($period)
     {
+       #$Y = $this->year;
+       #$M = $this->month;
+       #$D = $this->day;
+
         switch (strtoupper($period)) {
-        case 'HOURLY':
         case 'LAST-HOUR':
-            // last hour
             $start = gmdate('Y-m-d H:00:00', strtotime('-1 hours'));
             $end   = gmdate('Y-m-d H:00:00');
             break;
 
-        case 'DAILY':
-        case 'YESTERDAY':
-            // yesterday
-            $yesterday = strtotime('-1 day');
-            $start = gmdate('Y-m-d 00:00:00', $yesterday);
-            $end   = gmdate('Y-m-d 23:59:59', $yesterday);
+        case 'TODAY':
+            $start = gmdate('Y-m-d h:i:s', mktime(0, 0, 0));
+            $end   = gmdate('Y-m-d h:i:s', mktime(23, 59, 59));
             break;
 
         case 'MONTH-TO-DATE':
-            // month-to-date
-            $start = gmdate('Y-m-01 00:00:00');
-            $end   = gmdate('Y-m-d 00:00:00');
-
-            // first day of the month, go back to last month
-            if (date('d') == '01') {
-                $start = gmdate('Y-m-01 00:00:00', strtotime('-1 month'));  // first day of last month
-                #$end  = gmdate('Y-m-d 00:00:00',  strtotime('-1 day'));
-                $end   = gmdate('Y-m-01 00:00:00');     // first day of current month
-            }
+            $start = gmdate('Y-m-d h:i:s', mktime(0, 0, 0, date('n'), 1));
+            $end   = gmdate('Y-m-d h:i:s', mktime(23, 59, 59));
             break;
 
-        case 'LAST-MONTH':
-            // last-month
-            $start = gmdate('Y-m-01 00:00:00', strtotime('-1 month'));  // first day of last month
-            #$end  = gmdate('Y-m-t 23:59:59',  strtotime('-1 month'));
-            $end   = gmdate('Y-m-01 00:00:00');     // first day of current month
+        case 'THIS-MONTH':
+            $start = gmdate('Y-m-01 h:i:s', mktime(0, 0, 0));
+            $end   = gmdate('Y-m-t h:i:s', mktime(23, 59, 59));
             break;
 
-        case 'LATEST':
+        case 'X-MINUTES-AGO':
             // last minute (15 minutes ago)
             $start = gmdate('Y-m-d H:i:00', strtotime('-16 minute'));
             $end   = gmdate('Y-m-d H:i:30', strtotime('-15 minute'));
@@ -321,9 +310,9 @@ class DataService extends Injectable
         $Transformer_Loss         = $site['Transformer_Loss'];
         $Other_Loss               = $site['Other_Loss'];
 
-        $Avg_Irradiance_POA       = $this->getIRR($prj, 'HOURLY') / 60.0; // avg 60 minutes
-        $Avg_Module_Temp          = $this->getTMP($prj, 'HOURLY') / 60.0; // PANELT
-        $Measured_Energy          = $this->getKW($prj,  'HOURLY');        // sum 60 minutes
+        $Avg_Irradiance_POA       = $this->getIRR($prj, 'LAST-HOUR') / 60.0; // avg 60 minutes
+        $Avg_Module_Temp          = $this->getTMP($prj, 'LAST-HOUR') / 60.0; // PANELT
+        $Measured_Energy          = $this->getKW($prj,  'LAST-HOUR') / 60.0; // sum 60 minutes
 
         if ($DC_Nameplate_Capacity == 0) return 0;
 

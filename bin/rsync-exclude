@@ -7,3 +7,4 @@ filelist
 tt.php
 README.md
 app/logs/
+app/cache/

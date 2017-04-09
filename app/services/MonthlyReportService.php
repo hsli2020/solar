@@ -15,11 +15,10 @@ class MonthlyReportService extends Injectable
         $this->report = [];
         foreach ($projects as $project) {
             $projectId = $project['id'];
-            $lastMon = strtotime('-1 month');
-            $monthly = $this->dataService->getMonthlyBudget($projectId, date('Y', $lastMon), date('m', $lastMon));
+            $monthly = $this->dataService->getMonthlyBudget($projectId, date('Y'), date('m'));
 
             $Project_Name        = $project['name'];
-            $Date                = date('M-Y', $lastMon);
+            $Date                = date('M-Y');
             $Monthly_Budget      = $monthly['Budget'];
             $IE_Insolation       = $monthly['IE_POA_Insolation'];
 
@@ -101,7 +100,7 @@ class MonthlyReportService extends Injectable
         $excel = \PHPExcel_IOFactory::load("./templates/MonthlyReport-v1.xlsx");
         $excel->setActiveSheetIndex(0);  //set first sheet as active
 
-        $monthYear = date('F Y', strtotime('-1 month'));
+        $monthYear = date('F Y');
         $sheet = $excel->getActiveSheet();
         $sheet->setCellValue("B1", "MONTHLY REPORT SUMMARY\n$monthYear");
 
@@ -160,7 +159,7 @@ class MonthlyReportService extends Injectable
 
     protected function getInsolationActual($prj)
     {
-        return $this->dataService->getIRR($prj, 'LAST-MONTH') / 60.0 / 1000.0;
+        return $this->dataService->getIRR($prj, 'THIS-MONTH') / 60.0 / 1000.0;
     }
 
     protected function getInsolationReference($monthly)
@@ -181,7 +180,7 @@ class MonthlyReportService extends Injectable
 
     protected function getEnergyMeasured($prj)
     {
-        return $this->dataService->getKW($prj, 'LAST-MONTH') / 60.0;
+        return $this->dataService->getKW($prj, 'THIS-MONTH') / 60.0;
     }
 
     protected function getEnergyBudget($monthly)

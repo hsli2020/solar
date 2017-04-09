@@ -18,7 +18,7 @@ class DailyReportService extends Injectable
             $monthly = $this->dataService->getMonthlyBudget($projectId, date('Y'), date('m'));
 
             $Project_Name        = $project['name'];
-            $Date                = date('d/m/Y', strtotime('yesterday'));
+            $Date                = date('d/m/Y');
             $Capacity_AC         = $project['AC_Nameplate_Capacity'];
             $Capacity_DC         = $project['DC_Nameplate_Capacity'];;
             $Monthly_Budget      = $monthly['Budget']; // $this->getMonthlyBudget($monthly);

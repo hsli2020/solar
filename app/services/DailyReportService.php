@@ -229,13 +229,13 @@ class DailyReportService extends Injectable
 
     protected function getMeasuredInsolation($prj)
     {
-        $result = $this->dataService->getIRR($prj, 'DAILY');
+        $result = $this->dataService->getIRR($prj, 'TODAY');
         return $result / 60.0 / 1000.0;
     }
 
     protected function getMeasuredProduction($prj)
     {
-        $result = $this->dataService->getKW($prj, 'DAILY');
+        $result = $this->dataService->getKW($prj, 'TODAY');
         return $result / 60.0;
     }
 
@@ -271,7 +271,7 @@ class DailyReportService extends Injectable
 
     protected function getGenMeterReading($prj)
     {
-        $result = $this->dataService->getKWHREC($prj, 'DAILY');
+        $result = $this->dataService->getKWHREC($prj, 'TODAY');
         return $result;
     }
 

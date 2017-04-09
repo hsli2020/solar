@@ -23,13 +23,12 @@ class DataService extends Injectable
 
         $projects = $this->projectService->getAll();
         foreach ($projects as $projectId => $project) {
-            $devices = Devices::find("projectId=$projectId");
-            foreach ($devices as $device) {
+            foreach ($project->devices as $device) {
                #$projectId = $device->projectId;
                 $devcode = $device->code;
                 $devtype = $device->type;
 
-                $data[$projectId]['name'] = $project['name'];
+                $data[$projectId]['name'] = $project->name;
 
                 $criteria = [
                     "conditions" => "projectId=:project: AND devcode=:devcode: AND time >= :start: AND time < :end: AND error=0",
@@ -38,7 +37,7 @@ class DataService extends Injectable
                     "limit"      => 1
                 ];
 
-                $modelClass = $this->deviceService->getModelName($projectId, $devcode);
+                $modelClass = $device->getClassName($devcode);
 
                 $row = $modelClass::findFirst($criteria);
                 if ($row) {

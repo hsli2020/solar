@@ -253,40 +253,29 @@ class DataService extends Injectable
 
     protected function getPeriod($period)
     {
+       #$Y = $this->year;
+       #$M = $this->month;
+       #$D = $this->day;
+
         switch (strtoupper($period)) {
         case 'LAST-HOUR':
-            // last hour
             $start = gmdate('Y-m-d H:00:00', strtotime('-1 hours'));
             $end   = gmdate('Y-m-d H:00:00');
             break;
 
         case 'TODAY':
-            $start = gmdate('Y-m-d 00:00:00');
-            $end   = gmdate('Y-m-d 23:59:59');
-            break;
-
-        case 'YESTERDAY':
-            $yesterday = strtotime('-1 day');
-            $start = gmdate('Y-m-d 00:00:00', $yesterday);
-            $end   = gmdate('Y-m-d 23:59:59', $yesterday);
+            $start = gmdate('Y-m-d h:i:s', mktime(0, 0, 0));
+            $end   = gmdate('Y-m-d h:i:s', mktime(23, 59, 59));
             break;
 
         case 'MONTH-TO-DATE':
-            // month-to-date
-            $start = gmdate('Y-m-01 00:00:00');
-            $end   = gmdate('Y-m-d 00:00:00');
+            $start = gmdate('Y-m-d h:i:s', mktime(0, 0, 0, date('n'), 1));
+            $end   = gmdate('Y-m-d h:i:s', mktime(23, 59, 59));
             break;
 
         case 'THIS-MONTH':
-            $start = gmdate('Y-m-01 00:00:00');
-            $end   = gmdate('Y-m-t 23:59:59');
-            break;
-
-        case 'LAST-MONTH':
-            // last-month
-            $start = gmdate('Y-m-01 00:00:00', strtotime('-1 month'));  // first day of last month
-            #$end  = gmdate('Y-m-t 23:59:59',  strtotime('-1 month'));
-            $end   = gmdate('Y-m-01 00:00:00');     // first day of current month
+            $start = gmdate('Y-m-01 h:i:s', mktime(0, 0, 0));
+            $end   = gmdate('Y-m-t h:i:s', mktime(23, 59, 59));
             break;
 
         case 'X-MINUTES-AGO':

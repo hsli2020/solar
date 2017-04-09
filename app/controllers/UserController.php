@@ -32,6 +32,8 @@ class UserController extends ControllerBase
         $username = '';
 
         if ($this->request->isPost() && $this->security->checkToken()) {
+            $state = '';
+
             // Receiving the variables sent by POST
             $username = $this->request->getPost('username', 'trim');
             $password = $this->request->getPost('password', 'trim');
@@ -42,8 +44,10 @@ class UserController extends ControllerBase
             if ($user && $user->active == 'Y' && $this->security->checkHash($password, $user->password)) {
                 $this->_registerSession($user);
                 $this->flashSession->success("Welcome, $username!");
+                $this->logUserLogin($username, 'Success', $this->request);
                 return $this->response->redirect("/");
             } else {
+                $this->logUserLogin($username, 'Failed', $this->request);
                 $this->flashSession->error('Wrong Username/password.');
                 // To protect against timing attacks. Regardless of whether a user exists or not,
                 // the script will take roughly the same amount as it will always be computing a hash.
@@ -54,6 +58,16 @@ class UserController extends ControllerBase
         }
 
         $this->view->username = $username;
+    }
+
+    protected function logUserLogin($username, $state, $request)
+    {
+        $this->db->insertAsDict('user_login', [
+            'username' => $username,
+            'status'   => $state,
+            'ip'       => $request->getClientAddress(),
+            'ua'       => $request->getUserAgent(),
+        ]);
     }
 
     public function logoutAction()

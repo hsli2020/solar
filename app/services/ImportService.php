@@ -21,6 +21,15 @@ class ImportService extends Injectable
             foreach (glob($dir . '/*.csv') as $filename) {
                 $fileCount++;
                 $this->importFile($filename, $project, $devices);
+
+                // move file to BACKUP folder, even it's not imported
+                $dir = 'C:\\FTP-Backup\\' . basename($project['ftpdir']);
+                if (!file_exists($dir) && !is_dir($dir)) {
+                    mkdir($dir);
+                }
+
+                $newfile = $dir . '\\' . basename($filename);
+                rename($filename, $newfile);
             }
         }
 
@@ -36,7 +45,7 @@ class ImportService extends Injectable
 
         $prj = $project['id'];
         if (!isset($devices[$prj][$dev])) {
-            $this->log("Invalid Filename: $filename");
+           #$this->log("Invalid Filename: $filename");
             return;
         }
 
@@ -65,14 +74,6 @@ class ImportService extends Injectable
             }
             fclose($handle);
         }
-
-        $dir = 'C:\\FTP-Backup\\' . basename($project['ftpdir']);
-        if (!file_exists($dir) && !is_dir($dir)) {
-            mkdir($dir);
-        }
-
-        $newfile = $dir . '\\' . basename($filename);
-        rename($filename, $newfile);
     }
 
     protected function log($str)

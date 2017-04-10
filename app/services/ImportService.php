@@ -20,7 +20,7 @@ class ImportService extends Injectable
                 $this->importFile($filename, $project);
 
                 // move file to BACKUP folder, even it's not imported
-                $dir = 'C:\\FTP-Backup\\' . basename($project['ftpdir']);
+                $dir = 'C:\\FTP-Backup\\' . basename($project->ftpdir);
                 if (!file_exists($dir) && !is_dir($dir)) {
                     mkdir($dir);
                 }

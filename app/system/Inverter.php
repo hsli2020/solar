@@ -26,7 +26,7 @@ class Inverter extends Device
         return 0;
     }
 
-    public function getLatestKW($period)
+    public function getLatestKW()
     {
     }
 }

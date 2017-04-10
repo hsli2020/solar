@@ -128,7 +128,7 @@ class Project
     public function getLatestIRR()
     {
         $envkit = current($this->envkits);
-        return $envkit->getLatestIRR($period);
+        return $envkit->getLatestIRR();
     }
 
     public function getTMP($period)
@@ -146,11 +146,11 @@ class Project
         return $sum;
     }
 
-    public function getLatestKW($period)
+    public function getLatestKW()
     {
         $sum = 0;
         foreach ($this->inverters as $inverter) {
-            $sum += $inverter->getLatestKW($period);
+            $sum += $inverter->getLatestKW();
         }
         return $sum;
     }

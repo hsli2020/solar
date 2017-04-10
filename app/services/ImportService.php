@@ -8,19 +8,16 @@ class ImportService extends Injectable
 {
     public function import()
     {
-        date_default_timezone_set("America/Toronto");
-
         $this->log('Start importing');
 
         $projects = $this->projectService->getAll();
-        $devices  = $this->deviceService->getAll();
 
         $fileCount = 0;
         foreach ($projects as $project) {
             $dir = $project->ftpdir;
             foreach (glob($dir . '/*.csv') as $filename) {
                 $fileCount++;
-                $this->importFile($filename, $project, $devices);
+                $this->importFile($filename, $project);
 
                 // move file to BACKUP folder, even it's not imported
                 $dir = 'C:\\FTP-Backup\\' . basename($project['ftpdir']);
@@ -36,22 +33,21 @@ class ImportService extends Injectable
         $this->log("Importing completed, $fileCount file(s) imported.\n");
     }
 
-    protected function importFile($filename, $project, $devices)
+    protected function importFile($filename, $project)
     {
         // filename: c:\FTP-Backup\125Bermondsey_001EC6053434\mb-001.57BEE4B7_1.log.csv
         $parts = explode('.', basename($filename));
         $dev  = $parts[0]; // mb-001
         $hash = $parts[1]; // 57BEE4B7_1
 
-        $prj = $project->id;
-        if (!isset($devices[$prj][$dev])) {
+        if (!isset($project->devices[$dev])) {
            #$this->log("Invalid Filename: $filename");
             return;
         }
 
-        $device  = $devices[$prj][$dev];
-        $table   = $device['table'];
-        $columns = $this->deviceService->getTableColumns($prj, $dev);
+        $device  = $project->devices[$dev];
+        $table   = $device->getTable();
+        $columns = $device->getTableColumns();
 
         if (($handle = fopen($filename, "r")) !== FALSE) {
             fgetcsv($handle); // skip first line
@@ -64,7 +60,7 @@ class ImportService extends Injectable
                 $data = array_combine($columns, $fields);
 
                 $data['devcode']    = $dev;
-                $data['project_id'] = $project['id'];
+                $data['project_id'] = $project->id;
 
                 $columnList = '`' . implode('`, `', array_keys($data)) . '`';
                 $values = "'" . implode("', '", $data). "'";

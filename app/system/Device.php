@@ -84,7 +84,7 @@ abstract class Device
             break;
 
         default:
-            throw new InvalidArgumentException("Bad argument '$period'");
+            throw new \InvalidArgumentException("Bad argument '$period'");
             break;
         }
 

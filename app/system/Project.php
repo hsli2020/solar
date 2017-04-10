@@ -121,19 +121,19 @@ class Project
 
     public function getIRR($period)
     {
-        $envkit = $this->envkits[0];
+        $envkit = current($this->envkits);
         return $envkit->getIRR($period);
     }
 
     public function getLatestIRR()
     {
-        $envkit = $this->envkits[0];
+        $envkit = current($this->envkits);
         return $envkit->getLatestIRR($period);
     }
 
     public function getTMP($period)
     {
-        $envkit = $this->envkits[0];
+        $envkit = current($this->envkits);
         return $envkit->getTMP($period);
     }
 

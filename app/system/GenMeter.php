@@ -6,7 +6,7 @@ class GenMeter extends Device
 {
     public function getKWH($period, $f = 'rec')
     {
-        $projectId = $this->project->getId();
+        $projectId = $this->project->id;
         $table = $this->table;
         $code = $this->code;
 

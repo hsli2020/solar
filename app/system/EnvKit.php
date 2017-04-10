@@ -6,7 +6,7 @@ class EnvKit extends Device
 {
     public function getIRR($period)
     {
-        $projectId = $this->project->getId();
+        $projectId = $this->project->id;
         $table = $this->table;
         $code = $this->code;
 
@@ -30,7 +30,7 @@ class EnvKit extends Device
 
     public function getOAT($period)
     {
-        $projectId = $this->project->getId();
+        $projectId = $this->project->id;
         $table = $this->table;
         $code = $this->code;
 
@@ -50,7 +50,7 @@ class EnvKit extends Device
 
     public function getTMP($period)
     {
-        $projectId = $this->project->getId();
+        $projectId = $this->project->id;
         $table = $this->table;
         $code = $this->code;
 

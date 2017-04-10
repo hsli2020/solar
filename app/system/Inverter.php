@@ -6,7 +6,7 @@ class Inverter extends Device
 {
     public function getKW($period)
     {
-        $projectId = $this->project->getId();
+        $projectId = $this->project->id;
         $table = $this->table;
         $code = $this->code;
 

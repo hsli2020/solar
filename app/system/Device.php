@@ -100,7 +100,7 @@ abstract class Device
         return null;
     }
 
-    protected function getLatestTime()
+    public function getLatestTime()
     {
     }
 }

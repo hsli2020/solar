@@ -155,6 +155,10 @@ class Project
         return $sum;
     }
 
+    public function getLatestTime()
+    {
+    }
+
     public function __get($prop)
     {
         if (isset($this->$prop)) {

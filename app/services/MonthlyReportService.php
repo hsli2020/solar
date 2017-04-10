@@ -69,7 +69,7 @@ class MonthlyReportService extends Injectable
         }
 
         $json = file_get_contents($filename);
-        $report = json_decode($json);
+        $report = json_decode($json, true);
 
         $users = $this->userService->getAll();
 

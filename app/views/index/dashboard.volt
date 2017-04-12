@@ -13,10 +13,10 @@
     color: rgba(0, 0, 0, 0.09);
     line-height: 0;
   }
-  .bg-red  { background-color: #f56954 !important; }
-  .bg-blue { background-color: #3c8dbc !important; }
-  .bg-teal { background-color: #39cccc !important; }
-  .bg-purple { background-color: #8F5E99 !important; }
+  .bg-box1 { background-color: #ffe599 !important; }
+  .bg-box2 { background-color: #b4c6e7 !important; }
+  .bg-box3 { background-color: #8eaadb !important; }
+  .bg-box4 { background-color: #2f5496 !important; }
   .w3-border { border: 5px solid #eee !important; }
   ul#breadcrumb { list-style: none; margin: 0; padding: 0; }
   ul#breadcrumb li { display: inline; }
@@ -38,7 +38,7 @@
   </div>
 
   <div class="w3-quarter">
-    <div class="w3-container bg-blue w3-text-white">
+    <div class="w3-container bg-box1 w3-text-white">
       <div class="w3-left icon"><i class="fa fa-bar-chart"></i></div>
       <div class="w3-right w3-padding-12">
         <div class="numval">{{ data['total']['project_size_ac'] }}</div>
@@ -47,7 +47,7 @@
     </div>
   </div>
   <div class="w3-quarter">
-    <div class="w3-container bg-teal w3-text-white">
+    <div class="w3-container bg-box2 w3-text-white">
       <div class="w3-left icon"><i class="fa fa-area-chart"></i></div>
       <div class="w3-right w3-padding-12">
         <div class="numval">{{ data['total']['current_power'] }}</div>
@@ -56,7 +56,7 @@
     </div>
   </div>
   <div class="w3-quarter">
-    <div class="w3-container bg-purple w3-text-white">
+    <div class="w3-container bg-box3 w3-text-white">
       <div class="w3-left icon"><i class="fa fa-pie-chart"></i></div>
       <div class="w3-right w3-padding-12">
         <div class="numval">{{ data['total']['average_irradiance'] }}</div>
@@ -65,7 +65,7 @@
     </div>
   </div>
   <div class="w3-quarter">
-    <div class="w3-container bg-red w3-text-white">
+    <div class="w3-container bg-box4 w3-text-white">
       <div class="w3-left icon"><i class="fa fa-line-chart"></i></div>
       <div class="w3-right w3-padding-12">
         <div class="numval">{{ data['total']['performance'] }}</div>

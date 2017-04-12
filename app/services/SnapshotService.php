@@ -96,7 +96,7 @@ class SnapshotService extends Injectable
         foreach ($projects as $project) {
             $id = $project['id'];
             $name = $project['name'];
-            $sizeAC = round($project['AC_Nameplate_Capacity']);
+            $sizeAC = number_format($project['AC_Nameplate_Capacity']);
 
             $GCPR = $this->getGCPR($id);
             $currentPower = $this->getCurrentPower($id);

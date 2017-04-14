@@ -10,7 +10,8 @@ class Inverter extends Device
         $table = $this->table;
         $code = $this->code;
 
-        $column = ($this->model == 'SERIAL') ?  'line_kw' : 'kw';
+       #$column = ($this->model == 'SERIAL') ?  'line_kw' : 'kw';
+        $column = ($projectId == 2) ? 'line_kw' : 'kw';
 
         list($start, $end) = $this->getPeriod($period);
 
@@ -28,5 +29,15 @@ class Inverter extends Device
 
     public function getLatestKW()
     {
+        $data = $this->getLatestData();
+        if ($data) {
+            if (isset($data['kw'])) {
+                return $data['kw'];
+            }
+            if (isset($data['line_kw'])) {
+                return $data['line_kw'];
+            }
+        }
+        return false;
     }
 }

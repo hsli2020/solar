@@ -26,6 +26,11 @@ class EnvKit extends Device
 
     public function getLatestIRR()
     {
+        $data = $this->getLatestData();
+        if ($data) {
+            return $data['IRR'];
+        }
+        return false;
     }
 
     public function getOAT($period)

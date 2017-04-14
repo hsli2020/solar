@@ -125,12 +125,6 @@ class Project
         return $envkit->getIRR($period);
     }
 
-    public function getLatestIRR()
-    {
-        $envkit = current($this->envkits);
-        return $envkit->getLatestIRR();
-    }
-
     public function getTMP($period)
     {
         $envkit = current($this->envkits);
@@ -146,6 +140,15 @@ class Project
         return $sum;
     }
 
+    /**
+     * Latest
+     */
+    public function getLatestIRR()
+    {
+        $envkit = current($this->envkits);
+        return $envkit->getLatestIRR();
+    }
+
     public function getLatestKW()
     {
         $sum = 0;
@@ -156,6 +159,23 @@ class Project
     }
 
     public function getLatestTime()
+    {
+    }
+
+    /**
+     * Snapshot
+     */
+    public function getSnapshotIRR()
+    {
+        return $this->getIRR('SNAPSHOT');
+    }
+
+    public function getSnapshotKW()
+    {
+        return $this->getKW('SNAPSHOT');
+    }
+
+    public function getSnapshotTime()
     {
     }
 

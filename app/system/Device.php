@@ -77,7 +77,7 @@ abstract class Device
             $end   = gmdate('Y-m-t h:i:s', mktime(23, 59, 59));
             break;
 
-        case 'X-MINUTES-AGO':
+        case 'SNAPSHOT':
             // last minute (15 minutes ago)
             $start = gmdate('Y-m-d H:i:00', strtotime('-16 minute'));
             $end   = gmdate('Y-m-d H:i:30', strtotime('-15 minute'));

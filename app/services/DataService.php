@@ -19,7 +19,7 @@ class DataService extends Injectable
     {
         $data = [];
 
-        list($start, $end) = $this->getPeriod('X-MINUTES-AGO');
+        list($start, $end) = $this->getPeriod('SNAPSHOT');
 
         $projects = $this->projectService->getAll();
         foreach ($projects as $projectId => $project) {
@@ -90,7 +90,7 @@ class DataService extends Injectable
         $device  = $this->deviceService->getDevicesOfType($prj, 'EnvKit');
         $devcode = $device[0]; // only one envkit per site
 
-        $criteria = $this->getEnvKitCriteria($prj, $devcode, 'X-MINUTES-AGO');
+        $criteria = $this->getEnvKitCriteria($prj, $devcode, 'SNAPSHOT');
        #$criteria["column"] = "IRR";
 
         $result = DataEnvKits::findFirst($criteria);
@@ -137,7 +137,7 @@ class DataService extends Injectable
 
         $sum = 0;
         foreach ($devices as $devcode) {
-            $criteria = $this->getInverterCriteria($prj, $devcode, 'X-MINUTES-AGO');
+            $criteria = $this->getInverterCriteria($prj, $devcode, 'SNAPSHOT');
            #$criteria["column"] = "kw";
 
             $modelClass = $this->deviceService->getModelName($prj, $devcode);
@@ -160,7 +160,7 @@ class DataService extends Injectable
         $device  = $this->deviceService->getDevicesOfType($prj, 'EnvKit');
         $devcode = $device[0]; // only one envkit per site
 
-        $criteria = $this->getEnvKitCriteria($prj, $devcode, 'X-MINUTES-AGO');
+        $criteria = $this->getEnvKitCriteria($prj, $devcode, 'SNAPSHOT');
         $modelClass = $this->deviceService->getModelName($prj, $devcode);
 
         $result = $modelClass::findFirst($criteria);
@@ -277,7 +277,7 @@ class DataService extends Injectable
             $end   = gmdate('Y-m-t h:i:s', mktime(23, 59, 59));
             break;
 
-        case 'X-MINUTES-AGO':
+        case 'SNAPSHOT':
             // last minute (15 minutes ago)
             $start = gmdate('Y-m-d H:i:00', strtotime('-16 minute'));
             $end   = gmdate('Y-m-d H:i:30', strtotime('-15 minute'));

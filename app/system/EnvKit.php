@@ -18,7 +18,8 @@ class EnvKit extends Device
 
         $result = $this->db->fetchOne($sql);
         if ($result) {
-            return $result['irr'] / 60.0 / 1000.0;
+            return $result['irr'];
+           #return $result['irr'] / 60.0 / 1000.0;
         }
 
         return 0;

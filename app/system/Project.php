@@ -160,6 +160,8 @@ class Project
 
     public function getLatestTime()
     {
+        $envkit = current($this->envkits);
+        return $envkit->getLatestTime();
     }
 
     /**

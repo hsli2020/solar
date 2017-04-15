@@ -5,6 +5,7 @@ namespace App\System;
 abstract class Device
 {
     protected $project;
+    protected $type;
     protected $code;
     protected $table;
     protected $model;
@@ -12,15 +13,22 @@ abstract class Device
     protected $di;
     protected $db;
 
-    public function __construct($project, $code, $table, $model)
+    public function __construct($project, $type, $code, $table, $model)
     {
         $this->project = $project;
+        $this->type    = $type;
         $this->code    = $code;
         $this->table   = $table;
         $this->model   = $model;
 
         $this->di = \Phalcon\Di::getDefault();
         $this->db = $this->di->get('db');
+    }
+
+    public function __toString()
+    {
+       #return 'P' .$this->project->id. ' ' .$this->type. ' ' .$this->code;
+        return $this->type. ' ' .$this->code. ' of Project ' .$this->project->name;
     }
 
     public function getTable()

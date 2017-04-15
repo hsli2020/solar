@@ -51,19 +51,19 @@ class Project
 
         switch (strtoupper($type)) {
         case 'INVERTER':
-            $inverter = new Inverter($this, $code, $table, $model);
+            $inverter = new Inverter($this, $type, $code, $table, $model);
             $this->inverters[$code] = $inverter;
             $this->devices[$code] = $inverter;
             break;
 
         case 'ENVKIT':
-            $envkit = new EnvKit($this, $code, $table, $model);
+            $envkit = new EnvKit($this, $type, $code, $table, $model);
             $this->envkits[$code] = $envkit;
             $this->devices[$code] = $envkit;
             break;
 
         case 'GENMETER':
-            $genmeter = new GenMeter($this, $code, $table, $model);
+            $genmeter = new GenMeter($this, $type, $code, $table, $model);
             $this->genmeters[$code] = $genmeter;
             $this->devices[$code] = $genmeter;
             break;

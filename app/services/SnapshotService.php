@@ -128,13 +128,13 @@ class SnapshotService extends Injectable
 
     protected function getCurrentPower($project)
     {
-        $kw = $project->getLatestKW();
+        $kw = $project->getSnapshotKW();
         return round($kw);
     }
 
     protected function getIrradiance($project)
     {
-        $irr = $project->getLatestIRR();
+        $irr = $project->getSnapshotIRR();
         return round($irr);
     }
 
@@ -156,6 +156,6 @@ class SnapshotService extends Injectable
 
     protected function getLastCom($project)
     {
-        return $project->getLatestTime();
+        return $project->getSnapshotTime();
     }
 }

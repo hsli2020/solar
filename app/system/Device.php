@@ -20,15 +20,18 @@ abstract class Device
         $this->code    = $code;
         $this->table   = $table;
         $this->model   = $model;
-
-        $this->di = \Phalcon\Di::getDefault();
-        $this->db = $this->di->get('db');
     }
 
     public function __toString()
     {
        #return 'P' .$this->project->id. ' ' .$this->type. ' ' .$this->code;
         return $this->type. ' ' .$this->code. ' of Project ' .$this->project->name;
+    }
+
+    protected function getDb()
+    {
+        $di = \Phalcon\Di::getDefault();
+        return $di->get('db');
     }
 
     public function getTable()
@@ -39,7 +42,7 @@ abstract class Device
     public function getTableColumns()
     {
         $table = $this->getTable();
-        $columns = $this->db->fetchAll("DESC $table");
+        $columns = $this->getDb()->fetchAll("DESC $table");
         unset($columns[0]); // remove id
         unset($columns[1]); // remove project_id
         unset($columns[2]); // remove devcode
@@ -121,7 +124,7 @@ abstract class Device
              .        "   FROM $table"
              .        "  WHERE project_id=$projectId AND devcode='$devcode')";
 
-        return $this->db->fetchOne($sql);
+        return $this->getDb()->fetchOne($sql);
     }
 
     public function getLatestTime()
@@ -145,7 +148,7 @@ abstract class Device
                 "WHERE project_id=$projectId AND devcode='$code' AND ".
                       "time>='$start' AND time<'$end' AND error=0";
 
-        $result = $this->db->fetchOne($sql);
+        $result = $this->getDb()->fetchOne($sql);
 
         return $result;
     }

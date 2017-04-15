@@ -16,7 +16,7 @@ class EnvKit extends Device
                 "WHERE project_id=$projectId AND devcode='$code' AND ".
                       "time>='$start' AND time<'$end' AND error=0";
 
-        $result = $this->db->fetchOne($sql);
+        $result = $this->getDb()->fetchOne($sql);
         if ($result) {
             return $result['irr'];
            #return $result['irr'] / 60.0 / 1000.0;
@@ -46,7 +46,7 @@ class EnvKit extends Device
                 "WHERE project_id=$projectId AND devcode='$code' AND ".
                       "time>='$start' AND time<'$end' AND error=0";
 
-        $result = $this->db->fetchOne($sql);
+        $result = $this->getDb()->fetchOne($sql);
         if ($result) {
             return $result['tmp'];
         }
@@ -66,7 +66,7 @@ class EnvKit extends Device
                 "WHERE project_id=$projectId AND devcode='$code' AND ".
                       "time>='$start' AND time<'$end' AND error=0";
 
-        $result = $this->db->fetchOne($sql);
+        $result = $this->getDb()->fetchOne($sql);
         if ($result) {
             return $result['tmp'];
         }

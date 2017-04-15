@@ -22,9 +22,6 @@ class Project
     protected $envkits   = [];
     protected $genmeters = [];
 
-    protected $di;
-    protected $db;
-
     public function __construct($info)
     {
         $this->id                     = $info['id'];
@@ -37,9 +34,6 @@ class Project
         $this->inverterEfficiency     = $info['Inverter_Efficiency'];
         $this->transformerLoss        = $info['Transformer_Loss'];
         $this->otherLoss              = $info['Other_Loss'];
-
-        $this->di = \Phalcon\Di::getDefault();
-        $this->db = $this->di->get('db');
     }
 
     public function initDevices($info)
@@ -74,6 +68,12 @@ class Project
         }
     }
 
+    protected function getDb()
+    {
+        $di = \Phalcon\Di::getDefault();
+        return $di->get('db');
+    }
+
     public function getDevices()
     {
         return $this->devices;
@@ -97,8 +97,7 @@ class Project
     public function getMonthlyBudget($year, $month)
     {
         $prj = $this->id;
-
-        return $this->db->fetchOne("SELECT * FROM monthly_budget
+        return $this->getDb()->fetchOne("SELECT * FROM monthly_budget
             WHERE project_id=$prj AND year=$year AND month=$month");
     }
 
@@ -108,8 +107,7 @@ class Project
     public function getRefData($year, $month)
     {
         $prj = $this->id;
-
-        return $this->db->fetchOne("SELECT * FROM project_reference_data
+        return $this->getDb()->fetchOne("SELECT * FROM project_reference_data
             WHERE project_id=$prj AND year=$year AND month=$month");
     }
 

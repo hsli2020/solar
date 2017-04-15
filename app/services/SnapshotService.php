@@ -101,8 +101,8 @@ class SnapshotService extends Injectable
             $GCPR = $this->getGCPR($project);
             $currentPower = $this->getCurrentPower($project);
             $irradiance = $this->getIrradiance($project);
-            $invertersGenerating = $this->getInvertersGenerating($project);
-            $devicesCommunicating = $this->getDevicesCommunicating($project);
+            $invertersGenerating = $this->getGeneratingInverters($project);
+            $devicesCommunicating = $this->getCommunicatingDevices($project);
             $lastCom = $this->getLastCom($project);
 
             $sql = "REPLACE INTO snapshot SET"
@@ -138,22 +138,18 @@ class SnapshotService extends Injectable
         return round($irr);
     }
 
-    protected function getInvertersGenerating($project)
+    protected function getGeneratingInverters($project)
     {
         $total = count($project->inverters);
-
-        // TODO: $this->dataService->getWorkingInverters($project->id);
-        $working = $total;
+        $working = $project->getGeneratingInverters();
 
         return "$working/$total";
     }
 
-    protected function getDevicesCommunicating($project)
+    protected function getCommunicatingDevices($project)
     {
-        $total = $project->getDeviceCount();
-
-        // TODO: $this->dataService->getWorkingDevices($project->id);
-        $working = $total;
+        $total = count($project->devices);
+        $working = $project->getCommunicatingDevices();
 
         return "$working/$total";
     }

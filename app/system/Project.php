@@ -79,12 +79,6 @@ class Project
         return $this->devices;
     }
 
-    public function getDeviceCount()
-    {
-        return count($this->devices);
-       #return count($this->inverters) + count($this->envkits) + count($this->genmeters);
-    }
-
     public function getInverters()
     {
         return $this->inverters;
@@ -175,6 +169,18 @@ class Project
     public function getSnapshotKW()
     {
         return $this->getKW('SNAPSHOT');
+    }
+
+    public function getGeneratingInverters()
+    {
+        // TODO: temp code
+        return count($this->inverters);
+    }
+
+    public function getCommunicatingDevices()
+    {
+        // TODO: temp code
+        return count($this->devices);
     }
 
     public function getSnapshotTime()

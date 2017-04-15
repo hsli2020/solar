@@ -171,6 +171,12 @@ class Project
         return $this->getKW('SNAPSHOT');
     }
 
+    public function getSnapshotTime()
+    {
+        $envkit = current($this->envkits);
+        return $envkit->getSnapshotTime();
+    }
+
     public function getGeneratingInverters()
     {
         // TODO: temp code
@@ -181,10 +187,6 @@ class Project
     {
         // TODO: temp code
         return count($this->devices);
-    }
-
-    public function getSnapshotTime()
-    {
     }
 
     public function __get($prop)

@@ -124,4 +124,33 @@ abstract class Device
         }
         return false;
     }
+
+    public function getData($period)
+    {
+        $projectId = $this->project->id;
+        $table = $this->table;
+        $code = $this->code;
+
+        list($start, $end) = $this->getPeriod($period);
+
+        $sql = "SELECT * FROM $table ".
+                "WHERE project_id=$projectId AND devcode='$code' AND ".
+                      "time>='$start' AND time<'$end' AND error=0";
+
+        $result = $this->db->fetchOne($sql);
+
+        return $result;
+    }
+
+    public function getSnapshotData()
+    {
+        $data = $this->getData('SNAPSHOT');
+        return $data;
+    }
+
+    public function getSnapshotTime()
+    {
+        $data = $this->getSnapshotData();
+        return $data ? toLocaltime($data['time']) : gmdate('Y-m-d H:i:00', strtotime('-16 minute'));
+    }
 }

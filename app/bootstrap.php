@@ -459,6 +459,10 @@ class Bootstrap
         $this->di->setShared('snapshotService', function () {
             return new App\Service\SnapshotService();
         });
+
+        $this->di->setShared('smartAlertService', function () {
+            return new App\Service\SmartAlertService();
+        });
     }
 
     protected function initSecurity(Config $config, EventsManager $em)

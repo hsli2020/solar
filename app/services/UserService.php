@@ -71,7 +71,7 @@ class UserService extends Injectable
     {
         $user = Users::findFirst($id);
         if ($user) {
-            $user->password = $newPassword;
+            $user->password = $this->security->hash($newPassword);
             $user->save();
         }
     }

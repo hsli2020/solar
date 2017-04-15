@@ -10,9 +10,6 @@ abstract class Device
     protected $table;
     protected $model;
 
-    protected $di;
-    protected $db;
-
     public function __construct($project, $type, $code, $table, $model)
     {
         $this->project = $project;

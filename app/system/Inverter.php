@@ -21,7 +21,8 @@ class Inverter extends Device
 
         $result = $this->getDb()->fetchOne($sql);
         if ($result) {
-            return $result['kw'] / 60.0; // to kwH
+            return $result['kw'];
+           #return $result['kw'] / 60.0; // to kwH
         }
 
         return 0;

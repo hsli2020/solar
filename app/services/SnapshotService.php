@@ -91,6 +91,8 @@ class SnapshotService extends Injectable
 
     public function generate()
     {
+        echo 'Snapshot generating...';
+
         $projects = $this->projectService->getAll();
 
         foreach ($projects as $project) {

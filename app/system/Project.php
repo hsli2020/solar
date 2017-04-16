@@ -161,12 +161,17 @@ class Project
      */
     public function getSnapshotIRR()
     {
-        return $this->getIRR('SNAPSHOT');
+        $envkit = current($this->envkits);
+        return $envkit->getSnapshotIRR();
     }
 
     public function getSnapshotKW()
     {
-        return $this->getKW('SNAPSHOT');
+        $sum = 0;
+        foreach ($this->inverters as $inverter) {
+            $sum += $inverter->getSnapshotKW();
+        }
+        return $sum;
     }
 
     public function getSnapshotTime()

@@ -133,7 +133,7 @@ abstract class Device
         return false;
     }
 
-    public function getSnapshotTime()
+    public function getSnapshotData()
     {
         $projectId = $this->project->id;
         $table = $this->table;
@@ -146,7 +146,12 @@ abstract class Device
                       "time>='$start' AND time<'$end' AND error=0";
 
         $data = $this->getDb()->fetchOne($sql);
+        return $data;
+    }
 
+    public function getSnapshotTime()
+    {
+        $data = $this->getSnapshotData();
         return $data ? toLocaltime($data['time']) : gmdate('Y-m-d H:i:00', strtotime('-16 minute'));
     }
 }

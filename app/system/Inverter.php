@@ -15,7 +15,7 @@ class Inverter extends Device
 
         list($start, $end) = $this->getPeriod($period);
 
-        $sql = "SELECT sum($column) kw FROM $table ".
+        $sql = "SELECT SUM($column) kw FROM $table ".
                 "WHERE project_id=$projectId AND devcode='$code' AND ".
                       "time>='$start' AND time<'$end' AND error=0";
 
@@ -31,6 +31,20 @@ class Inverter extends Device
     public function getLatestKW()
     {
         $data = $this->getLatestData();
+        if ($data) {
+            if (isset($data['kw'])) {
+                return $data['kw'];
+            }
+            if (isset($data['line_kw'])) {
+                return $data['line_kw'];
+            }
+        }
+        return false;
+    }
+
+    public function getSnapshotKW()
+    {
+        $data = $this->getSnapshotData();
         if ($data) {
             if (isset($data['kw'])) {
                 return $data['kw'];

@@ -34,6 +34,15 @@ class EnvKit extends Device
         return false;
     }
 
+    public function getSnapshotIRR()
+    {
+        $data = $this->getSnapshotData();
+        if ($data) {
+            return $data['IRR'];
+        }
+        return false;
+    }
+
     public function getOAT($period)
     {
         $projectId = $this->project->id;

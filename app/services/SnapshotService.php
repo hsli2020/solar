@@ -67,13 +67,12 @@ class SnapshotService extends Injectable
                 $result[$key]['error']['devices_communicating'] = 'red';
             }
 
-            $result[$key]['project_size_ac'] = number_format($val['project_size_ac']);
-
             $totalPower += $val['current_power'];
             $totalProjectSizeAC += $val['project_size_ac'];
             $averageIrradiance += $val['irradiance'];
 
             $result[$key]['project_size_ac'] = number_format($val['project_size_ac']);
+            $result[$key]['current_power'] = number_format($val['current_power']);
 
            #$result[$key]['error']['last_com'] = 1;
            #$result[$key]['error']['Avg_Irradiance_POA'] = 1;

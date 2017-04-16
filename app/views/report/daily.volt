@@ -1,6 +1,15 @@
 {% extends "layouts/base.volt" %}
 
 {% block main %}
+<style type="text/css">
+  table, th, td { border: 1px solid #ddd; }
+  #report th { text-align: center; }
+  #report td { text-align: right; }
+  #report tr td:first-child{ text-align: left; }
+  .w3-border { border: 5px solid #eee !important; }
+</style>
+
+<div class="w3-container">
 <table id="report" class="w3-table w3-white w3-bordered w3-border w3-centered">
 <tr>
   <th></th>
@@ -61,6 +70,7 @@
 </tr>
 {% endfor %}
 </table>
+</div>
 {% endblock %}
 
 {% block jscode %}

@@ -18,6 +18,7 @@ class ReportController extends ControllerBase
         $this->view->today = date('l, F jS Y');
         $this->view->report = [];
 
+        // Load daily report
         $date = date('Ymd', strtotime('-1 day'));
         $filename = BASE_DIR . "/app/logs/daily-report-$date.json";
 
@@ -28,6 +29,15 @@ class ReportController extends ControllerBase
         $json = file_get_contents($filename);
         $report = json_decode($json, true);
 
+        // Get user specific report
+        $auth = $this->session->get('auth');
+        if (!is_array($auth)) {
+            return;
+        }
+
+       #$user = $this->userService->get($auth['id']);
+        $report = $this->dailyReportService->getUserSpecificReports($auth, $report);
+
         $this->view->report = $report;
     }
 
@@ -37,6 +47,7 @@ class ReportController extends ControllerBase
         $this->view->today = date('l, F jS Y');
         $this->view->report = [];
 
+        // Load monthly report
         $date = date('Ymd', strtotime('-1 day'));
         $filename = BASE_DIR . "/app/logs/monthly-report-$date.json";
 
@@ -46,6 +57,15 @@ class ReportController extends ControllerBase
 
         $json = file_get_contents($filename);
         $report = json_decode($json, true);
+
+        // Get user specific report
+        $auth = $this->session->get('auth');
+        if (!is_array($auth)) {
+            return;
+        }
+
+       #$user = $this->userService->get($auth['id']);
+        $report = $this->monthlyReportService->getUserSpecificReports($auth, $report);
 
         $this->view->report = $report;
     }

@@ -10,7 +10,7 @@
 </style>
 
 <div class="w3-container">
-<table id="report" class="w3-table w3-white w3-bordered w3-border w3-centered w3-hoverable">
+<table id="report" class="w3-table w3-white w3-bordered w3-border w3-centered">
 <tr>
   <th rowspan="2">Project</th>
   <th rowspan="2">Month-Year</th>

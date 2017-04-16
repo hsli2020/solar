@@ -17,7 +17,7 @@
 </style>
 
 <div id="statsbox" class="w3-row-padding w3-margin-bottom">
-  <div class="w3-row-padding w3-margin-bottom">
+  <div class="w3-row-padding">
     <div class="w3-container w3-light-grey w3-padding-4 w3-small w3-text-grey">
       <ul id="breadcrumb">
         <li><i class="fa fa-home w3-small"></i></li>

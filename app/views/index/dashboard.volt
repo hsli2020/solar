@@ -84,7 +84,7 @@
 {% endmacro %}
 
 <div class="w3-container">
-<table id="snapshot" class="w3-table w3-white w3-bordered w3-border">
+<table id="snapshot" class="w3-table w3-white w3-bordered w3-border w3-hoverable">
 <tr>
   <th style="vertical-align: middle;">Site</th>
   <th style="vertical-align: middle;">GC PI</th>

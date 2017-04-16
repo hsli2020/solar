@@ -9,7 +9,7 @@
 </style>
 
 <div class="w3-container">
-<table id="project" class="w3-table w3-white w3-bordered w3-border w3-centered">
+<table id="project" class="w3-table w3-white w3-bordered w3-border w3-centered w3-hoverable">
 <tr>
   <td>&nbsp;</td>
   <td>&nbsp;</td>

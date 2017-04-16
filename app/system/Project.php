@@ -132,6 +132,16 @@ class Project
         return $sum;
     }
 
+    public function getKWH($period)
+    {
+        $col = 'rec';
+        if ($this->id == 7) {
+            $col = 'del';
+        }
+        $genmeter = current($this->genmeters);
+        return $genmeter->getKWH($period, $col);
+    }
+
     /**
      * Latest
      */

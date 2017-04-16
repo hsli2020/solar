@@ -95,7 +95,7 @@ class MonthlyReportService extends Injectable
 
     protected function generateXls($user, $report)
     {
-        $report = $this->getUserSpecificReport($user, $report);
+        $report = $this->getUserSpecificReports($user, $report);
 
         $excel = \PHPExcel_IOFactory::load("./templates/MonthlyReport-v1.xlsx");
         $excel->setActiveSheetIndex(0);  //set first sheet as active
@@ -131,7 +131,7 @@ class MonthlyReportService extends Injectable
 
     protected function generateHtml($user, $report)
     {
-        $report = $this->getUserSpecificReport($user, $report);
+        $report = $this->getUserSpecificReports($user, $report);
 
         ob_start();
         $date = date('F, Y', strtotime('-1 month'));
@@ -142,7 +142,7 @@ class MonthlyReportService extends Injectable
         return $content;
     }
 
-    protected function getUserSpecificReport($user, $report)
+    public function getUserSpecificReports($user, $report)
     {
         $result = [];
 

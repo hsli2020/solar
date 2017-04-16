@@ -109,7 +109,7 @@ class DailyReportService extends Injectable
 
     protected function generateXls($user, $report)
     {
-        $report = $this->getUserSpecificReport($user, $report);
+        $report = $this->getUserSpecificReports($user, $report);
 
         $excel = \PHPExcel_IOFactory::load("./templates/DailyReport-v3.xlsx");
         $excel->setActiveSheetIndex(0);  //set first sheet as active
@@ -156,7 +156,7 @@ class DailyReportService extends Injectable
 
     protected function generateHtml($user, $report)
     {
-        $report = $this->getUserSpecificReport($user, $report);
+        $report = $this->getUserSpecificReports($user, $report);
 
         ob_start();
         $date = date('F d, Y', strtotime('yesterday'));
@@ -167,7 +167,7 @@ class DailyReportService extends Injectable
         return $content;
     }
 
-    protected function getUserSpecificReport($user, $report)
+    public function getUserSpecificReports($user, $report)
     {
         $result = [];
 

@@ -67,6 +67,8 @@ class SnapshotService extends Injectable
                 $result[$key]['error']['devices_communicating'] = 'red';
             }
 
+            $result[$key]['project_size_ac'] = number_format($val['project_size_ac']);
+
             $totalPower += $val['current_power'];
             $totalProjectSizeAC += $val['project_size_ac'];
             $averageIrradiance += $val['irradiance'];
@@ -94,7 +96,7 @@ class SnapshotService extends Injectable
         foreach ($projects as $project) {
             $id = $project->id;
             $name = $project->name;
-            $sizeAC = number_format($project->capacityAC);
+            $sizeAC = $project->capacityAC;
 
             $GCPR = $this->getGCPR($project);
             $currentPower = $this->getCurrentPower($project);

@@ -2,7 +2,7 @@
 
 {% block main %}
 <style type="text/css">
-  table, th, td { border: 1px solid #ddd; }
+  table, th, td { border: 1px solid #ddd; vertical-align: middle; }
   #report th { text-align: center; }
   #report td { text-align: right; }
   #report tr td:first-child{ text-align: left; }

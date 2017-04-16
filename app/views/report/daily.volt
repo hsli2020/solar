@@ -2,7 +2,7 @@
 
 {% block main %}
 <style type="text/css">
-  table, th, td { border: 1px solid #ddd; }
+  table, th, td { border: 1px solid #ddd; vertical-align: middle; }
   #report th { text-align: center; }
   #report td { text-align: right; }
   #report tr td:first-child{ text-align: left; }
@@ -35,16 +35,15 @@
 <table id="report" class="w3-table w3-white w3-bordered w3-border w3-centered">
 <tr>
   <th></th>
-  <th colspan="2"></th>
+  <th rowspan="3">No.</th>
+  <th rowspan="3">Project Name</th>
+  <th rowspan="3">Date</th>
   <th colspan="2">Budget Production</th>
   <th colspan="2">Month-to-Date</th>
   <th colspan="3">Daily Energy Production</th>
   <th colspan="3">Month-to-date Performance</th>
 </tr>
 <tr>
-  <th rowspan="2">No.</th>
-  <th rowspan="2">Project Name</th>
-  <th rowspan="2">Date</th>
   <th colspan="2">Capacity<br>(kW)</th>
   <th>Monthly Budget</th>
   <th>IE POA Insolation</th>

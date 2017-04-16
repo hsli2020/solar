@@ -67,12 +67,12 @@ class SnapshotService extends Injectable
                 $result[$key]['error']['devices_communicating'] = 'red';
             }
 
-            $totalPower += $val['current_power'];
+            $totalPower         += $val['current_power'];
             $totalProjectSizeAC += $val['project_size_ac'];
-            $averageIrradiance += $val['irradiance'];
+            $averageIrradiance  += $val['irradiance'];
 
             $result[$key]['project_size_ac'] = number_format($val['project_size_ac']);
-            $result[$key]['current_power'] = number_format($val['current_power']);
+            $result[$key]['current_power']   = number_format($val['current_power']);
 
            #$result[$key]['error']['last_com'] = 1;
            #$result[$key]['error']['Avg_Irradiance_POA'] = 1;
@@ -82,10 +82,10 @@ class SnapshotService extends Injectable
             $data[$key] = $result[$key];
         }
 
-        $total['current_power'] = number_format($totalPower);
-        $total['project_size_ac'] = number_format($totalProjectSizeAC);
+        $total['current_power']      = number_format($totalPower);
+        $total['project_size_ac']    = number_format($totalProjectSizeAC);
         $total['average_irradiance'] = number_format($averageIrradiance/count($result));
-        $total['performance'] = number_format($totalPower / $totalProjectSizeAC * 100);
+        $total['performance']        = number_format($totalPower / $totalProjectSizeAC * 100);
 
         return [ 'rows' => $data, 'total' => $total ];
     }
@@ -101,12 +101,12 @@ class SnapshotService extends Injectable
             $name = $project->name;
             $sizeAC = $project->capacityAC;
 
-            $GCPR = $this->getGCPR($project);
-            $currentPower = $this->getCurrentPower($project);
-            $irradiance = $this->getIrradiance($project);
-            $invertersGenerating = $this->getGeneratingInverters($project);
+            $GCPR                 = $this->getGCPR($project);
+            $currentPower         = $this->getCurrentPower($project);
+            $irradiance           = $this->getIrradiance($project);
+            $invertersGenerating  = $this->getGeneratingInverters($project, $currentPower, $irradiance);
             $devicesCommunicating = $this->getCommunicatingDevices($project);
-            $lastCom = $this->getLastCom($project);
+            $lastCom              = $this->getLastCom($project);
 
             $sql = "REPLACE INTO snapshot SET"
                  . " project_id = $id,"
@@ -141,10 +141,14 @@ class SnapshotService extends Injectable
         return round($irr);
     }
 
-    protected function getGeneratingInverters($project)
+    protected function getGeneratingInverters($project, $currentPower, $irradiance)
     {
         $total = count($project->inverters);
         $working = $project->getGeneratingInverters();
+
+        if ($currentPower < 4) {
+            $working = 0;
+        }
 
         return "$working/$total";
     }

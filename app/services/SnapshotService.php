@@ -73,6 +73,8 @@ class SnapshotService extends Injectable
             $totalProjectSizeAC += $val['project_size_ac'];
             $averageIrradiance += $val['irradiance'];
 
+            $result[$key]['project_size_ac'] = number_format($val['project_size_ac']);
+
            #$result[$key]['error']['last_com'] = 1;
            #$result[$key]['error']['Avg_Irradiance_POA'] = 1;
            #$result[$key]['error']['Avg_Module_Temp'] = 1;
@@ -91,12 +93,14 @@ class SnapshotService extends Injectable
 
     public function generate()
     {
+        echo 'Snapshot generating...';
+
         $projects = $this->projectService->getAll();
 
         foreach ($projects as $project) {
             $id = $project['id'];
             $name = $project['name'];
-            $sizeAC = number_format($project['AC_Nameplate_Capacity']);
+            $sizeAC = $project['AC_Nameplate_Capacity'];
 
             $GCPR = $this->getGCPR($id);
             $currentPower = $this->getCurrentPower($id);

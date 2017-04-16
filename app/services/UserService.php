@@ -26,14 +26,10 @@ class UserService extends Injectable
     // by user id
     public function get($id)
     {
-        $user = Users::findFirst($id);
-
-        // TODO: convert to entity ($this->toEntity(user))
-        if ($user) {
-            return $user->toArray();
+        if (!$this->users) {
+            $this->getAll();
         }
-
-        return false;
+        return isset($this->users[$id]) ? $this->users[$id] : false;
     }
 
     // by user username

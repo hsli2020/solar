@@ -73,6 +73,8 @@ class SnapshotService extends Injectable
             $totalProjectSizeAC += $val['project_size_ac'];
             $averageIrradiance += $val['irradiance'];
 
+            $result[$key]['project_size_ac'] = number_format($val['project_size_ac']);
+
            #$result[$key]['error']['last_com'] = 1;
            #$result[$key]['error']['Avg_Irradiance_POA'] = 1;
            #$result[$key]['error']['Avg_Module_Temp'] = 1;

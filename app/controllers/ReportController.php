@@ -16,12 +16,12 @@ class ReportController extends ControllerBase
     {
         $this->view->pageTitle = 'Daily Report';
         $this->view->today = date('l, F jS Y');
+        $this->view->report = [];
 
         $date = date('Ymd', strtotime('-1 day'));
         $filename = BASE_DIR . "/app/logs/daily-report-$date.json";
 
         if (!file_exists($filename)) {
-            $this->view->report = [];
             return;
         }
 
@@ -35,12 +35,12 @@ class ReportController extends ControllerBase
     {
         $this->view->pageTitle = 'Monthly Report';
         $this->view->today = date('l, F jS Y');
+        $this->view->report = [];
 
         $date = date('Ymd', strtotime('-1 day'));
         $filename = BASE_DIR . "/app/logs/monthly-report-$date.json";
 
         if (!file_exists($filename)) {
-            $this->view->report = [];
             return;
         }
 

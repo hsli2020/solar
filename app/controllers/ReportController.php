@@ -27,6 +27,7 @@ class ReportController extends ControllerBase
         $json = file_get_contents($filename);
         $report = json_decode($json, true);
 
+        $this->view->today = date('l, F jS Y');
         $this->view->report = $report;
     }
 
@@ -45,6 +46,7 @@ class ReportController extends ControllerBase
         $json = file_get_contents($filename);
         $report = json_decode($json, true);
 
+        $this->view->today = date('l, F jS Y');
         $this->view->report = $report;
     }
 }

@@ -15,6 +15,7 @@ class ReportController extends ControllerBase
     public function dailyAction()
     {
         $this->view->pageTitle = 'Daily Report';
+        $this->view->today = date('l, F jS Y');
 
         $date = date('Ymd', strtotime('-1 day'));
         $filename = BASE_DIR . "/app/logs/daily-report-$date.json";
@@ -27,13 +28,13 @@ class ReportController extends ControllerBase
         $json = file_get_contents($filename);
         $report = json_decode($json, true);
 
-        $this->view->today = date('l, F jS Y');
         $this->view->report = $report;
     }
 
     public function monthlyAction()
     {
         $this->view->pageTitle = 'Monthly Report';
+        $this->view->today = date('l, F jS Y');
 
         $date = date('Ymd', strtotime('-1 day'));
         $filename = BASE_DIR . "/app/logs/monthly-report-$date.json";
@@ -46,7 +47,6 @@ class ReportController extends ControllerBase
         $json = file_get_contents($filename);
         $report = json_decode($json, true);
 
-        $this->view->today = date('l, F jS Y');
         $this->view->report = $report;
     }
 }

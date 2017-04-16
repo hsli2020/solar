@@ -20,6 +20,7 @@ class ReportController extends ControllerBase
         $filename = BASE_DIR . "/app/logs/daily-report-$date.json";
 
         if (!file_exists($filename)) {
+            $this->view->report = [];
             return;
         }
 
@@ -37,6 +38,7 @@ class ReportController extends ControllerBase
         $filename = BASE_DIR . "/app/logs/monthly-report-$date.json";
 
         if (!file_exists($filename)) {
+            $this->view->report = [];
             return;
         }
 

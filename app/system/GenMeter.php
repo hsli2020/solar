@@ -14,7 +14,7 @@ class GenMeter extends Device
 
         list($start, $end) = $this->getPeriod($period);
 
-        $sql = "SELECT sum($column) kwh FROM $table ".
+        $sql = "SELECT $column AS kwh FROM $table ".
                 "WHERE project_id=$projectId AND devcode='$code' AND ".
                       "time>='$start' AND time<'$end' AND error=0";
 

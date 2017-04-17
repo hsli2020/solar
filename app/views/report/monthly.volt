@@ -3,8 +3,8 @@
 {% block main %}
 <style type="text/css">
   table, th, td { border: 1px solid #ddd; vertical-align: middle; }
-  #report th { text-align: center; }
-  #report td { text-align: right; }
+  #report th { text-align: center; vertical-align: middle; }
+  #report td { text-align: right; vertical-align: middle; }
   #report tr td:first-child{ text-align: left; }
   .w3-border { border: 5px solid #eee !important; }
   #statsbox .icon {

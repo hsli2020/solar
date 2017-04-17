@@ -56,6 +56,15 @@ class MonthlyReportService extends Injectable
         $filename = $this->getFilename(date('Ymd'));
         $json = json_encode($this->report, JSON_PRETTY_PRINT);
         file_put_contents($filename, $json);
+
+        try {
+            $this->db->insertAsDict('monthly_reports', [
+                'month'  => date('Ym'),
+                'report' => $json,
+            ]);
+        } catch (\Exception $e) {
+            echo $e->getMessage(), EOL;
+        }
     }
 
     public function send()

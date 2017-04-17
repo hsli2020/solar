@@ -15,7 +15,7 @@ class Inverter extends Device
 
         list($start, $end) = $this->getPeriod($period);
 
-        $sql = "SELECT SUM($column) kw FROM $table ".
+        $sql = "SELECT SUM($column) AS kw FROM $table ".
                 "WHERE project_id=$projectId AND devcode='$code' AND ".
                       "time>='$start' AND time<'$end' AND error=0";
 

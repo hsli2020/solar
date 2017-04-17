@@ -12,7 +12,7 @@ class EnvKit extends Device
 
         list($start, $end) = $this->getPeriod($period);
 
-        $sql = "SELECT SUM(IRR) irr FROM $table ".
+        $sql = "SELECT SUM(IRR) AS irr FROM $table ".
                 "WHERE project_id=$projectId AND devcode='$code' AND ".
                       "time>='$start' AND time<'$end' AND error=0";
 
@@ -51,7 +51,7 @@ class EnvKit extends Device
 
         list($start, $end) = $this->getPeriod($period);
 
-        $sql = "SELECT SUM(OAT) tmp FROM $table ".
+        $sql = "SELECT SUM(OAT) AS tmp FROM $table ".
                 "WHERE project_id=$projectId AND devcode='$code' AND ".
                       "time>='$start' AND time<'$end' AND error=0";
 
@@ -71,7 +71,7 @@ class EnvKit extends Device
 
         list($start, $end) = $this->getPeriod($period);
 
-        $sql = "SELECT SUM(PANELT) tmp FROM $table ".
+        $sql = "SELECT SUM(PANELT) AS tmp FROM $table ".
                 "WHERE project_id=$projectId AND devcode='$code' AND ".
                       "time>='$start' AND time<'$end' AND error=0";
 

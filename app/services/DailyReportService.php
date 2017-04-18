@@ -95,14 +95,7 @@ class DailyReportService extends Injectable
     {
         $this->log('Start sending daily report');
 
-        $filename = $this->getFilename(date('Ymd', strtotime('-1 day')));
-        if (!file_exists($filename)) {
-            $this->log("File '$filename' doesn't exist, daily report not sent");
-            return;
-        }
-
-        $json = file_get_contents($filename);
-        $report = json_decode($json, true);
+        $report = $this->load(date('Y-m-d', strtotime('-1 day')));
 
         $users = $this->userService->getAll();
 

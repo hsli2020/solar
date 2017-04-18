@@ -59,12 +59,19 @@ class MonthlyReportService extends Injectable
 
         try {
             $this->db->insertAsDict('monthly_reports', [
-                'month'  => date('Ym'),
+                'month'  => date('Y-m'),
                 'report' => $json,
             ]);
         } catch (\Exception $e) {
             echo $e->getMessage(), EOL;
         }
+    }
+
+    public function load($month)
+    {
+        $sql = "SELECT * FROM monthly_reports WHERE month='$month'";
+        $result = $this->db->fetchOne($sql);
+        return json_decode($result, true);
     }
 
     public function send()

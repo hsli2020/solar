@@ -18,24 +18,17 @@ class ReportController extends ControllerBase
         $this->view->today = date('l, F jS Y');
         $this->view->report = [];
 
-        // Load daily report
-        $date = date('Ymd', strtotime('-1 day'));
-        $filename = BASE_DIR . "/app/logs/daily-report-$date.json";
-
-        if (!file_exists($filename)) {
-            return;
-        }
-
-        $json = file_get_contents($filename);
-        $report = json_decode($json, true);
-
-        // Get user specific report
         $auth = $this->session->get('auth');
         if (!is_array($auth)) {
             return;
         }
 
+        // Load monthly report
        #$user = $this->userService->get($auth['id']);
+        $date = date('Y-m-d', strtotime('-1 day'));
+        $report = $this->dailyReportService->load($date);
+
+        // Get user specific report
         $report = $this->dailyReportService->getUserSpecificReports($auth, $report);
 
         $this->view->report = $report;
@@ -47,24 +40,17 @@ class ReportController extends ControllerBase
         $this->view->today = date('l, F jS Y');
         $this->view->report = [];
 
-        // Load monthly report
-        $date = date('Ymd', strtotime('-1 day'));
-        $filename = BASE_DIR . "/app/logs/monthly-report-$date.json";
-
-        if (!file_exists($filename)) {
-            return;
-        }
-
-        $json = file_get_contents($filename);
-        $report = json_decode($json, true);
-
-        // Get user specific report
         $auth = $this->session->get('auth');
         if (!is_array($auth)) {
             return;
         }
 
+        // Load monthly report
        #$user = $this->userService->get($auth['id']);
+        $date = date('Y-m', strtotime('-1 day'));
+        $report = $this->monthlyReportService->load($date);
+
+        // Get user specific report
         $report = $this->monthlyReportService->getUserSpecificReports($auth, $report);
 
         $this->view->report = $report;

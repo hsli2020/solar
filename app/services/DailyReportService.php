@@ -73,12 +73,19 @@ class DailyReportService extends Injectable
 
         try {
             $this->db->insertAsDict('daily_reports', [
-                'date'   => date('Ymd'),
+                'date'   => date('Y-m-d'),
                 'report' => $json,
             ]);
         } catch (\Exception $e) {
             echo $e->getMessage(), EOL;
         }
+    }
+
+    public function load($date)
+    {
+        $sql = "SELECT * FROM daily_reports WHERE date='$date'";
+        $result = $this->db->fetchOne($sql);
+        return json_decode($result, true);
     }
 
     public function send()

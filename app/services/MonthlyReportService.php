@@ -71,7 +71,10 @@ class MonthlyReportService extends Injectable
     {
         $sql = "SELECT * FROM monthly_reports WHERE month='$month'";
         $result = $this->db->fetchOne($sql);
-        return json_decode($result, true);
+        if ($result) {
+            return json_decode($result['report'], true);
+        }
+        return [];
     }
 
     public function send()

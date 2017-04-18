@@ -85,7 +85,10 @@ class DailyReportService extends Injectable
     {
         $sql = "SELECT * FROM daily_reports WHERE date='$date'";
         $result = $this->db->fetchOne($sql);
-        return json_decode($result, true);
+        if ($result) {
+            return json_decode($result['report'], true);
+        }
+        return [];
     }
 
     public function send()

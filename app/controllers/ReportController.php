@@ -47,7 +47,7 @@ class ReportController extends ControllerBase
 
         // Load monthly report
        #$user = $this->userService->get($auth['id']);
-        $date = date('Y-m', strtotime('-1 day'));
+        $date = date('Y-m', strtotime('-1 month'));
         $report = $this->monthlyReportService->load($date);
 
         // Get user specific report

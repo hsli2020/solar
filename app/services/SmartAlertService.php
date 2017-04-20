@@ -16,7 +16,15 @@ class SmartAlertService extends Injectable
         foreach ($projects as $project) {
             foreach ($project->devices as $device) {
                 $this->checkNoData($project, $device);
+                $this->checkFault($project, $device);
             }
+
+           #$this->checkLowEnergy($project);
+           #$this->checkOverHeat($project);
+
+           #$this->checkInverters($project);
+           #$this->checkEnvkits($project);
+           #$this->checkGenMeters($project);
         }
 
         if ($this->alerts) {
@@ -27,17 +35,23 @@ class SmartAlertService extends Injectable
 
     protected function checkNoData($project, $device)
     {
-        $alert = [
-            'project' => $project->name,
-            'time'    => date('Y-m-d H:i:s'),
-            'devtype' => $device->type,
-            'devcode' => $device->code,
-            'message' => 'No data over 30 minutes',
-            'alert'   => '',
-           #'level'   => '',
-        ];
+        $data = $device->getLatestData();
+        $time = strtotime(toLocaltime($data['time']));
+        $now = time();
 
-        $this->alerts[] = $alert;
+        if ($now - $time >= 35*60) {
+            $alert = [
+                'project' => $project->name,
+                'time'    => date('Y-m-d H:i:s'),
+                'devtype' => $device->type,
+                'devcode' => $device->code,
+                'message' => 'No data over 30 minutes',
+                'alert'   => '',
+               #'level'   => '',
+            ];
+
+            $this->alerts[] = $alert;
+        }
     }
 
     protected function generateHtml()

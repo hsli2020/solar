@@ -61,4 +61,72 @@ class DataService extends Injectable
 
         return $data;
     }
+
+    public function archive()
+    {
+        $projects = $this->projectService->getAll();
+
+        foreach ($projects as $project) {
+            $files = [];
+
+            $dir = 'C:/FTP-Backup/' . basename($project->ftpdir);
+            foreach (glob($dir . '/*.log.csv') as $filename) {
+                $files[$filename] = filemtime($filename);
+            }
+            asort($files);
+
+            echo $project->name, ' ', count($files), ' files', EOL;
+
+            if (count($files) == 0) {
+                continue;
+            }
+
+            $handles = [];
+            foreach (array_keys($files) as $filename) {
+                echo "$filename\r";
+
+                // filename: c:\FTP-Backup\125Bermondsey_001EC6053434\mb-001.57BEE4B7_1.log.csv
+                $parts = explode('.', basename($filename));
+                $dev = $parts[0]; // mb-001
+
+                $isNewFile = false;
+                if (isset($handles[$dev])) {
+                    $dst = $handles[$dev];
+                } else {
+                    $archiveFilename = dirname($filename). '/' .$dev. '-archive.csv';
+                    if (file_exists($archiveFilename)) {
+                        $dst = fopen($archiveFilename, 'a');
+                    } else {
+                        $isNewFile = true;
+                        $dst = fopen($archiveFilename, 'w');
+                    }
+                    $handles[$dev] = $dst;
+                }
+
+                $src = fopen($filename, 'r');
+
+                $title = fgets($src);
+                if ($isNewFile) {
+                    fputs($dst, $title);
+                }
+
+                while ($line = fgets($src)) {
+                    fputs($dst, $line);
+                }
+                fclose($src);
+
+                // zip filename;
+                $zipFilename = dirname($filename). '/' .$dev. '-archive.zip';
+
+                #unlink($filename);
+            }
+
+            foreach ($handles as $handle) {
+                fclose($handle);
+            }
+
+            #echo "\033[K";  // Erase to the end of the line, DosBox doesn't support.
+            echo EOL;
+        }
+    }
 }

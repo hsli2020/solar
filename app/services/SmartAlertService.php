@@ -15,17 +15,7 @@ class SmartAlertService extends Injectable
         $this->alerts = [];
         foreach ($projects as $project) {
             foreach ($project->devices as $device) {
-                if ($this->checkNoData($project, $device)) {
-                    $this->alerts[] = [
-                        'project' => $project->name,
-                        'time'    => date('Y-m-d H:i:s'),
-                        'devtype' => $device->type,
-                        'devcode' => $device->code,
-                        'message' => 'No data over 30 minutes',
-                        'alert'   => '',
-                        'level'   => '',
-                    ];
-                }
+                $this->checkNoData($project, $device);
             }
         }
 
@@ -37,12 +27,22 @@ class SmartAlertService extends Injectable
 
     protected function checkNoData($project, $device)
     {
-        return true;
+        $alert = [
+            'project' => $project->name,
+            'time'    => date('Y-m-d H:i:s'),
+            'devtype' => $device->type,
+            'devcode' => $device->code,
+            'message' => 'No data over 30 minutes',
+            'alert'   => '',
+           #'level'   => '',
+        ];
+
+        $this->alerts[] = $alert;
     }
 
     protected function generateHtml()
     {
-        $alerts = $this->alerts();
+        $alerts = $this->alerts;
 
         ob_start();
         include("./templates/smart-alert.tpl");

@@ -95,9 +95,9 @@ class SmartAlertService extends Injectable
         return $result;
     }
 
-    protected function generateHtml()
+    protected function generateHtml($user)
     {
-        $alerts = $this->alerts;
+        $alerts = $this->getUserSpecificAlerts($user);
 
         ob_start();
         include("./templates/smart-alert.tpl");
@@ -107,11 +107,30 @@ class SmartAlertService extends Injectable
         return $content;
     }
 
+    protected function getUserSpecificAlerts($user)
+    {
+        if (!$user) {
+            return $this->alerts;
+        }
+
+        $alerts = [];
+
+        $projects = $this->userService->getUserProjects($user['id']);
+
+        foreach ($this->alerts as $alert) {
+            if (in_array($alert['project_id'], $projects)) {
+                $alerts[] = $alert;
+            }
+        }
+
+        return $alerts;
+    }
+
     protected function saveAlerts()
     {
         // save to file
         $filename = BASE_DIR . "/app/logs/smart-alert.html";
-        $html = $this->generateHtml();
+        $html = $this->generateHtml(null);
         file_put_contents($filename, $html);
 
         // save to database
@@ -133,11 +152,12 @@ class SmartAlertService extends Injectable
 
     protected function sendAlerts()
     {
-        $html = $this->generateHtml();
-
         $users = $this->userService->getAll();
+
         foreach ($users as $user) {
             if ($user['id'] > 2) break;
+
+            $html = $this->generateHtml($user);
             $this->sendEmail($user['email'], $html);
         }
     }

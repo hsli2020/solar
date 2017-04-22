@@ -121,6 +121,12 @@ abstract class Device
         return json_decode($result['data'], true);
     }
 
+    public function getLatestTime()
+    {
+        $data = $this->getLatestData();
+        return $data['time'];
+    }
+
     public function getSnapshotData()
     {
         $projectId = $this->project->id;

@@ -17,7 +17,7 @@ class SmartAlertService extends Injectable
         $this->checkNoData();
        #$this->checkFault();
 
-       #$this->checkLowEnergy();
+        $this->checkLowEnergy();
        #$this->checkOverHeat();
 
        #$this->checkInverters();
@@ -45,14 +45,13 @@ class SmartAlertService extends Injectable
             $time = strtotime($data['time'].' UTC'); // UTC to LocalTime
             if ($time > 0 && $now - $time >= 35*60) {
                 $this->alerts[] = [
+                    'time'         => date('Y-m-d H:i:s'),
                     'project_id '  => $data['project_id'],
                     'project_name' => $data['project_name'],
-                    'time'         => date('Y-m-d H:i:s'),
                     'devtype'      => $data['devtype'],
                     'devcode'      => $data['devcode'],
-                    'message'      => 'No data received over 30 minutes',
                     'alert'        => $alertType,
-                   #'level'        => '',
+                    'message'      => 'No data received over 30 minutes',
                 ];
             }
         }
@@ -74,14 +73,13 @@ class SmartAlertService extends Injectable
 
             if ($irr > 100 && $kw < 5) {
                 $this->alerts[] = [
+                    'time'         => date('Y-m-d H:i:s'),
                     'project_id '  => $project->id,
                     'project_name' => $project->name,
-                    'time'         => date('Y-m-d H:i:s'),
-                    'devtype'      => $data['devtype'],
-                    'devcode'      => $data['devcode'],
-                    'message'      => 'Low energy while irradiance is great than 100',
+                    'devtype'      => '', // $data['devtype'],
+                    'devcode'      => '', // $data['devcode'],
                     'alert'        => $alertType,
-                   #'level'        => '',
+                    'message'      => 'Low energy while irradiance is great than 100',
                 ];
             }
         }
@@ -137,12 +135,13 @@ class SmartAlertService extends Injectable
         foreach ($this->alerts as $alert) {
             try {
                 $this->db->insertAsDict('smart_alert_log', [
-                    'time'    => $alert['time'],
-                    'project' => $alert['project'],
-                    'devtype' => $alert['devtype'],
-                    'devcode' => $alert['devcode'],
-                    'alert'   => $alert['alert'],
-                    'message' => $alert['message'],
+                    'time'         => $alert['time'],
+                    'project_id'   => $alert['project_id'],
+                    'project_name' => $alert['project_name'],
+                    'devtype'      => $alert['devtype'],
+                    'devcode'      => $alert['devcode'],
+                    'alert'        => $alert['alert'],
+                    'message'      => $alert['message'],
                 ]);
             } catch (\Exception $e) {
                 echo $e->getMessage(), EOL;
@@ -155,7 +154,7 @@ class SmartAlertService extends Injectable
         $users = $this->userService->getAll();
 
         foreach ($users as $user) {
-            if ($user['id'] > 2) break;
+            if ($user['id'] > 1) break;
 
             $html = $this->generateHtml($user);
             $this->sendEmail($user['email'], $html);

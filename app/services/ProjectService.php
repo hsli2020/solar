@@ -13,7 +13,7 @@ class ProjectService extends Injectable
     public function getAll(/* $includeInactive = false */)
     {
         if (!$this->projects) {
-            $sql = "SELECT * FROM solar_project WHERE active=1";
+            $sql = "SELECT * FROM projects WHERE active=1";
             $projects = $this->db->fetchAll($sql);
 
             foreach ($projects as $project) {

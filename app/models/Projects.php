@@ -17,6 +17,6 @@ class Projects extends Model
 
     public function initialize()
     {
-        $this->setSource('solar_project');
+        $this->setSource('projects');
     }
 }

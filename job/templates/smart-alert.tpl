@@ -23,7 +23,7 @@
 <?php foreach ($alerts as $alert) { ?>
 <tr>
   <td><?= $alert['time']; ?></td>
-  <td><?= $alert['project']; ?></td>
+  <td><?= $alert['project_name']; ?></td>
   <td><?= $alert['devtype']; ?></td>
   <td><?= $alert['devcode']; ?></td>
   <td><?= $alert['message']; ?></td>

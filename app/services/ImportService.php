@@ -51,7 +51,6 @@ class ImportService extends Injectable
         }
 
         $device  = $project->devices[$dev];
-        $table   = $device->getTable();
         $columns = $device->getTableColumns();
 
         if (($handle = fopen($filename, "r")) !== FALSE) {
@@ -65,14 +64,8 @@ class ImportService extends Injectable
 
                 $data = array_combine($columns, $fields);
 
-                $data['devcode']    = $dev;
-                $data['project_id'] = $project->id;
-
-                $columnList = '`' . implode('`, `', array_keys($data)) . '`';
-                $values = "'" . implode("', '", $data). "'";
-
-                $sql = "INSERT INTO $table ($columnList) VALUES ($values)";
-                $this->db->execute($sql);
+               #$this->insertIntoDeviceTable($project, $device, $data);
+                $this->insertIntoMasterTable($project, $device, $data);
 
                 $latest = $data;
             }
@@ -80,6 +73,49 @@ class ImportService extends Injectable
 
             $this->saveLatestData($project, $device, $latest);
         }
+    }
+
+    protected function insertIntoDeviceTable($project, $device, $data)
+    {
+        // insert into devtab
+        $devtab = $this->getDeviceTable($project, $device);
+
+        $columnList = '`' . implode('`, `', array_keys($data)) . '`';
+        $values = "'" . implode("', '", $data). "'";
+
+        $sql = "INSERT INTO $devtab ($columnList) VALUES ($values)";
+
+        try {
+            $this->db->execute($sql);
+        } catch (\Exception $e) {
+            echo $e->getMessage, EOL;
+        }
+    }
+
+    protected function insertIntoMasterTable($project, $device, $data)
+    {
+        $table = $device->getTable();
+
+        $data['devcode'] = $device->code;
+        $data['project_id'] = $project->id;
+
+        $columnList = '`' . implode('`, `', array_keys($data)) . '`';
+        $values = "'" . implode("', '", $data). "'";
+
+        $sql = "INSERT INTO $table ($columnList) VALUES ($values)";
+
+        try {
+            $this->db->execute($sql);
+        } catch (\Exception $e) {
+            echo $e->getMessage, EOL;
+        }
+    }
+
+    protected function getDeviceTable($project, $device)
+    {
+        return 'p'.$project->id.'_'.
+               str_replace('-', '_', $device->code).'_'.
+               strtolower($device->type);
     }
 
     protected function saveLatestData($project, $device, $data)

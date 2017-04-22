@@ -59,6 +59,7 @@ class ImportService extends Injectable
         $columns = $device->getTableColumns();
 
         if (($handle = fopen($filename, "r")) !== FALSE) {
+            $latest = [];
             fgetcsv($handle); // skip first line
             while (($fields = fgetcsv($handle)) !== FALSE) {
                 if (count($columns) != count($fields)) {
@@ -76,9 +77,32 @@ class ImportService extends Injectable
 
                 $sql = "INSERT INTO $table ($columnList) VALUES ($values)";
                 $this->db->execute($sql);
+                $latest = $data;
             }
             fclose($handle);
+
+            $this->saveLatestData($project, $device, $latest);
         }
+    }
+
+    protected function saveLatestData($project, $device, $data)
+    {
+        $id = $project->id;
+        $name = addslashes($project->name);
+        $time = $data['time'];
+        $devtype = $device->type;
+        $devcode = $device->code;
+        $data = addslashes(json_encode($data));
+
+        $sql = "REPLACE INTO latest_data SET"
+             . " project_id = $id,"
+             . " project_name = '$name',"
+             . " time = '$time',"
+             . " devtype = '$devtype',"
+             . " devcode = '$devcode',"
+             . " data = '$data'";
+
+        $this->db->execute($sql);
     }
 
     protected function log($str)

@@ -22,20 +22,25 @@ class ImportService extends Injectable
                 }
 
                 $fileCount++;
+
                 $this->importFile($filename, $project);
-
-                // move file to BACKUP folder, even it's not imported
-                $dir = 'C:\\FTP-Backup\\' . basename($project->ftpdir);
-                if (!file_exists($dir) && !is_dir($dir)) {
-                    mkdir($dir);
-                }
-
-                $newfile = $dir . '\\' . basename($filename);
-                rename($filename, $newfile);
+                $this->backupFile($filename, $project);
             }
         }
 
         $this->log("Importing completed, $fileCount file(s) imported.\n");
+    }
+
+    protected function backupFile($filename, $project)
+    {
+        // move file to BACKUP folder, even it's not imported
+        $dir = 'C:\\FTP-Backup\\' . basename($project->ftpdir);
+        if (!file_exists($dir) && !is_dir($dir)) {
+            mkdir($dir);
+        }
+
+        $newfile = $dir . '\\' . basename($filename);
+        rename($filename, $newfile);
     }
 
     protected function importFile($filename, $project)

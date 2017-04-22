@@ -69,10 +69,8 @@ class SmartAlertService extends Injectable
                 continue;
             }
 
-           #$data = json_decode($row['data'], true);
-
-            $irr = 0;
-            $kw = 0;
+            $irr = $project->getLatestIRR();
+            $kw = $project->getLatestKW();
 
             if ($irr > 100 && $kw < 5) {
                 $this->alerts[] = [

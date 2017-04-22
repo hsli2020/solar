@@ -9,14 +9,16 @@ abstract class Device
     protected $code;
     protected $table;
     protected $model;
+    protected $class;
 
-    public function __construct($project, $type, $code, $table, $model)
+    public function __construct($project, $info)
     {
         $this->project = $project;
-        $this->type    = $type;
-        $this->code    = $code;
-        $this->table   = $table;
-        $this->model   = $model;
+        $this->type    = $info['type'];
+        $this->code    = $info['devcode'];
+        $this->table   = $info['table'];
+        $this->model   = $info['model'];
+        $this->class   = $info['class']; // not used
     }
 
     public function __toString()
@@ -114,8 +116,9 @@ abstract class Device
         $devcode   = $this->code;
 
         $sql = "SELECT * FROM latest_data WHERE project_id=$projectId AND devcode='$devcode'";
+        $result = $this->getDb()->fetchOne($sql);
 
-        return $this->getDb()->fetchOne($sql);
+        return json_decode($result['data'], true);
     }
 
     public function getSnapshotData()

@@ -10,8 +10,8 @@ class Inverter extends Device
         $table = $this->table;
         $code = $this->code;
 
-       #$column = ($this->model == 'SERIAL') ?  'line_kw' : 'kw';
-        $column = ($projectId == 2) ? 'line_kw' : 'kw';
+        $column = ($this->model == 'SERIAL') ?  'line_kw' : 'kw';
+       #$column = ($projectId == 2) ? 'line_kw' : 'kw';
 
         list($start, $end) = $this->getPeriod($period);
 

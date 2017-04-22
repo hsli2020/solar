@@ -38,26 +38,24 @@ class Project
 
     public function initDevices($info)
     {
-        $type  = $info['type'];
-        $code  = $info['devcode'];
-        $table = $info['table'];
-        $model = $info['model'];
+        $type = $info['type'];
+        $code = $info['devcode'];
 
         switch (strtoupper($type)) {
         case 'INVERTER':
-            $inverter = new Inverter($this, $type, $code, $table, $model);
+            $inverter = new Inverter($this, $info);
             $this->inverters[$code] = $inverter;
             $this->devices[$code] = $inverter;
             break;
 
         case 'ENVKIT':
-            $envkit = new EnvKit($this, $type, $code, $table, $model);
+            $envkit = new EnvKit($this, $info);
             $this->envkits[$code] = $envkit;
             $this->devices[$code] = $envkit;
             break;
 
         case 'GENMETER':
-            $genmeter = new GenMeter($this, $type, $code, $table, $model);
+            $genmeter = new GenMeter($this, $info);
             $this->genmeters[$code] = $genmeter;
             $this->devices[$code] = $genmeter;
             break;

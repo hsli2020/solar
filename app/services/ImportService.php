@@ -16,6 +16,11 @@ class ImportService extends Injectable
         foreach ($projects as $project) {
             $dir = $project->ftpdir;
             foreach (glob($dir . '/*.csv') as $filename) {
+                // wait until the file is completely uploaded
+                while (time() - filemtime($filename) < 10) {
+                    sleep(1);
+                }
+
                 $fileCount++;
                 $this->importFile($filename, $project);
 
@@ -26,16 +31,7 @@ class ImportService extends Injectable
                 }
 
                 $newfile = $dir . '\\' . basename($filename);
-
-                $done = false;
-                while (!$done) {
-                    try {
-                        rename($filename, $newfile);
-                        $done = true;
-                    } catch (\Exception $e) {
-                        sleep(1);
-                    }
-                }
+                rename($filename, $newfile);
             }
         }
 
@@ -77,6 +73,7 @@ class ImportService extends Injectable
 
                 $sql = "INSERT INTO $table ($columnList) VALUES ($values)";
                 $this->db->execute($sql);
+
                 $latest = $data;
             }
             fclose($handle);

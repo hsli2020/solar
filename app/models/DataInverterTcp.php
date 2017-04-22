@@ -22,7 +22,7 @@ class DataInverterTcp extends Model
 
     public function initialize()
     {
-        $this->setSource('data_inverter_tcp');
+        $this->setSource('solar_data_inverter_tcp');
     }
 
     public function afterFetch()

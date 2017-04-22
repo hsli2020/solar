@@ -27,7 +27,7 @@ class DataInverterPvp extends Model
 
     public function initialize()
     {
-        $this->setSource('data_inverter_pvp');
+        $this->setSource('solar_data_inverter_pvp');
     }
 
     public function afterFetch()

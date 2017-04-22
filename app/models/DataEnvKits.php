@@ -22,7 +22,7 @@ class DataEnvKits extends Model
 
     public function initialize()
     {
-        $this->setSource('data_envkit');
+        $this->setSource('solar_data_envkit');
     }
 
     public function afterFetch()

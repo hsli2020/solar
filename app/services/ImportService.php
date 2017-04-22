@@ -26,7 +26,16 @@ class ImportService extends Injectable
                 }
 
                 $newfile = $dir . '\\' . basename($filename);
-                rename($filename, $newfile);
+
+                $done = false;
+                while (!$done) {
+                    try {
+                        rename($filename, $newfile);
+                        $done = true;
+                    } catch (\Exception $e) {
+                        sleep(1);
+                    }
+                }
             }
         }
 

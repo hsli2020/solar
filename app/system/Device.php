@@ -38,6 +38,13 @@ abstract class Device
         return $this->table;
     }
 
+    public function getDeviceTable()
+    {
+        return 'p'.$this->project->id.'_'.
+               str_replace('-', '_', $this->code).'_'.
+               strtolower($this->type);
+    }
+
     public function getTableColumns()
     {
         $table = $this->getTable();

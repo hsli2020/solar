@@ -55,6 +55,7 @@ class ImportService extends Injectable
 
         if (($handle = fopen($filename, "r")) !== FALSE) {
             $latest = [];
+
             fgetcsv($handle); // skip first line
             while (($fields = fgetcsv($handle)) !== FALSE) {
                 if (count($columns) != count($fields)) {

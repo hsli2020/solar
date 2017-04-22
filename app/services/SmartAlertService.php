@@ -12,24 +12,17 @@ class SmartAlertService extends Injectable
     {
         echo "Smart Alert is running ...", EOL;
 
-        $projects = $this->projectService->getAll();
-
         $this->alerts = [];
-        foreach ($projects as $project) {
-            echo '-> Diagnosing ', $project->name, EOL;
 
-            foreach ($project->devices as $device) {
-                $this->checkNoData($project, $device);
-               #$this->checkFault($project, $device);
-            }
+        $this->checkNoData();
+       #$this->checkFault();
 
-           #$this->checkLowEnergy($project);
-           #$this->checkOverHeat($project);
+       #$this->checkLowEnergy();
+       #$this->checkOverHeat();
 
-           #$this->checkInverters($project);
-           #$this->checkEnvkits($project);
-           #$this->checkGenMeters($project);
-        }
+       #$this->checkInverters();
+       #$this->checkEnvkits();
+       #$this->checkGenMeters();
 
         if ($this->alerts) {
             $this->saveAlerts();
@@ -37,25 +30,26 @@ class SmartAlertService extends Injectable
         }
     }
 
-    protected function checkNoData($project, $device)
+    protected function checkNoData()
     {
-        $data = $device->getLatestData();
-       #$time = strtotime(toLocaltime($data['time']));
-       #$now = time();
+        $sql = "SELECT * FROM latest_data";
+        $rows = $this->getDb()->fetchAll($sql);
 
-       #if ($now - $time >= 35*60) {
-            $alert = [
-                'project' => $project->name,
-                'time'    => date('Y-m-d H:i:s'),
-                'devtype' => $device->type,
-                'devcode' => $device->code,
-                'message' => 'No data received over 30 minutes',
-                'alert'   => '',
-               #'level'   => '',
-            ];
-
-            $this->alerts[] = $alert;
-       #}
+        $now = time();
+        foreach ($rows as $data) {
+            $time = strtotime($data['time'].' UTC'); // UTC to LocalTime
+            if ($time > 0 && $now - $time >= 35*60) {
+                $this->alerts[] = [
+                    'project' => $data['project_name'],
+                    'time'    => date('Y-m-d H:i:s'),
+                    'devtype' => $data['device'],
+                    'devcode' => $data['device'],
+                    'message' => 'No data received over 30 minutes',
+                    'alert'   => '',
+                   #'level'   => '',
+                ];
+            }
+        }
     }
 
     protected function generateHtml()

@@ -112,25 +112,10 @@ abstract class Device
     {
         $projectId = $this->project->id;
         $devcode   = $this->code;
-        $table     = $this->table;
 
-        $sql = "SELECT *"
-             . "  FROM $table"
-             . " WHERE project_id=$projectId AND devcode='$devcode' AND time=("
-             .        " SELECT MAX(time)"
-             .        "   FROM $table"
-             .        "  WHERE project_id=$projectId AND devcode='$devcode')";
+        $sql = "SELECT * FROM latest_data WHERE project_id=$projectId AND devcode='$devcode'";
 
         return $this->getDb()->fetchOne($sql);
-    }
-
-    public function getLatestTime()
-    {
-        $data = $this->getLatestData();
-        if ($data) {
-            return $data['time'];
-        }
-        return false;
     }
 
     public function getSnapshotData()

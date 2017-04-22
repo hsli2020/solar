@@ -26,7 +26,7 @@ class SmartAlertService extends Injectable
 
         if ($this->alerts) {
             $this->saveAlerts();
-           #$this->sendEmails();
+            $this->sendAlerts();
         }
     }
 
@@ -88,7 +88,18 @@ class SmartAlertService extends Injectable
         }
     }
 
-    protected function sendEmails()
+    protected function sendAlerts()
+    {
+        $html = $this->generateHtml();
+$cnt = 1;
+        $users = $this->userService->getAll();
+        foreach ($users as $user) {
+            $this->sendEmail($user['email'], $html);
+if ($cnt++ == 2) break;
+        }
+    }
+
+    protected function sendEmail($recepient, $body)
     {
         $mail = new \PHPMailer();
 
@@ -101,7 +112,6 @@ class SmartAlertService extends Injectable
         ];
 
         $today = date('Y-m-d');
-        $html = $this->generateHtml();
 
 #       $mail->SMTPDebug = 3;
         $mail->isSMTP();
@@ -112,16 +122,24 @@ class SmartAlertService extends Injectable
         $mail->From = "OMS@greatcirclesolar.ca";
         $mail->FromName = "Great Circle Solar";
         $mail->addAddress($recepient);
-        $mail->addAttachment($filename, basename($filename));
         $mail->isHTML(true);
         $mail->Subject = "Smart Alert: Something is wrong, Take Action Right Now!";
-        $mail->Body = $html;
+        $mail->Body = $body;
         $mail->AltBody = "Smart Alert can only display in HTML format";
 
         if (!$mail->send()) {
             $this->log("Mailer Error: " . $mail->ErrorInfo);
         } else {
-            $this->log("Daily report sent to $recepient.");
+            $this->log("Smart Alert sent to $recepient.");
         }
+    }
+
+    protected function log($str)
+    {
+        $filename = BASE_DIR . '/app/logs/alert.log';
+        $str = date('Y-m-d H:i:s ') . $str . "\n";
+
+        echo $str;
+        error_log($str, 3, $filename);
     }
 }

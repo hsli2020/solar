@@ -49,12 +49,12 @@ abstract class Device
     public function getClassName()
     {
         $modelMap = [
-            'solar_data_inverter_tcp'    => 'DataInverterTcp',
-            'solar_data_inverter_serial' => 'DataInverterSerial',
-            'solar_data_inverter_sma'    => 'DataInverterSma',
-            'solar_data_inverter_pvp'    => 'DataInverterPvp',
-            'solar_data_genmeter'        => 'DataGenMeters',
-            'solar_data_envkit'          => 'DataEnvKits',
+            'data_inverter_tcp'    => 'DataInverterTcp',
+            'data_inverter_serial' => 'DataInverterSerial',
+            'data_inverter_sma'    => 'DataInverterSma',
+            'data_inverter_pvp'    => 'DataInverterPvp',
+            'data_genmeter'        => 'DataGenMeters',
+            'data_envkit'          => 'DataEnvKits',
         ];
 
         $table = $this->getTable();

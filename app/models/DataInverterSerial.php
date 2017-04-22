@@ -35,7 +35,7 @@ class DataInverterSerial extends Model
 
     public function initialize()
     {
-        $this->setSource('solar_data_inverter_serial');
+        $this->setSource('data_inverter_serial');
     }
 
     public function afterFetch()

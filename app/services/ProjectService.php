@@ -20,7 +20,7 @@ class ProjectService extends Injectable
                 $id = $project['id'];
                 $object = new Project($project);
 
-                $sql = "SELECT * FROM solar_device WHERE project_id='$id'";
+                $sql = "SELECT * FROM devices WHERE project_id='$id'";
                 $devices = $this->db->fetchAll($sql);
 
                 foreach ($devices as $device) {

@@ -19,7 +19,7 @@ class Devices extends Model
 
     public function initialize()
     {
-        $this->setSource('solar_device');
+        $this->setSource('devices');
     }
 
     public function columnMap()

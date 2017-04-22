@@ -10,6 +10,8 @@ class DailyReportService extends Injectable
 
     public function generate()
     {
+        echo "Generating Daily Report ...", EOL;
+
         $projects = $this->projectService->getAll();
 
         $this->report = [];
@@ -93,6 +95,8 @@ class DailyReportService extends Injectable
 
     public function send()
     {
+        echo "Sending Daily Report ...", EOL;
+
         $this->log('Start sending daily report');
 
         $report = $this->load(date('Y-m-d', strtotime('-1 day')));

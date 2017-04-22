@@ -10,6 +10,8 @@ class MonthlyReportService extends Injectable
 
     public function generate()
     {
+        echo "Generating Monthly Report ...", EOL;
+
         $projects = $this->projectService->getAll();
 
         $this->report = [];
@@ -79,6 +81,8 @@ class MonthlyReportService extends Injectable
 
     public function send()
     {
+        echo "Sending Monthly Report ...", EOL;
+
         $this->log('Start sending monthly report');
 
         $report = $this->load(date('Y-m', strtotime('-1 month')));

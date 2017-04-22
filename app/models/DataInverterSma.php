@@ -25,7 +25,7 @@ class DataInverterSma extends Model
 
     public function initialize()
     {
-        $this->setSource('solar_data_inverter_sma');
+        $this->setSource('data_inverter_sma');
     }
 
     public function afterFetch()

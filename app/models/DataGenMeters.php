@@ -25,7 +25,7 @@ class DataGenMeters extends Model
 
     public function initialize()
     {
-        $this->setSource('solar_data_genmeter');
+        $this->setSource('data_genmeter');
     }
 
     public function afterFetch()

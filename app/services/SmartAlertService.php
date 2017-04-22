@@ -33,7 +33,7 @@ class SmartAlertService extends Injectable
     protected function checkNoData()
     {
         $sql = "SELECT * FROM latest_data";
-        $rows = $this->getDb()->fetchAll($sql);
+        $rows = $this->db->fetchAll($sql);
 
         $now = time();
         foreach ($rows as $data) {

@@ -17,7 +17,7 @@ class SmartAlertService extends Injectable
         $this->checkNoData();
        #$this->checkFault();
 
-       #$this->checkLowEnergy();
+        $this->checkLowEnergy();
        #$this->checkOverHeat();
 
        #$this->checkInverters();
@@ -32,24 +32,69 @@ class SmartAlertService extends Injectable
 
     protected function checkNoData()
     {
+        $alertType = 'NO-DATA';
+
         $sql = "SELECT * FROM latest_data";
         $rows = $this->db->fetchAll($sql);
 
         $now = time();
         foreach ($rows as $data) {
+            if ($this->alertTriggered($data['project_id'], $alertType)) {
+                continue;
+            }
             $time = strtotime($data['time'].' UTC'); // UTC to LocalTime
             if ($time > 0 && $now - $time >= 35*60) {
                 $this->alerts[] = [
-                    'project' => $data['project_name'],
-                    'time'    => date('Y-m-d H:i:s'),
-                    'devtype' => $data['device'],
-                    'devcode' => $data['device'],
-                    'message' => 'No data received over 30 minutes',
-                    'alert'   => '',
-                   #'level'   => '',
+                    'project_id '  => $data['project_id'],
+                    'project_name' => $data['project_name'],
+                    'time'         => date('Y-m-d H:i:s'),
+                    'devtype'      => $data['devtype'],
+                    'devcode'      => $data['devcode'],
+                    'message'      => 'No data received over 30 minutes',
+                    'alert'        => $alertType,
+                   #'level'        => '',
                 ];
             }
         }
+    }
+
+    protected function checkLowEnergy()
+    {
+        $alertType = 'LOW-ENERGY';
+
+        $projects = $this->projectService->getAll();
+
+        foreach ($projects as $project) {
+            if ($this->alertTriggered($project->id, $alertType)) {
+                continue;
+            }
+
+           #$data = json_decode($row['data'], true);
+
+            $irr = 0;
+            $kw = 0;
+
+            if ($irr > 100 && $kw < 5) {
+                $this->alerts[] = [
+                    'project_id '  => $project->id,
+                    'project_name' => $project->name,
+                    'time'         => date('Y-m-d H:i:s'),
+                    'devtype'      => $data['devtype'],
+                    'devcode'      => $data['devcode'],
+                    'message'      => 'Low energy while irradiance is great than 100',
+                    'alert'        => $alertType,
+                   #'level'        => '',
+                ];
+            }
+        }
+    }
+
+    protected function alertTriggered($projectId, $alertType)
+    {
+        $today = date('Y-m-d');
+        $sql = "SELECT * FROM smart_alert_log WHERE project_id=$projectId AND alert='$alertType' AND date(time)='$today'";
+        $result = $this->db->fetchOne($sql);
+        return $result;
     }
 
     protected function generateHtml()
@@ -91,11 +136,11 @@ class SmartAlertService extends Injectable
     protected function sendAlerts()
     {
         $html = $this->generateHtml();
-$cnt = 1;
+
         $users = $this->userService->getAll();
         foreach ($users as $user) {
+            if ($user['id'] > 2) break;
             $this->sendEmail($user['email'], $html);
-if ($cnt++ == 2) break;
         }
     }
 

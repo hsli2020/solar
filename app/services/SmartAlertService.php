@@ -17,7 +17,7 @@ class SmartAlertService extends Injectable
         $this->checkNoData();
        #$this->checkFault();
 
-        $this->checkLowEnergy();
+       #$this->checkLowEnergy();
        #$this->checkOverHeat();
 
        #$this->checkInverters();

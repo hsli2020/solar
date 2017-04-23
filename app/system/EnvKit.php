@@ -6,15 +6,12 @@ class EnvKit extends Device
 {
     public function getIRR($period)
     {
-        $projectId = $this->project->id;
-        $table = $this->table;
-        $code = $this->code;
+        $table = $this->getDeviceTable();
 
         list($start, $end) = $this->getPeriod($period);
 
         $sql = "SELECT SUM(IRR) AS irr FROM $table ".
-                "WHERE project_id=$projectId AND devcode='$code' AND ".
-                      "time>='$start' AND time<'$end' AND error=0";
+                "WHERE time>='$start' AND time<'$end' AND error=0";
 
         $result = $this->getDb()->fetchOne($sql);
         if ($result) {
@@ -45,15 +42,12 @@ class EnvKit extends Device
 
     public function getOAT($period)
     {
-        $projectId = $this->project->id;
-        $table = $this->table;
-        $code = $this->code;
+        $table = $this->getDeviceTable();
 
         list($start, $end) = $this->getPeriod($period);
 
         $sql = "SELECT SUM(OAT) AS tmp FROM $table ".
-                "WHERE project_id=$projectId AND devcode='$code' AND ".
-                      "time>='$start' AND time<'$end' AND error=0";
+                "WHERE time>='$start' AND time<'$end' AND error=0";
 
         $result = $this->getDb()->fetchOne($sql);
         if ($result) {
@@ -65,15 +59,12 @@ class EnvKit extends Device
 
     public function getTMP($period)
     {
-        $projectId = $this->project->id;
-        $table = $this->table;
-        $code = $this->code;
+        $table = $this->getDeviceTable();
 
         list($start, $end) = $this->getPeriod($period);
 
         $sql = "SELECT SUM(PANELT) AS tmp FROM $table ".
-                "WHERE project_id=$projectId AND devcode='$code' AND ".
-                      "time>='$start' AND time<'$end' AND error=0";
+                "WHERE time>='$start' AND time<'$end' AND error=0";
 
         $result = $this->getDb()->fetchOne($sql);
         if ($result) {

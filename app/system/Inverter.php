@@ -6,9 +6,7 @@ class Inverter extends Device
 {
     public function getKW($period)
     {
-        $projectId = $this->project->id;
-        $table = $this->table;
-        $code = $this->code;
+        $table = $this->getDeviceTable();
 
         $column = ($this->model == 'SERIAL') ?  'line_kw' : 'kw';
        #$column = ($projectId == 2) ? 'line_kw' : 'kw';
@@ -16,8 +14,7 @@ class Inverter extends Device
         list($start, $end) = $this->getPeriod($period);
 
         $sql = "SELECT SUM($column) AS kw FROM $table ".
-                "WHERE project_id=$projectId AND devcode='$code' AND ".
-                      "time>='$start' AND time<'$end' AND error=0";
+                "WHERE time>='$start' AND time<'$end' AND error=0";
 
         $result = $this->getDb()->fetchOne($sql);
         if ($result) {

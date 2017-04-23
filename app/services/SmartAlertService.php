@@ -46,7 +46,7 @@ class SmartAlertService extends Injectable
             if ($time > 0 && $now - $time >= 35*60) {
                 $this->alerts[] = [
                     'time'         => date('Y-m-d H:i:s'),
-                    'project_id '  => $data['project_id'],
+                    'project_id'   => $data['project_id'],
                     'project_name' => $data['project_name'],
                     'devtype'      => $data['devtype'],
                     'devcode'      => $data['devcode'],
@@ -74,7 +74,7 @@ class SmartAlertService extends Injectable
             if ($irr > 100 && $kw < 5) {
                 $this->alerts[] = [
                     'time'         => date('Y-m-d H:i:s'),
-                    'project_id '  => $project->id,
+                    'project_id'   => $project->id,
                     'project_name' => $project->name,
                     'devtype'      => '', // $data['devtype'],
                     'devcode'      => '', // $data['devcode'],

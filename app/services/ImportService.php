@@ -70,7 +70,7 @@ class ImportService extends Injectable
 
                 $data = array_combine($columns, $fields);
 
-               #$this->insertIntoDeviceTable($project, $device, $data);
+                $this->insertIntoDeviceTable($project, $device, $data);
                 $this->insertIntoMasterTable($project, $device, $data);
 
                 $latest = $data;
@@ -84,7 +84,7 @@ class ImportService extends Injectable
     protected function insertIntoDeviceTable($project, $device, $data)
     {
         // insert into devtab
-        $devtab = $this->getDeviceTable($project, $device);
+        $devtab = $device->getDeviceTable();
 
         $columnList = '`' . implode('`, `', array_keys($data)) . '`';
         $values = "'" . implode("', '", $data). "'";
@@ -115,13 +115,6 @@ class ImportService extends Injectable
         } catch (\Exception $e) {
             echo $e->getMessage, EOL;
         }
-    }
-
-    protected function getDeviceTable($project, $device)
-    {
-        return 'p'.$project->id.'_'.
-               str_replace('-', '_', $device->code).'_'.
-               strtolower($device->type);
     }
 
     protected function saveLatestData($project, $device, $data)

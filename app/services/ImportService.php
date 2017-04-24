@@ -94,7 +94,7 @@ class ImportService extends Injectable
         try {
             $this->db->execute($sql);
         } catch (\Exception $e) {
-            echo $e->getMessage, EOL;
+            echo $e->getMessage(), EOL;
         }
     }
 
@@ -113,7 +113,7 @@ class ImportService extends Injectable
         try {
             $this->db->execute($sql);
         } catch (\Exception $e) {
-            echo $e->getMessage, EOL;
+            echo $e->getMessage(), EOL;
         }
     }
 

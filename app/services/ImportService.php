@@ -119,12 +119,16 @@ class ImportService extends Injectable
 
     protected function saveLatestData($project, $device, $data)
     {
+        if (empty($data)) {
+            return;
+        }
+
         $id = $project->id;
         $name = addslashes($project->name);
         $time = $data['time'];
         $devtype = $device->type;
         $devcode = $device->code;
-        $data = addslashes(json_encode($data));
+        $json = addslashes(json_encode($data));
 
         $sql = "REPLACE INTO latest_data SET"
              . " project_id = $id,"
@@ -132,7 +136,7 @@ class ImportService extends Injectable
              . " time = '$time',"
              . " devtype = '$devtype',"
              . " devcode = '$devcode',"
-             . " data = '$data'";
+             . " data = '$json'";
 
         $this->db->execute($sql);
     }

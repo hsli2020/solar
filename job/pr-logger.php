@@ -3,18 +3,21 @@
 include __DIR__ . '/../public/init.php';
 
 $di = \Phalcon\Di::getDefault();
+$db = $di->get('db');
 
 $projectService = $di->get('projectService');
 
-$fp = fopen(BASE_DIR . '/app/logs/PR.log', 'a+');
-
 $projects = $projectService->getAll();
 foreach ($projects as $project) {
-    $id = $project->id;
+    $id   = $project->id;
     $name = $project->name;
-    $PR = round($project->getPR()*100).'%';
-    fputs($fp, sprintf("%d  %-25s %-24s %d%%\n", $id, $name, date('Y-m-d H:i:s'), $PR));
-}
-fputs($fp, "\n");
+    $PR   = round($project->getPR()*100);
 
-fclose($fp);
+    $db->insertAsDict('gcpi', [
+        'project_id'   => $id,
+        'project_name' => $name,
+        'start_time'   => date('Y-m-d H:00:00', strtotime('-1 hour')),
+        'end_time'     => date('Y-m-d H:00:00'),
+        'index'        => $PR,
+    ]);
+}

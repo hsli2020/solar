@@ -69,9 +69,11 @@ class DailyReportService extends Injectable
 
     public function save()
     {
-        $filename = $this->getFilename(date('Ymd'));
-        $json = json_encode($this->report, JSON_PRETTY_PRINT);
-        file_put_contents($filename, $json);
+        if (0) {
+            $filename = $this->getFilename(date('Ymd'));
+            $json = json_encode($this->report, JSON_PRETTY_PRINT);
+            file_put_contents($filename, $json);
+        }
 
         try {
             $this->db->insertAsDict('daily_reports', [

@@ -154,7 +154,7 @@ class SmartAlertService extends Injectable
         $users = $this->userService->getAll();
 
         foreach ($users as $user) {
-            if ($user['id'] > 1) break;
+            if ($user['id'] > 2) break;
 
             $html = $this->generateHtml($user);
             $this->sendEmail($user['email'], $html);

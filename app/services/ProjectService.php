@@ -44,6 +44,23 @@ class ProjectService extends Injectable
 
     public function getDetails($id)
     {
-        return [];
+        $details = [];
+
+        $project = $this->get($id);
+
+        $details['project_name'] = $project->name;
+        $details['address'] = $project->name;
+        $details['ac_size'] = $project->capacityAC;
+        $details['dc_size'] = $project->capacityDC;
+        $details['num_of_inverters'] = count($project->inverters);
+
+        $details['yesterday']['prod'] = 'TODO';
+        $details['yesterday']['inso'] = 'TODO';
+        $details['month-to-date']['prod'] = 'TODO';
+        $details['month-to-date']['inso'] = 'TODO';
+        $details['today']['prod'] = 'TODO';
+        $details['today']['inso'] = 'TODO';
+
+        return $details;
     }
 }

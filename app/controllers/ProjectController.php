@@ -16,6 +16,7 @@ class ProjectController extends ControllerBase
     {
         $this->view->pageTitle = 'Project Details';
         $this->view->today = date('l, F jS Y');
+        $this->view->now = date('g:i a');
 
         $details = $this->projectService->getDetails($id);
 

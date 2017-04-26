@@ -9,15 +9,15 @@
       <table class="w3-table">
         <tr>
           <td width="20%">Project Name:</td>
-          <td width="80%">125 Bermondsey</td>
+          <td width="80%">{{ details['project_name'] }}</td>
         </tr>
         <tr>
           <td>Month-Year</td>
-          <td>Saturday, October 01, 2016</td>
+          <td>{{ today }}</td>
         </tr>
         <tr>
           <td>Time:</td>
-          <td>9:35am</td>
+          <td>{{ now }}</td>
         </tr>
       </table>
 
@@ -28,19 +28,19 @@
         <tr>
           <td width="20%">&nbsp;</td>
           <td width="35%">AC Size, kW</td>
-          <td width="25%">500</td>
+          <td width="25%">{{ details['ac_size'] }}</td>
           <td width="20%">&nbsp;</td>
         </tr>
         <tr>
           <td>&nbsp;</td>
           <td>DC Size, kW</td>
-          <td>450</td>
+          <td>{{ details['dc_size'] }}</td>
           <td>&nbsp;</td>
         </tr>
         <tr>
           <td>&nbsp;</td>
           <td>Address</td>
-          <td>Bermondsey Toronto</td>
+          <td>{{ details['address'] }}</td>
           <td>&nbsp;</td>
         </tr>
         <tr>
@@ -52,7 +52,7 @@
         <tr>
           <td>&nbsp;</td>
           <td>Number of Inverters</td>
-          <td>3</td>
+          <td>{{ details['num_of_inverters'] }}</td>
           <td>&nbsp;</td>
         </tr>
         <tr>
@@ -83,42 +83,42 @@
           <td>&nbsp;</td>
           <td>Yesterday's Total Production, kWh</td>
           <td>&nbsp;</td>
-          <td>3000.0</td>
+          <td>{{ details['yesterday']['prod'] }}</td>
         </tr>
 
         <tr>
           <td>&nbsp;</td>
           <td>Yesterday's Total Insolation, kW/m<sup>2</sup></td>
           <td>&nbsp;</td>
-          <td>48.9</td>
+          <td>{{ details['yesterday']['inso'] }}</td>
         </tr>
 
         <tr>
           <td>&nbsp;</td>
           <td>Month-to-date's Total Production, kWh</td>
           <td>&nbsp;</td>
-          <td>58900.0</td>
+          <td>{{ details['month-to-date']['prod'] }}</td>
         </tr>
 
         <tr>
           <td>&nbsp;</td>
           <td>Month-to-date's Total Insolation, kW/m<sup>2</sup></td>
           <td>&nbsp;</td>
-          <td>105.9</td>
+          <td>{{ details['month-to-date']['inso'] }}</td>
         </tr>
 
         <tr>
           <td>&nbsp;</td>
           <td>Today's Total Production, kWh</td>
           <td>&nbsp;</td>
-          <td>150.0</td>
+          <td>{{ details['today']['prod'] }}</td>
         </tr>
 
         <tr>
           <td>&nbsp;</td>
           <td>Today's Total Insolation, kW/m<sup>2</sup></td>
           <td>&nbsp;</td>
-          <td>5.0</td>
+          <td>{{ details['today']['inso'] }}</td>
         </tr>
 
         <tr class="w3-light-gray">
@@ -246,6 +246,7 @@
           <td>&nbsp;</td>
         </tr>
       </table>
+      <br>
 
     </div>
     <p>&nbsp;</p>

@@ -35,6 +35,7 @@
     #toast.success {
         background-color: #008800;
     }
+    {% block csscode %}{% endblock %}
   </style>
 
   {{ stylesheet_link("/css/style.css") }}

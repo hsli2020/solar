@@ -41,4 +41,9 @@ class ProjectService extends Injectable
         }
         return $this->projects[$id];
     }
+
+    public function getDetails($id)
+    {
+        return [];
+    }
 }

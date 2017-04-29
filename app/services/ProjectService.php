@@ -54,12 +54,34 @@ class ProjectService extends Injectable
         $details['dc_size'] = $project->capacityDC;
         $details['num_of_inverters'] = count($project->inverters);
 
-        $details['yesterday']['prod'] = 'TODO';
-        $details['yesterday']['inso'] = 'TODO';
-        $details['month-to-date']['prod'] = 'TODO';
-        $details['month-to-date']['inso'] = 'TODO';
+        $report = $this->dailyReportService->load(date('Y-m-d', strtotime('-1 day')));
+
+        $details['yesterday']['prod'] = $report[$id]['Measured_Production'];
+        $details['yesterday']['inso'] = $report[$id]['Measured_Insolation'];
+        $details['month-to-date']['prod'] = $report[$id]['Total_Energy'];
+        $details['month-to-date']['inso'] = $report[$id]['Total_Insolation'];
         $details['today']['prod'] = 'TODO';
         $details['today']['inso'] = 'TODO';
+
+        $details['inverter']['power'] = 'TODO';
+        $details['inverter']['status'] = 'On';
+        $details['inverter']['fault'] = 'None';
+        $details['inverter']['vla'] = 'TODO';
+        $details['inverter']['vlb'] = 'TODO';
+        $details['inverter']['vlc'] = 'TODO';
+        $details['inverter']['vln'] = 'TODO';
+
+        $details['envkit']['inso'] = 'TODO';
+        $details['envkit']['oat'] = 'TODO';
+        $details['envkit']['panelt'] = 'TODO';
+
+        $details['genmeter']['kw-del'] = 'TODO';
+        $details['genmeter']['kw-rec'] = 'TODO';
+        $details['genmeter']['kvar'] = 'TODO';
+        $details['genmeter']['vla'] = 'TODO';
+        $details['genmeter']['vlb'] = 'TODO';
+        $details['genmeter']['vlc'] = 'TODO';
+        $details['genmeter']['vln'] = 'TODO';
 
         return $details;
     }

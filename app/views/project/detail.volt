@@ -129,49 +129,49 @@
         <tr>
           <td>&nbsp;</td>
           <td>Power, kW</td>
-          <td>450</td>
+          <td>{{ details['inverter']['power'] }}</td>
           <td>&nbsp;</td>
         </tr>
 
         <tr>
           <td>&nbsp;</td>
           <td>Status</td>
-          <td>On</td>
+          <td>{{ details['inverter']['status'] }}</td>
           <td>&nbsp;</td>
         </tr>
 
         <tr>
           <td>&nbsp;</td>
           <td>Fault Code</td>
-          <td>None</td>
+          <td>{{ details['inverter']['fault'] }}</td>
           <td>&nbsp;</td>
         </tr>
 
         <tr>
           <td>&nbsp;</td>
           <td>VLA, Volts</td>
-          <td>&nbsp;</td>
+          <td>{{ details['inverter']['vla'] }}</td>
           <td>&nbsp;</td>
         </tr>
 
         <tr>
           <td>&nbsp;</td>
           <td>VLB, Volts</td>
-          <td>&nbsp;</td>
+          <td>{{ details['inverter']['vlb'] }}</td>
           <td>&nbsp;</td>
         </tr>
 
         <tr>
           <td>&nbsp;</td>
           <td>VLC, Volts</td>
-          <td>&nbsp;</td>
+          <td>{{ details['inverter']['vlc'] }}</td>
           <td>&nbsp;</td>
         </tr>
 
         <tr>
           <td>&nbsp;</td>
           <td>VLN, Volts</td>
-          <td>&nbsp;</td>
+          <td>{{ details['inverter']['vln'] }}</td>
           <td>&nbsp;</td>
         </tr>
 
@@ -183,19 +183,19 @@
           <td>&nbsp;</td>
           <td>Insolation, kW/m<sup>2</sup></td>
           <td>&nbsp;</td>
-          <td>898.0</td>
+          <td>{{ details['envkit']['inso'] }}</td>
         </tr>
         <tr>
           <td>&nbsp;</td>
           <td>Ambient Temperature, C</td>
           <td>&nbsp;</td>
-          <td>20.0</td>
+          <td>{{ details['envkit']['oat'] }}</td>
         </tr>
         <tr>
           <td>&nbsp;</td>
           <td>Back of Module Temperature, C</td>
           <td>&nbsp;</td>
-          <td>20.0</td>
+          <td>{{ details['envkit']['panelt'] }}</td>
         </tr>
 
         <tr class="w3-light-gray">
@@ -207,43 +207,43 @@
           <td>&nbsp;</td>
           <td>kW Delivered</td>
           <td>&nbsp;</td>
-          <td>&nbsp;</td>
+          <td>{{ details['genmeter']['kw-del'] }}</td>
         </tr>
         <tr>
           <td>&nbsp;</td>
           <td>kW Received</td>
           <td>&nbsp;</td>
-          <td>&nbsp;</td>
+          <td>{{ details['genmeter']['kw-rec'] }}</td>
         </tr>
         <tr>
           <td>&nbsp;</td>
           <td>kVar</td>
           <td>&nbsp;</td>
-          <td>&nbsp;</td>
+          <td>{{ details['genmeter']['kvar'] }}</td>
         </tr>
         <tr>
           <td>&nbsp;</td>
           <td>VLA, Volts</td>
           <td>&nbsp;</td>
-          <td>&nbsp;</td>
+          <td>{{ details['genmeter']['vla'] }}</td>
         </tr>
         <tr>
           <td>&nbsp;</td>
           <td>VLB, Volts</td>
           <td>&nbsp;</td>
-          <td>&nbsp;</td>
+          <td>{{ details['genmeter']['vlb'] }}</td>
         </tr>
         <tr>
           <td>&nbsp;</td>
           <td>VLC, Volts</td>
           <td>&nbsp;</td>
-          <td>&nbsp;</td>
+          <td>{{ details['genmeter']['vlc'] }}</td>
         </tr>
         <tr>
           <td>&nbsp;</td>
           <td>VLN, Volts</td>
           <td>&nbsp;</td>
-          <td>&nbsp;</td>
+          <td>{{ details['genmeter']['vln'] }}</td>
         </tr>
       </table>
       <br>

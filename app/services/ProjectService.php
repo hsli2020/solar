@@ -66,7 +66,7 @@ class ProjectService extends Injectable
         $getVal = function($data, $fields) {
             foreach ($fields as $name) {
                 if (isset($data[$name])) {
-                   return $data[$name];
+                   return round($data[$name]);
                 }
             }
             return '';
@@ -84,19 +84,19 @@ class ProjectService extends Injectable
 
         $data = $project->getFirstEnvKit()->getLatestData();
 
-        $details['envkit']['inso'] = $data['IRR'];
-        $details['envkit']['oat'] = $data['OAT'];
-        $details['envkit']['panelt'] = $data['PANELT'];
+        $details['envkit']['inso'] = round($data['IRR']);
+        $details['envkit']['oat'] = round($data['OAT']);
+        $details['envkit']['panelt'] = round($data['PANELT']);
 
         $data = $project->getFirstGenMeter()->getLatestData();
 
-        $details['genmeter']['kw-del'] = $data['kwh_del'];
-        $details['genmeter']['kw-rec'] = $data['kwh_rec'];
-        $details['genmeter']['kvar'] = $data['kva'];
-        $details['genmeter']['vla'] = $data['vln_a'];
-        $details['genmeter']['vlb'] = $data['vln_b'];
-        $details['genmeter']['vlc'] = $data['vln_c'];
-        $details['genmeter']['vln'] = 0; // $data[''];
+        $details['genmeter']['kw-del'] = round($data['kwh_del']);
+        $details['genmeter']['kw-rec'] = round($data['kwh_rec']);
+        $details['genmeter']['kvar'] = round($data['kva']);
+        $details['genmeter']['vla'] = round($data['vln_a']);
+        $details['genmeter']['vlb'] = round($data['vln_b']);
+        $details['genmeter']['vlc'] = round($data['vln_c']);
+        $details['genmeter']['vln'] = '';
 
         return $details;
     }

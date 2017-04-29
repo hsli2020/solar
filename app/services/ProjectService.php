@@ -73,9 +73,9 @@ class ProjectService extends Injectable
                 }
             }
             return '';
-        }
+        };
 
-        $details['inverter']['power'] = $data['';
+        $details['inverter']['power'] = $getVal($data, ['kw', 'line_kw']);
         $details['inverter']['status'] = 'On';
         $details['inverter']['fault'] = 'None';
         $details['inverter']['vla'] = $getVal($data, ['vln_a', 'volt_a', 'volts_a']);

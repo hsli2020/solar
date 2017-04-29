@@ -139,7 +139,8 @@ class Project
     public function getKW($period)
     {
         $sum = 0;
-        foreach ($this->inverters as $inverter) {
+        $inverters = $this->inverters;
+        foreach ($inverters as $inverter) {
             $sum += $inverter->getKW($period);
         }
         return $sum;
@@ -164,7 +165,8 @@ class Project
     public function getLatestKW()
     {
         $sum = 0;
-        foreach ($this->inverters as $inverter) {
+        $inverters = $this->inverters;
+        foreach ($inverters as $inverter) {
             $sum += $inverter->getLatestKW();
         }
         return $sum;

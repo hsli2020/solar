@@ -61,7 +61,7 @@ class ProjectService extends Injectable
         $details['month-to-date']['prod'] = $report[$id]['Total_Energy'];
         $details['month-to-date']['inso'] = $report[$id]['Total_Insolation'];
         $details['today']['prod'] = round($project->getKW('TODAY') / 60.0);
-        $details['today']['inso'] = round($project->getIRR('TODAY') / 60.0 / 1000.0);
+        $details['today']['inso'] = round($project->getIRR('TODAY') / 60.0 / 1000.0, 1);
 
         $getVal = function($data, $fields) {
             foreach ($fields as $name) {

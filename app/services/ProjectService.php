@@ -50,16 +50,16 @@ class ProjectService extends Injectable
 
         $details['project_name'] = $project->name;
         $details['address'] = $project->name;
-        $details['ac_size'] = $project->capacityAC;
-        $details['dc_size'] = $project->capacityDC;
+        $details['ac_size'] = round($project->capacityAC);
+        $details['dc_size'] = round($project->capacityDC);
         $details['num_of_inverters'] = count($project->inverters);
 
         $report = $this->dailyReportService->load(date('Y-m-d', strtotime('-1 day')));
 
-        $details['yesterday']['prod'] = $report[$id]['Measured_Production'];
-        $details['yesterday']['inso'] = $report[$id]['Measured_Insolation'];
-        $details['month-to-date']['prod'] = $report[$id]['Total_Energy'];
-        $details['month-to-date']['inso'] = $report[$id]['Total_Insolation'];
+        $details['yesterday']['prod'] = round($report[$id]['Measured_Production']);
+        $details['yesterday']['inso'] = round($report[$id]['Measured_Insolation'], 1);
+        $details['month-to-date']['prod'] = round($report[$id]['Total_Energy']);
+        $details['month-to-date']['inso'] = round($report[$id]['Total_Insolation']);
         $details['today']['prod'] = round($project->getKW('TODAY') / 60.0);
         $details['today']['inso'] = round($project->getIRR('TODAY') / 60.0 / 1000.0, 1);
 

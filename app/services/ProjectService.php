@@ -88,7 +88,7 @@ class ProjectService extends Injectable
         $details['envkit']['oat'] = $data['OAT'];
         $details['envkit']['panelt'] = $data['PANELT'];
 
-        $data = $project->getFirstGenMeters()->getLatestData();
+        $data = $project->getFirstGenMeter()->getLatestData();
 
         $details['genmeter']['kw-del'] = $data['kwh_del'];
         $details['genmeter']['kw-rec'] = $data['kwh_rec'];

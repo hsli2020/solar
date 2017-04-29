@@ -64,7 +64,7 @@ class ProjectService extends Injectable
         $details['today']['inso'] = 'TODO';
 
         $inverter = current($project->inverters);
-        $data = $inveter->getLatestData();
+        $data = $inverter->getLatestData();
 
         $getVal = function($data, $fields) {
             foreach ($fields as $name) {

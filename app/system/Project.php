@@ -82,14 +82,29 @@ class Project
         return $this->inverters;
     }
 
+    public function getFirstInverter()
+    {
+        return current($this->inverters);
+    }
+
     public function getEnvKits()
     {
         return $this->envkits;
     }
 
+    public function getFirstEnvKit()
+    {
+        return current($this->envkits);
+    }
+
     public function getGenMeters()
     {
         return $this->genmeters;
+    }
+
+    public function getFirstGenMeter()
+    {
+        return current($this->genmeters);
     }
 
     public function getMonthlyBudget($year, $month)

@@ -63,9 +63,6 @@ class ProjectService extends Injectable
         $details['today']['prod'] = 'TODO';
         $details['today']['inso'] = 'TODO';
 
-        $inverter = current($project->inverters);
-        $data = $inverter->getLatestData();
-
         $getVal = function($data, $fields) {
             foreach ($fields as $name) {
                 if (isset($data[$name])) {
@@ -75,6 +72,8 @@ class ProjectService extends Injectable
             return '';
         };
 
+        $data = $project->getFirstInverter()->getLatestData();
+
         $details['inverter']['power'] = $getVal($data, ['kw', 'line_kw']);
         $details['inverter']['status'] = 'On';
         $details['inverter']['fault'] = 'None';
@@ -83,15 +82,13 @@ class ProjectService extends Injectable
         $details['inverter']['vlc'] = $getVal($data, ['vln_c', 'volt_c', 'volts_c']);
         $details['inverter']['vln'] = '';
 
-        $envkit = current($project->envikts);
-        $data = $envkit->getLatestData();
+        $data = $project->getFirstEnvKit()->getLatestData();
 
         $details['envkit']['inso'] = $data['IRR'];
         $details['envkit']['oat'] = $data['OAT'];
         $details['envkit']['panelt'] = $data['PANELT'];
 
-        $genmeter = current($project->genmeters);
-        $data = $genmeter->getLatestData();
+        $data = $project->getFirstGenMeters()->getLatestData();
 
         $details['genmeter']['kw-del'] = $data['kwh_del'];
         $details['genmeter']['kw-rec'] = $data['kwh_rec'];

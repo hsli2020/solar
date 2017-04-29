@@ -63,25 +63,43 @@ class ProjectService extends Injectable
         $details['today']['prod'] = 'TODO';
         $details['today']['inso'] = 'TODO';
 
-        $details['inverter']['power'] = 'TODO';
+        $inverter = current($project->inverters);
+        $data = $inverter->getLatestData();
+
+        $getVal = function($data, $fields) {
+            foreach ($fields as $name) {
+                if (isset($data[$name])) {
+                   return $data[$name];
+                }
+            }
+            return '';
+        };
+
+        $details['inverter']['power'] = $getVal($data, ['kw', 'line_kw']);
         $details['inverter']['status'] = 'On';
         $details['inverter']['fault'] = 'None';
-        $details['inverter']['vla'] = 'TODO';
-        $details['inverter']['vlb'] = 'TODO';
-        $details['inverter']['vlc'] = 'TODO';
-        $details['inverter']['vln'] = 'TODO';
+        $details['inverter']['vla'] = $getVal($data, ['vln_a', 'volt_a', 'volts_a']);
+        $details['inverter']['vlb'] = $getVal($data, ['vln_b', 'volt_b', 'volts_b']);
+        $details['inverter']['vlc'] = $getVal($data, ['vln_c', 'volt_c', 'volts_c']);
+        $details['inverter']['vln'] = '';
 
-        $details['envkit']['inso'] = 'TODO';
-        $details['envkit']['oat'] = 'TODO';
-        $details['envkit']['panelt'] = 'TODO';
+        $envkit = current($project->envikts);
+        $data = $envkit->getLatestData();
 
-        $details['genmeter']['kw-del'] = 'TODO';
-        $details['genmeter']['kw-rec'] = 'TODO';
-        $details['genmeter']['kvar'] = 'TODO';
-        $details['genmeter']['vla'] = 'TODO';
-        $details['genmeter']['vlb'] = 'TODO';
-        $details['genmeter']['vlc'] = 'TODO';
-        $details['genmeter']['vln'] = 'TODO';
+        $details['envkit']['inso'] = $data['IRR'];
+        $details['envkit']['oat'] = $data['OAT'];
+        $details['envkit']['panelt'] = $data['PANELT'];
+
+        $genmeter = current($project->genmeters);
+        $data = $genmeter->getLatestData();
+
+        $details['genmeter']['kw-del'] = $data['kwh_del'];
+        $details['genmeter']['kw-rec'] = $data['kwh_rec'];
+        $details['genmeter']['kvar'] = $data['kva'];
+        $details['genmeter']['vla'] = $data['vln_a'];
+        $details['genmeter']['vlb'] = $data['vln_b'];
+        $details['genmeter']['vlc'] = $data['vln_c'];
+        $details['genmeter']['vln'] = 0; // $data[''];
 
         return $details;
     }

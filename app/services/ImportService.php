@@ -16,6 +16,8 @@ class ImportService extends Injectable
         foreach ($projects as $project) {
             $dir = $project->ftpdir;
             foreach (glob($dir . '/*.csv') as $filename) {
+                echo $filename, EOL;
+
                 // wait until the file is completely uploaded
                 while (time() - filemtime($filename) < 10) {
                     sleep(1);

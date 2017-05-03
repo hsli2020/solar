@@ -41,6 +41,15 @@ class GenMeter extends Device
         return 0;
     }
 
+    public function getLatestKVA()
+    {
+        $data = $this->getLatestData();
+        if ($data) {
+            return $data['kva'];
+        }
+        return false;
+    }
+
     public function getSnapshotKVA()
     {
         $data = $this->getSnapshotData();

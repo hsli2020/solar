@@ -138,12 +138,18 @@ class Project
 
     public function getKW($period)
     {
-        $sum = 0;
         $inverters = $this->inverters;
-        foreach ($inverters as $inverter) {
-            $sum += $inverter->getKW($period);
+
+        if (count($inverters) > 0) {
+            $sum = 0;
+            foreach ($inverters as $inverter) {
+                $sum += $inverter->getKW($period);
+            }
+            return $sum;
+        } else {
+            $genmeter = current($this->genmeters);
+            return $genmeter->getKVA($period);
         }
-        return $sum;
     }
 
     public function getKWH($period)
@@ -164,12 +170,18 @@ class Project
 
     public function getLatestKW()
     {
-        $sum = 0;
         $inverters = $this->inverters;
-        foreach ($inverters as $inverter) {
-            $sum += $inverter->getLatestKW();
+
+        if (count($inverters) > 0) {
+            $sum = 0;
+            foreach ($inverters as $inverter) {
+                $sum += $inverter->getLatestKW();
+            }
+            return $sum;
+        } else {
+            $genmeter = current($this->genmeters);
+            return $genmeter->getLatestKVA($period);
         }
-        return $sum;
     }
 
     public function getLatestTime()
@@ -189,11 +201,17 @@ class Project
 
     public function getSnapshotKW()
     {
-        $sum = 0;
-        foreach ($this->inverters as $inverter) {
-            $sum += $inverter->getSnapshotKW();
+        $inverters = $this->inverters;
+        if (count($inverters) > 0) {
+            $sum = 0;
+            foreach ($inverters as $inverter) {
+                $sum += $inverter->getSnapshotKW();
+            }
+            return $sum;
+        } else {
+            $genmeter = current($this->genmeters);
+            return $genmeter->getSnapshotKVA($period);
         }
-        return $sum;
     }
 
     public function getSnapshotTime()

@@ -180,7 +180,7 @@ class Project
             return $sum;
         } else {
             $genmeter = current($this->genmeters);
-            return $genmeter->getLatestKVA($period);
+            return $genmeter->getLatestKVA();
         }
     }
 
@@ -210,7 +210,7 @@ class Project
             return $sum;
         } else {
             $genmeter = current($this->genmeters);
-            return $genmeter->getSnapshotKVA($period);
+            return $genmeter->getSnapshotKVA();
         }
     }
 

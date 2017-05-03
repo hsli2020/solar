@@ -75,7 +75,7 @@ class ImportService extends Injectable
                 $data = array_combine($columns, $fields);
 
                 $this->insertIntoDeviceTable($project, $device, $data);
-                $this->insertIntoMasterTable($project, $device, $data);
+               #$this->insertIntoMasterTable($project, $device, $data);
 
                 $latest = $data;
             }

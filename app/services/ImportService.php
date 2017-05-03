@@ -14,9 +14,11 @@ class ImportService extends Injectable
 
         $fileCount = 0;
         foreach ($projects as $project) {
+            echo $project->name, EOL;
+
             $dir = $project->ftpdir;
             foreach (glob($dir . '/*.csv') as $filename) {
-                echo $filename, EOL;
+                echo "\t", $filename, EOL;
 
                 // wait until the file is completely uploaded
                 while (time() - filemtime($filename) < 10) {
@@ -28,7 +30,6 @@ class ImportService extends Injectable
                 $this->importFile($filename, $project);
                 $this->backupFile($filename, $project);
             }
-            echo EOL;
         }
 
         $this->log("Importing completed, $fileCount file(s) imported.\n");

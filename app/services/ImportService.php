@@ -28,6 +28,7 @@ class ImportService extends Injectable
                 $this->importFile($filename, $project);
                 $this->backupFile($filename, $project);
             }
+            echo EOL;
         }
 
         $this->log("Importing completed, $fileCount file(s) imported.\n");

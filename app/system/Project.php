@@ -223,7 +223,7 @@ class Project
     public function getGeneratingInverters()
     {
         // TODO: temp code
-        return count($this->inverters);
+        return max(count($this->inverters), 1);
     }
 
     public function getCommunicatingDevices()

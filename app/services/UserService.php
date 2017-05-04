@@ -90,14 +90,27 @@ class UserService extends Injectable
     public function getUserProjects($userId)
     {
         $sql = "SELECT projects FROM user_projects WHERE user_id=$userId";
+        $row = $this->db->fetchOne($sql);
 
-        $result = $this->db->fetchOne($sql);
-        if ($result) {
-            if ($result['projects'] == '*') {
-                $allProjects = $this->projectService->getAll();
-                return array_keys($allProjects);
+        if ($row) {
+            $include = [];
+            $exclude = [];
+
+            $allProjects = array_keys($this->projectService->getAll());
+
+            $projects = explode(',', $row['projects']);
+            foreach ($projects as $projectId) {
+                if ($projectId == '*') {
+                    $include = $allProjects;
+                }
+                if ($projectId > 0) {
+                    $include[] = $projectId;
+                }
+                if ($projectId < 0) {
+                    $exclude[] = abs($projectId);
+                }
             }
-            return explode(',', $result['projects']);
+            return array_diff($include, $exclude);
         }
 
         return [];

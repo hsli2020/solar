@@ -9,7 +9,6 @@ abstract class Device
     protected $code;
     protected $table;
     protected $model;
-    protected $class;
 
     public function __construct($project, $info)
     {
@@ -18,7 +17,6 @@ abstract class Device
         $this->code    = $info['devcode'];
         $this->table   = $info['table'];
         $this->model   = $info['model'];
-        $this->class   = $info['class']; // not used
     }
 
     public function __toString()

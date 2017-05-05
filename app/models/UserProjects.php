@@ -5,16 +5,19 @@ namespace App\Models;
 use Phalcon\Mvc\Model;
 
 /**
- * App\Models\UserProjects
+ * App\Models\UserSettings
  */
-class UserProjects extends Model
+class UserSettings extends Model
 {
     public $userId;
     public $projects;
+    public $dailyReport;
+    public $monthlyReport;
+    public $smartAlert;
 
     public function initialize()
     {
-        $this->setSource('user_projects');
+        $this->setSource('user_settings');
     }
 
     public function columnMap()
@@ -23,8 +26,11 @@ class UserProjects extends Model
         // the values their names in the application
 
         return array(
-            'user_id'  => 'userId',
-            'projects' => 'projects',
+            'user_id'        => 'userId',
+            'projects'       => 'projects',
+            'daily_report'   => 'dailyReport',
+            'monthly_report' => 'monthlyReport',
+            'smart_alert'    => 'smartAlert',
         );
     }
 }

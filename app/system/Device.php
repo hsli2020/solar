@@ -55,22 +55,6 @@ abstract class Device
         return array_column($columns, 'Field');
     }
 
-    public function getClassName()
-    {
-        $modelMap = [
-            'data_inverter_tcp'    => 'DataInverterTcp',
-            'data_inverter_serial' => 'DataInverterSerial',
-            'data_inverter_sma'    => 'DataInverterSma',
-            'data_inverter_pvp'    => 'DataInverterPvp',
-            'data_genmeter'        => 'DataGenMeters',
-            'data_envkit'          => 'DataEnvKits',
-        ];
-
-        $table = $this->getTable();
-
-        return 'App\\Models\\'.$modelMap[$table];
-    }
-
     protected function getPeriod($period)
     {
         switch (strtoupper($period)) {

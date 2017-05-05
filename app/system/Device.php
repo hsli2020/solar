@@ -49,9 +49,6 @@ abstract class Device
     {
         $table = $this->getTable();
         $columns = $this->getDb()->fetchAll("DESC $table");
-        unset($columns[0]); // remove id
-        unset($columns[1]); // remove project_id
-        unset($columns[2]); // remove devcode
         return array_column($columns, 'Field');
     }
 

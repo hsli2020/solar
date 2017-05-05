@@ -75,7 +75,6 @@ class ImportService extends Injectable
                 $data = array_combine($columns, $fields);
 
                 $this->insertIntoDeviceTable($project, $device, $data);
-               #$this->insertIntoMasterTable($project, $device, $data);
 
                 $latest = $data;
             }
@@ -94,25 +93,6 @@ class ImportService extends Injectable
         $values = "'" . implode("', '", $data). "'";
 
         $sql = "INSERT INTO $devtab ($columnList) VALUES ($values)";
-
-        try {
-            $this->db->execute($sql);
-        } catch (\Exception $e) {
-            echo $e->getMessage(), EOL;
-        }
-    }
-
-    protected function insertIntoMasterTable($project, $device, $data)
-    {
-        $table = $device->getTable();
-
-        $data['devcode'] = $device->code;
-        $data['project_id'] = $project->id;
-
-        $columnList = '`' . implode('`, `', array_keys($data)) . '`';
-        $values = "'" . implode("', '", $data). "'";
-
-        $sql = "INSERT INTO $table ($columnList) VALUES ($values)";
 
         try {
             $this->db->execute($sql);

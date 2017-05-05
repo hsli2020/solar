@@ -154,6 +154,10 @@ class SmartAlertService extends Injectable
         $users = $this->userService->getAll();
 
         foreach ($users as $user) {
+            if ($user['smartAlert'] == 0) {
+                continue;
+            }
+
            #if ($user['id'] > 2) break;
             if (strpos($user['email'], '@') === false) {
                 continue;

@@ -90,6 +90,10 @@ class MonthlyReportService extends Injectable
         $users = $this->userService->getAll();
 
         foreach ($users as $user) {
+            if ($user['monthlyReport'] == 0) {
+                continue;
+            }
+
             if (strpos($user['email'], '@') === false) {
                 $this->log("Skip sending monthly report to {$user['username']}, no email.");
                 continue;

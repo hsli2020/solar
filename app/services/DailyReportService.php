@@ -107,6 +107,10 @@ class DailyReportService extends Injectable
         $users = $this->userService->getAll();
 
         foreach ($users as $user) {
+            if ($user['dailyReport'] == 0) {
+                continue;
+            }
+
             if (strpos($user['email'], '@') === false) {
                 $this->log("Skip sending daily report to {$user['username']}, no email.");
                 continue;

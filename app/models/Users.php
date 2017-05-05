@@ -15,12 +15,14 @@ class Users extends Model
     public $username;
     public $email;
     public $password;
+    public $role;
     public $active;
     public $createdon;
     public $updatedon;
 
     public function initialize()
     {
+        $this->hasOne('id', 'App\\Models\\UserSettings', 'userId', [ 'alias' => 'settings' ]);
     }
 
     public function __validation()

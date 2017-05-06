@@ -15,12 +15,11 @@ class SmartAlertService extends Injectable
         $this->alerts = [];
 
         $this->checkNoData();
-       #$this->checkFault();
-
         $this->checkLowEnergy();
-       #$this->checkOverHeat();
+        $this->checkInverterStatus();
 
-       #$this->checkInverters();
+       #$this->checkFault();
+       #$this->checkOverHeat();
        #$this->checkEnvkits();
        #$this->checkGenMeters();
 
@@ -80,6 +79,69 @@ class SmartAlertService extends Injectable
                     'devcode'      => '', // $data['devcode'],
                     'alert'        => $alertType,
                     'message'      => 'Low energy while irradiance is great than 100',
+                ];
+            }
+        }
+    }
+
+    protected function checkInverterStatus()
+    {
+        $alertType = 'INVERTER-BAD-STATUS';
+
+        $sql = "SELECT * FROM latest_data";
+        $rows = $this->db->fetchAll($sql);
+
+        $now = time();
+        foreach ($rows as $data) {
+            if ($this->alertTriggered($data['project_id'], $alertType)) {
+                continue;
+            }
+
+            if ($data['devtype'] != 'Inverter') {
+                continue;
+            }
+
+            $project = $this->projectService->get($data['project_id']);
+
+            $devcode = $data['devcode'];
+            $device = $project->devices[$devcode];
+
+            $status = $data['status'];
+
+            $badStatus = false;
+
+            switch ($device->model) {
+            case 'SMA':
+                if ($status != 309) {
+                    $badStatus = true;
+                }
+                break;
+
+            case 'PVP':
+                if ($status != 21) {
+                    $badStatus = true;
+                }
+                break;
+
+            case 'FRONIUS':
+                if ($status != 4) {
+                    $badStatus = true;
+                }
+                break;
+
+            default:
+                break;
+            }
+
+            if ($badStatus) {
+                $this->alerts[] = [
+                    'time'         => date('Y-m-d H:i:s'),
+                    'project_id'   => $data['project_id'],
+                    'project_name' => $data['project_name'],
+                    'devtype'      => $data['devtype'],
+                    'devcode'      => $data['devcode'],
+                    'alert'        => $alertType,
+                    'message'      => 'Inverter in Bad Status',
                 ];
             }
         }

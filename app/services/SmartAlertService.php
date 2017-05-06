@@ -16,7 +16,7 @@ class SmartAlertService extends Injectable
 
         $this->checkNoData();
         $this->checkLowEnergy();
-        $this->checkInverterStatus();
+#       $this->checkInverterStatus();
 
        #$this->checkFault();
        #$this->checkOverHeat();
@@ -43,6 +43,7 @@ class SmartAlertService extends Injectable
             }
             $time = strtotime($data['time'].' UTC'); // UTC to LocalTime
             if ($time > 0 && $now - $time >= 35*60) {
+                echo $data['devtype'], ' ', $data['devcode'], ' of ', $data['project_name'], ': ', $alertType, PHP_EOL;
                 $this->alerts[] = [
                     'time'         => date('Y-m-d H:i:s'),
                     'project_id'   => $data['project_id'],
@@ -71,6 +72,7 @@ class SmartAlertService extends Injectable
             $kw = $project->getLatestKW();
 
             if ($irr > 100 && $kw < 5) {
+                echo $project->name, ': ', $alertType, PHP_EOL;
                 $this->alerts[] = [
                     'time'         => date('Y-m-d H:i:s'),
                     'project_id'   => $project->id,
@@ -132,6 +134,7 @@ class SmartAlertService extends Injectable
             }
 
             if ($badStatus) {
+                echo "$device: $alertType (", $data['status'], ")\n";
                 $this->alerts[] = [
                     'time'         => date('Y-m-d H:i:s'),
                     'project_id'   => $row['project_id'],

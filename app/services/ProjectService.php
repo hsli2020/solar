@@ -72,15 +72,23 @@ class ProjectService extends Injectable
             return '';
         };
 
-        $data = $project->getFirstInverter()->getLatestData();
+        if (count($project->inverters) > 0) {
+            $data = $project->getFirstInverter()->getLatestData();
 
-        $details['inverter']['power'] = $getVal($data, ['kw', 'line_kw']);
-        $details['inverter']['status'] = 'On';
-        $details['inverter']['fault'] = 'None';
-        $details['inverter']['vla'] = $getVal($data, ['vln_a', 'volt_a', 'volts_a']);
-        $details['inverter']['vlb'] = $getVal($data, ['vln_b', 'volt_b', 'volts_b']);
-        $details['inverter']['vlc'] = $getVal($data, ['vln_c', 'volt_c', 'volts_c']);
-        $details['inverter']['vln'] = '';
+            $details['inverter']['power']  = $getVal($data, ['kw', 'line_kw']);
+            $details['inverter']['status'] = 'On';
+            $details['inverter']['fault']  = 'None';
+            $details['inverter']['vla']    = $getVal($data, ['vln_a', 'volt_a', 'volts_a']);
+            $details['inverter']['vlb']    = $getVal($data, ['vln_b', 'volt_b', 'volts_b']);
+            $details['inverter']['vlc']    = $getVal($data, ['vln_c', 'volt_c', 'volts_c']);
+        } else {
+            $details['inverter']['power']  = 'N/A';
+            $details['inverter']['status'] = 'N/A';
+            $details['inverter']['fault']  = 'N/A';
+            $details['inverter']['vla']    = 'N/A';
+            $details['inverter']['vlb']    = 'N/A';
+            $details['inverter']['vlc']    = 'N/A';
+        }
 
         $data = $project->getFirstEnvKit()->getLatestData();
 
@@ -96,7 +104,6 @@ class ProjectService extends Injectable
         $details['genmeter']['vla'] = round($data['vln_a']);
         $details['genmeter']['vlb'] = round($data['vln_b']);
         $details['genmeter']['vlc'] = round($data['vln_c']);
-        $details['genmeter']['vln'] = '';
 
         return $details;
     }

@@ -168,13 +168,6 @@
           <td>&nbsp;</td>
         </tr>
 
-        <tr>
-          <td>&nbsp;</td>
-          <td>VLN, Volts</td>
-          <td>{{ details['inverter']['vln'] }}</td>
-          <td>&nbsp;</td>
-        </tr>
-
         <tr class="w3-light-gray">
           <th>Weather Station</th>
           <th colspan="3">Current Reading</th>
@@ -238,12 +231,6 @@
           <td>VLC, Volts</td>
           <td>&nbsp;</td>
           <td>{{ details['genmeter']['vlc'] }}</td>
-        </tr>
-        <tr>
-          <td>&nbsp;</td>
-          <td>VLN, Volts</td>
-          <td>&nbsp;</td>
-          <td>{{ details['genmeter']['vln'] }}</td>
         </tr>
       </table>
       <br>

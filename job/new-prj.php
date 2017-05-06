@@ -2,19 +2,20 @@
 
 const EOL = "\n";
 
-$dir = '125Bermondsey_001EC6053434'; //$argv[1];
+if (count($argv) != 3) {
+    echo "usage: php new-prj.php project_id ftpdir", EOL;
+    exit;
+}
 
+$projectId = $argv[1];
+$dir = $argv[2];
 $ftpdir = "C:\\\\GCS-FTP-ROOT\\\\$dir";
-$ftpdir = "C:\\\\FTP-Backup\\\\$dir";
-
 $name = substr($dir, 0, strpos($dir, '_'));
 
-$projectId = 29; // $argv[2]
+echo '-- remember change 222 to DC size, 111 to AC size', EOL, EOL;
 
-echo <<<EOS
-INSERT INTO projects (`id`, `name`, `ftpdir`, `desc`, `DC_Nameplate_Capacity`, `AC_Nameplate_Capacity`, `active`)
-    VALUES ($projectId, '$name', '$ftpdir', '', TODO, TODO, 0);\n\n
-EOS;
+echo "INSERT INTO projects (`id`, `name`, `ftpdir`, `desc`, `DC_Nameplate_Capacity`, `AC_Nameplate_Capacity`, `active`)\n";
+echo "\tVALUES ($projectId, '$name', '$ftpdir', '', 222, 111, 0);\n\n";
 
 $devices = [];
 foreach (glob($ftpdir . '/*.csv') as $filename) {
@@ -29,46 +30,36 @@ foreach (glob($ftpdir . '/*.csv') as $filename) {
     $devtype = getDevType($filename);
 
     if (!$devtype) {
-        echo 'Unknown dev type: $devcode', EOL;
+        echo "Unknown dev type: $devcode\n";
         continue;
     }
 
-    $devcode = str_replace('-', '_', $devcode);
-
     if ($devtype == 'EnvKit') {
-        $table = sprintf('p%d_%s_envkit', $projectId, $devcode);
-        echo <<<EOS
-INSERT INTO devices (`project_id`, `devcode`, `type`, `table`, `class`, `model`)
-    VALUES ($projectId, '$devcode', 'EnvKit', 'table_envkit', '', '');
-CREATE TABLE $table LIKE table_envkit;\n\n
-EOS;
+        $table = sprintf('p%d_%s_envkit', $projectId, str_replace('-', '_', $devcode));
+        echo "INSERT INTO devices (`project_id`, `devcode`, `type`, `table`, `class`, `model`)\n";
+        echo "\tVALUES ($projectId, '$devcode', 'EnvKit', 'table_envkit', '', '');\n";
+        echo "CREATE TABLE $table LIKE table_envkit;\n\n";
     }
 
     if ($devtype == 'GenMeter') {
-        $table = sprintf('p%d_%s_genmeter', $projectId, $devcode);
-        echo <<<EOS
-INSERT INTO devices (`project_id`, `devcode`, `type`, `table`, `class`, `model`) 
-    VALUES ($projectId, '$devcode', 'GenMeter', 'table_genmeter', '', '');
-CREATE TABLE $table LIKE table_genmeter;\n\n
-EOS;
+        $table = sprintf('p%d_%s_genmeter', $projectId, str_replace('-', '_', $devcode));
+        echo "INSERT INTO devices (`project_id`, `devcode`, `type`, `table`, `class`, `model`)\n";
+        echo "\tVALUES ($projectId, '$devcode', 'GenMeter', 'table_genmeter', '', '');\n";
+        echo "CREATE TABLE $table LIKE table_genmeter;\n\n";
     }
 
     if ($devtype == 'PVP') {
-        $table = sprintf('p%d_%s_inverter', $projectId, $devcode);
-        echo <<<EOS
-INSERT INTO devices (`project_id`, `devcode`, `type`, `table`, `class`, `model`)
-    VALUES ($projectId, '$devcode', 'Inverter', 'table_inverter_pvp', '', 'PVP');
-CREATE TABLE $table LIKE table_inverter_pvp;\n\n
-EOS;
+        $table = sprintf('p%d_%s_inverter', $projectId, str_replace('-', '_', $devcode));
+        echo "INSERT INTO devices (`project_id`, `devcode`, `type`, `table`, `class`, `model`)\n";
+        echo "\tVALUES ($projectId, '$devcode', 'Inverter', 'table_inverter_pvp', '', 'PVP');\n";
+        echo "CREATE TABLE $table LIKE table_inverter_pvp;\n\n";
     }
 
     if ($devtype == 'SMA') {
-        $table = sprintf('p%d_%s_inverter', $projectId, $devcode);
-        echo <<<EOS
-INSERT INTO devices (`project_id`, `devcode`, `type`, `table`, `class`, `model`)
-    VALUES ($projectId, '$devcode', 'Inverter', 'table_inverter_sma', '', 'SMA');
-CREATE TABLE $table LIKE table_inverter_sma;\n\n
-EOS;
+        $table = sprintf('p%d_%s_inverter', $projectId, str_replace('-', '_', $devcode));
+        echo "INSERT INTO devices (`project_id`, `devcode`, `type`, `table`, `class`, `model`)\n";
+        echo "\tVALUES ($projectId, '$devcode', 'Inverter', 'table_inverter_sma', '', 'SMA');\n";
+        echo "CREATE TABLE $table LIKE table_inverter_sma;\n\n";
     }
 }
 

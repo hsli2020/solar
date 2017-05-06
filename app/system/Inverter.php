@@ -4,6 +4,19 @@ namespace App\System;
 
 class Inverter extends Device
 {
+    public function getType()
+    {
+        $types = [
+            'PVP'     => 'AE Inverter',
+            'SMA'     => 'SMA Inverter',
+            'FRONIUS' => 'Fronius Inverter',
+        ];
+
+        $model = $this->model;
+
+        return isset($types[$model]) ? $types[$model] : '';
+    }
+
     public function getKW($period)
     {
         $table = $this->getDeviceTable();

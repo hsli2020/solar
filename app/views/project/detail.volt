@@ -46,7 +46,7 @@
         <tr>
           <td>&nbsp;</td>
           <td>Inverter Type</td>
-          <td>AE Inverter</td>
+          <td>{{ details['inverter_type'] }}</td>
           <td>&nbsp;</td>
         </tr>
         <tr>
@@ -55,6 +55,19 @@
           <td>{{ details['num_of_inverters'] }}</td>
           <td>&nbsp;</td>
         </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td>Number of EnvKit</td>
+          <td>{{ details['num_of_envkits'] }}</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td>Number of GenMeter</td>
+          <td>{{ details['num_of_genmeters'] }}</td>
+          <td>&nbsp;</td>
+        </tr>
+<!--
         <tr>
           <td>&nbsp;</td>
           <td>Inverter 1</td>
@@ -73,7 +86,7 @@
           <td>AC Capacity, kW</td>
           <td>300</td>
         </tr>
-
+-->
         <tr class="w3-light-gray">
           <th>Production Detail</th>
           <th colspan="3">Historical Reading</th>

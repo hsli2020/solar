@@ -53,6 +53,8 @@ class ProjectService extends Injectable
         $details['ac_size'] = round($project->capacityAC);
         $details['dc_size'] = round($project->capacityDC);
         $details['num_of_inverters'] = count($project->inverters);
+        $details['num_of_genmeters'] = count($project->genmeters);
+        $details['num_of_envkits'] = count($project->envkits);
 
         $report = $this->dailyReportService->load(date('Y-m-d', strtotime('-1 day')));
 
@@ -73,7 +75,10 @@ class ProjectService extends Injectable
         };
 
         if (count($project->inverters) > 0) {
-            $data = $project->getFirstInverter()->getLatestData();
+            $inverter = $project->getFirstInverter();
+            $data = $inverter->getLatestData();
+
+            $details['inverter_type'] = $inverter->getType();
 
             $details['inverter']['power']  = $getVal($data, ['kw', 'line_kw']);
             $details['inverter']['status'] = 'On';

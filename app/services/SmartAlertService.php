@@ -90,19 +90,21 @@ class SmartAlertService extends Injectable
 
         $rows = $this->db->fetchAll("SELECT * FROM latest_data");
 
-        foreach ($rows as $data) {
-            if ($this->alertTriggered($data['project_id'], $alertType)) {
+        foreach ($rows as $row) {
+            if ($this->alertTriggered($row['project_id'], $alertType)) {
                 continue;
             }
 
-            if ($data['devtype'] != 'Inverter') {
+            if ($row['devtype'] != 'Inverter') {
                 continue;
             }
 
-            $project = $this->projectService->get($data['project_id']);
+            $project = $this->projectService->get($row['project_id']);
 
-            $devcode = $data['devcode'];
+            $devcode = $row['devcode'];
             $device = $project->devices[$devcode];
+
+            $data = json_decode($row['data'], true);
 
             $badStatus = false;
 
@@ -132,10 +134,10 @@ class SmartAlertService extends Injectable
             if ($badStatus) {
                 $this->alerts[] = [
                     'time'         => date('Y-m-d H:i:s'),
-                    'project_id'   => $data['project_id'],
-                    'project_name' => $data['project_name'],
-                    'devtype'      => $data['devtype'],
-                    'devcode'      => $data['devcode'],
+                    'project_id'   => $row['project_id'],
+                    'project_name' => $row['project_name'],
+                    'devtype'      => $row['devtype'],
+                    'devcode'      => $row['devcode'],
                     'alert'        => $alertType,
                     'message'      => 'Inverter in Bad Status',
                 ];

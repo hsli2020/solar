@@ -88,10 +88,8 @@ class SmartAlertService extends Injectable
     {
         $alertType = 'INVERTER-BAD-STATUS';
 
-        $sql = "SELECT * FROM latest_data";
-        $rows = $this->db->fetchAll($sql);
+        $rows = $this->db->fetchAll("SELECT * FROM latest_data");
 
-        $now = time();
         foreach ($rows as $data) {
             if ($this->alertTriggered($data['project_id'], $alertType)) {
                 continue;
@@ -106,25 +104,23 @@ class SmartAlertService extends Injectable
             $devcode = $data['devcode'];
             $device = $project->devices[$devcode];
 
-            $status = $data['status'];
-
             $badStatus = false;
 
             switch ($device->model) {
             case 'SMA':
-                if ($status != 309) {
+                if ($data['status'] != 309) {
                     $badStatus = true;
                 }
                 break;
 
             case 'PVP':
-                if ($status != 21) {
+                if ($data['status'] != 21) {
                     $badStatus = true;
                 }
                 break;
 
             case 'FRONIUS':
-                if ($status != 4) {
+                if ($data['status'] != 4) {
                     $badStatus = true;
                 }
                 break;

@@ -87,6 +87,8 @@ class ProjectService extends Injectable
             $details['inverter']['vlb']    = $getVal($data, ['vln_b', 'volt_b', 'volts_b']);
             $details['inverter']['vlc']    = $getVal($data, ['vln_c', 'volt_c', 'volts_c']);
         } else {
+            $details['inverter_type']      = 'N/A';
+
             $details['inverter']['power']  = 'N/A';
             $details['inverter']['status'] = 'N/A';
             $details['inverter']['fault']  = 'N/A';

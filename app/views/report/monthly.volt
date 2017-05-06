@@ -32,6 +32,14 @@
 </div>
 
 <div class="w3-container">
+<div class="w3-margin-bottom">
+<span class="w3-margin-right">Select Month: </span>
+<select id="month-list">
+{% for m in monthList %}
+  <option value="{{ m }}"{% if m == month %}selected{% endif %}>{{ m }}</option>
+{% endfor %}
+</select>
+</div>
 <table id="report" class="w3-table w3-white w3-bordered w3-border w3-centered">
 <tr>
   <th rowspan="2">Project</th>
@@ -73,4 +81,7 @@
 {% endblock %}
 
 {% block domready %}
+$('#month-list').change(function() {
+    window.location = '/report/monthly/' + $(this).val();
+})
 {% endblock %}

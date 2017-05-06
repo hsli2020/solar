@@ -179,7 +179,9 @@ class MonthlyReportService extends Injectable
 
     public function getMonthList()
     {
-        return [];
+        $sql = "SELECT DISTINCT(`month`) FROM monthly_reports ORDER BY `month` DESC LIMIT 24";
+        $result = $this->db->fetchAll($sql);
+        return array_column($result, 'month');
     }
 
     protected function getInsolationActual($project)

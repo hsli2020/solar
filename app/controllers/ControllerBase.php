@@ -41,4 +41,18 @@ class ControllerBase extends Controller
 
         return in_array($controllerName, $privateControllers);
     }
+
+    protected function startDownload($filename)
+    {
+        if (file_exists($filename)) {
+            $this->view->setRenderLevel(\Phalcon\Mvc\View::LEVEL_NO_RENDER);
+            header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+            header('Content-Description: File Transfer');
+            header('Content-Type: application/txt');
+            header('Content-Length: ' . filesize($filename));
+            header('Content-Disposition: attachment; filename="'.basename($filename).'"');
+            readfile($filename);
+            die();
+        }
+    }
 }

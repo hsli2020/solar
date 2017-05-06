@@ -205,6 +205,11 @@ class DailyReportService extends Injectable
         return $result;
     }
 
+    public function getDateList()
+    {
+        return [];
+    }
+
     protected function getMonthlyBudget($monthly)
     {
         return $monthly['Budget'];

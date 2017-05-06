@@ -177,6 +177,11 @@ class MonthlyReportService extends Injectable
         return $result;
     }
 
+    public function getMonthList()
+    {
+        return [];
+    }
+
     protected function getInsolationActual($project)
     {
         return $project->getIRR('THIS-MONTH') / 60.0 / 1000.0;

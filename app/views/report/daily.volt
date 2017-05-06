@@ -32,6 +32,14 @@
 </div>
 
 <div class="w3-container">
+<div class="w3-margin-bottom">
+<span class="w3-margin-right">Select Date: </span>
+<select id="date-list">
+{% for d in dateList %}
+  <option value="{{ d }}"{% if d == date %}selected{% endif %}>{{ d }}</option>
+{% endfor %}
+</select>
+</div>
 <table id="report" class="w3-table w3-white w3-bordered w3-border w3-centered">
 <tr>
   <th rowspan="3">No.</th>
@@ -97,4 +105,7 @@
 {% endblock %}
 
 {% block domready %}
+$('#date-list').change(function() {
+    window.location = '/report/daily/' + $(this).val();
+})
 {% endblock %}

@@ -78,10 +78,10 @@
   <th>%</th>
 </tr>
 
-{% for data in report %}
+{% for id, data in report %}
 <tr>
   <td>{{ loop.index }}</td>
-  <td>{{ data['Project_Name'] }}</td>
+  <td><a href="/project/detail/{{ id }}" target="_blank">{{ data['Project_Name'] }}</a></td>
   <td>{{ data['Date'] }}</td>
   <td>{{ data['Capacity_AC'] }}</td>
   <td>{{ data['Capacity_DC'] }}</td>

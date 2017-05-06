@@ -59,9 +59,9 @@
   <th>Weather<br>Performance</th>
 </tr>
 
-{% for data in report %}
+{% for id, data in report %}
 <tr>
-  <td>{{ data['Project_Name'] }}</td>
+  <td><a href="/project/detail/{{ id }}" target="_blank">{{ data['Project_Name'] }}</a></td>
   <td>{{ data['Date'] }}</td>
   <td>{{ data['Insolation_Actual'] }}</td>
   <td>{{ data['Insolation_Reference'] }}</td>

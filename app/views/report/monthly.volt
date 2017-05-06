@@ -34,7 +34,7 @@
 <div class="w3-container">
 <div class="w3-margin-bottom">
 <span class="w3-margin-right">Select Month: </span>
-<select id="month-list">
+<select id="month-list" style="width: 10em;">
 {% for m in monthList %}
   <option value="{{ m }}"{% if m == month %}selected{% endif %}>{{ m }}</option>
 {% endfor %}

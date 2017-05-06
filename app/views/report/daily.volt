@@ -34,7 +34,7 @@
 <div class="w3-container">
 <div class="w3-margin-bottom">
 <span class="w3-margin-right">Select Date: </span>
-<select id="date-list">
+<select id="date-list" style="width: 10em;">
 {% for d in dateList %}
   <option value="{{ d }}"{% if d == date %}selected{% endif %}>{{ d }}</option>
 {% endfor %}

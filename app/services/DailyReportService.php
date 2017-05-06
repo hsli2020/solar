@@ -209,7 +209,6 @@ class DailyReportService extends Injectable
     {
         $sql = "SELECT DISTINCT(`date`) FROM daily_reports ORDER BY `date` DESC LIMIT 30";
         $result = $this->db->fetchAll($sql);
-        fpr($result);
         return array_column($result, 'date');
     }
 

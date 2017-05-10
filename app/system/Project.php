@@ -216,7 +216,7 @@ class Project
 
     public function getSnapshotTime()
     {
-        $envkit = current($this->envkits);
+        $envkit = current($this->genmeters);
         return $envkit->getSnapshotTime();
     }
 

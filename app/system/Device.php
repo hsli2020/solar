@@ -128,6 +128,6 @@ abstract class Device
     public function getSnapshotTime()
     {
         $data = $this->getSnapshotData();
-        return $data ? toLocaltime($data['time']) : gmdate('Y-m-d H:i:00', strtotime('-16 minute'));
+        return $data ? toLocaltime($data['time']) : date('Y-m-d H:i:00', strtotime('-16 minute'));
     }
 }

@@ -98,19 +98,20 @@ class UserService extends Injectable
 
             $allProjects = array_keys($this->projectService->getAll());
 
-            $projects = explode(',', $row['projects']);
+            $projects = explode(',', str_replace(' ', '', $row['projects']));
             foreach ($projects as $projectId) {
-                if ($projectId == '*') {
+                if (preg_match('/\d+-\d+/', $projectId)) {
+                    $parts = explode('-', $projectId);
+                    $include = array_merge($include, range($parts[0], $parts[1]));
+                } else if ($projectId == '*') {
                     $include = $allProjects;
-                }
-                if ($projectId > 0) {
+                } else if ($projectId > 0) {
                     $include[] = $projectId;
-                }
-                if ($projectId < 0) {
+                } else if ($projectId < 0) {
                     $exclude[] = abs($projectId);
                 }
             }
-            return array_diff($include, $exclude);
+            return array_unique(array_diff($include, $exclude));
         }
 
         return [];

@@ -61,6 +61,13 @@ foreach (glob($ftpdir . '/*.csv') as $filename) {
         echo "\tVALUES ($projectId, '$devcode', 'Inverter', 'table_inverter_sma', '', 'SMA');\n";
         echo "CREATE TABLE $table LIKE table_inverter_sma;\n\n";
     }
+
+    if ($devtype == 'FRONIUS') {
+        $table = sprintf('p%d_%s_inverter', $projectId, str_replace('-', '_', $devcode));
+        echo "INSERT INTO devices (`project_id`, `devcode`, `type`, `table`, `class`, `model`)\n";
+        echo "\tVALUES ($projectId, '$devcode', 'Inverter', 'table_inverter_sma', '', 'FRONIUS');\n";
+        echo "CREATE TABLE $table LIKE table_inverter_sma;\n\n";
+    }
 }
 
 function getDevType($filename)
@@ -83,6 +90,10 @@ function getDevType($filename)
 
     if (strpos($line, 'Mode_SMA')) {
         return 'SMA';
+    }
+
+    if (strpos($line, 'Status_Vendor')) {
+        return 'FRONIUS';
     }
 
     return false;

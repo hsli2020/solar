@@ -42,7 +42,7 @@ class SmartAlertService extends Injectable
                 continue;
             }
             $time = strtotime($data['time'].' UTC'); // UTC to LocalTime
-            if ($time > 0 && $now - $time >= 60*60) {
+            if ($time > 0 && $now - $time >= 35*60) {
                 $this->log($data['devtype']. ' '. $data['devcode']. ' of '. $data['project_name']. ': '. $alertType);
                 $this->alerts[] = [
                     'time'         => date('Y-m-d H:i:s'),
@@ -51,7 +51,7 @@ class SmartAlertService extends Injectable
                     'devtype'      => $data['devtype'],
                     'devcode'      => $data['devcode'],
                     'alert'        => $alertType,
-                    'message'      => 'No data received over 60 minutes',
+                    'message'      => 'No data received over 30 minutes',
                 ];
             }
         }

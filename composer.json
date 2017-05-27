@@ -7,6 +7,7 @@
         "phpmailer/phpmailer": "^5.2",
         "phpoffice/phpexcel": "^1.8",
         "tecnickcom/tcpdf": "^6.2",
+        "dmelo/pChart": "dev-master",
         "elliottb/phpgraphlib": "dev-master"
     },
     "autoload": {

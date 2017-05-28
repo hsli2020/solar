@@ -37,6 +37,8 @@ class ControllerBase extends Controller
     {
         $privateControllers = array(
             'index',
+            'project',
+            'report',
         );
 
         return in_array($controllerName, $privateControllers);

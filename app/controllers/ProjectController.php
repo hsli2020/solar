@@ -22,4 +22,9 @@ class ProjectController extends ControllerBase
 
         $this->view->details = $details;
     }
+
+    public function chartAction($id = 0)
+    {
+        $this->view->pageTitle = 'Project Chart';
+    }
 }

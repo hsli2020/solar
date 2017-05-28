@@ -1,13 +1,13 @@
-#content {
-	width: 880px;
+#chart-content {
+	width: 85%;
 	margin: 0 auto;
 	padding: 10px;
 }
 
-.demo-container {
+.chart-container {
 	box-sizing: border-box;
 	width: 100%;
-	height: 450px;
+	height: 500px;
 	padding: 20px 15px 15px 15px;
 	margin: 15px auto 30px auto;
 	border: 1px solid #ddd;
@@ -24,7 +24,7 @@
 	-webkit-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
 }
 
-.demo-placeholder {
+.chart-placeholder {
 	width: 100%;
 	height: 100%;
 	font-size: 14px;

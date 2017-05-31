@@ -6,7 +6,8 @@
         "ext-phalcon": ">=2.0.0",
         "phpmailer/phpmailer": "^5.2",
         "phpoffice/phpexcel": "^1.8",
-        "tecnickcom/tcpdf": "^6.2"
+        "tecnickcom/tcpdf": "^6.2",
+        "elliottb/phpgraphlib": "dev-master"
     },
     "autoload": {
         "psr-4": { "UserPlugin\\": "app/library/UserPlugin" }

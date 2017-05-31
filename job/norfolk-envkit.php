@@ -15,7 +15,6 @@ saveEnvKit('p7_mb_076_envkit', $values['envkit2']);
 
 function saveEnvKit($table, $data)
 {
-    return;
     $di = \Phalcon\Di::getDefault();
     $db = $di->get('db');
 

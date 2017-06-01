@@ -35,25 +35,25 @@ function saveEnvKit($table, $data)
 
 function getValues($url)
 {
-    $fieldNames = [
-        'Table Name: ',
-        'Current Record: ',
-        'Record Date: ',
-        'CMP11_GHI_Avg',
-        'CMP11_GHI',
-        'CMP11_POA_Avg',
-        'CMP11_POA',
-        'AirTemp_Avg',
-        'AirTemp',
-        'BOMTemp_C_Avg',
-        'BOMTemp_C',
-        'WindSpd_AVG',
-        'WindSpd',
-        'WindDir_AVG',
-        'WindDir_StDev',
-        'GHI_FanSpd_RPS_Avg',
-        'POA_FanSpd_RPS_Avg',
-    ];
+    #$fieldNames = [
+    #    'Table Name: ',
+    #    'Current Record: ',
+    #    'Record Date: ',
+    #    'CMP11_GHI_Avg',
+    #    'CMP11_GHI',
+    #    'CMP11_POA_Avg',
+    #    'CMP11_POA',
+    #    'AirTemp_Avg',
+    #    'AirTemp',
+    #    'BOMTemp_C_Avg',
+    #    'BOMTemp_C',
+    #    'WindSpd_AVG',
+    #    'WindSpd',
+    #    'WindDir_AVG',
+    #    'WindDir_StDev',
+    #    'GHI_FanSpd_RPS_Avg',
+    #    'POA_FanSpd_RPS_Avg',
+    #];
 
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
@@ -61,21 +61,22 @@ function getValues($url)
     $html = curl_exec($ch);
     curl_close($ch);
 
-    $lines = explode("\n", strip_tags($html));
+    $lines = explode("\n", $html);
     //print_r($lines);
 
     $values = [];
     foreach ($lines as $line) {
-        foreach ($fieldNames as $fieldName) {
-            if (substr($line, 0, strlen($fieldName)) == $fieldName) {
-                $values[$fieldName] = substr($line, strlen($fieldName));
-                break;
-            }
+        $line = strip_tags(str_replace('</th><td>', ':', $line));
+        $fields = explode(':', $line, 2);
+        if (count($fields) == 2) {
+            $name = $fields[0];
+            $value = $fields[1];
+            $values[$name] = trim($value);
         }
     }
-    //print_r($values);
 
-	$values['Record Date'] = gmdate('Y-m-d H:i:s', strtotime($values['Record Date: ']));
+    $values['Record Date'] = gmdate('Y-m-d H:i:s', strtotime($values['Record Date']));
+    //print_r($values);
 
     return $values;
 }

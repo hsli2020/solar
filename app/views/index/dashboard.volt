@@ -2,9 +2,10 @@
 
 {% block main %}
 <style type="text/css">
+  table { border: 5px solid #eee !important; }
   table, th, td { border: 1px solid #ddd; }
-  #snapshot th { text-align: center; }
-  #snapshot td { text-align: right; }
+  #snapshot th { text-align: center; vertical-align: middle; }
+  #snapshot td { text-align: right; vertical-align: middle; }
   #snapshot tr td:first-child{ text-align: left; }
   #statsbox .numval { font-size: 24px; text-align: right; }
   #statsbox .label  { font-size: 12px; text-align: right; }
@@ -16,7 +17,6 @@
   .bg-box2 { border: 5px solid #eee; }
   .bg-box3 { border: 5px solid #eee; }
   .bg-box4 { border: 5px solid #eee; }
-  .w3-border { border: 5px solid #eee !important; }
   ul#breadcrumb { list-style: none; margin: 0; padding: 0; }
   ul#breadcrumb li { display: inline; }
 </style>
@@ -82,6 +82,9 @@
 <table id="snapshot" class="w3-table w3-white w3-bordered w3-border">
 <tr>
   <th style="vertical-align: middle;">Site</th>
+{#
+  <th style="vertical-align: middle;">Chart</th>
+#}
   <th style="vertical-align: middle;">GC PI</th>
   <th>Project Size<br>(AC)</th>
   <th>Current Power<br>(kW)</th>
@@ -93,6 +96,9 @@
 {% for row in data['rows'] %}
 <tr>
   <td><a href="/project/detail/{{ row['project_id'] }}" target="_blank">{{ row[ 'project_name'] }}</a></td>
+{#
+  <td class="w3-center"><a href="/project/chart/{{ row['project_id'] }}" target="_blank" class="fa fa-bar-chart"></i></a></td>
+#}
   {{ tablecell(row, 'GCPR',                  '') }}
   {{ tablecell(row, 'project_size_ac',       'w3-center') }}
   {{ tablecell(row, 'current_power',         '') }}

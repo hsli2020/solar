@@ -158,10 +158,8 @@ class SmartAlertService extends Injectable
         return $result;
     }
 
-    protected function generateHtml($user)
+    protected function generateHtml($alerts)
     {
-        $alerts = $this->getUserSpecificAlerts($user);
-
         ob_start();
         include("./templates/smart-alert.tpl");
         $content = ob_get_contents();
@@ -192,9 +190,9 @@ class SmartAlertService extends Injectable
     protected function saveAlerts()
     {
         // save to file
-        $filename = BASE_DIR . "/app/logs/smart-alert.html";
-        $html = $this->generateHtml(null);
-        file_put_contents($filename, $html);
+        #$filename = BASE_DIR . "/app/logs/smart-alert.html";
+        #$html = $this->generateHtml(null);
+        #file_put_contents($filename, $html);
 
         // save to database
         foreach ($this->alerts as $alert) {
@@ -227,12 +225,45 @@ class SmartAlertService extends Injectable
             if (strpos($user['email'], '@') === false) {
                 continue;
             }
-            $html = $this->generateHtml($user);
-            $this->sendEmail($user['email'], $html);
+
+            $alerts = $this->getUserSpecificAlerts($user);
+            if (empty($alerts)) {
+                continue;
+            }
+
+            $html = $this->generateHtml($alerts);
+            $subject = $this->getSubject($alerts);
+
+            $this->sendEmail($user['email'], $subject, $html);
         }
     }
 
-    protected function sendEmail($recepient, $body)
+    protected function getSubject($alerts)
+    {
+        $alert = $alerts[0];
+
+        $lines = [];
+        $lines[] = 'Smart Alert:';
+
+        $lines[] = $alert['project_name'];
+        if ($alert['devtype']) {
+            $lines[] = $alert['devtype'];
+        }
+
+        $type = $alert['alert'];
+        $types = [
+            'NO-DATA'    => 'No Data',
+            'LOW-ENERGY' => 'Under Performance',
+        ];
+
+        if (isset($types[$type])) {
+            $lines[] = $types[$type];
+        }
+
+        return implode(' ', $lines);
+    }
+
+    protected function sendEmail($recepient, $subject, $body)
     {
         $mail = new \PHPMailer();
 
@@ -256,7 +287,7 @@ class SmartAlertService extends Injectable
         $mail->FromName = "Great Circle Solar";
         $mail->addAddress($recepient);
         $mail->isHTML(true);
-        $mail->Subject = "Smart Alert: Something is wrong, Take Action Right Now!";
+        $mail->Subject = $subject;
         $mail->Body = $body;
         $mail->AltBody = "Smart Alert can only display in HTML format";
 

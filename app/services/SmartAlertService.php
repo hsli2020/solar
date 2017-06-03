@@ -43,7 +43,7 @@ class SmartAlertService extends Injectable
             }
             $time = strtotime($data['time'].' UTC'); // UTC to LocalTime
             if ($time > 0 && $now - $time >= 35*60) {
-                $this->log($data['devtype']. ' '. $data['devcode']. ' of '. $data['project_name']. ': '. $alertType);
+                //$this->log($data['devtype']. ' '. $data['devcode']. ' of '. $data['project_name']. ': '. $alertType);
                 $this->alerts[] = [
                     'time'         => date('Y-m-d H:i:s'),
                     'project_id'   => $data['project_id'],
@@ -72,7 +72,7 @@ class SmartAlertService extends Injectable
             $kw = $project->getLatestKW();
 
             if ($irr > 100 && $kw < 5) {
-                $this->log($project->name. ': '. $alertType);
+                //$this->log($project->name. ': '. $alertType);
                 $this->alerts[] = [
                     'time'         => date('Y-m-d H:i:s'),
                     'project_id'   => $project->id,
@@ -134,7 +134,7 @@ class SmartAlertService extends Injectable
             }
 
             if ($badStatus) {
-                $this->log("$device: $alertType (". $data['status']. ")");
+                //$this->log("$device: $alertType (". $data['status']. ")");
                 /*
                 $this->alerts[] = [
                     'time'         => date('Y-m-d H:i:s'),
@@ -269,6 +269,7 @@ class SmartAlertService extends Injectable
 
     protected function log($str)
     {
+        return;
         $filename = BASE_DIR . '/app/logs/alert.log';
         $str = date('Y-m-d H:i:s ') . $str . "\n";
 

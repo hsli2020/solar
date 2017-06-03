@@ -128,6 +128,11 @@ class ImportService extends Injectable
     protected function log($str)
     {
         $filename = BASE_DIR . '/app/logs/import.log';
+
+        if (filesize($filename) > 1024*1024) {
+            unlink($filename);
+        }
+
         $str = date('Y-m-d H:i:s ') . $str . "\n";
 
         echo $str;

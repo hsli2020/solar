@@ -62,6 +62,8 @@ class DailyReportService extends Injectable
             ];
         }
 
+        unset($this->report[7]); // remove Norfolk from DailyReport
+
         $this->save();
 
         return $this->report;

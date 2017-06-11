@@ -129,7 +129,7 @@ class ImportService extends Injectable
     {
         $filename = BASE_DIR . '/app/logs/import.log';
 
-        if (filesize($filename) > 1024*1024) {
+        if (filesize($filename) > 512*1024) {
             unlink($filename);
         }
 

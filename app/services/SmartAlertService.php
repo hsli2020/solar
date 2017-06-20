@@ -284,6 +284,7 @@ class SmartAlertService extends Injectable
         $types = [
             'NO-DATA'    => 'No Data',
             'LOW-ENERGY' => 'Under Performance',
+            'ERROR-NOT-ZERO' => 'Error Not Zero',
         ];
 
         if (isset($types[$type])) {

@@ -17,6 +17,7 @@ class SmartAlertService extends Injectable
         $this->checkNoData();
         $this->checkLowEnergy();
         $this->checkInverterStatus();
+        $this->checkErrorCode();
 
        #$this->checkFault();
        #$this->checkOverHeat();
@@ -146,6 +147,35 @@ class SmartAlertService extends Injectable
                     'message'      => 'Inverter in Bad Status',
                 ];
                 */
+            }
+        }
+    }
+
+    protected function checkErrorCode()
+    {
+        $alertType = 'ERROR-NOT-ZERO';
+
+        $rows = $this->db->fetchAll("SELECT * FROM latest_data");
+
+        foreach ($rows as $row) {
+            if ($this->alertTriggered($row['project_id'], $alertType)) {
+                continue;
+            }
+
+            $data = json_decode($row['data'], true);
+            $error = $data['error'];
+
+            if ($error != 0) {
+                //$this->log($data['devtype']. ' '. $data['devcode']. ' of '. $data['project_name']. ': '. $alertType);
+                $this->alerts[] = [
+                    'time'         => date('Y-m-d H:i:s'),
+                    'project_id'   => $row['project_id'],
+                    'project_name' => $row['project_name'],
+                    'devtype'      => $row['devtype'],
+                    'devcode'      => $row['devcode'],
+                    'alert'        => $alertType,
+                    'message'      => 'Error is not zero',
+                ];
             }
         }
     }

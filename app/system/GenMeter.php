@@ -41,6 +41,23 @@ class GenMeter extends Device
         return 0;
     }
 
+    public function getAvgKVA($period)
+    {
+        $table = $this->getDeviceTable();
+
+        list($start, $end) = $this->getPeriod($period);
+
+        $sql = "SELECT AVG(kva) AS kva FROM $table ".
+                "WHERE time>='$start' AND time<'$end' AND error=0";
+
+        $result = $this->getDb()->fetchOne($sql);
+        if ($result) {
+            return $result['kva'];
+        }
+
+        return 0;
+    }
+
     public function getLatestKVA()
     {
         $data = $this->getLatestData();

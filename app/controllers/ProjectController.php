@@ -35,7 +35,7 @@ class ProjectController extends ControllerBase
         $irr = $envkit->getChartData();
         $kva = $genmeter->getChartData();
 
-        $this->view->irr = $irr;
-        $this->view->kva = $kva;
+        $this->view->irr = json_encode($irr);
+        $this->view->kva = json_encode($kva);
     }
 }

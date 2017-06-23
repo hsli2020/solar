@@ -63,7 +63,7 @@ function getRandomData() {
 {% block domready %}
 var bar = {
     label: "Power Production",
-    data: getRandomData(),
+    data: {{ kva }},
     color: "rgb(54, 162, 235)",
     shadowSize: 0,
     yaxis: 1,
@@ -72,7 +72,7 @@ var bar = {
 
 var line = {
     label: "Irradiance",
-    data: getRandomData(),
+    data: {{ irr }},
     color: "#c00000",
     shadowSize: 0,
     yaxis: 2,

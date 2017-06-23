@@ -71,7 +71,7 @@ class GenMeter extends Device
 
         $result = $this->getDb()->fetchAll($sql);
 
-        $values = array_map(function($e) { return [$e['time'], $e['irr']]; }, $result);
+        $values = array_map(function($e) { return [ substr($e['time'], -8), intval($e['irr']) ]; }, $result);
 
         return $values;
     }

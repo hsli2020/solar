@@ -84,8 +84,8 @@ var options = {
         shadowSize: 0	// Drawing is faster without shadows
     },
     yaxes: [ 
-        { position: "left",  min: 0, max: 120 },
-        { position: "right", min: 0, max: 150 }
+        { position: "left" },
+        { position: "right" }
     ],
     xaxis: { show: true }
 }

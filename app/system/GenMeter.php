@@ -65,11 +65,14 @@ class GenMeter extends Device
 
         $today = date('Y-m-d');
 
-        $sql = "SELECT time, SUM(KVA) AS irr FROM $table ".
+        $sql = "SELECT time, ROUND(SUM(KVA)) AS irr FROM $table ".
                 "WHERE time > '$today' AND error = 0 ".
                 "GROUP BY UNIX_TIMESTAMP(time) DIV 300";
 
         $result = $this->getDb()->fetchAll($sql);
-        return $result;
+
+        $values = array_map(function($e) { return [$e['time'], $e['irr']]; }, $result);
+
+        return $values;
     }
 }

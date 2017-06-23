@@ -26,5 +26,16 @@ class ProjectController extends ControllerBase
     public function chartAction($id = 0)
     {
         $this->view->pageTitle = 'Project Chart';
+
+        $project = $this->projectService->get($id);
+
+        $envkit = $project->getFirstEnvKit();
+        $genmeter = $project->getFirstGenMeter();
+
+        $irr = $envkit->getChartData();
+        $kva = $genmeter->getChartData();
+
+        $this->view->irr = $irr;
+        $this->view->kva = $kva;
     }
 }

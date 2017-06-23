@@ -159,6 +159,17 @@ class Project
         return $genmeter->getKWH($period, $col);
     }
 
+    public function getChartData()
+    {
+        $envkit = current($this->envkits);
+        $irr = $envkit->getChartData();
+
+        $genmeters = current($this->genmeters);
+        $kva = $envkit->getChartData();
+
+        return [$irr, $kva];
+    }
+
     /**
      * Latest
      */

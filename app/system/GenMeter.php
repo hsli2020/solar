@@ -58,4 +58,18 @@ class GenMeter extends Device
         }
         return false;
     }
+
+    public function getChartData()
+    {
+        $table = $this->getDeviceTable();
+
+        $today = date('Y-m-d');
+
+        $sql = "SELECT time, SUM(KVA) AS irr FROM $table ".
+                "WHERE time > '$today' AND error = 0 ".
+                "GROUP BY UNIX_TIMESTAMP(time) DIV 300";
+
+        $result = $this->getDb()->fetchAll($sql);
+        return $result;
+    }
 }

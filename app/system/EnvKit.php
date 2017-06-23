@@ -73,4 +73,18 @@ class EnvKit extends Device
 
         return 0;
     }
+
+    public function getChartData()
+    {
+        $table = $this->getDeviceTable();
+
+        $today = date('Y-m-d');
+
+        $sql = "SELECT time, AVG(IRR) AS irr FROM $table ".
+                "WHERE time > '$today' AND error = 0 ".
+                "GROUP BY UNIX_TIMESTAMP(time) DIV 300";
+
+        $result = $this->getDb()->fetchAll($sql);
+        return $result;
+    }
 }

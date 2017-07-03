@@ -82,9 +82,7 @@
 <table id="snapshot" class="w3-table w3-white w3-bordered w3-border">
 <tr>
   <th style="vertical-align: middle;">Site</th>
-{#
   <th style="vertical-align: middle;">Chart</th>
-#}
   <th style="vertical-align: middle;">GC PI</th>
   <th>Project Size<br>(AC)</th>
   <th>Current Power<br>(kW)</th>
@@ -96,9 +94,7 @@
 {% for row in data['rows'] %}
 <tr>
   <td><a href="/project/detail/{{ row['project_id'] }}" target="_blank">{{ row[ 'project_name'] }}</a></td>
-{#
   <td class="w3-center"><a href="/project/chart/{{ row['project_id'] }}" target="_blank" class="fa fa-bar-chart"></i></a></td>
-#}
   {{ tablecell(row, 'GCPR',                  '') }}
   {{ tablecell(row, 'project_size_ac',       'w3-center') }}
   {{ tablecell(row, 'current_power',         '') }}

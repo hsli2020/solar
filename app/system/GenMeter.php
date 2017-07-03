@@ -71,9 +71,26 @@ class GenMeter extends Device
 
         $result = $this->getDb()->fetchAll($sql);
 
-        $values = array_map(function($e) {
-            return [ strtotime($e['time'].' UTC')*1000, intval($e['kva']) ];
-        }, $result);
+        $values = [];
+        foreach ($result as $e) {
+            $time = strtotime($e['time'].' UTC');
+            $values[$time] = [ $time*1000, intval($e['kva']) ];
+        };
+
+        $full = $values + $this->getEmptyData();
+        ksort($full);
+        return array_values($full);
+    }
+
+    public function getEmptyData()
+    {
+        $values = [];
+
+        $start = mktime(0, 0, 0);
+        for ($i = 0; $i < 24*3600/300; $i++) {
+            $time = $start + $i*300;
+            $values[$time] = [ $time*1000, 0 ];
+        }
 
         return $values;
     }

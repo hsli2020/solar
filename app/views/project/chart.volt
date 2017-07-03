@@ -87,7 +87,10 @@ var options = {
         { position: "left" },
         { position: "right" }
     ],
-    xaxis: { show: true }
+    xaxis: {
+        mode: 'time',
+        show: true
+    }
 }
 
 $.plot("#placeholder", [ bar, line ], options);

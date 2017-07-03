@@ -63,7 +63,7 @@ class GenMeter extends Device
     {
         $table = $this->getDeviceTable();
 
-        $today = date("Y-m-d H:i:s", mktime(0, 0, 0) + date("Z"));
+        $today = date("Y-m-d H:i:s", mktime(0, 0, 0) - date("Z"));
 
         $sql = "SELECT time, ROUND(SUM(KVA)) AS irr FROM $table ".
                 "WHERE time > '$today' AND error = 0 ".

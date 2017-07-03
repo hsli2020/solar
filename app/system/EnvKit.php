@@ -80,9 +80,9 @@ class EnvKit extends Device
 
         $today = date("Y-m-d H:i:s", mktime(0, 0, 0) - date("Z"));
 
-        $sql = "SELECT time, ROUND(AVG(IRR)) AS irr FROM $table ".
-                "WHERE time > '$today' AND error = 0 ".
-                "GROUP BY UNIX_TIMESTAMP(time) DIV 300";
+        $sql = "SELECT time, ROUND(AVG(IRR)) AS irr FROM $table".
+               " WHERE time > '$today' AND error = 0".
+               " GROUP BY UNIX_TIMESTAMP(time) DIV 300";
 
         $result = $this->getDb()->fetchAll($sql);
 

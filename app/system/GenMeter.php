@@ -65,14 +65,14 @@ class GenMeter extends Device
 
         $today = date("Y-m-d H:i:s", mktime(0, 0, 0) - date("Z"));
 
-        $sql = "SELECT time, ROUND(AVG(KVA)) AS irr FROM $table ".
-                "WHERE time > '$today' AND error = 0 ".
-                "GROUP BY UNIX_TIMESTAMP(time) DIV 300";
+        $sql = "SELECT time, ROUND(AVG(KVA)) AS kva FROM $table".
+               " WHERE time > '$today' AND error = 0".
+               " GROUP BY UNIX_TIMESTAMP(time) DIV 300";
 
         $result = $this->getDb()->fetchAll($sql);
 
         $values = array_map(function($e) {
-            return [ strtotime($e['time'].' UTC')*1000, intval($e['irr']) ];
+            return [ strtotime($e['time'].' UTC')*1000, intval($e['kva']) ];
         }, $result);
 
         return $values;

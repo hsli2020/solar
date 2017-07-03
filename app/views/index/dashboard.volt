@@ -82,9 +82,7 @@
 <table id="snapshot" class="w3-table w3-white w3-bordered w3-border">
 <tr>
   <th style="vertical-align: middle;">Site</th>
-{#
   <th style="vertical-align: middle;">Chart</th>
-#}
   <th style="vertical-align: middle;">GC PI</th>
   <th>Project Size<br>(AC)</th>
   <th>Current Power<br>(kW)</th>

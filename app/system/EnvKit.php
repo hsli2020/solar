@@ -33,11 +33,21 @@ class EnvKit extends Device
 
     public function getSnapshotIRR()
     {
-        $data = $this->getSnapshotData();
-        if ($data) {
-            return $data['IRR'];
+        $table = $this->getDeviceTable();
+
+        list($start, $end) = $this->getPeriod($period);
+
+        $sql = "SELECT AVG(IRR) AS irr".
+               "  FROM $table".
+               " WHERE time>='$start' AND error=0";
+
+        $result = $this->getDb()->fetchOne($sql);
+        if ($result) {
+            return $result['irr'];
+           #return $result['irr'] / 60.0 / 1000.0;
         }
-        return false;
+
+        return 0;
     }
 
     public function getOAT($period)

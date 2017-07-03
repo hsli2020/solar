@@ -54,15 +54,23 @@ class Inverter extends Device
 
     public function getSnapshotKW()
     {
-        $data = $this->getSnapshotData();
-        if ($data) {
-            if (isset($data['kw'])) {
-                return $data['kw'];
-            }
-            if (isset($data['line_kw'])) {
-                return $data['line_kw'];
-            }
+        $table = $this->getDeviceTable();
+
+        $column = ($this->model == 'SERIAL') ?  'line_kw' : 'kw';
+       #$column = ($projectId == 2) ? 'line_kw' : 'kw';
+
+        list($start, $end) = $this->getPeriod($period);
+
+        $sql = "SELECT AVG($column) AS kw".
+               "  FROM $table".
+               " WHERE time>='$start' AND error=0";
+
+        $result = $this->getDb()->fetchOne($sql);
+        if ($result) {
+            return $result['kw'];
+           #return $result['kw'] / 60.0; // to kwH
         }
-        return false;
+
+        return 0;
     }
 }

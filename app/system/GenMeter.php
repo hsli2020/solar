@@ -52,11 +52,20 @@ class GenMeter extends Device
 
     public function getSnapshotKVA()
     {
-        $data = $this->getSnapshotData();
-        if ($data) {
-            return $data['kva'];
+        $table = $this->getDeviceTable();
+
+        list($start, $end) = $this->getPeriod($period);
+
+        $sql = "SELECT AVG(kva) AS kva".
+               "  FROM $table".
+               " WHERE time>='$start' AND error=0";
+
+        $result = $this->getDb()->fetchOne($sql);
+        if ($result) {
+            return $result['kva'];
         }
-        return false;
+
+        return 0;
     }
 
     public function getChartData()

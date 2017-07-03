@@ -87,7 +87,7 @@ class EnvKit extends Device
         $result = $this->getDb()->fetchAll($sql);
 
         $values = array_map(function($e) {
-            return [ strtotime($e['time'])*1000, intval($e['irr']) ];
+            return [ strtotime($e['time'].' UTC')*1000, intval($e['irr']) ];
         }, $result);
 
         return $values;

@@ -78,7 +78,7 @@ class EnvKit extends Device
     {
         $table = $this->getDeviceTable();
 
-        $today = date("Y-m-d H:i:s", mktime(0, 0, 0) - date("Z"));
+        $today = gmdate("Y-m-d H:i:s", mktime(0, 0, 0));
 
         $sql = "SELECT time, ROUND(AVG(IRR)) AS irr FROM $table".
                " WHERE time > '$today' AND error = 0".
@@ -104,7 +104,7 @@ class EnvKit extends Device
         $start = mktime(0, 0, 0);
         for ($i = 0; $i < 24*3600/300; $i++) {
             $time = $start + $i*300;
-            $values[$time] = [ $time*1000, 0 ];
+            $values[$time] = [ $time*1000, 0.0 ];
         }
 
         return $values;

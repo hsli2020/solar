@@ -65,7 +65,7 @@ class GenMeter extends Device
 
         $today = date("Y-m-d H:i:s", mktime(0, 0, 0) - date("Z"));
 
-        $sql = "SELECT time, ROUND(SUM(KVA)) AS irr FROM $table ".
+        $sql = "SELECT time, ROUND(AVG(KVA)) AS irr FROM $table ".
                 "WHERE time > '$today' AND error = 0 ".
                 "GROUP BY UNIX_TIMESTAMP(time) DIV 300";
 

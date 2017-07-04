@@ -59,7 +59,7 @@ class Inverter extends Device
         $column = ($this->model == 'SERIAL') ?  'line_kw' : 'kw';
        #$column = ($projectId == 2) ? 'line_kw' : 'kw';
 
-        list($start, $end) = $this->getPeriod($period);
+        list($start, $end) = $this->getPeriod('SNAPSHOT');
 
         $sql = "SELECT AVG($column) AS kw".
                "  FROM $table".

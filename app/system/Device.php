@@ -119,7 +119,7 @@ abstract class Device
 
         list($start, $end) = $this->getPeriod('SNAPSHOT');
 
-        $sql = "SELECT * FROM $table WHERE time>='$start' AND time<'$end' AND error=0";
+        $sql = "SELECT * FROM $table WHERE time>='$start' AND error=0";
         $data = $this->getDb()->fetchOne($sql);
 
         return $data;

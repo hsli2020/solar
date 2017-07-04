@@ -35,7 +35,7 @@ class EnvKit extends Device
     {
         $table = $this->getDeviceTable();
 
-        list($start, $end) = $this->getPeriod($period);
+        list($start, $end) = $this->getPeriod('SNAPSHOT');
 
         $sql = "SELECT AVG(IRR) AS irr".
                "  FROM $table".

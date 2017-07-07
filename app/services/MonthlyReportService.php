@@ -292,6 +292,7 @@ class MonthlyReportService extends Injectable
 
         if (filesize($filename) > 128*1024) {
             unlink($filename);
+            touch($filename);
         }
 
         $str = date('Y-m-d H:i:s ') . $str . "\n";

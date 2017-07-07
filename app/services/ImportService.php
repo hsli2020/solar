@@ -131,6 +131,7 @@ class ImportService extends Injectable
 
         if (filesize($filename) > 512*1024) {
             unlink($filename);
+            touch($filename);
         }
 
         $str = date('Y-m-d H:i:s ') . $str . "\n";

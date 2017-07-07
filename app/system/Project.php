@@ -152,6 +152,34 @@ class Project
         }
     }
 
+    public function getAvgIRR($period)
+    {
+        $envkit = current($this->envkits);
+        return $envkit->getAvgIRR($period);
+    }
+
+    public function getAvgTMP($period)
+    {
+        $envkit = current($this->envkits);
+        return $envkit->getAvgTMP($period);
+    }
+
+    public function getAvgKW($period)
+    {
+        $inverters = $this->inverters;
+
+        if (count($inverters) > 0) {
+            $sum = 0;
+            foreach ($inverters as $inverter) {
+                $sum += $inverter->getAvgKW($period);
+            }
+            return $sum / count($inverters);
+        } else {
+            $genmeter = current($this->genmeters);
+            return $genmeter->getAvgKVA($period);
+        }
+    }
+
     public function getKWH($period)
     {
         $col = ($this->id == 7) ? 'del' : 'rec';
@@ -262,9 +290,9 @@ class Project
         $Transformer_Loss         = $this->transformerLoss;
         $Other_Loss               = $this->otherLoss;
 
-        $Avg_Irradiance_POA       = $this->getIRR('LAST-HOUR') / 60.0; // avg 60 minutes
-        $Avg_Module_Temp          = $this->getTMP('LAST-HOUR') / 60.0; // PANELT
-        $Measured_Energy          = $this->getKW('LAST-HOUR')  / 60.0; // sum 60 minutes
+        $Avg_Irradiance_POA       = $this->getAvgIRR('LAST-HOUR'); // avg 60 minutes
+        $Avg_Module_Temp          = $this->getAvgTMP('LAST-HOUR'); // PANELT
+        $Measured_Energy          = $this->getAvgKW('LAST-HOUR');  // sum 60 minutes
 
         if ($DC_Nameplate_Capacity == 0) return 0;
 

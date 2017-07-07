@@ -22,6 +22,24 @@ class EnvKit extends Device
         return 0;
     }
 
+    public function getAvgIRR($period)
+    {
+        $table = $this->getDeviceTable();
+
+        list($start, $end) = $this->getPeriod($period);
+
+        $sql = "SELECT AVG(IRR) AS irr FROM $table ".
+                "WHERE time>='$start' AND time<'$end' AND error=0";
+
+        $result = $this->getDb()->fetchOne($sql);
+        if ($result) {
+            return $result['irr'];
+           #return $result['irr'] / 60.0 / 1000.0;
+        }
+
+        return 0;
+    }
+
     public function getLatestIRR()
     {
         $data = $this->getLatestData();
@@ -118,5 +136,22 @@ class EnvKit extends Device
         }
 
         return $values;
+    }
+
+    public function getAvgTMP($period)
+    {
+        $table = $this->getDeviceTable();
+
+        list($start, $end) = $this->getPeriod($period);
+
+        $sql = "SELECT AVG(PANELT) AS tmp FROM $table ".
+                "WHERE time>='$start' AND time<'$end' AND error=0";
+
+        $result = $this->getDb()->fetchOne($sql);
+        if ($result) {
+            return $result['tmp'];
+        }
+
+        return 0;
     }
 }

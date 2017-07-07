@@ -290,9 +290,8 @@ class MonthlyReportService extends Injectable
     {
         $filename = BASE_DIR . '/app/logs/report.log';
 
-        if (filesize($filename) > 128*1024) {
+        if (file_exists($filename) && filesize($filename) > 128*1024) {
             unlink($filename);
-            touch($filename);
         }
 
         $str = date('Y-m-d H:i:s ') . $str . "\n";

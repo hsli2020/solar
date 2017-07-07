@@ -129,9 +129,8 @@ class ImportService extends Injectable
     {
         $filename = BASE_DIR . '/app/logs/import.log';
 
-        if (filesize($filename) > 512*1024) {
+        if (file_exists($filename) && filesize($filename) > 512*1024) {
             unlink($filename);
-            touch($filename);
         }
 
         $str = date('Y-m-d H:i:s ') . $str . "\n";

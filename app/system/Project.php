@@ -290,9 +290,13 @@ class Project
         $Transformer_Loss         = $this->transformerLoss;
         $Other_Loss               = $this->otherLoss;
 
-        $Avg_Irradiance_POA       = $this->getAvgIRR('LAST-HOUR'); // avg 60 minutes
-        $Avg_Module_Temp          = $this->getAvgTMP('LAST-HOUR'); // PANELT
-        $Measured_Energy          = $this->getAvgKW('LAST-HOUR');  // sum 60 minutes
+        $Avg_Irradiance_POA       = $this->getIRR('LAST-HOUR') / 60.0; // avg 60 minutes
+        $Avg_Module_Temp          = $this->getTMP('LAST-HOUR') / 60.0; // PANELT
+        $Measured_Energy          = $this->getKW('LAST-HOUR')  / 60.0; // sum 60 minutes
+
+       #$Avg_Irradiance_POA       = $this->getAvgIRR('LAST-HOUR'); // avg 60 minutes
+       #$Avg_Module_Temp          = $this->getAvgTMP('LAST-HOUR'); // PANELT
+       #$Measured_Energy          = $this->getAvgKW('LAST-HOUR');  // sum 60 minutes
 
         if ($DC_Nameplate_Capacity == 0) return 0;
 

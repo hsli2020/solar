@@ -138,10 +138,10 @@ class Project
 
     public function getKW($period)
     {
-        //$genmeter = current($this->genmeters);
-        //return $genmeter->getKVA($period);
+        $genmeter = current($this->genmeters);
+        return $genmeter->getKVA($period);
 
-        return $this->getKWH($period);
+        //return $this->getKWH($period);
     }
 
     public function getAvgIRR($period)
@@ -158,18 +158,8 @@ class Project
 
     public function getAvgKW($period)
     {
-        $inverters = $this->inverters;
-
-        if (count($inverters) > 0) {
-            $sum = 0;
-            foreach ($inverters as $inverter) {
-                $sum += $inverter->getAvgKW($period);
-            }
-            return $sum / count($inverters);
-        } else {
-            $genmeter = current($this->genmeters);
-            return $genmeter->getAvgKVA($period);
-        }
+        $genmeter = current($this->genmeters);
+        return $genmeter->getAvgKVA($period);
     }
 
     public function getKWH($period)
@@ -201,18 +191,8 @@ class Project
 
     public function getLatestKW()
     {
-        $inverters = $this->inverters;
-
-        if (count($inverters) > 0) {
-            $sum = 0;
-            foreach ($inverters as $inverter) {
-                $sum += $inverter->getLatestKW();
-            }
-            return $sum;
-        } else {
-            $genmeter = current($this->genmeters);
-            return $genmeter->getLatestKVA();
-        }
+        $genmeter = current($this->genmeters);
+        return $genmeter->getLatestKVA();
     }
 
     public function getLatestTime()
@@ -232,17 +212,8 @@ class Project
 
     public function getSnapshotKW()
     {
-        $inverters = $this->inverters;
-        if (count($inverters) > 0) {
-            $sum = 0;
-            foreach ($inverters as $inverter) {
-                $sum += $inverter->getSnapshotKW();
-            }
-            return $sum;
-        } else {
-            $genmeter = current($this->genmeters);
-            return $genmeter->getSnapshotKVA();
-        }
+        $genmeter = current($this->genmeters);
+        return $genmeter->getSnapshotKVA();
     }
 
     public function getSnapshotTime()

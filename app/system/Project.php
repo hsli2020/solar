@@ -138,18 +138,10 @@ class Project
 
     public function getKW($period)
     {
-        $inverters = $this->inverters;
+        //$genmeter = current($this->genmeters);
+        //return $genmeter->getKVA($period);
 
-        if (count($inverters) > 0) {
-            $sum = 0;
-            foreach ($inverters as $inverter) {
-                $sum += $inverter->getKW($period);
-            }
-            return $sum;
-        } else {
-            $genmeter = current($this->genmeters);
-            return $genmeter->getKVA($period);
-        }
+        return $this->getKWH($period);
     }
 
     public function getAvgIRR($period)

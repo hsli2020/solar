@@ -229,13 +229,13 @@ class DailyReportService extends Injectable
     protected function getTotalInsolation($project)
     {
         $result = $project->getIRR('MONTH-TO-DATE');
-        return $result / 60.0 / 1000.0;
+        return $result / 1000.0;
     }
 
     protected function getTotalEnergy($project)
     {
         $result = $project->getKW('MONTH-TO-DATE');
-        return $result / 60.0;
+        return $result;
     }
 
     protected function getDailyExpected($Measured_Insolation, $Daily_Insolation, $Daily_Budget)
@@ -262,13 +262,13 @@ class DailyReportService extends Injectable
     protected function getMeasuredInsolation($project)
     {
         $result = $project->getIRR('TODAY');
-        return $result / 60.0 / 1000.0;
+        return $result / 1000.0;
     }
 
     protected function getMeasuredProduction($project)
     {
         $result = $project->getKW('TODAY');
-        return $result / 60.0;
+        return $result;
     }
 
     protected function getActualBudget($Total_Energy, $Daily_Budget)

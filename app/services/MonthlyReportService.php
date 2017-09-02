@@ -188,7 +188,7 @@ class MonthlyReportService extends Injectable
 
     protected function getInsolationActual($project)
     {
-        return $project->getIRR('THIS-MONTH') / 60.0 / 1000.0;
+        return $project->getIRR('THIS-MONTH') / 1000.0;
     }
 
     protected function getInsolationReference($monthly)
@@ -209,7 +209,7 @@ class MonthlyReportService extends Injectable
 
     protected function getEnergyMeasured($project)
     {
-        return $project->getKW('THIS-MONTH') / 60.0;
+        return $project->getKW('THIS-MONTH');
     }
 
     protected function getEnergyBudget($monthly)

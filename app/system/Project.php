@@ -127,19 +127,19 @@ class Project
     public function getIRR($period)
     {
         $envkit = current($this->envkits);
-        return $envkit->getIRR($period);
+        return $envkit->getIRR($period) / 12.0;
     }
 
     public function getTMP($period)
     {
         $envkit = current($this->envkits);
-        return $envkit->getTMP($period);
+        return $envkit->getTMP($period) / 12.0;
     }
 
     public function getKW($period)
     {
         $genmeter = current($this->genmeters);
-        return $genmeter->getKVA($period);
+        return $genmeter->getKVA($period) / 12.0;
 
         //return $this->getKWH($period);
     }
@@ -253,9 +253,9 @@ class Project
         $Transformer_Loss         = $this->transformerLoss;
         $Other_Loss               = $this->otherLoss;
 
-        $Avg_Irradiance_POA       = $this->getIRR('LAST-HOUR') / 60.0; // avg 60 minutes
-        $Avg_Module_Temp          = $this->getTMP('LAST-HOUR') / 60.0; // PANELT
-        $Measured_Energy          = $this->getKW('LAST-HOUR')  / 60.0; // sum 60 minutes
+        $Avg_Irradiance_POA       = $this->getIRR('LAST-HOUR');
+        $Avg_Module_Temp          = $this->getTMP('LAST-HOUR');
+        $Measured_Energy          = $this->getKW('LAST-HOUR');
 
        #$Avg_Irradiance_POA       = $this->getAvgIRR('LAST-HOUR'); // avg 60 minutes
        #$Avg_Module_Temp          = $this->getAvgTMP('LAST-HOUR'); // PANELT

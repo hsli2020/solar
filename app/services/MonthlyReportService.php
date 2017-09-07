@@ -48,7 +48,7 @@ class MonthlyReportService extends Injectable
             ];
         }
 
-        unset($this->report[7]); // remove Norfolk from MonthlyReport
+#       unset($this->report[7]); // remove Norfolk from MonthlyReport
 
         $this->save();
 

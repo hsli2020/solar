@@ -42,5 +42,15 @@ class ProjectController extends ControllerBase
     {
         $this->view->pageTitle = 'Data Export';
 
+        if ($this->request->isPost()) {
+            $project   = $this->request->getPost('project');
+            $period    = $this->request->getPost('period');
+            $startTime = $this->request->getPost('start-time');
+            $endTime   = $this->request->getPost('end-time');
+
+            $filename = $this->exportService->export($project, $period, $startTime, $endTime);
+
+            $this->startDownload($filename);
+        }
     }
 }

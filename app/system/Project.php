@@ -180,6 +180,29 @@ class Project
         return [$irr, $kva];
     }
 
+    public function export($interval, $start, $end)
+    {
+        $filename = BASE_DIR.'/tmp/export-'.str_replace(' ', '-', $this->name).'-'.date('Ymd-His').'.csv';
+
+        $file = fopen($filename, 'w');
+
+        foreach ($this->envkits as $envkit) {
+            $envkit->export($file, $interval, $start, $end);
+        }
+
+        foreach ($this->genmeters as $genmeter) {
+            $genmeter->export($file, $interval, $start, $end);
+        }
+
+        foreach ($this->inverters as $inverter) {
+            $inverter->export($file, $interval, $start, $end);
+        }
+
+        fclose($file);
+
+        return $filename;
+    }
+
     /**
      * Latest
      */

@@ -44,11 +44,11 @@ class ProjectController extends ControllerBase
 
         if ($this->request->isPost()) {
             $project   = $this->request->getPost('project');
-            $period    = $this->request->getPost('period');
+            $interval  = $this->request->getPost('interval');
             $startTime = $this->request->getPost('start-time');
             $endTime   = $this->request->getPost('end-time');
 
-            $filename = $this->exportService->export($project, $period, $startTime, $endTime);
+            $filename = $this->exportService->export($project, $interval, $startTime, $endTime);
 
             $this->startDownload($filename);
         }

@@ -37,11 +37,11 @@
 
           <div class="w3-row-padding">
             <div class="w3-third w3-padding-16">
-              <label><b>Period</b></label>
+              <label><b>Interval</b></label>
             </div>
             <div class="w3-twothird w3-padding-8">
-              <select class="w3-select w3-border" name="period">
-                <option value="" selected>Select Period</option>
+              <select class="w3-select w3-border" name="interval">
+                <option value="" selected>Select Interval</option>
                 <option value="5">Minute 5</option>
                 <option value="10">Minute 10</option>
                 <option value="15">Minute 15</option>

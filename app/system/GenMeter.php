@@ -120,4 +120,8 @@ class GenMeter extends Device
 
         return $values;
     }
+
+    public function export($file, $interval, $start, $end)
+    {
+    }
 }

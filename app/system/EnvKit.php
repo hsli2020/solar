@@ -154,4 +154,8 @@ class EnvKit extends Device
 
         return 0;
     }
+
+    public function export($file, $interval, $start, $end)
+    {
+    }
 }

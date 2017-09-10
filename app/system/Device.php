@@ -130,4 +130,9 @@ abstract class Device
         $data = $this->getSnapshotData();
         return $data ? toLocaltime($data['time']) : date('Y-m-d H:i:00', strtotime('-16 minute'));
     }
+
+    public function export($file, $interval, $start, $end)
+    {
+        // nothing to do here
+    }
 }

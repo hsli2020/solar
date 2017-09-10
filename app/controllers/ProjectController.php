@@ -15,7 +15,6 @@ class ProjectController extends ControllerBase
     public function detailAction($id = 0)
     {
         $this->view->pageTitle = 'Project Details';
-        $this->view->today = date('l, F jS Y');
         $this->view->now = date('g:i a');
 
         $details = $this->projectService->getDetails($id);
@@ -37,5 +36,11 @@ class ProjectController extends ControllerBase
 
         $this->view->irr = json_encode($irr);
         $this->view->kva = json_encode($kva);
+    }
+
+    public function exportAction()
+    {
+        $this->view->pageTitle = 'Data Export';
+
     }
 }

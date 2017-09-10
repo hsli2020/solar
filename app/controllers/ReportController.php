@@ -15,7 +15,6 @@ class ReportController extends ControllerBase
     public function dailyAction($date = '')
     {
         $this->view->pageTitle = 'Daily Report';
-        $this->view->today = date('l, F jS Y');
         $this->view->report = [];
 
         $auth = $this->session->get('auth');
@@ -43,7 +42,6 @@ class ReportController extends ControllerBase
     public function monthlyAction($month = '')
     {
         $this->view->pageTitle = 'Monthly Report';
-        $this->view->today = date('l, F jS Y');
         $this->view->report = [];
 
         $auth = $this->session->get('auth');

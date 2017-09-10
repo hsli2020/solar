@@ -23,7 +23,6 @@ class IndexController extends ControllerBase
     {
         $this->view->pageTitle = 'GCS Dashboard';
         $this->view->data = $this->snapshotService->load();
-        $this->view->today = date('l, F jS Y');
     }
 
     public function reportAction()

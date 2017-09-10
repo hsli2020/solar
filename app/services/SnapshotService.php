@@ -39,7 +39,10 @@ class SnapshotService extends Injectable
 
             $result[$key]['error'] = [];
 
-            if ($val['GCPR'] >= 90) {
+            if ($val['GCPR'] >= 200) {
+                $result[$key]['error']['GCPR'] = 'red';
+            }
+            else if ($val['GCPR'] >= 90) {
                 $result[$key]['error']['GCPR'] = '';
             }
             else if ($val['GCPR'] >= 80) {

@@ -253,9 +253,9 @@ class Project
         $Transformer_Loss         = $this->transformerLoss;
         $Other_Loss               = $this->otherLoss;
 
-        $Avg_Irradiance_POA       = $this->getIRR('LAST-HOUR');
-        $Avg_Module_Temp          = $this->getTMP('LAST-HOUR');
-        $Measured_Energy          = $this->getKW('LAST-HOUR');
+        $Avg_Irradiance_POA       = $this->getAvgIRR('LAST-HOUR');
+        $Avg_Module_Temp          = $this->getAvgTMP('LAST-HOUR');
+        $Measured_Energy          = $this->getAvgKW('LAST-HOUR');
 
        #$Avg_Irradiance_POA       = $this->getAvgIRR('LAST-HOUR'); // avg 60 minutes
        #$Avg_Module_Temp          = $this->getAvgTMP('LAST-HOUR'); // PANELT

@@ -28,9 +28,9 @@
             <div class="w3-twothird w3-padding-8">
               <select class="w3-select w3-border" name="project">
                 <option value="" selected>Select Project</option>
-                <option value="1">Project 1</option>
-                <option value="2">Project 2</option>
-                <option value="3">Project 3</option>
+                {% for project in projects %}
+                <option value="{{ project.id }}">{{ project.name }}</option>
+                {% endfor %}
               </select>
             </div>
           </div>
@@ -42,11 +42,11 @@
             <div class="w3-twothird w3-padding-8">
               <select class="w3-select w3-border" name="period">
                 <option value="" selected>Select Period</option>
-                <option value="1">Minute 5</option>
-                <option value="2">Minute 10</option>
-                <option value="3">Minute 15</option>
-                <option value="4">Minute 30</option>
-                <option value="5">Minute 60</option>
+                <option value="5">Minute 5</option>
+                <option value="10">Minute 10</option>
+                <option value="15">Minute 15</option>
+                <option value="30">Minute 30</option>
+                <option value="60">Minute 60</option>
               </select>
             </div>
           </div>
@@ -56,7 +56,7 @@
               <label><b>Start Date</b></label>
             </div>
             <div class="w3-twothird">
-              <input class="w3-input w3-border w3-margin-bottom" name="start-time" required type="time">
+              <input class="w3-input w3-border w3-margin-bottom datepicker" name="start-time" required type="text">
             </div>
           </div>
 
@@ -65,7 +65,7 @@
               <label><b>End Date</b></label>
             </div>
             <div class="w3-twothird w3-padding-8">
-              <input class="w3-input w3-border w3-margin-bottom" name="end-time" required type="text">
+              <input class="w3-input w3-border w3-margin-bottom datepicker" name="end-time" required type="text">
             </div>
           </div>
 
@@ -78,5 +78,16 @@
 </div>
 {% endblock %}
 
-{% block csscode %}
+{% block cssfile %}
+  {{ stylesheet_link("/pickadate/themes/classic.css") }}
+  {{ stylesheet_link("/pickadate/themes/classic.date.css") }}
+{% endblock %}
+
+{% block jsfile %}
+  {{ javascript_include("/pickadate/picker.js") }}
+  {{ javascript_include("/pickadate/picker.date.js") }}
+{% endblock %}
+
+{% block domready %}
+  $('.datepicker').pickadate({format: 'yyyy-mm-dd'});
 {% endblock %}

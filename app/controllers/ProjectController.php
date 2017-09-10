@@ -52,5 +52,8 @@ class ProjectController extends ControllerBase
 
             $this->startDownload($filename);
         }
+
+        $projects = $this->projectService->getAll();
+        $this->view->projects = $projects;
     }
 }

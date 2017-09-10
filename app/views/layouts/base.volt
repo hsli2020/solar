@@ -11,6 +11,7 @@
   {{ stylesheet_link("/css/w3.css") }}
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
   <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+  {% block cssfile %}{% endblock %}
 
   <style>
     html,body,h1,h2,h3,h4,h5 {font-family: "Segoe UI",Arial,sans-serif}

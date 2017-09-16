@@ -186,6 +186,11 @@ class Project
 
         $file = fopen($filename, 'w');
 
+        fputs($file, 'Project:    ' .$this->name. PHP_EOL);
+        fputs($file, 'Interval:   ' .$interval. ' minutes'. PHP_EOL);
+        fputs($file, 'Start Time: ' .$start. PHP_EOL);
+        fputs($file, 'End Time:   ' .$end. PHP_EOL. PHP_EOL);
+
         foreach ($this->envkits as $envkit) {
             $envkit->export($file, $interval, $start, $end);
         }

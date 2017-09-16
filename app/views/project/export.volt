@@ -27,7 +27,7 @@
             </div>
             <div class="w3-twothird w3-padding-8">
               <select class="w3-select w3-border" name="project">
-                <option value="" selected>Select Project</option>
+                <option value="0" selected>Select Project</option>
                 {% for project in projects %}
                 <option value="{{ project.id }}">{{ project.name }}</option>
                 {% endfor %}
@@ -41,7 +41,8 @@
             </div>
             <div class="w3-twothird w3-padding-8">
               <select class="w3-select w3-border" name="interval">
-                <option value="" selected>Select Interval</option>
+                <option value="0" selected>Select Interval</option>
+                <option value="1">Raw Data</option>
                 <option value="5">Minute 5</option>
                 <option value="10">Minute 10</option>
                 <option value="15">Minute 15</option>

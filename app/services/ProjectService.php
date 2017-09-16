@@ -31,6 +31,8 @@ class ProjectService extends Injectable
             }
         }
 
+#       unset($this->projects[7]); // remove Norfolk, it affects everywhere
+
         return $this->projects;
     }
 

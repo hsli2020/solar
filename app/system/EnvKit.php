@@ -160,12 +160,40 @@ class EnvKit extends Device
         $table = $this->getDeviceTable();
 
         $sql = "SELECT * FROM $table WHERE time>='$start' AND time<'$end' AND error=0";
+
+        if ($interval > 1) {
+            $seconds = $interval*60; // convert to seconds
+            $sql = "SELECT time,
+                           ROUND(AVG(OAT))    AS oat,
+                           ROUND(AVG(PANELT)) AS panelt,
+                           ROUND(AVG(IRR))    AS irr
+                      FROM $table
+                     WHERE time >= '$start' AND time<'$end' AND error=0
+                     GROUP BY UNIX_TIMESTAMP(time) DIV $seconds";
+        }
+
         $data = $this->getDb()->fetchAll($sql);
 
-        fputs($file, $this->type. ' ' .$this->code);
+        fputs($file, $this->type. ' ' .$this->code. PHP_EOL);
+        fputcsv($file, $this->getCsvTitle($interval));
+
         foreach ($data as $row) {
             fputcsv($file, $row);
         }
-        fputs($file, '');
+
+        fputs($file, PHP_EOL);
+    }
+
+    protected function getCsvTitle($interval)
+    {
+        // time(UTC),error,lowalarm,highalarm,"OAT (Degrees C)","PANELT (Degrees C)","IRR_POA_CMP (W/m^2)"
+
+        $title1 = [ "time(UTC)","error","lowalarm","highalarm","OAT (Degrees C)","PANELT (Degrees C)","IRR (W/m^2)" ];
+        $titlex = [ "time(UTC)","OAT (Degrees C)","PANELT (Degrees C)","IRR (W/m^2)" ];
+
+        if ($interval == 1) {
+            return $title1;
+        }
+        return $titlex;
     }
 }

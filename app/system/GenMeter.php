@@ -126,12 +126,38 @@ class GenMeter extends Device
         $table = $this->getDeviceTable();
 
         $sql = "SELECT * FROM $table WHERE time>='$start' AND time<'$end' AND error=0";
+
+        if ($interval > 1) {
+            $seconds = $interval*60; // convert to seconds
+            $sql = "SELECT time, 
+                           ROUND(SUM(kva))     AS kva, 
+                           ROUND(SUM(kwh_del)) AS kwh_del, 
+                           ROUND(SUM(kwh_rec)) AS kwh_rec
+                      FROM $table
+                     WHERE time >= '$start' AND time<'$end' AND error=0
+                     GROUP BY UNIX_TIMESTAMP(time) DIV $seconds";
+        }
+
         $data = $this->getDb()->fetchAll($sql);
 
-        fputs($file, $this->type. ' ' .$this->code);
+        fputs($file, $this->type. ' ' .$this->code. PHP_EOL);
+        fputcsv($file, $this->getCsvTitle($interval));
+
         foreach ($data as $row) {
             fputcsv($file, $row);
         }
-        fputs($file, '');
+
+        fputs($file, PHP_EOL);
+    }
+
+    protected function getCsvTitle($interval)
+    {
+        $title1 = [ "time(UTC)","error","lowalarm","highalarm","kva (kVA)","kwh_del (kWh)","kwh_rec (kWh)","vln_a (Volts)","vln_b (Volts)","vln_c (Volts)" ];
+        $titlex = [ "time(UTC)","kva (kVA)","kwh_del (kWh)","kwh_rec (kWh)" ];
+
+        if ($interval == 1) {
+            return $title1;
+        }
+        return $titlex;
     }
 }

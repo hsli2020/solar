@@ -123,5 +123,15 @@ class GenMeter extends Device
 
     public function export($file, $interval, $start, $end)
     {
+        $table = $this->getDeviceTable();
+
+        $sql = "SELECT * FROM $table WHERE time>='$start' AND time<'$end' AND error=0";
+        $data = $this->getDb()->fetchAll($sql);
+
+        fputs($file, $this->type. ' ' .$this->code);
+        foreach ($data as $row) {
+            fputcsv($file, $row);
+        }
+        fputs($file, '');
     }
 }

@@ -186,9 +186,12 @@ class Project
 
         $file = fopen($filename, 'w');
 
-        $interval  = max(1, $params['interval']);   // set interval=1 if not specified
-        $startTime = empty($params['start-time']) ? date('Y-m-d')                     : $params['start-time'];
-        $endTime   = empty($params['end-time'])   ? date('Y-m-d', strtotime('1 day')) : $params['end-time'];
+        $today = date('Y-m-d');
+        $tomorrow = date('Y-m-d', strtotime('1 day'));
+
+        $interval  = empty($params['interval'])   ? 1         : $params['interval'];   // set interval=1 if not specified
+        $startTime = empty($params['start-time']) ? $today    : $params['start-time'];
+        $endTime   = empty($params['end-time'])   ? $tomorrow : $params['end-time'];
 
         fputs($file, 'Project:    ' .$this->name. PHP_EOL);
         fputs($file, 'Interval:   ' .$interval. ' minutes'. PHP_EOL);

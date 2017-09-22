@@ -41,13 +41,12 @@
             </div>
             <div class="w3-twothird w3-padding-8">
               <select class="w3-select w3-border" name="interval">
-                <option value="0" selected>Select Interval</option>
-                <option value="1">Raw Data</option>
-                <option value="5">Minute 5</option>
-                <option value="10">Minute 10</option>
-                <option value="15">Minute 15</option>
-                <option value="30">Minute 30</option>
-                <option value="60">Minute 60</option>
+                <option value="" selected>Select Interval</option>
+                <option value="1">1 Minute</option>
+                <option value="15">15 Minute (average)</option>
+                <option value="60">1 Hour (average)</option>
+                <option value="daily" disabled>Daily (total)</option>
+                <option value="monthly" disabled>Monthly (total)</option>
               </select>
             </div>
           </div>

@@ -180,27 +180,37 @@ class Project
         return [$irr, $kva];
     }
 
-    public function export($interval, $start, $end)
+    public function export($params)
     {
         $filename = BASE_DIR.'/tmp/export-'.str_replace(' ', '-', $this->name).'-'.date('Ymd-His').'.csv';
 
         $file = fopen($filename, 'w');
 
+        $interval  = max(1, $params['interval']);   // set interval=1 if not specified
+        $startTime = empty($params['start-time']) ? date('Y-m-d')                     : $params['start-time'];
+        $endTime   = empty($params['end-time'])   ? date('Y-m-d', strtotime('1 day')) : $params['end-time'];
+
         fputs($file, 'Project:    ' .$this->name. PHP_EOL);
         fputs($file, 'Interval:   ' .$interval. ' minutes'. PHP_EOL);
-        fputs($file, 'Start Time: ' .$start. PHP_EOL);
-        fputs($file, 'End Time:   ' .$end. PHP_EOL. PHP_EOL);
+        fputs($file, 'Start Time: ' .$startTime. PHP_EOL);
+        fputs($file, 'End Time:   ' .$endTime. PHP_EOL. PHP_EOL);
 
-        foreach ($this->envkits as $envkit) {
-            $envkit->export($file, $interval, $start, $end);
+        if (isset($params['envkits'])) {
+            foreach ($this->envkits as $envkit) {
+                $envkit->export($file, $interval, $startTime, $endTime);
+            }
         }
 
-        foreach ($this->genmeters as $genmeter) {
-            $genmeter->export($file, $interval, $start, $end);
+        if (isset($params['genmeters'])) {
+            foreach ($this->genmeters as $genmeter) {
+                $genmeter->export($file, $interval, $startTime, $endTime);
+            }
         }
 
-        foreach ($this->inverters as $inverter) {
-            $inverter->export($file, $interval, $start, $end);
+        if (isset($params['inverters'])) {
+            foreach ($this->inverters as $inverter) {
+                $inverter->export($file, $interval, $startTime, $endTime);
+            }
         }
 
         fclose($file);

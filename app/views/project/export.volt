@@ -56,8 +56,8 @@
             <div class="w3-third w3-padding-16">
               <label><b>Start Date</b></label>
             </div>
-            <div class="w3-twothird">
-              <input class="w3-input w3-border w3-margin-bottom datepicker" name="start-time" required type="text">
+            <div class="w3-twothird w3-padding-8">
+              <input class="w3-input w3-border datepicker" name="start-time" required type="text">
             </div>
           </div>
 
@@ -66,7 +66,24 @@
               <label><b>End Date</b></label>
             </div>
             <div class="w3-twothird w3-padding-8">
-              <input class="w3-input w3-border w3-margin-bottom datepicker" name="end-time" required type="text">
+              <input class="w3-input w3-border datepicker" name="end-time" required type="text">
+            </div>
+          </div>
+
+          <div class="w3-row-padding">
+            <div class="w3-third w3-padding-16">
+              <label><b>Devices</b></label>
+            </div>
+
+            <div class="w3-twothird w3-padding-8">
+              <input class="w3-check" type="checkbox" checked="checked" name="inverters" value="1">
+              <label>Export Inverter Data</label><br>
+
+              <input class="w3-check" type="checkbox" checked="checked" name="genmeters" value="1">
+              <label>Export GenMeter Data</label><br>
+
+              <input class="w3-check" type="checkbox" checked="checked" name="envkits" value="1">
+              <label>Export EnvKit Data</label><br>
             </div>
           </div>
 

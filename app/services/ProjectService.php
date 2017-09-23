@@ -78,9 +78,12 @@ class ProjectService extends Injectable
 
         // Inverters
         $details['inverters'] = [];
+        $details['inverter_type'] = '';
         foreach ($project->inverters as $inverter) {
             $code = $inverter->code;
             $data = $inverter->getLatestData();
+
+            $details['inverter_type'] = $inverter->getType();
 
             $details['inverters'][$code]['type']   = $inverter->getType();
             $details['inverters'][$code]['power']  = $getVal($data, ['kw', 'line_kw']);

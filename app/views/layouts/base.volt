@@ -3,9 +3,7 @@
 <head>
   <meta charset="utf-8">
   <!--<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">-->
-
-  <title>{% block title %}{% if pageTitle is defined %}{{ pageTitle }} - {% endif %}Great Circle Solar{% endblock %}</title>
-
+  <title>{% if pageTitle is defined %}{{ pageTitle }} - {% endif %}Great Circle Solar</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
   {{ stylesheet_link("/css/w3.css") }}
@@ -42,16 +40,19 @@
   {{ stylesheet_link("/css/style.css") }}
 </head>
 <body>
-  {# include "partials/sidebar.volt" #}
-  {% include "partials/navbar.volt" %}
+  {% block sidebar %}{# include "partials/sidebar.volt" #}{% endblock %}
+  {% block navbar %}{% include "partials/navbar.volt" %}{% endblock %}
 
   <div class="w3-main" style="margin-top:43px;">
+    {% block navbar %}
     <!-- Header -->
     <header class="w3-container w3-padding-top w3-padding-bottom">
       <img class="w3-left" src="/img/gcs-logo-64x55.png" style="width: 64px; height: 55px; margin-right: 15px;">
       <h3 class="w3-left">{{ pageTitle }}</h3>
     </header>
+    {% endblock %}
 
+    {% block breadcrumb %}{% include "partials/breadcrumb.volt" %}{% endblock %}
     {% block main %}{% endblock %}
 
     <!-- Footer -->

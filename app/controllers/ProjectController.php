@@ -34,13 +34,14 @@ class ProjectController extends ControllerBase
         $irr = $envkit->getChartData();
         $kva = $genmeter->getChartData();
 
+        $this->view->project = $project;
         $this->view->irr = json_encode($irr);
         $this->view->kva = json_encode($kva);
     }
 
     public function exportAction()
     {
-        $this->view->pageTitle = 'Data Export';
+        $this->view->pageTitle = 'Data Exporting';
 
         if ($this->request->isPost()) {
             $params = $this->request->getPost();

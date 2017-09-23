@@ -7,7 +7,7 @@ class Project
     protected $id;
     protected $name;
     protected $ftpdir;
-    protected $desc;
+    protected $interval;
 
     protected $capacityAC;
     protected $capacityDC;
@@ -27,7 +27,7 @@ class Project
         $this->id                     = $info['id'];
         $this->name                   = $info['name'];
         $this->ftpdir                 = $info['ftpdir'];
-        $this->desc                   = $info['desc'];
+        $this->interval               = $info['interval'];
         $this->capacityDC             = $info['DC_Nameplate_Capacity'];
         $this->capacityAC             = $info['AC_Nameplate_Capacity'];
         $this->modulePowerCoefficient = $info['Module_Power_Coefficient'];
@@ -127,19 +127,19 @@ class Project
     public function getIRR($period)
     {
         $envkit = current($this->envkits);
-        return $envkit->getIRR($period) / 12.0;
+        return $envkit->getIRR($period) / $this->interval;
     }
 
     public function getTMP($period)
     {
         $envkit = current($this->envkits);
-        return $envkit->getTMP($period) / 12.0;
+        return $envkit->getTMP($period) / $this->interval;
     }
 
     public function getKW($period)
     {
         $genmeter = current($this->genmeters);
-        return $genmeter->getKVA($period) / 12.0;
+        return $genmeter->getKVA($period) / $this->interval;
 
         //return $this->getKWH($period);
     }

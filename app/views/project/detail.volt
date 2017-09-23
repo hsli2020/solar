@@ -134,52 +134,54 @@
           <td>{{ details['today']['inso'] }}</td>
         </tr>
 
+        {% for code, inverter in details['inverters'] %}
         <tr class="w3-light-gray">
           <th>Inverter Data</th>
           <th colspan="3">Current Reading</th>
         </tr>
 
         <tr>
-          <td>&nbsp;</td>
+          <td>{{ code }}</td>
           <td>Power, kW</td>
-          <td>{{ details['inverter']['power'] }}</td>
+          <td>{{ inverters['power'] }}</td>
           <td>&nbsp;</td>
         </tr>
 
         <tr>
           <td>&nbsp;</td>
           <td>Status</td>
-          <td>{{ details['inverter']['status'] }}</td>
+          <td>{{ inverters['status'] }}</td>
           <td>&nbsp;</td>
         </tr>
 
         <tr>
           <td>&nbsp;</td>
           <td>Fault Code</td>
-          <td>{{ details['inverter']['fault'] }}</td>
+          <td>{{ inverters['fault'] }}</td>
           <td>&nbsp;</td>
         </tr>
 
         <tr>
           <td>&nbsp;</td>
           <td>VLA, Volts</td>
-          <td>{{ details['inverter']['vla'] }}</td>
+          <td>{{ inverters['vla'] }}</td>
           <td>&nbsp;</td>
         </tr>
 
         <tr>
           <td>&nbsp;</td>
           <td>VLB, Volts</td>
-          <td>{{ details['inverter']['vlb'] }}</td>
+          <td>{{ inverters['vlb'] }}</td>
           <td>&nbsp;</td>
         </tr>
 
         <tr>
           <td>&nbsp;</td>
           <td>VLC, Volts</td>
-          <td>{{ details['inverter']['vlc'] }}</td>
+          <td>{{ inverters['vlc'] }}</td>
           <td>&nbsp;</td>
         </tr>
+        {% endfor %}
 
         <tr class="w3-light-gray">
           <th>Weather Station</th>

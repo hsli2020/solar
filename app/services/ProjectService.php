@@ -76,35 +76,29 @@ class ProjectService extends Injectable
             return '';
         };
 
-        if (count($project->inverters) > 0) {
-            $inverter = $project->getFirstInverter();
+        // Inverters
+        $details['inverters'] = [];
+        foreach ($project->inverters as $inverter) {
+            $code = $inverter->code;
             $data = $inverter->getLatestData();
 
-            $details['inverter_type'] = $inverter->getType();
-
-            $details['inverter']['power']  = $getVal($data, ['kw', 'line_kw']);
-            $details['inverter']['status'] = 'On';
-            $details['inverter']['fault']  = 'None';
-            $details['inverter']['vla']    = $getVal($data, ['vln_a', 'volt_a', 'volts_a']);
-            $details['inverter']['vlb']    = $getVal($data, ['vln_b', 'volt_b', 'volts_b']);
-            $details['inverter']['vlc']    = $getVal($data, ['vln_c', 'volt_c', 'volts_c']);
-        } else {
-            $details['inverter_type']      = 'N/A';
-
-            $details['inverter']['power']  = 'N/A';
-            $details['inverter']['status'] = 'N/A';
-            $details['inverter']['fault']  = 'N/A';
-            $details['inverter']['vla']    = 'N/A';
-            $details['inverter']['vlb']    = 'N/A';
-            $details['inverter']['vlc']    = 'N/A';
+            $details['inverters'][$code]['type']   = $inverter->getType();
+            $details['inverters'][$code]['power']  = $getVal($data, ['kw', 'line_kw']);
+            $details['inverters'][$code]['status'] = 'On';
+            $details['inverters'][$code]['fault']  = 'None';
+            $details['inverters'][$code]['vla']    = $getVal($data, ['vln_a', 'volt_a', 'volts_a']);
+            $details['inverters'][$code]['vlb']    = $getVal($data, ['vln_b', 'volt_b', 'volts_b']);
+            $details['inverters'][$code]['vlc']    = $getVal($data, ['vln_c', 'volt_c', 'volts_c']);
         }
 
+        // Envkit
         $data = $project->getFirstEnvKit()->getLatestData();
 
         $details['envkit']['inso'] = round($data['IRR']);
         $details['envkit']['oat'] = round($data['OAT']);
         $details['envkit']['panelt'] = round($data['PANELT']);
 
+        // GenMeter
         $data = $project->getFirstGenMeter()->getLatestData();
 
         $details['genmeter']['kw-del'] = round($data['kwh_del']);

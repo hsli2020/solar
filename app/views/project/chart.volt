@@ -12,6 +12,7 @@
 	  <div id="header">
 	  	<h2>Power Production (kW) and Irradiance (W/m<sup>2</sup>)</h2>
 	  </div>
+	  <div>Project: {{ project.name }}</div>
       <div class="chart-container">
         <div id="placeholder" class="chart-placeholder"></div>
       </div>

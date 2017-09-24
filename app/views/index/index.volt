@@ -17,8 +17,8 @@
   .bkimg {
     background-position: center;
     background-size: cover;
-    background-image: url("/img/solar-panel-0.jpg");
-    min-height: 100%;
+    background-image: url("/img/solar-panel-1.jpg");
+    min-height: 50%;
   }
   </style>
 </head>
@@ -36,10 +36,10 @@
 
 <header class="w3-display-container w3-hide-small bkimg"></header>
 
-<div class="w3-container" style="padding:128px 16px" id="about">
+<div class="w3-container" style="padding:64px 16px" id="about">
   <h3 class="w3-center">ABOUT THE COMPANY</h3>
   <p class="w3-center w3-large">Key features of our company</p>
-  <div class="w3-row-padding w3-center" style="margin-top:64px">
+  <div class="w3-row-padding w3-center" style="margin-top:32px">
     <div class="w3-quarter">
       <i class="fa fa-desktop w3-margin-bottom w3-jumbo w3-center"></i>
       <p class="w3-large">Responsive</p>

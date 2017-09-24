@@ -1,14 +1,6 @@
 <?php
 
 return [
-    '/dashboard' => array(
-        'params' => array(
-            'controller' => 'index',
-            'action'     => 'dashboard',
-        ),
-        'name' => 'dashboard',
-    ),
-
     // ErrorsController
     '/error/401' => array(
         'params' => array(

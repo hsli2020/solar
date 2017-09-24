@@ -26,7 +26,7 @@ class UserController extends ControllerBase
 
         $auth = $this->session->get('auth');
         if (is_array($auth)) {
-            return $this->response->redirect("/");
+            return $this->response->redirect("/dashboard");
         }
 
         $username = '';
@@ -45,7 +45,7 @@ class UserController extends ControllerBase
                 $this->_registerSession($user);
                 $this->flashSession->success("Welcome, $username!");
                 $this->logUserLogin($username, 'Success', $this->request);
-                return $this->response->redirect("/");
+                return $this->response->redirect("/dashboard");
             } else {
                 $this->logUserLogin($username, 'Failed', $this->request);
                 $this->flashSession->error('Wrong Username/password.');
@@ -73,7 +73,7 @@ class UserController extends ControllerBase
     public function logoutAction()
     {
         $this->session->destroy();
-        return $this->response->redirect("/user/login");
+        return $this->response->redirect("/");
     }
 
     public function addAction()

@@ -37,7 +37,7 @@ class ControllerBase extends Controller
     private function isPrivate($controllerName)
     {
         $privateControllers = array(
-            'index',
+           #'index',
             'project',
             'report',
         );

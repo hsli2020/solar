@@ -25,7 +25,7 @@
 
 <!-- Header -->
 <header class="w3-display-container w3-content w3-hide-small" style="max-width:1500px">
-  <img class="w3-image" src="/img/solar-panel-0.jpg" width="1500" height="700">
+  <img class="w3-image" src="/img/solar-panel-0.jpg" width="1500" height="750">
 </header>
 
 <!-- Page content -->

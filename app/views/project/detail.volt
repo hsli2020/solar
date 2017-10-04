@@ -142,8 +142,8 @@
         {% endif %}
 
         {% for code, inverter in details['inverters'] %}
-        <tr style="border-top: 1px solid lightgray;">
-          <td>{{ code }}</td>
+        <tr data-code="{{ code }}" style="border-top: 1px solid lightgray;">
+          <td>Inverter_{{ loop.index }}</td>
           <td>Power, kW</td>
           <td>{{ inverter['power'] }}</td>
           <td>&nbsp;</td>

@@ -54,7 +54,7 @@ class ProjectService extends Injectable
         $details['address'] = $project->name;
         $details['ac_size'] = round($project->capacityAC);
         $details['dc_size'] = round($project->capacityDC);
-        $details['num_of_inverters'] = count($project->inverters);
+        $details['num_of_inverters'] = max(1, count($project->inverters));
         $details['num_of_genmeters'] = count($project->genmeters);
         $details['num_of_envkits'] = count($project->envkits);
 

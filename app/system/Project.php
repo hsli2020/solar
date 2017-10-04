@@ -164,7 +164,7 @@ class Project
 
     public function getKWH($period)
     {
-        $col = ($this->id == 7) ? 'del' : 'rec';
+        $col = in_array($this->id, [7, 16, 17, 19, 20]) ? 'del' : 'rec';
         $genmeter = current($this->genmeters);
         return $genmeter->getKWH($period, $col);
     }

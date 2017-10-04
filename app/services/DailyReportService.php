@@ -234,7 +234,7 @@ class DailyReportService extends Injectable
 
     protected function getTotalEnergy($project)
     {
-        $result = $project->getKW('MONTH-TO-DATE');
+        $result = $project->getKWH('MONTH-TO-DATE');
         return $result;
     }
 
@@ -267,7 +267,7 @@ class DailyReportService extends Injectable
 
     protected function getMeasuredProduction($project)
     {
-        $result = $project->getKW('TODAY');
+        $result = $project->getKWH('TODAY');
         return $result;
     }
 

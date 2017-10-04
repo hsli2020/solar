@@ -69,8 +69,8 @@ abstract class Device
             break;
 
         case 'THIS-MONTH':
-            $start = gmdate('Y-m-01 h:i:s', mktime(0, 0, 0));
-            $end   = gmdate('Y-m-t h:i:s', mktime(23, 59, 59));
+            $start = gmdate('Y-m-01 h:i:s', mktime(0, 0, 0)); // first day of this month
+            $end   = gmdate('Y-m-01 h:i:s', mktime(23, 59, 59)); // first day of next month
             break;
 
         case 'SNAPSHOT':

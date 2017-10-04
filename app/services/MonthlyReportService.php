@@ -209,7 +209,7 @@ class MonthlyReportService extends Injectable
 
     protected function getEnergyMeasured($project)
     {
-        return $project->getKW('THIS-MONTH');
+        return $project->getKWH('THIS-MONTH');
     }
 
     protected function getEnergyBudget($monthly)

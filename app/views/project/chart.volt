@@ -13,7 +13,7 @@
 	  <div id="header">
 	  	<h2>Power Production (kW) and Irradiance (W/m<sup>2</sup>)</h2>
 	  </div>
-	  <div>Project: {{ project.name }}<span id="legend" style="float:right;"></span></div>
+	  <div>Project: {{ project.name }}<span id="legend">Power=0, Irradiance=0</span></div>
       <div class="chart-container">
         <div id="placeholder" class="chart-placeholder"></div>
       </div>
@@ -29,12 +29,20 @@ h2 {
     padding: 5px;
     text-align: center;
 }
+#legend {
+    float: right;
+    background-color: rgb(54, 162, 235);
+    color: white;
+    padding: 3px 10px;
+    border: 1px solid #fe0;
+}
 {% endblock %}
 
 {% block jscode %}
 var updateLegendTimeout = null;
 var latestPosition = null;
 var legend = $("#legend");
+var valstr;
 
 function updateLegend() {
 
@@ -74,11 +82,11 @@ function updateLegend() {
         } else {
             y = p1[1] + (p2[1] - p1[1]) * (pos.x - p1[0]) / (p2[0] - p1[0]);
         }
-        vals[i] = y.toFixed(1);
+        vals[i] = y.toFixed(0);
     }
 
-    var str = "Power=" + vals[0] + ", " + "Irradiance=" + vals[1];
-    legend.text(str);
+    valstr = "Power=" + vals[0] + ", " + "Irradiance=" + vals[1];
+    legend.text(valstr);
 }
 {% endblock %}
 
@@ -139,16 +147,15 @@ $("#placeholder").bind("plothover", function (event, pos, item) {
     if (!updateLegendTimeout) {
         updateLegendTimeout = setTimeout(updateLegend, 50);
     }
+    /*
     if (item) {
-        var x = item.datapoint[0].toFixed(2),
-            y = item.datapoint[1].toFixed(2);
-
-        $("#tooltip").html(item.series.label + " = " + y)
+        $("#tooltip").html(valstr)
             .css({top: item.pageY+5, left: item.pageX+5})
             .fadeIn(200);
     } else {
         $("#tooltip").hide();
     }
+    */
 });
 
 {% endblock %}

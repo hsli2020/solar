@@ -15,14 +15,19 @@
 </style>
 
 <div class="w3-container">
+
 <div class="w3-margin-bottom">
-<span class="w3-margin-right">Select Date: </span>
-<select id="date-list" style="width: 10em;">
-{% for d in dateList %}
-  <option value="{{ d }}"{% if d == date %}selected{% endif %}>{{ d }}</option>
-{% endfor %}
-</select>
+<form method="post">
+  <span class="w3-margin-right">Select Date: </span>
+  <select id="date-list" style="width: 10em;">
+  {% for d in dateList %}
+    <option value="{{ d }}"{% if d == date %}selected{% endif %}>{{ d }}</option>
+  {% endfor %}
+  </select>
+  <input type="submit" name="download" value="Download">
+  </form>
 </div>
+
 <table id="report" class="w3-table w3-white w3-bordered w3-border w3-centered">
 <tr>
   <th rowspan="3">No.</th>

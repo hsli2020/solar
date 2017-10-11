@@ -15,14 +15,19 @@
 </style>
 
 <div class="w3-container">
+
 <div class="w3-margin-bottom">
-<span class="w3-margin-right">Select Month: </span>
-<select id="month-list" style="width: 10em;">
-{% for m in monthList %}
-  <option value="{{ m }}"{% if m == month %}selected{% endif %}>{{ m }}</option>
-{% endfor %}
-</select>
+<form method="post">
+  <span class="w3-margin-right">Select Month: </span>
+  <select id="month-list" style="width: 10em;" name="month">
+  {% for m in monthList %}
+    <option value="{{ m }}"{% if m == month %}selected{% endif %}>{{ m }}</option>
+  {% endfor %}
+  </select>
+  <input type="submit" name="download" value="Download">
+</form>
 </div>
+
 <table id="report" class="w3-table w3-white w3-bordered w3-border w3-centered">
 <tr>
   <th rowspan="2">Project</th>

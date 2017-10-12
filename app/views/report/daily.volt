@@ -17,9 +17,9 @@
 <div class="w3-container">
 
 <div class="w3-margin-bottom">
-<form method="post">
+<form method="POST">
   <span class="w3-margin-right">Select Date: </span>
-  <select id="date-list" style="width: 10em;">
+  <select id="date-list" style="width: 10em;" name="date">
   {% for d in dateList %}
     <option value="{{ d }}"{% if d == date %}selected{% endif %}>{{ d }}</option>
   {% endfor %}

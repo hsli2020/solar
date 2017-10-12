@@ -34,6 +34,11 @@ class ReportController extends ControllerBase
         $report = $this->dailyReportService->getUserSpecificReports($auth, $report);
         $dateList = $this->dailyReportService->getDateList();
 
+        if ($this->request->isPost()) {
+            $filename = $this->dailyReportService->generateXls($auth, $report, $date);
+            $this->startDownload($filename, 'xls');
+        }
+
         $this->view->date = $date;
         $this->view->dateList = $dateList;
         $this->view->report = $report;
@@ -60,6 +65,11 @@ class ReportController extends ControllerBase
         // Get user specific report
         $report = $this->monthlyReportService->getUserSpecificReports($auth, $report);
         $monthList = $this->monthlyReportService->getMonthList();
+
+        if ($this->request->isPost()) {
+            $filename = $this->monthlyReportService->generateXls($auth, $report, $month);
+            $this->startDownload($filename, 'xls');
+        }
 
         $this->view->month = $month;
         $this->view->monthList = $monthList;

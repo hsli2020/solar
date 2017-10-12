@@ -132,11 +132,11 @@ class DailyReportService extends Injectable
         return BASE_DIR . "/app/logs/daily-report-$date.json";
     }
 
-    protected function generateXls($user, $report)
+    public function generateXls($user, $report, $date = null)
     {
         $report = $this->getUserSpecificReports($user, $report);
 
-        $excel = \PHPExcel_IOFactory::load("./templates/DailyReport-v3.xlsx");
+        $excel = \PHPExcel_IOFactory::load(BASE_DIR."/job/templates/DailyReport-v3.xlsx");
         $excel->setActiveSheetIndex(0);  //set first sheet as active
 
         $sheet = $excel->getActiveSheet();
@@ -170,8 +170,8 @@ class DailyReportService extends Injectable
         $sheet->setCellValue("B38", date("t"));
         $sheet->setCellValue("B39", date("j"));
 
-        $today = date('Ymd');
-        $filename = BASE_DIR . "/app/logs/DailyReport-$today.xlsx";
+        $suffix = $date ? $date : date('Ymd');
+        $filename = BASE_DIR . "/app/logs/DailyReport-$suffix.xlsx";
 
         $xlsWriter = \PHPExcel_IOFactory::createWriter($excel, 'Excel2007');
         $xlsWriter->save($filename);

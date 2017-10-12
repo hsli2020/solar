@@ -17,7 +17,7 @@
 <div class="w3-container">
 
 <div class="w3-margin-bottom">
-<form method="post">
+<form method="POST">
   <span class="w3-margin-right">Select Month: </span>
   <select id="month-list" style="width: 10em;" name="month">
   {% for m in monthList %}

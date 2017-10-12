@@ -115,14 +115,14 @@ class MonthlyReportService extends Injectable
         return BASE_DIR . "/app/logs/monthly-report-$date.json";
     }
 
-    protected function generateXls($user, $report)
+    public function generateXls($user, $report, $month = null)
     {
         $report = $this->getUserSpecificReports($user, $report);
 
-        $excel = \PHPExcel_IOFactory::load("./templates/MonthlyReport-v1.xlsx");
+        $excel = \PHPExcel_IOFactory::load(BASE_DIR."/job/templates/MonthlyReport-v1.xlsx");
         $excel->setActiveSheetIndex(0);  //set first sheet as active
 
-        $monthYear = date('F Y');
+        $monthYear = $month ? $month : date('F Y');
         $sheet = $excel->getActiveSheet();
         $sheet->setCellValue("B1", "MONTHLY REPORT SUMMARY\n$monthYear");
 
@@ -142,8 +142,8 @@ class MonthlyReportService extends Injectable
             $row++;
         }
 
-        $month = date('Y-m');
-        $filename = BASE_DIR . "/app/logs/MonthlyReport-$month.xlsx";
+        $suffix = $month ? $month : date('Y-m');
+        $filename = BASE_DIR . "/app/logs/MonthlyReport-$suffix.xlsx";
 
         $xlsWriter = \PHPExcel_IOFactory::createWriter($excel, 'Excel2007');
         $xlsWriter->save($filename);

@@ -140,7 +140,12 @@ class DailyReportService extends Injectable
         $excel->setActiveSheetIndex(0);  //set first sheet as active
 
         $sheet = $excel->getActiveSheet();
-        $sheet->setCellValue("B3", date('F-d-Y'));
+        if ($date) {
+            $sheet->setCellValue("B3", date('F-d-Y', strtotime($date)));
+        } else {
+            // current system date
+            $sheet->setCellValue("B3", date('F-d-Y'));
+        }
 
         $row = 10;
         $index = 1;
@@ -167,8 +172,14 @@ class DailyReportService extends Injectable
             $row++;
         }
 
-        $sheet->setCellValue("B40", date("t"));
-        $sheet->setCellValue("B41", date("j"));
+        if ($date) {
+            $sheet->setCellValue("B40", date("t", strtotime($date)));
+            $sheet->setCellValue("B41", date("j", strtotime($date)));
+        } else {
+            // current system date
+            $sheet->setCellValue("B40", date("t"));
+            $sheet->setCellValue("B41", date("j"));
+        }
 
         $suffix = $date ? $date : date('Ymd');
         $filename = BASE_DIR . "/app/logs/DailyReport-$suffix.xlsx";

@@ -167,8 +167,8 @@ class DailyReportService extends Injectable
             $row++;
         }
 
-        $sheet->setCellValue("B38", date("t"));
-        $sheet->setCellValue("B39", date("j"));
+        $sheet->setCellValue("B40", date("t"));
+        $sheet->setCellValue("B41", date("j"));
 
         $suffix = $date ? $date : date('Ymd');
         $filename = BASE_DIR . "/app/logs/DailyReport-$suffix.xlsx";

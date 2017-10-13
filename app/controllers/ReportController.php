@@ -24,20 +24,19 @@ class ReportController extends ControllerBase
 
        #$user = $this->userService->get($auth['id']);
 
-        // Load daily report
         if (!$date) {
             $date = date('Y-m-d', strtotime('-1 day'));
         }
-        $report = $this->dailyReportService->load($date);
 
-        // Get user specific report
-        $report = $this->dailyReportService->getUserSpecificReports($auth, $report);
-        $dateList = $this->dailyReportService->getDateList();
+        // Load daily report (user specific report)
+        $report = $this->dailyReportService->load($date, $auth);
 
         if ($this->request->isPost()) {
-            $filename = $this->dailyReportService->generateXls($auth, $report, $date);
+            $filename = $this->dailyReportService->generateXls($report, $date);
             $this->startDownload($filename, 'xls');
         }
+
+        $dateList = $this->dailyReportService->getDateList();
 
         $this->view->date = $date;
         $this->view->dateList = $dateList;
@@ -56,20 +55,19 @@ class ReportController extends ControllerBase
 
        #$user = $this->userService->get($auth['id']);
 
-        // Load monthly report
         if (!$month) {
             $month = date('Y-m', strtotime('-1 month'));
         }
-        $report = $this->monthlyReportService->load($month);
 
-        // Get user specific report
-        $report = $this->monthlyReportService->getUserSpecificReports($auth, $report);
-        $monthList = $this->monthlyReportService->getMonthList();
+        // Load monthly report (user specific report)
+        $report = $this->monthlyReportService->load($month, $auth);
 
         if ($this->request->isPost()) {
-            $filename = $this->monthlyReportService->generateXls($auth, $report, $month);
+            $filename = $this->monthlyReportService->generateXls($report, $month);
             $this->startDownload($filename, 'xls');
         }
+
+        $monthList = $this->monthlyReportService->getMonthList();
 
         $this->view->month = $month;
         $this->view->monthList = $monthList;

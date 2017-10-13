@@ -71,12 +71,14 @@ class MonthlyReportService extends Injectable
         }
     }
 
-    public function load($month)
+    public function load($month, $user = null)
     {
         $sql = "SELECT * FROM monthly_reports WHERE month='$month'";
         $result = $this->db->fetchOne($sql);
         if ($result) {
-            return json_decode($result['report'], true);
+            $report = json_decode($result['report'], true);
+            $report = $this->getUserSpecificReports($user, $report);
+            return $report;
         }
         return [];
     }
@@ -86,8 +88,6 @@ class MonthlyReportService extends Injectable
         echo "Sending Monthly Report ...", EOL;
 
         $this->log('Start sending monthly report');
-
-        $report = $this->load(date('Y-m', strtotime('-1 month')));
 
         $users = $this->userService->getAll();
 
@@ -101,8 +101,11 @@ class MonthlyReportService extends Injectable
                 continue;
             }
 
-            $filename = $this->generateXls($user, $report);
-            $html = $this->generateHtml($user, $report);
+            $lastMonth = date('Y-m', strtotime('-1 month'));
+            $report = $this->load($lastMonth, $user);
+
+            $filename = $this->generateXls($report);
+            $html = $this->generateHtml($report);
 
             $this->sendMonthlyReport($user['email'], $html, $filename);
         }
@@ -115,10 +118,8 @@ class MonthlyReportService extends Injectable
         return BASE_DIR . "/app/logs/monthly-report-$date.json";
     }
 
-    public function generateXls($user, $report, $month = null)
+    public function generateXls($report, $month = null)
     {
-        $report = $this->getUserSpecificReports($user, $report);
-
         $excel = \PHPExcel_IOFactory::load(BASE_DIR."/job/templates/MonthlyReport-v1.xlsx");
         $excel->setActiveSheetIndex(0);  //set first sheet as active
 
@@ -151,10 +152,8 @@ class MonthlyReportService extends Injectable
         return $filename;
     }
 
-    protected function generateHtml($user, $report)
+    protected function generateHtml($report)
     {
-        $report = $this->getUserSpecificReports($user, $report);
-
         ob_start();
         $date = date('F, Y', strtotime('-1 month'));
         include("./templates/monthly-report.tpl");
@@ -166,6 +165,10 @@ class MonthlyReportService extends Injectable
 
     public function getUserSpecificReports($user, $report)
     {
+        if (!$user) {
+            return $report;
+        }
+
         $result = [];
 
         $projects = $this->userService->getUserProjects($user['id']);

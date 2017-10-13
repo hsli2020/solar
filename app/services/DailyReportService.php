@@ -88,12 +88,14 @@ class DailyReportService extends Injectable
         }
     }
 
-    public function load($date)
+    public function load($date, $user = null)
     {
         $sql = "SELECT * FROM daily_reports WHERE date='$date'";
         $result = $this->db->fetchOne($sql);
         if ($result) {
-            return json_decode($result['report'], true);
+            $report = json_decode($result['report'], true);
+            $report = $this->getUserSpecificReports($user, $report);
+            return $report;
         }
         return [];
     }
@@ -103,8 +105,6 @@ class DailyReportService extends Injectable
         echo "Sending Daily Report ...", EOL;
 
         $this->log('Start sending daily report');
-
-        $report = $this->load(date('Y-m-d', strtotime('-1 day')));
 
         $users = $this->userService->getAll();
 
@@ -118,8 +118,11 @@ class DailyReportService extends Injectable
                 continue;
             }
 
-            $filename = $this->generateXls($user, $report);
-            $html = $this->generateHtml($user, $report);
+            $yesterday = date('Y-m-d', strtotime('-1 day'));
+            $report = $this->load($yesterday, $user);
+
+            $filename = $this->generateXls($report);
+            $html = $this->generateHtml($report);
 
             $this->sendDailyReport($user['email'], $html, $filename);
         }
@@ -132,10 +135,8 @@ class DailyReportService extends Injectable
         return BASE_DIR . "/app/logs/daily-report-$date.json";
     }
 
-    public function generateXls($user, $report, $date = null)
+    public function generateXls($report, $date = null)
     {
-        $report = $this->getUserSpecificReports($user, $report);
-
         $excel = \PHPExcel_IOFactory::load(BASE_DIR."/job/templates/DailyReport-v3.xlsx");
         $excel->setActiveSheetIndex(0);  //set first sheet as active
 
@@ -190,10 +191,8 @@ class DailyReportService extends Injectable
         return $filename;
     }
 
-    protected function generateHtml($user, $report)
+    protected function generateHtml($report)
     {
-        $report = $this->getUserSpecificReports($user, $report);
-
         ob_start();
         $date = date('F d, Y', strtotime('yesterday'));
         include("./templates/daily-report.tpl");
@@ -205,6 +204,10 @@ class DailyReportService extends Injectable
 
     public function getUserSpecificReports($user, $report)
     {
+        if (!$user) {
+            return $report;
+        }
+
         $result = [];
 
         $projects = $this->userService->getUserProjects($user['id']);

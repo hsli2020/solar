@@ -13,7 +13,7 @@
 	  <div id="header">
 	  	<h2>Power Production (kW) and Irradiance (W/m<sup>2</sup>)</h2>
 	  </div>
-	  <div>Project: {{ project.name }}<span id="legend">Power=0, Irradiance=0</span></div>
+	  <div>Project: {{ project.name }} ({{ today }})<span id="legend">Power=0, Irradiance=0</span></div>
       <div class="chart-container">
         <div id="placeholder" class="chart-placeholder"></div>
       </div>
@@ -56,7 +56,7 @@ function updateLegend() {
         return;
     }
 
-    var i, j, vals = [], dataset = plot.getData();
+    var i, j, ts, vals = [], dataset = plot.getData();
     for (i = 0; i < dataset.length; ++i) {
 
         var series = dataset[i];
@@ -72,6 +72,7 @@ function updateLegend() {
         // Now Interpolate
 
         var y,
+            ts = series.data[j][0],
             p1 = series.data[j - 1],
             p2 = series.data[j];
 
@@ -85,7 +86,11 @@ function updateLegend() {
         vals[i] = y.toFixed(0);
     }
 
-    valstr = "Power=" + vals[0] + ", " + "Irradiance=" + vals[1];
+    var date = new Date();
+    date.setTime(ts);
+    timeStr = date.toUTCString().substr(-12, 5);
+
+    valstr = timeStr + " Power=" + vals[0] + ", " + "Irradiance=" + vals[1];
     legend.text(valstr);
 }
 {% endblock %}

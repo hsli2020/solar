@@ -15,7 +15,7 @@
     {% endfor %}
   </select>
 
-  <label><input type="checkbox" name="nozero" value="{{ nozero }}" {%if nozero %}checked{% endif %}> Hide rows when kw=0</input></label>
+  <label><input type="checkbox" name="nozero" value="1" {%if nozero %}checked{% endif %}> Hide rows when kw=0</input></label>
 
   <input type="submit" value="Refresh" style="margin-left: 20px;">
 </div>

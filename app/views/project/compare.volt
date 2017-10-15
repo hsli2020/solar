@@ -5,8 +5,8 @@
 
 <form method="POST">
 <div class="w3-margin-bottom">
-  <input class="datepicker" name="startTime" required type="text" placeholder="Start time" value="{{ startTime }}">
-  <input class="datepicker" name="endTime" required type="text" placeholder="End time" value="{{ endTime }}">
+  <input id="starttime" class="datepicker" name="startTime" required type="text" placeholder="Start time" value="{{ startTime }}">
+  <input id="endtime" class="datepicker" name="endTime" required type="text" placeholder="End time" value="{{ endTime }}">
 
   <select id="interval-list" name="interval" class="w3-margin-right">
     <option value="0">Select Interval</option>
@@ -126,4 +126,34 @@
 
 {% block domready %}
   $('.datepicker').pickadate({format: 'yyyy-mm-dd'});
+
+  $('form').submit(function() {
+    var valid = true;
+
+    if ($('#starttime').val() == '') {
+        $('#starttime').css({border: '1px solid red'});
+        valid = false;
+    }
+
+    if ($('#endtime').val() == '') {
+        $('#endtime').css({border: '1px solid red'});
+        valid = false;
+    }
+
+    if ($('#interval-list').val() == '0') {
+        $('#interval-list').css({border: '1px solid red'});
+        valid = false;
+    }
+
+    for (var i=1; i<=3; i++) {
+        if ($('#project'+i+'-list').val() == '0') {
+            $('#project'+i+'-list').css({border: '1px solid red'});
+            valid = false;
+        }
+    }
+
+    if (!valid) {
+        return false;
+    }
+  });
 {% endblock %}

@@ -6,20 +6,12 @@ use Phalcon\Di\Injectable;
 
 class DataService extends Injectable
 {
-    public function getChartData($prj, $dev, $fld)
+    // deprecated
+    public function getChartData($prj, $dev, $fld) { return false; }
+
+    public function getDataToCompare($info)
     {
-        $table = $this->deviceService->getTable($prj, $dev);
-
-        $sql = "(SELECT `time`, $fld FROM $table WHERE error=0 ORDER BY `time` DESC LIMIT 300) ORDER BY `time` ASC";
-        $result = $this->db->query($sql);
-
-        $data = [];
-        while ($row = $result->fetch()) {
-            $row['time'] = toLocalTime($row['time']);
-            $data[] = [strtotime($row['time'])*1000, floatval($row[$fld])];
-        }
-
-        return $data;
+        return [];
     }
 
     public function archive()

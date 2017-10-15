@@ -15,10 +15,12 @@
     <a href="javascript:;" class="w3-hover-teal">Tools <i class="fa fa-caret-down"></i></a>
     <div class="w3-dropdown-content w3-white w3-card-4">
       <a href="/project/export" class="w3-hover-teal">Data Exporting</a>
-      <a href="#" class="w3-hover-teal">Analytic Tool</a>
+      <a href="/project/compare" class="w3-hover-teal">Analytic Tool</a>
+{#
       <hr style="margin:0.5em;">
       <a href="#" class="w3-hover-teal">User Settings</a>
       <a href="#" class="w3-hover-teal">Smart Alert Settings</a>
+#}
     </div>
   </li>
 

@@ -4,6 +4,8 @@ namespace App\System;
 
 class Project
 {
+    const GENMETERS = [7, 16, 17, 19, 20];
+
     protected $id;
     protected $name;
     protected $ftpdir;
@@ -164,7 +166,7 @@ class Project
 
     public function getKWH($period)
     {
-        $col = in_array($this->id, [7, 16, 17, 19, 20]) ? 'del' : 'rec';
+        $col = in_array($this->id, self::GENMETERS) ? 'del' : 'rec';
         $genmeter = current($this->genmeters);
         return $genmeter->getKWH($period, $col);
     }
@@ -219,6 +221,41 @@ class Project
         fclose($file);
 
         return $filename;
+    }
+
+    public function getDataToCompare($startTime, $endTime, $interval)
+    {
+        foreach ($this->envkits as $envkit) {
+            $envkitData = $envkit->getDataToCompare($startTime, $endTime, $interval);
+        }
+
+        foreach ($this->genmeters as $genmeter) {
+            $col = in_array($this->id, self::GENMETERS) ? 'kwh_del' : 'kwh_rec';
+            $genmeterData = $genmeter->getDataToCompare($startTime, $endTime, $interval, $col);
+        }
+
+        foreach ($this->inverters as $inverter) {
+            $inverterData = $inverter->getDataToCompare($startTime, $endTime, $interval);
+        }
+
+        $result = [];
+
+        foreach ($envkitData as $time => $irr) {
+            $key = substr($time, 0, 16); // remove second
+            $result[$key]['irr'] = $irr;
+        }
+
+        foreach ($genmeterData as $time => $kwh) {
+            $key = substr($time, 0, 16); // remove second
+            $result[$key]['kwh'] = $kwh;
+        }
+
+        foreach ($inverterData as $time => $kw) {
+            $key = substr($time, 0, 16); // remove second
+            $result[$key]['kw'] = $kw;
+        }
+
+        return $result;
     }
 
     /**

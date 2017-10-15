@@ -57,7 +57,8 @@ class ProjectController extends ControllerBase
     {
         $this->view->pageTitle = 'Analytic Tool';
 
-        $this->view->date      = '';
+        $this->view->startTime = '';
+        $this->view->endTime   = '';
         $this->view->interval  = '';
         $this->view->project1  = '';
         $this->view->project2  = '';
@@ -69,29 +70,21 @@ class ProjectController extends ControllerBase
             15 => '15 Minute',
         ];
 
-        $makeDateList = function($days) {
-            $list = [];
-            for ($i=0; $i<$days; $i++) {
-                $list[] = date('Y-m-d', time()-$i*24*3600);
-            }
-            return $list;
-        };
-
         $data = [];
         if ($this->request->isPost()) {
+            // return back to view
+            $this->view->startTime = $this->request->getPost('startTime');
+            $this->view->endTime   = $this->request->getPost('endTime');
+            $this->view->interval  = $this->request->getPost('interval');
+            $this->view->project1  = $this->request->getPost('project1');
+            $this->view->project2  = $this->request->getPost('project2');
+            $this->view->project3  = $this->request->getPost('project3');
+
             $info = $this->request->getPost();
-
-            $this->view->date     = $this->request->getPost('date');
-            $this->view->interval = $this->request->getPost('interval');
-            $this->view->project1 = $this->request->getPost('project1');
-            $this->view->project2 = $this->request->getPost('project2');
-            $this->view->project3 = $this->request->getPost('project3');
-
             $data = $this->dataService->getDataToCompare($info);
         }
 
         $this->view->projects = $this->projectService->getAll();
-        $this->view->dateList = $makeDateList(10);
         $this->view->data = $data;
     }
 }

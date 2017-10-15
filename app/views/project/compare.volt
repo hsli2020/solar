@@ -5,15 +5,9 @@
 
 <form method="POST">
 <div class="w3-margin-bottom">
-  <label>Date: </label>
-  <select id="date-list" name="date" class="w3-margin-right">
-    <option value="0">Select Date</option>
-    {% for dt in dateList %}
-    <option value="{{ dt }}" {% if dt==date %}selected{% endif %}>{{ dt }}</option>
-    {% endfor %}
-  </select>
+  <input class="datepicker" name="startTime" required type="text" placeholder="Start time" value="{{ startTime }}">
+  <input class="datepicker" name="endTime" required type="text" placeholder="End time" value="{{ endTime }}">
 
-  <label>Interval:</label>
   <select id="interval-list" name="interval" class="w3-margin-right">
     <option value="0">Select Interval</option>
     {% for val, str in intervals %}
@@ -84,27 +78,27 @@
   <th>KWH</th>
 </tr>
 
-{% for row in data %}
+{% for time, row in data %}
 <tr>
-  <td>00:00</td>
+  <td>{{ time }}</td>
 
-  <td>111</td>
-  <td>111</td>
-  <td>111</td>
+  <td>{{ row['project1']['kw'] }}</td>
+  <td>{{ row['project1']['irr'] }}</td>
+  <td>{{ row['project1']['kwh'] }}</td>
 
-  <td>222</td>
-  <td>222</td>
-  <td>222</td>
+  <td>{{ row['project2']['kw'] }}</td>
+  <td>{{ row['project2']['irr'] }}</td>
+  <td>{{ row['project2']['kwh'] }}</td>
 
-  <td>333</td>
-  <td>333</td>
-  <td>333</td>
+  <td>{{ row['project3']['kw'] }}</td>
+  <td>{{ row['project3']['irr'] }}</td>
+  <td>{{ row['project3']['kwh'] }}</td>
 </tr>
 {% endfor %}
 </table>
 
 {% if data is empty %}
-<p>Please select date, interval, and project 1-3, then click "Refresh".</p>
+<p>Please select start time, end time, interval, and project 1-3, then click "Refresh".</p>
 {% endif %}
 
 </form>
@@ -116,4 +110,18 @@
   th.vcenter { vertical-align: middle; }
   #date-list, #interval-list { width: 10em; }
   #project1-list, #project2-list, #project3-list { width: 100%; border: none; }
+{% endblock %}
+
+{% block cssfile %}
+  {{ stylesheet_link("/pickadate/themes/classic.css") }}
+  {{ stylesheet_link("/pickadate/themes/classic.date.css") }}
+{% endblock %}
+
+{% block jsfile %}
+  {{ javascript_include("/pickadate/picker.js") }}
+  {{ javascript_include("/pickadate/picker.date.js") }}
+{% endblock %}
+
+{% block domready %}
+  $('.datepicker').pickadate({format: 'yyyy-mm-dd'});
 {% endblock %}

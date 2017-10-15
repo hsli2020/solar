@@ -11,7 +11,41 @@ class DataService extends Injectable
 
     public function getDataToCompare($info)
     {
-        return [];
+        $startTime  = $info['startTime'];
+        $endTime    = $info['endTime'];
+        $interval   = $info['interval'];
+        $project1Id = $info['project1'];
+        $project2Id = $info['project2'];
+        $project3Id = $info['project3'];
+
+        $project1 = $this->projectService->get($project1Id);
+        $project2 = $this->projectService->get($project2Id);
+        $project3 = $this->projectService->get($project3Id);
+
+        $data1 = $project1->getDataToCompare($startTime, $endTime, $interval);
+        $data2 = $project2->getDataToCompare($startTime, $endTime, $interval);
+        $data3 = $project3->getDataToCompare($startTime, $endTime, $interval);
+
+        // $maxlen = max(count($data1), count($data2), count($data2));
+
+        $empty = [ 'kw' => '', 'irr' => '', 'kwh' => '' ];
+
+        $data = [];
+        foreach ($data1 as $time => $row) {
+            $data[$time]['project1'] = $row + $empty;
+
+            $data[$time]['project2'] = $empty;
+            if (isset($data2[$time])) {
+                $data[$time]['project2'] = $data2[$time] + $empty;
+            }
+
+            $data[$time]['project3'] = $empty;
+            if (isset($data3[$time])) {
+                $data[$time]['project3'] = $data3[$time] + $empty;
+            }
+        }
+
+        return $data;
     }
 
     public function archive()

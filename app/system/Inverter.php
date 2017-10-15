@@ -136,4 +136,22 @@ class Inverter extends Device
         }
         return $titlex;
     }
+
+    public function getDataToCompare($startTime, $endTime, $interval)
+    {
+        $table = $this->getDeviceTable();
+
+        if ($interval > 0) {
+            $seconds = $interval*60; // convert to seconds
+            $column = ($this->model == 'SERIAL') ?  'line_kw' : 'kw';
+            $sql = "SELECT time, ROUND(AVG($column)) AS kw
+                      FROM $table
+                     WHERE time >= '$startTime' AND time<'$endTime' AND error=0
+                     GROUP BY UNIX_TIMESTAMP(time) DIV $seconds";
+            $data = $this->getDb()->fetchAll($sql);
+            return array_column($data, 'kw', 'time');
+        }
+
+        return [];
+    }
 }

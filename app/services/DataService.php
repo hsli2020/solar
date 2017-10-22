@@ -14,34 +14,25 @@ class DataService extends Injectable
         $startTime  = $info['startTime'];
         $endTime    = $info['endTime'];
         $interval   = $info['interval'];
-        $project1Id = $info['project1'];
-        $project2Id = $info['project2'];
-        $project3Id = $info['project3'];
+        $projectIds = $info['projects'];
 
-        $project1 = $this->projectService->get($project1Id);
-        $project2 = $this->projectService->get($project2Id);
-        $project3 = $this->projectService->get($project3Id);
-
-        $data1 = $project1->getDataToCompare($startTime, $endTime, $interval);
-        $data2 = $project2->getDataToCompare($startTime, $endTime, $interval);
-        $data3 = $project3->getDataToCompare($startTime, $endTime, $interval);
-
-        // $maxlen = max(count($data1), count($data2), count($data2));
-
-        $empty = [ 'kw' => '', 'irr' => '', 'kwh' => '' ];
+        $dataSet = [];
+        $timeSet = [];
+        foreach ($projectIds as $projectId) {
+            $project = $this->projectService->get($projectId);
+            $dataSet[$projectId] = $project->getDataToCompare($startTime, $endTime, $interval);
+            $timeSet = array_merge(array_keys($dataSet[$projectId]));
+        }
+        $timeSet = array_unique($timeSet);
 
         $data = [];
-        foreach ($data1 as $time => $row) {
-            $data[$time]['project1'] = $row + $empty;
-
-            $data[$time]['project2'] = $empty;
-            if (isset($data2[$time])) {
-                $data[$time]['project2'] = $data2[$time] + $empty;
-            }
-
-            $data[$time]['project3'] = $empty;
-            if (isset($data3[$time])) {
-                $data[$time]['project3'] = $data3[$time] + $empty;
+        foreach ($timeSet as $time) {
+            foreach ($projectIds as $projectId) {
+                if (isset($dataSet[$projectId][$time])) {
+                    $data[$time][$projectId] = $dataSet[$projectId][$time];
+                } else {
+                    $data[$time][$projectId] = [ 'kw' => '', 'irr' => '', 'kwh' => '' ];
+                }
             }
         }
 

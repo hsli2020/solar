@@ -57,13 +57,13 @@ class ProjectController extends ControllerBase
     {
         $this->view->pageTitle = 'Analytic Tool';
 
+        $allProjects = $this->projectService->getAll();
+
         $this->view->startTime = '';
         $this->view->endTime   = '';
         $this->view->interval  = '';
         $this->view->nozero    = '1';
-        $this->view->project1  = '';
-        $this->view->project2  = '';
-        $this->view->project3  = '';
+        $this->view->projects  = [];
         $this->view->intervals = [
             1  => ' 1 Minute',
             5  => ' 5 Minute',
@@ -78,23 +78,21 @@ class ProjectController extends ControllerBase
             $this->view->endTime   = $this->request->getPost('endTime');
             $this->view->interval  = $this->request->getPost('interval');
             $this->view->nozero    = $this->request->getPost('nozero');
-            $this->view->project1  = $this->request->getPost('project1');
-            $this->view->project2  = $this->request->getPost('project2');
-            $this->view->project3  = $this->request->getPost('project3');
+            $this->view->projects  = $this->request->getPost('projects');
 
             $info = $this->request->getPost();
             $data = $this->dataService->getDataToCompare($info);
 
             if ($this->view->nozero) {
-                $data = array_filter($data, function($row) {
-                    if ($row['project1']['kw'] + $row['project2']['kw'] + $row['project3']['kw'] > 0) {
-                        return $row;
-                    }
-                });
+#               $data = array_filter($data, function($row) {
+#                   if ($row['project1']['kw'] + $row['project2']['kw'] + $row['project3']['kw'] > 0) {
+#                       return $row;
+#                   }
+#               });
             }
         }
 
-        $this->view->projects = $this->projectService->getAll();
+        $this->view->allProjects = $allProjects;
         $this->view->data = $data;
     }
 }

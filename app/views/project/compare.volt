@@ -17,93 +17,62 @@
 
   <label><input type="checkbox" name="nozero" value="1" {%if nozero %}checked{% endif %}> Hide rows when kw=0</input></label>
 
-  <input type="submit" value="Refresh" style="margin-left: 20px;">
-</div>
+  <div class="w3-dropdown-hover w3-margin-left">
+    <button type="button">Select Projects <i class="fa fa-caret-down"></i></button>
+    <div class="w3-dropdown-content w3-border w3-padding" style="width:240px;overflow-y:scroll;height:25em;">
+    {% for project in allProjects %}
+      <div class="w3-bar-item">
+        <input type="checkbox" name="projects[]" value="{{ project.id }}"
+          {% if project.selected %}checked{% endif %}>
+        <label>{{ project.name }}</label>
+      </div>
+    {% endfor %}
+    </div>
+  </div>
 
+  <input type="submit" value="Refresh" class="w3-margin-left">
+</div>
+</form>
+
+{% if data is not empty %}
 <table id="report" class="w3-table w3-white w3-bordered w3-border w3-centered">
 <tr>
   <th rowspan="3" class="vcenter">Time</th>
 
-  <th colspan="3">
-    <select id="project1-list" name="project1" class="w3-margin-right">
-      <option value="0" selected>Select Project</option>
-      {% for project in projects %}
-      <option value="{{ project.id }}" {% if project.id==project1 %}selected{% endif %}>{{ project.name }}</option>
-      {% endfor %}
-    </select>
-  </th>
-
-  <th colspan="3">
-    <select id="project2-list" name="project2" class="w3-margin-right">
-      <option value="0" selected>Select Project</option>
-      {% for project in projects %}
-      <option value="{{ project.id }}" {% if project.id==project2 %}selected{% endif %}>{{ project.name }}</option>
-      {% endfor %}
-    </select>
-  </th>
-
-  <th colspan="3">
-    <select id="project3-list" name="project3" class="w3-margin-right">
-      <option value="0" selected>Select Project</option>
-      {% for project in projects %}
-      <option value="{{ project.id }}" {% if project.id==project3 %}selected{% endif %}>{{ project.name }}</option>
-      {% endfor %}
-    </select>
-  </th>
+  {% for project in projects %}
+    <th colspan="3">{{ allProjects[project].name }}</th>
+  {% endfor %}
 </tr>
-
 <tr>
-  <th>Inverter</th>
-  <th>EnvKit</th>
-  <th>GenMeter</th>
-
-  <th>Inverter</th>
-  <th>EnvKit</th>
-  <th>GenMeter</th>
-
-  <th>Inverter</th>
-  <th>EnvKit</th>
-  <th>GenMeter</th>
+  {% for project in projects %}
+    <th>Inverter</th>
+    <th>EnvKit</th>
+    <th>GenMeter</th>
+  {% endfor %}
 </tr>
-
 <tr>
-  <th>KW</th>
-  <th>IRR</th>
-  <th>KWH</th>
-
-  <th>KW</th>
-  <th>IRR</th>
-  <th>KWH</th>
-
-  <th>KW</th>
-  <th>IRR</th>
-  <th>KWH</th>
+  {% for project in projects %}
+    <th>KW</th>
+    <th>IRR</th>
+    <th>KWH</th>
+  {% endfor %}
 </tr>
 
 {% for time, row in data %}
 <tr>
   <td>{{ time }}</td>
-
-  <td>{{ row['project1']['kw'] }}</td>
-  <td>{{ row['project1']['irr'] }}</td>
-  <td>{{ row['project1']['kwh'] }}</td>
-
-  <td>{{ row['project2']['kw'] }}</td>
-  <td>{{ row['project2']['irr'] }}</td>
-  <td>{{ row['project2']['kwh'] }}</td>
-
-  <td>{{ row['project3']['kw'] }}</td>
-  <td>{{ row['project3']['irr'] }}</td>
-  <td>{{ row['project3']['kwh'] }}</td>
+  {% for prj, vals in row %}
+    <td>{{ vals['kw'] }}</td>
+    <td>{{ vals['irr'] }}</td>
+    <td>{{ vals['kwh'] }}</td>
+  {% endfor %}
 </tr>
 {% endfor %}
 </table>
-
-{% if data is empty %}
-<p>Please select start time, end time, interval, and project 1-3, then click "Refresh".</p>
+{% else %}
+  <p>Please select start time, end time, interval, and projects, then click "Refresh".</p>
 {% endif %}
 
-</form>
 </div>
 {% endblock %}
 
@@ -143,13 +112,6 @@
     if ($('#interval-list').val() == '0') {
         $('#interval-list').css({border: '1px solid red'});
         valid = false;
-    }
-
-    for (var i=1; i<=3; i++) {
-        if ($('#project'+i+'-list').val() == '0') {
-            $('#project'+i+'-list').css({border: '1px solid red'});
-            valid = false;
-        }
     }
 
     if (!valid) {

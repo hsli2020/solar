@@ -14,7 +14,7 @@ class DataService extends Injectable
         $startTime  = $info['startTime'];
         $endTime    = $info['endTime'];
         $interval   = $info['interval'];
-        $projectIds = $info['projects'];
+        $projectIds = isset($info['projects']) ? $info['projects'] : [];
 
         $dataSet = [];
         $timeSet = [];

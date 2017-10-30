@@ -225,15 +225,18 @@ class Project
 
     public function getDataToCompare($startTime, $endTime, $interval)
     {
+        $envkitData = [];
         foreach ($this->envkits as $envkit) {
             $envkitData = $envkit->getDataToCompare($startTime, $endTime, $interval);
         }
 
+        $genmeterData = [];
         foreach ($this->genmeters as $genmeter) {
             $col = in_array($this->id, self::GENMETERS) ? 'kwh_del' : 'kwh_rec';
             $genmeterData = $genmeter->getDataToCompare($startTime, $endTime, $interval, $col);
         }
 
+        $inverterData = [];
         foreach ($this->inverters as $inverter) {
             $inverterData = $inverter->getDataToCompare($startTime, $endTime, $interval);
         }

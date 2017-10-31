@@ -30,6 +30,21 @@ class DataService extends Injectable
             foreach ($projectIds as $projectId) {
                 if (isset($dataSet[$projectId][$time])) {
                     $data[$time][$projectId] = $dataSet[$projectId][$time];
+
+                    // some of projects have no inverters
+                    if (!isset($data[$time][$projectId]['kw'])) {
+                        $data[$time][$projectId]['kw'] = '';
+                    }
+
+                    // all of projects have envkits, just in case
+                    if (!isset($data[$time][$projectId]['irr'])) {
+                        $data[$time][$projectId]['irr'] = '';
+                    }
+
+                    // all of projects have genmeters, just in case
+                    if (!isset($data[$time][$projectId]['kwh'])) {
+                        $data[$time][$projectId]['kwh'] = '';
+                    }
                 } else {
                     $data[$time][$projectId] = [ 'kw' => '', 'irr' => '', 'kwh' => '' ];
                 }

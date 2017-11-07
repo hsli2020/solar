@@ -195,6 +195,10 @@ class Project
         $startTime = empty($params['start-time']) ? $today    : $params['start-time'];
         $endTime   = empty($params['end-time'])   ? $tomorrow : $params['end-time'];
 
+        if ($startTime == $endTime) {
+            $endTime = date('Y-m-d', strtotime('1 day', strtotime($startTime)));
+        }
+
         fputs($file, 'Project:    ' .$this->name. PHP_EOL);
         fputs($file, 'Interval:   ' .$interval. ' minutes'. PHP_EOL);
         fputs($file, 'Start Time: ' .$startTime. PHP_EOL);

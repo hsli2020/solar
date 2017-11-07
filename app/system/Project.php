@@ -315,8 +315,10 @@ class Project
 
     public function getCommunicatingDevices()
     {
-        // TODO: temp code
-        return count($this->devices);
+        // TODO: temp code: return count($this->devices);
+        return max(count($this->inverters), 1)
+             + count($this->envkits)
+             + count($this->genmeters);
     }
 
     public function __get($prop)

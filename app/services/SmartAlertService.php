@@ -62,6 +62,11 @@ class SmartAlertService extends Injectable
     {
         $alertType = 'LOW-ENERGY';
 
+        $now = date('Hi');
+        if ($now < 830 || $now > 1830) {
+            return;
+        }
+
         $projects = $this->projectService->getAll();
 
         foreach ($projects as $project) {
@@ -72,7 +77,7 @@ class SmartAlertService extends Injectable
             $irr = $project->getLatestIRR();
             $kw = $project->getLatestKW();
 
-            if ($irr > 100 && $kw < 5) {
+            if ($irr > 100 && $kw < 6) {
                 //$this->log($project->name. ': '. $alertType);
                 $this->alerts[] = [
                     'time'         => date('Y-m-d H:i:s'),
@@ -283,7 +288,7 @@ class SmartAlertService extends Injectable
         $type = $alert['alert'];
         $types = [
             'NO-DATA'    => 'No Data',
-            'LOW-ENERGY' => 'Under Performance',
+            'LOW-ENERGY' => 'Inverter is OFFLINE',
             'ERROR-NOT-ZERO' => 'Error Not Zero',
         ];
 

@@ -324,7 +324,9 @@ class Project
         foreach ($rows as $row) {
             $json = $row['data'];
             $data = json_decode($json, true);
-            if ($data['kw'] > 4) {
+            if (isset($data['kw']) && $data['kw'] > 4) {
+                $cnt++;
+            } else if (isset($data['line_kw']) && $data['line_kw'] > 4) {
                 $cnt++;
             }
         }

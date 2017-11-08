@@ -323,7 +323,7 @@ class Project
         $cnt = 0;
         foreach ($rows as $row) {
             $json = $row['data'];
-            $data = json_decode($data, true);
+            $data = json_decode($json, true);
             if ($data['kw'] > 4) {
                 $cnt++;
             }

@@ -307,18 +307,61 @@ class Project
         return $envkit->getSnapshotTime();
     }
 
+    public function getTotalInverters()
+    {
+        return max(count($this->inverters), 1);
+    }
+
     public function getGeneratingInverters()
     {
-        // TODO: temp code
-        return max(count($this->inverters), 1);
+        $min30ago = gmdate('Y-m-d H:i:s', strtotime('-30 minutes'));
+
+        $prj = $this->id;
+        $sql = "SELECT data FROM latest_data WHERE project_id=$prj AND devtype='Inverter' AND time>'$min30ago'";
+        $rows = $this->getDb()->fetchAll($sql);
+
+        $cnt = 0;
+        foreach ($rows as $row) {
+            $json = $row['data'];
+            $data = json_decode($data, true);
+            if ($data['kw'] > 4) {
+                $cnt++;
+            }
+        }
+
+        if (count($this->inverters) == 0) {
+            $cnt += 1;
+        }
+
+        return $cnt;
+    }
+
+    public function getTotalDevices()
+    {
+        // old code: return count($this->devices);
+        return max(count($this->inverters), 1)
+             + count($this->envkits)
+             + count($this->genmeters);
     }
 
     public function getCommunicatingDevices()
     {
-        // TODO: temp code: return count($this->devices);
-        return max(count($this->inverters), 1)
-             + count($this->envkits)
-             + count($this->genmeters);
+        $min30ago = gmdate('Y-m-d H:i:s', strtotime('-30 minutes'));
+
+        $prj = $this->id;
+        $sql = "SELECT count(*) AS cnt FROM latest_data WHERE project_id=$prj AND time>'$min30ago'";
+        $result = $this->getDb()->fetchOne($sql);
+
+        $cnt = 0;
+
+        if ($result) {
+            $cnt = $result['cnt'];
+            if (count($this->inverters) == 0) {
+                $cnt += 1;
+            }
+        }
+
+        return $cnt;
     }
 
     public function __get($prop)

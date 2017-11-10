@@ -146,7 +146,7 @@ class SnapshotService extends Injectable
 
     protected function getGeneratingInverters($project, $currentPower, $irradiance)
     {
-        $total = max(count($project->inverters), 1);
+        $total = $project->getTotalInverters();
         $working = $project->getGeneratingInverters();
 
         if ($currentPower < 4) {
@@ -158,7 +158,7 @@ class SnapshotService extends Injectable
 
     protected function getCommunicatingDevices($project)
     {
-        $total = count($project->devices);
+        $total = $project->getTotalDevices();
         $working = $project->getCommunicatingDevices();
 
         return "$working/$total";

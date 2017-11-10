@@ -289,7 +289,7 @@ class SmartAlertService extends Injectable
         $types = [
             'NO-DATA'    => 'No Data',
             'LOW-ENERGY' => 'Inverter is OFFLINE',
-            'ERROR-NOT-ZERO' => 'Error Not Zero',
+            'ERROR-NOT-ZERO' => 'Something is wrong, please check',
         ];
 
         if (isset($types[$type])) {

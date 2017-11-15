@@ -34,7 +34,7 @@ class SnapshotService extends Injectable
         $data = [];
         foreach ($result as $key => $val) {
             if (!in_array($val['project_id'], $userProjects)) {
-                continue; // the project dosen't belong to current user
+                continue; // current user doesn't have permission to the project
             }
 
             $result[$key]['error'] = [];
@@ -56,7 +56,9 @@ class SnapshotService extends Injectable
             }
 
            #$result[$key]['error']['current_power'] = 1;
-           #$result[$key]['error']['irradiance'] = 1;
+            if ($val['irradiance'] < (1000*$val['current_power']/$val['project_size_ac']/2)) {
+                $result[$key]['error']['irradiance'] = 'red';
+            }
 
             if ($val['current_power'] < 2 && $val['irradiance'] >= 100) {
                 $result[$key]['error']['inverters_generating'] = 'red';

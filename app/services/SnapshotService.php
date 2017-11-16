@@ -39,6 +39,7 @@ class SnapshotService extends Injectable
 
             $result[$key]['error'] = [];
 
+            // check if GCPR is too low
             if ($val['GCPR'] >= 200) {
                #$result[$key]['error']['GCPR'] = 'red';
             }
@@ -55,11 +56,14 @@ class SnapshotService extends Injectable
                 $result[$key]['error']['GCPR'] = 'red';
             }
 
+            // check if irradiance is too low
            #$result[$key]['error']['current_power'] = 1;
-            if ($val['irradiance'] < (1000*$val['current_power']/$val['project_size_ac']/2)) {
+            $irr = 1000*$val['current_power'] / $val['project_size_ac'];
+            if ($irr > 100 && $val['irradiance'] < ($irr/2)) {
                 $result[$key]['error']['irradiance'] = 'red';
             }
 
+            // check if current_power is too low
             if ($val['current_power'] < 2 && $val['irradiance'] >= 100) {
                 $result[$key]['error']['inverters_generating'] = 'red';
             } else if ($val['current_power'] < 4) {

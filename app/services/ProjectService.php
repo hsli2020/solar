@@ -111,6 +111,17 @@ class ProjectService extends Injectable
         $details['genmeter']['vlb'] = round($data['vln_b']);
         $details['genmeter']['vlc'] = round($data['vln_c']);
 
+        // if there is no inverter
+        if (count($project->inverters) == 0) {
+            $details['inverters']['fake']['type']   = '';
+            $details['inverters']['fake']['power']  = $details['genmeter']['kvar'];
+            $details['inverters']['fake']['status'] = 'On';
+            $details['inverters']['fake']['fault']  = 'None';
+            $details['inverters']['fake']['vla']    = $details['genmeter']['vla'];
+            $details['inverters']['fake']['vlb']    = $details['genmeter']['vlb'];
+            $details['inverters']['fake']['vlc']    = $details['genmeter']['vlc'];
+        }
+
         return $details;
     }
 }

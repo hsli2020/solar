@@ -154,7 +154,7 @@ class ImportService extends Injectable
             #    'CB_10', 'CB_11', 'CB_12', 'CB_13', 'CB_14', 'CB_15', 'CB_16', 'CB_17', 'CB_18',
             #    'CB_19', 'CB_20', 'CB_21', 'CB_22' ];
 
-            $columnList = '`' . implode('`, `', array_keys($columns)) . '`';
+            $columnList = '`' . implode('`, `', $columns) . '`';
 
             if (($handle = fopen($filename, "r")) !== FALSE) {
                 fgetcsv($handle); // skip first line

@@ -28,17 +28,22 @@ class ImportService extends Injectable
                 $fileCount++;
 
                 $this->importFile($filename, $project);
-                $this->backupFile($filename, $project);
+                $this->backupFile($filename, $dir);
+            }
+
+            if ($project->id == 25) {
+                $ftpdir = 'c:\\GCS-FTP-ROOT\\Ray_Newboro_1_CB_001EC60544D6';
+                $this->importCombiners($project, $ftpdir);
             }
         }
 
         $this->log("Importing completed, $fileCount file(s) imported.\n");
     }
 
-    protected function backupFile($filename, $project)
+    protected function backupFile($filename, $ftpdir)
     {
         // move file to BACKUP folder, even it's not imported
-        $dir = 'C:\\FTP-Backup\\' . basename($project->ftpdir);
+        $dir = 'C:\\FTP-Backup\\' . basename($ftpdir);
         if (!file_exists($dir) && !is_dir($dir)) {
             mkdir($dir);
         }
@@ -123,6 +128,62 @@ class ImportService extends Injectable
              . " data = '$json'";
 
         $this->db->execute($sql);
+    }
+
+    protected function importCombiners($project, $dir)
+    {
+        foreach (glob($dir . '/*.csv') as $filename) {
+            echo "\t", $filename, EOL;
+
+            // filename: c:\FTP-Backup\125Bermondsey_001EC6053434\mb-001.57BEE4B7_1.log.csv
+            $parts = explode('.', basename($filename));
+            $dev  = $parts[0]; // mb-001
+            $hash = $parts[1]; // 57BEE4B7_1
+
+            if (!isset($project->devices[$dev])) {
+               #$this->log("Invalid Filename: $filename");
+                continue;
+            }
+
+            $device = $project->devices[$dev];
+            $table = $device->getDeviceTable();
+            $columns = $device->getTableColumns();
+
+            #$columns = [ 'time', 'error', 'low_alarm', 'high_alarm',
+            #    'CB_1',  'CB_2',  'CB_3',  'CB_4',  'CB_5',  'CB_6',  'CB_7',  'CB_8',  'CB_9',
+            #    'CB_10', 'CB_11', 'CB_12', 'CB_13', 'CB_14', 'CB_15', 'CB_16', 'CB_17', 'CB_18',
+            #    'CB_19', 'CB_20', 'CB_21', 'CB_22' ];
+
+            $columnList = '`' . implode('`, `', array_keys($columns)) . '`';
+
+            if (($handle = fopen($filename, "r")) !== FALSE) {
+                fgetcsv($handle); // skip first line
+
+                while (($fields = fgetcsv($handle)) !== FALSE) {
+                    if (count($columns) != count($fields)) {
+                        $this->log("DATA ERROR: $filename\n\t" . implode(', ', $fields));
+                        continue;
+                    };
+
+                   #$data = array_combine($columns, $fields);
+                   #$values = "'" . implode("', '", $data). "'";
+
+                    $values = "'" . implode("', '", $fields). "'";
+
+                    $sql = "INSERT INTO $table ($columnList) VALUES ($values)";
+
+                    try {
+                        $this->db->execute($sql);
+                    } catch (\Exception $e) {
+                        echo $e->getMessage(), EOL;
+                    }
+                }
+
+                fclose($handle);
+
+                $this->backupFile($filename, $dir);
+            }
+        }
     }
 
     protected function log($str)

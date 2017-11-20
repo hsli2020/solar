@@ -23,6 +23,7 @@ class Project
     protected $inverters = [];
     protected $envkits   = [];
     protected $genmeters = [];
+    protected $combiners = [];
 
     public function __construct($info)
     {
@@ -60,6 +61,12 @@ class Project
             $genmeter = new GenMeter($this, $info);
             $this->genmeters[$code] = $genmeter;
             $this->devices[$code] = $genmeter;
+            break;
+
+        case 'COMBINER':
+            $combiner = new Combiner($this, $info);
+            $this->combiners[$code] = $combiner;
+            $this->devices[$code] = $combiner;
             break;
 
         default:

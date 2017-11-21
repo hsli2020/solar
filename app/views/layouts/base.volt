@@ -5,6 +5,7 @@
   <!--<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">-->
   <title>{% if pageTitle is defined %}{{ pageTitle }} - {% endif %}Great Circle Solar</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  {% if refreshInterval is defined %}<meta http-equiv="refresh" content="{{ refreshInterval }}">{% endif %}
 
   {{ stylesheet_link("/css/w3.css") }}
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">

@@ -9,14 +9,16 @@ abstract class Device
     protected $code;
     protected $table;
     protected $model;
+    protected $reference;
 
     public function __construct($project, $info)
     {
-        $this->project = $project;
-        $this->type    = $info['type'];
-        $this->code    = $info['devcode'];
-        $this->table   = $info['table'];
-        $this->model   = $info['model'];
+        $this->project   = $project;
+        $this->type      = $info['type'];
+        $this->code      = $info['devcode'];
+        $this->table     = $info['table'];
+        $this->model     = $info['model'];
+        $this->reference = $info['reference'];
     }
 
     public function __toString()

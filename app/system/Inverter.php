@@ -17,6 +17,11 @@ class Inverter extends Device
         return isset($types[$model]) ? $types[$model] : '';
     }
 
+    public function getCombiner()
+    {
+        return $this->reference;
+    }
+
     public function getKW($period)
     {
         $table = $this->getDeviceTable();

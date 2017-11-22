@@ -157,7 +157,11 @@
         </tr>
 
         <tr>
+          {% if inverter['combiner'] %}
+          <td><a style="text-decoration: none;" class="w3-text-red w3-border w3-border-red" href="/project/combiner/{{ inverter['combiner'] }}" target="_blank">Combiner</a></td>
+          {% else %}
           <td>&nbsp;</td>
+          {% endif %}
           <td>Fault Code</td>
           <td>{{ inverter['fault'] }}</td>
           <td>&nbsp;</td>

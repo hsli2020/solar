@@ -92,6 +92,11 @@ class ProjectService extends Injectable
             $details['inverters'][$code]['vla']    = $getVal($data, ['vln_a', 'volt_a', 'volts_a']);
             $details['inverters'][$code]['vlb']    = $getVal($data, ['vln_b', 'volt_b', 'volts_b']);
             $details['inverters'][$code]['vlc']    = $getVal($data, ['vln_c', 'volt_c', 'volts_c']);
+
+            $details['inverters'][$code]['combiner'] = '';
+            if ($combiner = $inverter->getCombiner()) {
+                $details['inverters'][$code]['combiner'] = $project->id.'_'.$combiner;
+            }
         }
 
         // Envkit
@@ -123,5 +128,13 @@ class ProjectService extends Injectable
         }
 
         return $details;
+    }
+
+    public function loadCombiner($prj, $dev)
+    {
+        $project = $this->get($prj);
+        $combiner = $project->combiners[$dev];
+        $data = $combiner->load();
+        return $data;
     }
 }

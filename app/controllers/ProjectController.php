@@ -23,6 +23,19 @@ class ProjectController extends ControllerBase
         $this->view->details = $details;
     }
 
+    public function combinerAction($key = '')
+    {
+        $this->view->pageTitle = 'Combiner';
+
+        list($prj, $dev) = explode('_', $key);
+
+        $data = $this->projectService->loadCombiner($prj, $dev);
+        $project = $this->projectService->get($prj);
+
+        $this->view->project = $project;
+        $this->view->data = $data;
+    }
+
     public function chartAction($id = 0)
     {
         $this->view->pageTitle = 'Project Chart';

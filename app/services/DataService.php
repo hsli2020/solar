@@ -61,9 +61,8 @@ class DataService extends Injectable
         foreach ($projects as $project) {
             $this->archiveDir($project->ftpdir, $project);
 
-            if ($project->id == 25) {
-                $ftpdir = 'c:\\GCS-FTP-ROOT\\Ray_Newboro_1_CB_001EC60544D6';
-                $this->archiveDir($ftpdir, $project);
+            if ($project->cbdir) {
+                $this->archiveDir($project->cbdir, $project);
             }
         }
     }

@@ -9,6 +9,7 @@ class Project
     protected $id;
     protected $name;
     protected $ftpdir;
+    protected $cbdir;
     protected $interval;
 
     protected $capacityAC;
@@ -30,6 +31,7 @@ class Project
         $this->id                     = $info['id'];
         $this->name                   = $info['name'];
         $this->ftpdir                 = $info['ftpdir'];
+        $this->cbdir                  = $info['cbdir'];
         $this->interval               = $info['interval'];
         $this->capacityDC             = $info['DC_Nameplate_Capacity'];
         $this->capacityAC             = $info['AC_Nameplate_Capacity'];

@@ -31,9 +31,8 @@ class ImportService extends Injectable
                 $this->backupFile($filename, $dir);
             }
 
-            if ($project->id == 25) {
-                $ftpdir = 'c:\\GCS-FTP-ROOT\\Ray_Newboro_1_CB_001EC60544D6';
-                $this->importCombiners($project, $ftpdir);
+            if ($project->cbdir) {
+                $this->importCombiners($project, $project->cbdir);
             }
         }
 

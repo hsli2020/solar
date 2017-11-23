@@ -157,7 +157,7 @@
         </tr>
 
         <tr>
-          {% if inverter['combiner'] %}
+          {% if inverter['combiner'] is not empty %}
           <td><a style="text-decoration: none;" class="w3-text-red w3-border w3-border-red" href="/project/combiner/{{ inverter['combiner'] }}" target="_blank">Combiner</a></td>
           {% else %}
           <td>&nbsp;</td>

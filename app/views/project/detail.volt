@@ -134,61 +134,6 @@
           <td>{{ details['today']['inso'] }}</td>
         </tr>
 
-        {% if details['inverters'] is not empty %}
-        <tr class="w3-light-gray">
-          <th>Inverter Data</th>
-          <th colspan="3">Current Reading</th>
-        </tr>
-        {% endif %}
-
-        {% for code, inverter in details['inverters'] %}
-        <tr data-code="{{ code }}" style="border-top: 1px solid lightgray;">
-          <td>Inverter_{{ loop.index }}</td>
-          <td>Power, kW</td>
-          <td>{{ inverter['power'] }}</td>
-          <td>&nbsp;</td>
-        </tr>
-
-        <tr>
-          <td>&nbsp;</td>
-          <td>Status</td>
-          <td>{{ inverter['status'] }}</td>
-          <td>&nbsp;</td>
-        </tr>
-
-        <tr>
-          {% if inverter['combiner'] is not empty %}
-          <td><a style="text-decoration: none;" class="w3-text-red w3-border w3-border-red" href="/project/combiner/{{ inverter['combiner'] }}" target="_blank">Combiner</a></td>
-          {% else %}
-          <td>&nbsp;</td>
-          {% endif %}
-          <td>Fault Code</td>
-          <td>{{ inverter['fault'] }}</td>
-          <td>&nbsp;</td>
-        </tr>
-
-        <tr>
-          <td>&nbsp;</td>
-          <td>VLA, Volts</td>
-          <td>{{ inverter['vla'] }}</td>
-          <td>&nbsp;</td>
-        </tr>
-
-        <tr>
-          <td>&nbsp;</td>
-          <td>VLB, Volts</td>
-          <td>{{ inverter['vlb'] }}</td>
-          <td>&nbsp;</td>
-        </tr>
-
-        <tr>
-          <td>&nbsp;</td>
-          <td>VLC, Volts</td>
-          <td>{{ inverter['vlc'] }}</td>
-          <td>&nbsp;</td>
-        </tr>
-        {% endfor %}
-
         <tr class="w3-light-gray">
           <th>Weather Station</th>
           <th colspan="3">Current Reading</th>
@@ -253,6 +198,61 @@
           <td>&nbsp;</td>
           <td>{{ details['genmeter']['vlc'] }}</td>
         </tr>
+
+        {% if details['inverters'] is not empty %}
+        <tr class="w3-light-gray">
+          <th>Inverter Data</th>
+          <th colspan="3">Current Reading</th>
+        </tr>
+        {% endif %}
+
+        {% for code, inverter in details['inverters'] %}
+        <tr data-code="{{ code }}" style="border-top: 1px solid lightgray;">
+          <td>Inverter_{{ loop.index }}</td>
+          <td>Power, kW</td>
+          <td>{{ inverter['power'] }}</td>
+          <td>&nbsp;</td>
+        </tr>
+
+        <tr>
+          <td>&nbsp;</td>
+          <td>Status</td>
+          <td>{{ inverter['status'] }}</td>
+          <td>&nbsp;</td>
+        </tr>
+
+        <tr>
+          {% if inverter['combiner'] is not empty %}
+          <td><a style="text-decoration: none;" class="w3-text-red w3-border w3-border-red" href="/project/combiner/{{ inverter['combiner'] }}" target="_blank">Combiner</a></td>
+          {% else %}
+          <td>&nbsp;</td>
+          {% endif %}
+          <td>Fault Code</td>
+          <td>{{ inverter['fault'] }}</td>
+          <td>&nbsp;</td>
+        </tr>
+
+        <tr>
+          <td>&nbsp;</td>
+          <td>VLA, Volts</td>
+          <td>{{ inverter['vla'] }}</td>
+          <td>&nbsp;</td>
+        </tr>
+
+        <tr>
+          <td>&nbsp;</td>
+          <td>VLB, Volts</td>
+          <td>{{ inverter['vlb'] }}</td>
+          <td>&nbsp;</td>
+        </tr>
+
+        <tr>
+          <td>&nbsp;</td>
+          <td>VLC, Volts</td>
+          <td>{{ inverter['vlc'] }}</td>
+          <td>&nbsp;</td>
+        </tr>
+        {% endfor %}
       </table>
       <br>
 

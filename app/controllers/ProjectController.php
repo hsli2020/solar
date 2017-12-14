@@ -76,7 +76,6 @@ class ProjectController extends ControllerBase
         $this->view->startTime = '';
         $this->view->endTime   = '';
         $this->view->interval  = '';
-        $this->view->nozero    = '1';
         $this->view->projects  = [];
         $this->view->intervals = [
             1  => ' 1 Minute',
@@ -91,19 +90,10 @@ class ProjectController extends ControllerBase
             $this->view->startTime = $this->request->getPost('startTime');
             $this->view->endTime   = $this->request->getPost('endTime');
             $this->view->interval  = $this->request->getPost('interval');
-            $this->view->nozero    = $this->request->getPost('nozero');
             $this->view->projects  = $this->request->getPost('projects');
 
             $info = $this->request->getPost();
             $data = $this->dataService->getDataToCompare($info);
-
-            if ($this->view->nozero) {
-#               $data = array_filter($data, function($row) {
-#                   if ($row['project1']['kw'] + $row['project2']['kw'] + $row['project3']['kw'] > 0) {
-#                       return $row;
-#                   }
-#               });
-            }
         }
 
         $this->view->allProjects = $allProjects;

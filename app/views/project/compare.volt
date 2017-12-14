@@ -15,8 +15,6 @@
     {% endfor %}
   </select>
 
-  <label><input type="checkbox" name="nozero" value="1" {%if nozero %}checked{% endif %}> Hide rows when kw=0</input></label>
-
   <div class="w3-dropdown-hover w3-margin-left">
     <button type="button">Select Projects <i class="fa fa-caret-down"></i></button>
     <div class="w3-dropdown-content w3-border w3-padding" style="width:240px;overflow-y:scroll;height:25em;">
@@ -84,17 +82,15 @@
 {% endblock %}
 
 {% block cssfile %}
-  {{ stylesheet_link("/pickadate/themes/classic.css") }}
-  {{ stylesheet_link("/pickadate/themes/classic.date.css") }}
+  {{ stylesheet_link("/flatpickr/4.1.4/flatpickr.min.css") }}
 {% endblock %}
 
 {% block jsfile %}
-  {{ javascript_include("/pickadate/picker.js") }}
-  {{ javascript_include("/pickadate/picker.date.js") }}
+  {{ javascript_include("/flatpickr/4.1.4/flatpickr.min.js") }}
 {% endblock %}
 
 {% block domready %}
-  $('.datepicker').pickadate({format: 'yyyy-mm-dd'});
+  $('.datepicker').flatpickr({enableTime: true});
 
   $('form').submit(function() {
     var valid = true;

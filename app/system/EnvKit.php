@@ -75,7 +75,7 @@ class EnvKit extends Device
         list($start, $end) = $this->getPeriod('SNAPSHOT');
 
         $sql = "SELECT AVG(OAT) AS oat FROM $table ".
-                "WHERE time>='$start' AND time<'$end' AND error=0";
+                "WHERE time>='$start' AND error=0";
 
         $result = $this->getDb()->fetchOne($sql);
         if ($result) {

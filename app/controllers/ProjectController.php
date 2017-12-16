@@ -94,9 +94,71 @@ class ProjectController extends ControllerBase
 
             $info = $this->request->getPost();
             $data = $this->dataService->getDataToCompare($info);
+
+            if (isset($info['export'])) {
+                $filename = $this->saveToFile($info, $data, $allProjects);
+                $this->startDownload($filename);
+            }
         }
 
         $this->view->allProjects = $allProjects;
         $this->view->data = $data;
+    }
+
+    protected function saveToFile($info, $data, $allProjects)
+    {
+        $startTime = $info['startTime'];
+        $endTime   = $info['endTime'];
+        $interval  = $info['interval'];
+        $projects  = $info['projects'];
+
+        $filename = BASE_DIR . '/tmp/site-analytic.csv';
+
+        $fp = fopen($filename, 'w');
+        fputs($fp, "Site Analystics\n\n");
+        fputs($fp, "Start Time: $startTime\n");
+        fputs($fp, "End Time:   $endTime\n");
+        fputs($fp, "Interval:   $interval minute\n\n");
+
+        // first line of title
+        fputs($fp, ", ");
+        foreach ($projects as $project) {
+            fputs($fp, $allProjects[$project]->name);
+            fputs($fp, ",,,");
+        }
+        fputs($fp, "\n");
+
+        // second line of title
+        fputs($fp, "Time");
+        foreach ($projects as $project) {
+            fputs($fp, ", ");
+            fputs($fp, "Inverter, EnvKit, GenMeter");
+        }
+        fputs($fp, "\n");
+
+        // third line of title
+        foreach ($projects as $project) {
+            fputs($fp, ", ");
+            fputs($fp, "KW, IRR, KWH");
+        }
+        fputs($fp, "\n");
+
+        // data
+        foreach ($data as $time => $row) {
+            fputs($fp, $time);
+            foreach ($row as $prj => $vals) {
+                fputs($fp, ', ');
+                fputs($fp, $vals['kw']);
+                fputs($fp, ', ');
+                fputs($fp, $vals['irr']);
+                fputs($fp, ', ');
+                fputs($fp, $vals['kwh']);
+            }
+            fputs($fp, "\n");
+        }
+
+        fclose($fp);
+
+        return $filename;
     }
 }

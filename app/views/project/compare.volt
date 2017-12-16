@@ -29,6 +29,7 @@
   </div>
 
   <input type="submit" value="Refresh" class="w3-margin-left">
+  <input type="submit" value="Export" class="w3-margin-left" name="export">
 </div>
 </form>
 

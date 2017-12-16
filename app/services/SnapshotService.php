@@ -113,6 +113,7 @@ class SnapshotService extends Injectable
             $GCPR                 = $this->getGCPR($project);
             $currentPower         = $this->getCurrentPower($project);
             $irradiance           = $this->getIrradiance($project);
+            $temperature          = $this->getTemperature($project);
             $invertersGenerating  = $this->getGeneratingInverters($project, $currentPower, $irradiance);
             $devicesCommunicating = $this->getCommunicatingDevices($project);
             $lastCom              = $this->getLastCom($project);
@@ -124,6 +125,7 @@ class SnapshotService extends Injectable
                  . " GCPR = '$GCPR',"
                  . " current_power = '$currentPower',"
                  . " irradiance = '$irradiance',"
+                 . " temperature = '$temperature',"
                  . " inverters_generating = '$invertersGenerating',"
                  . " devices_communicating = '$devicesCommunicating',"
                  . " last_com = '$lastCom'";
@@ -148,6 +150,12 @@ class SnapshotService extends Injectable
     {
         $irr = $project->getSnapshotIRR();
         return round($irr);
+    }
+
+    protected function getTemperature($project)
+    {
+        $oat = $project->getSnapshotOAT();
+        return round($oat);
     }
 
     protected function getGeneratingInverters($project, $currentPower, $irradiance)

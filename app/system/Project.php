@@ -304,6 +304,12 @@ class Project
         return $envkit->getSnapshotIRR();
     }
 
+    public function getSnapshotOAT()
+    {
+        $envkit = current($this->envkits);
+        return $envkit->getSnapshotOAT();
+    }
+
     public function getSnapshotKW()
     {
         $genmeter = current($this->genmeters);

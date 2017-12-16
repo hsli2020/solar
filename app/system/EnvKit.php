@@ -68,13 +68,30 @@ class EnvKit extends Device
         return 0;
     }
 
+    public function getSnapshotOAT()
+    {
+        $table = $this->getDeviceTable();
+
+        list($start, $end) = $this->getPeriod('SNAPSHOT');
+
+        $sql = "SELECT AVG(OAT) AS oat FROM $table ".
+                "WHERE time>='$start' AND time<'$end' AND error=0";
+
+        $result = $this->getDb()->fetchOne($sql);
+        if ($result) {
+            return $result['oat'];
+        }
+
+        return 0;
+    }
+
     public function getOAT($period)
     {
         $table = $this->getDeviceTable();
 
         list($start, $end) = $this->getPeriod($period);
 
-        $sql = "SELECT SUM(OAT) AS tmp FROM $table ".
+        $sql = "SELECT AVG(OAT) AS tmp FROM $table ".
                 "WHERE time>='$start' AND time<'$end' AND error=0";
 
         $result = $this->getDb()->fetchOne($sql);
@@ -91,7 +108,7 @@ class EnvKit extends Device
 
         list($start, $end) = $this->getPeriod($period);
 
-        $sql = "SELECT SUM(PANELT) AS tmp FROM $table ".
+        $sql = "SELECT AVG(PANELT) AS tmp FROM $table ".
                 "WHERE time>='$start' AND time<'$end' AND error=0";
 
         $result = $this->getDb()->fetchOne($sql);

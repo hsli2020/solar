@@ -71,6 +71,7 @@
   <th>Project Size<br>(AC)</th>
   <th>Current Power<br>(kW)</th>
   <th>Irradiance<br>(W/m<sup>2</sup>)</th>
+  <th>Ambient<br>Temperature (C°)</th>
   <th>Inverters<br>Generating</th>
   <th>Devices<br>Communicating</th>
   <th>Data Received<br>(Time Stamp)</th>
@@ -83,6 +84,7 @@
   {{ tablecell(row, 'project_size_ac',       'w3-center') }}
   {{ tablecell(row, 'current_power',         '') }}
   {{ tablecell(row, 'irradiance',            '') }}
+  {{ tablecell(row, 'temperature',           '') }}
   {{ tablecell(row, 'inverters_generating',  'w3-center') }}
   {{ tablecell(row, 'devices_communicating', 'w3-center') }}
   {{ tablecell(row, 'last_com',              'w3-center') }}

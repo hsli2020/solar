@@ -4,7 +4,7 @@
 <div class="container">
   <div class="w3-modal" style="display: block;">
     <div class="w3-modal-content w3-card-8 w3-padding" style="max-width:900px">
-      <h2>Detailed (Site Information)</h2>
+      <h2>Detailed Site Information</h2>
 
       <table class="w3-table">
         <tr>

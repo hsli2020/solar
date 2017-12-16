@@ -84,7 +84,7 @@
   {{ tablecell(row, 'project_size_ac',       'w3-center') }}
   {{ tablecell(row, 'current_power',         '') }}
   {{ tablecell(row, 'irradiance',            '') }}
-  {{ tablecell(row, 'temperature',           '') }}
+  {{ tablecell(row, 'temperature',           'w3-center') }}
   {{ tablecell(row, 'inverters_generating',  'w3-center') }}
   {{ tablecell(row, 'devices_communicating', 'w3-center') }}
   {{ tablecell(row, 'last_com',              'w3-center') }}

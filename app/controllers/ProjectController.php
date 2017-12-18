@@ -101,7 +101,7 @@ class ProjectController extends ControllerBase
             }
         }
 
-        foreach ($projects as $project) {
+        foreach ($this->view->projects as $project) {
             $allProjects[$project]->selected = true;
         }
 

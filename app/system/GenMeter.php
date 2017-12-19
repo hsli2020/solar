@@ -85,18 +85,21 @@ class GenMeter extends Device
         return 0;
     }
 
-    public function getChartData()
+    public function getChartData($date)
     {
         $table = $this->getDeviceTable();
 
-        $today = gmdate("Y-m-d H:i:s", mktime(0, 0, 0));
+        // local time to utc time
+        $start = gmdate("Y-m-d H:i:s", strtotime($date . ' 00:00:00'));
+        $end   = gmdate("Y-m-d H:i:s", strtotime($date . ' 23:59:59'));
 
         $sql = "SELECT time, ROUND(AVG(KVA)) AS kva FROM $table".
-               " WHERE time > '$today' AND error = 0".
+               " WHERE time > '$start' AND time < '$end' AND error = 0".
                " GROUP BY UNIX_TIMESTAMP(time) DIV 300";
 
         $result = $this->getDb()->fetchAll($sql);
 
+        // utc time to local time
         $values = [];
         foreach ($result as $e) {
             $time = strtotime($e['time'].' UTC') + date('Z');

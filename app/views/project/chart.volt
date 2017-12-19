@@ -4,7 +4,14 @@
 {{ javascript_include("/flot/jquery.flot.js") }}
 {{ javascript_include("/flot/jquery.flot.time.js") }}
 {{ javascript_include("/flot/jquery.flot.crosshair.js") }}
+{{ javascript_include("/pickadate/picker.js") }}
+{{ javascript_include("/pickadate/picker.date.js") }}
 {{ javascript_include("/js/script.js") }}
+{% endblock %}
+
+{% block cssfile %}
+  {{ stylesheet_link("/pickadate/themes/classic.css") }}
+  {{ stylesheet_link("/pickadate/themes/classic.date.css") }}
 {% endblock %}
 
 {% block main %}
@@ -13,9 +20,15 @@
 	  <div id="header">
 	  	<h2>Power Production (kW) and Irradiance (W/m<sup>2</sup>)</h2>
 	  </div>
-	  <div>Project: {{ project.name }} ({{ today }})<span id="legend">Power=0, Irradiance=0</span></div>
+
+	  <div>Project: {{ project.name }} ({{ date1 }})<span id="legend">Power=0, Irradiance=0</span></div>
       <div class="chart-container">
-        <div id="placeholder" class="chart-placeholder"></div>
+        <div id="placeholder1" class="chart-placeholder"></div>
+      </div>
+
+	  <div>Project: {{ project.name }} ({{ date2 }})<span id="legend">Power=0, Irradiance=0</span></div>
+      <div class="chart-container">
+        <div id="placeholder2" class="chart-placeholder"></div>
       </div>
     </div>
   </div>
@@ -96,18 +109,36 @@ function updateLegend() {
 {% endblock %}
 
 {% block domready %}
-var bar = {
+var bar1 = {
     label: "Power Production",
-    data: {{ kva }},
+    data: {{ kva1 }},
     color: "rgb(54, 162, 235)",
     shadowSize: 0,
     yaxis: 1,
     bars: { show: true, barWidth: 1, lineWidth: 1, fill: true }
 }
 
-var line = {
+var line1 = {
     label: "Irradiance",
-    data: {{ irr }},
+    data: {{ irr1 }},
+    color: "#c00000",
+    shadowSize: 0,
+    yaxis: 2,
+    lines: { show: true, lineWidth: 1 }
+}
+
+var bar2 = {
+    label: "Power Production",
+    data: {{ kva2 }},
+    color: "rgb(54, 162, 235)",
+    shadowSize: 0,
+    yaxis: 1,
+    bars: { show: true, barWidth: 1, lineWidth: 1, fill: true }
+}
+
+var line2 = {
+    label: "Irradiance",
+    data: {{ irr2 }},
     color: "#c00000",
     shadowSize: 0,
     yaxis: 2,
@@ -136,7 +167,8 @@ var options = {
     }
 }
 
-plot = $.plot("#placeholder", [ bar, line ], options);
+plot = $.plot("#placeholder1", [ bar1, line1 ], options);
+plot = $.plot("#placeholder2", [ bar2, line2 ], options);
 
 $("<div id='tooltip'></div>").css({
     position: "absolute",
@@ -147,7 +179,7 @@ $("<div id='tooltip'></div>").css({
     opacity: 0.80
 }).appendTo("body");
 
-$("#placeholder").bind("plothover", function (event, pos, item) {
+$(".chart-placeholder").bind("plothover", function (event, pos, item) {
     latestPosition = pos;
     if (!updateLegendTimeout) {
         updateLegendTimeout = setTimeout(updateLegend, 50);
@@ -163,4 +195,5 @@ $("#placeholder").bind("plothover", function (event, pos, item) {
     */
 });
 
+$('.datepicker').pickadate({format: 'yyyy-mm-dd'});
 {% endblock %}

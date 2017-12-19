@@ -45,12 +45,35 @@ class ProjectController extends ControllerBase
         $envkit = $project->getFirstEnvKit();
         $genmeter = $project->getFirstGenMeter();
 
-        $irr = $envkit->getChartData();
-        $kva = $genmeter->getChartData();
+        $date1 = date('Y-m-d');
+        $date2 = '';
+
+        if ($this->request->isPost()) {
+            $date1 = $this->request->getPost('date1');
+            $date2 = $this->request->getPost('date2');
+        }
+
+        $irr1 = $kva1 = '';
+        if ($date1) {
+            $irr1 = $envkit->getChartData($date1);
+            $kva1 = $genmeter->getChartData($date1);
+        }
+
+        $irr2 = $kva2 = '';
+        if ($date2) {
+            $irr2 = $envkit->getChartData($date2);
+            $kva2 = $genmeter->getChartData($date2);
+        }
 
         $this->view->project = $project;
-        $this->view->irr = json_encode($irr);
-        $this->view->kva = json_encode($kva);
+
+        $this->view->date1 = $date1;
+        $this->view->irr1 = json_encode($irr1);
+        $this->view->kva1 = json_encode($kva1);
+
+        $this->view->date2 = $date2;
+        $this->view->irr2 = json_encode($irr2);
+        $this->view->kva2 = json_encode($kva2);
     }
 
     public function exportAction()

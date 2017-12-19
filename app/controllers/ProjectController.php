@@ -49,7 +49,7 @@ class ProjectController extends ControllerBase
         $date2 = '';
 
         if ($this->request->isPost()) {
-            $date1 = $this->request->getPost('date1');
+           #$date1 = $this->request->getPost('date1');
             $date2 = $this->request->getPost('date2');
         }
 

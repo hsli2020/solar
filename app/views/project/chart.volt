@@ -26,7 +26,14 @@
         <div id="placeholder1" class="chart-placeholder"></div>
       </div>
 
-	  <div>Project: {{ project.name }} ({{ date2 }})<span id="legend">Power=0, Irradiance=0</span></div>
+	  <form method="POST">
+        <label>Select Date: </label>
+        <input class="datepicker" name="date2" type="text" value="{{ date2 }}">
+        <button type="submit">Refresh</button>
+        {% if date2 %}
+        <span id="legend">Power=0, Irradiance=0</span>
+        {% endif %}
+      </form>
       <div class="chart-container">
         <div id="placeholder2" class="chart-placeholder"></div>
       </div>

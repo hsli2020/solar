@@ -106,16 +106,17 @@ class GenMeter extends Device
             $values[$time] = [ $time*1000, intval($e['kva']) ];
         };
 
-        $full = $values + $this->getEmptyData();
+        $full = $values + $this->getEmptyData($date);
         ksort($full);
         return array_values($full);
     }
 
-    public function getEmptyData()
+    public function getEmptyData($date)
     {
         $values = [];
 
-        $start = mktime(0, 0, 0);
+        list($y, $m, $d) = explode('-', $date);
+        $start = mktime(0, 0, 0, $m, $d, $y);
         for ($i = 0; $i < 24*3600/300; $i++) {
             $time = $start + $i*300;
             $values[$time] = [ $time*1000, 0.0 ];

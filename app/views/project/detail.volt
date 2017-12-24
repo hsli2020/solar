@@ -6,7 +6,7 @@
     <div class="w3-modal-content w3-card-8 w3-padding" style="max-width:900px">
       <h2>Detailed Site Information</h2>
 
-      <table class="w3-table">
+      <table class="w3-table compact">
         <tr>
           <td width="20%">Project Name:</td>
           <td width="80%">{{ details['project_name'] }}</td>
@@ -21,7 +21,7 @@
         </tr>
       </table>
 
-      <table class="w3-table w3-margin-top">
+      <table class="w3-table w3-margin-top compact">
         <tr class="w3-light-gray">
           <th colspan="7">Project Details</th>
         </tr>
@@ -127,139 +127,90 @@
           <td>{{ details['today']['inso'] }}</td>
           <td colspan="3"></th>
         </tr>
+      </table>
 
+<!-- dev start -->
+
+      <table class="w3-table w3-margin-top">
         <tr class="w3-light-gray">
           <th>Weather Station</th>
-          <th colspan="6">Current Reading</th>
+          <th>Current Reading</th>
+          <th colspan="5"></th>
         </tr>
-        <tr>
-          <td>&nbsp;</td>
-          <td>Insolation, kW/m<sup>2</sup></td>
-          <td>&nbsp;</td>
+        <tr style="border-top: 1px solid lightgray;">
+          <th>Weather Station Number</th>
+          <th>Insolation, kW/m<sup>2</sup></th>
+          <th>Ambient Temperature, C</th>
+          <th>Back of Module Temperature, C</th>
+          <th colspan="3"></th>
+        </tr>
+        <tr style="border-top: 1px solid lightgray;">
+          <td>WS1</td>
           <td>{{ details['envkit']['inso'] }}</td>
-          <td colspan="3"></th>
-        </tr>
-        <tr>
-          <td>&nbsp;</td>
-          <td>Ambient Temperature, C</td>
-          <td>&nbsp;</td>
           <td>{{ details['envkit']['oat'] }}</td>
-          <td colspan="3"></th>
-        </tr>
-        <tr>
-          <td>&nbsp;</td>
-          <td>Back of Module Temperature, C</td>
-          <td>&nbsp;</td>
           <td>{{ details['envkit']['panelt'] }}</td>
           <td colspan="3"></th>
         </tr>
+      </table>
 
+      <table class="w3-table w3-margin-top">
         <tr class="w3-light-gray">
           <th>Meter Generation</th>
-          <th colspan="6">Current Reading</th>
+          <th>Current Reading</th>
+          <th colspan="5"></th>
         </tr>
-
-        <tr>
-          <td>&nbsp;</td>
-          <td>kW Delivered</td>
-          <td>&nbsp;</td>
+        <tr style="border-top: 1px solid lightgray;">
+          <th>Meter Number</th>
+          <th>kW Delivered</th>
+          <th>kW Received</th>
+          <th>kVar</th>
+          <th>VLA, Volts</th>
+          <th>VLB, Volts</th>
+          <th>VLC, Volts</th>
+        </tr>
+        <tr style="border-top: 1px solid lightgray;">
+          <td>Meter1</td>
           <td>{{ details['genmeter']['kw-del'] }}</td>
-          <td colspan="3"></th>
-        </tr>
-        <tr>
-          <td>&nbsp;</td>
-          <td>kW Received</td>
-          <td>&nbsp;</td>
           <td>{{ details['genmeter']['kw-rec'] }}</td>
-          <td colspan="3"></th>
-        </tr>
-        <tr>
-          <td>&nbsp;</td>
-          <td>kVar</td>
-          <td>&nbsp;</td>
           <td>{{ details['genmeter']['kvar'] }}</td>
-          <td colspan="3"></th>
-        </tr>
-        <tr>
-          <td>&nbsp;</td>
-          <td>VLA, Volts</td>
-          <td>&nbsp;</td>
           <td>{{ details['genmeter']['vla'] }}</td>
-          <td colspan="3"></th>
-        </tr>
-        <tr>
-          <td>&nbsp;</td>
-          <td>VLB, Volts</td>
-          <td>&nbsp;</td>
           <td>{{ details['genmeter']['vlb'] }}</td>
-          <td colspan="3"></th>
-        </tr>
-        <tr>
-          <td>&nbsp;</td>
-          <td>VLC, Volts</td>
-          <td>&nbsp;</td>
           <td>{{ details['genmeter']['vlc'] }}</td>
-          <td colspan="3"></th>
         </tr>
+      </table>
 
+      <table class="w3-table w3-margin-top">
         {% if details['inverters'] is not empty %}
         <tr class="w3-light-gray">
           <th>Inverter Data</th>
-          <th colspan="6">Current Reading</th>
+          <th>Current Reading</th>
+          <th colspan="5"></th>
         </tr>
         {% endif %}
 
+        <tr data-code="{{ code }}" style="border-top: 1px solid lightgray;">
+          <th>Inverter Number</th>
+          <th>Power, kW</th>
+          <th>VLA, Volts</th>
+          <th>VLB, Volts</th>
+          <th>VLC, Volts</th>
+          <th>Status</th>
+          <th>Fault Code</th>
+        </tr>
+
         {% for code, inverter in details['inverters'] %}
         <tr data-code="{{ code }}" style="border-top: 1px solid lightgray;">
-          <td>Inverter_{{ loop.index }}</td>
-          <td>Power, kW</td>
-          <td>{{ inverter['power'] }}</td>
-          <td>&nbsp;</td>
-          <td colspan="3"></th>
-        </tr>
-
-        <tr>
-          <td>&nbsp;</td>
-          <td>Status</td>
-          <td>{{ inverter['status'] }}</td>
-          <td>&nbsp;</td>
-          <td colspan="3"></th>
-        </tr>
-
-        <tr>
+          <td>Inverter {{ loop.index }}
           {% if inverter['combiner'] is not empty %}
-          <td><a style="text-decoration: none;" class="w3-text-red w3-border w3-border-red" href="/project/combiner/{{ inverter['combiner'] }}" target="_blank">Combiner</a></td>
-          {% else %}
-          <td>&nbsp;</td>
+          <a style="text-decoration: none;" class="w3-text-red w3-border w3-border-red" href="/project/combiner/{{ inverter['combiner'] }}" target="_blank">Combiner</a>
           {% endif %}
-          <td>Fault Code</td>
-          <td>{{ inverter['fault'] }}</td>
-          <td>&nbsp;</td>
-          <td colspan="3"></th>
-        </tr>
-
-        <tr>
-          <td>&nbsp;</td>
-          <td>VLA, Volts</td>
+          </td>
+          <td>{{ inverter['power'] }}</td>
           <td>{{ inverter['vla'] }}</td>
-          <td>&nbsp;</td>
-          <td colspan="3"></th>
-        </tr>
-
-        <tr>
-          <td>&nbsp;</td>
-          <td>VLB, Volts</td>
           <td>{{ inverter['vlb'] }}</td>
-          <td>&nbsp;</td>
-          <td colspan="3"></th>
-        </tr>
-
-        <tr>
-          <td>&nbsp;</td>
-          <td>VLC, Volts</td>
           <td>{{ inverter['vlc'] }}</td>
-          <td>&nbsp;</td>
-          <td colspan="3"></th>
+          <td>{{ inverter['status'] }}</td>
+          <td>{{ inverter['fault'] }}</td>
         </tr>
         {% endfor %}
       </table>
@@ -273,6 +224,6 @@
 
 {% block csscode %}
 .w3-modal { padding: 20px; }
-.w3-table td { padding: 0; }
-.w3-table th { padding: 8px 0; }
+.w3-table.compact td { padding: 0; }
+.w3-table.compact th { padding: 8px 0; }
 {% endblock %}

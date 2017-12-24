@@ -23,73 +23,61 @@
 
       <table class="w3-table w3-margin-top">
         <tr class="w3-light-gray">
-          <th colspan="4">Project Details</th>
+          <th colspan="7">Project Details</th>
         </tr>
         <tr>
           <td width="20%">&nbsp;</td>
           <td width="35%">AC Size, kW</td>
           <td width="25%">{{ details['ac_size'] }}</td>
           <td width="20%">&nbsp;</td>
+          <td colspan="3"></th>
         </tr>
         <tr>
           <td>&nbsp;</td>
           <td>DC Size, kW</td>
           <td>{{ details['dc_size'] }}</td>
           <td>&nbsp;</td>
+          <td colspan="3"></th>
         </tr>
         <tr>
           <td>&nbsp;</td>
           <td>Address</td>
           <td>{{ details['address'] }}</td>
           <td>&nbsp;</td>
+          <td colspan="3"></th>
         </tr>
         <tr>
           <td>&nbsp;</td>
           <td>Inverter Type</td>
           <td>{{ details['inverter_type'] }}</td>
           <td>&nbsp;</td>
+          <td colspan="3"></th>
         </tr>
         <tr>
           <td>&nbsp;</td>
           <td>Number of Inverters</td>
           <td>{{ details['num_of_inverters'] }}</td>
           <td>&nbsp;</td>
+          <td colspan="3"></th>
         </tr>
         <tr>
           <td>&nbsp;</td>
           <td>Number of EnvKit</td>
           <td>{{ details['num_of_envkits'] }}</td>
           <td>&nbsp;</td>
+          <td colspan="3"></th>
         </tr>
         <tr>
           <td>&nbsp;</td>
           <td>Number of GenMeter</td>
           <td>{{ details['num_of_genmeters'] }}</td>
           <td>&nbsp;</td>
+          <td colspan="3"></th>
         </tr>
-<!--
-        <tr>
-          <td>&nbsp;</td>
-          <td>Inverter 1</td>
-          <td>AC Capacity, kW</td>
-          <td>100</td>
-        </tr>
-        <tr>
-          <td>&nbsp;</td>
-          <td>Inverter 2</td>
-          <td>AC Capacity, kW</td>
-          <td>200</td>
-        </tr>
-        <tr>
-          <td>&nbsp;</td>
-          <td>Inverter 3</td>
-          <td>AC Capacity, kW</td>
-          <td>300</td>
-        </tr>
--->
+
         <tr class="w3-light-gray">
           <th>Production Detail</th>
-          <th colspan="3">Historical Reading</th>
+          <th colspan="6">Historical Reading</th>
         </tr>
 
         <tr>
@@ -97,6 +85,7 @@
           <td>Yesterday's Total Production, kWh</td>
           <td>&nbsp;</td>
           <td>{{ details['yesterday']['prod'] }}</td>
+          <td colspan="3"></th>
         </tr>
 
         <tr>
@@ -104,6 +93,7 @@
           <td>Yesterday's Total Insolation, kW/m<sup>2</sup></td>
           <td>&nbsp;</td>
           <td>{{ details['yesterday']['inso'] }}</td>
+          <td colspan="3"></th>
         </tr>
 
         <tr>
@@ -111,6 +101,7 @@
           <td>Month-to-date's Total Production, kWh</td>
           <td>&nbsp;</td>
           <td>{{ details['month-to-date']['prod'] }}</td>
+          <td colspan="3"></th>
         </tr>
 
         <tr>
@@ -118,6 +109,7 @@
           <td>Month-to-date's Total Insolation, kW/m<sup>2</sup></td>
           <td>&nbsp;</td>
           <td>{{ details['month-to-date']['inso'] }}</td>
+          <td colspan="3"></th>
         </tr>
 
         <tr>
@@ -125,6 +117,7 @@
           <td>Today's Total Production, kWh</td>
           <td>&nbsp;</td>
           <td>{{ details['today']['prod'] }}</td>
+          <td colspan="3"></th>
         </tr>
 
         <tr>
@@ -132,34 +125,38 @@
           <td>Today's Total Insolation, kW/m<sup>2</sup></td>
           <td>&nbsp;</td>
           <td>{{ details['today']['inso'] }}</td>
+          <td colspan="3"></th>
         </tr>
 
         <tr class="w3-light-gray">
           <th>Weather Station</th>
-          <th colspan="3">Current Reading</th>
+          <th colspan="6">Current Reading</th>
         </tr>
         <tr>
           <td>&nbsp;</td>
           <td>Insolation, kW/m<sup>2</sup></td>
           <td>&nbsp;</td>
           <td>{{ details['envkit']['inso'] }}</td>
+          <td colspan="3"></th>
         </tr>
         <tr>
           <td>&nbsp;</td>
           <td>Ambient Temperature, C</td>
           <td>&nbsp;</td>
           <td>{{ details['envkit']['oat'] }}</td>
+          <td colspan="3"></th>
         </tr>
         <tr>
           <td>&nbsp;</td>
           <td>Back of Module Temperature, C</td>
           <td>&nbsp;</td>
           <td>{{ details['envkit']['panelt'] }}</td>
+          <td colspan="3"></th>
         </tr>
 
         <tr class="w3-light-gray">
           <th>Meter Generation</th>
-          <th colspan="3">Current Reading</th>
+          <th colspan="6">Current Reading</th>
         </tr>
 
         <tr>
@@ -167,42 +164,48 @@
           <td>kW Delivered</td>
           <td>&nbsp;</td>
           <td>{{ details['genmeter']['kw-del'] }}</td>
+          <td colspan="3"></th>
         </tr>
         <tr>
           <td>&nbsp;</td>
           <td>kW Received</td>
           <td>&nbsp;</td>
           <td>{{ details['genmeter']['kw-rec'] }}</td>
+          <td colspan="3"></th>
         </tr>
         <tr>
           <td>&nbsp;</td>
           <td>kVar</td>
           <td>&nbsp;</td>
           <td>{{ details['genmeter']['kvar'] }}</td>
+          <td colspan="3"></th>
         </tr>
         <tr>
           <td>&nbsp;</td>
           <td>VLA, Volts</td>
           <td>&nbsp;</td>
           <td>{{ details['genmeter']['vla'] }}</td>
+          <td colspan="3"></th>
         </tr>
         <tr>
           <td>&nbsp;</td>
           <td>VLB, Volts</td>
           <td>&nbsp;</td>
           <td>{{ details['genmeter']['vlb'] }}</td>
+          <td colspan="3"></th>
         </tr>
         <tr>
           <td>&nbsp;</td>
           <td>VLC, Volts</td>
           <td>&nbsp;</td>
           <td>{{ details['genmeter']['vlc'] }}</td>
+          <td colspan="3"></th>
         </tr>
 
         {% if details['inverters'] is not empty %}
         <tr class="w3-light-gray">
           <th>Inverter Data</th>
-          <th colspan="3">Current Reading</th>
+          <th colspan="6">Current Reading</th>
         </tr>
         {% endif %}
 
@@ -212,6 +215,7 @@
           <td>Power, kW</td>
           <td>{{ inverter['power'] }}</td>
           <td>&nbsp;</td>
+          <td colspan="3"></th>
         </tr>
 
         <tr>
@@ -219,6 +223,7 @@
           <td>Status</td>
           <td>{{ inverter['status'] }}</td>
           <td>&nbsp;</td>
+          <td colspan="3"></th>
         </tr>
 
         <tr>
@@ -230,6 +235,7 @@
           <td>Fault Code</td>
           <td>{{ inverter['fault'] }}</td>
           <td>&nbsp;</td>
+          <td colspan="3"></th>
         </tr>
 
         <tr>
@@ -237,6 +243,7 @@
           <td>VLA, Volts</td>
           <td>{{ inverter['vla'] }}</td>
           <td>&nbsp;</td>
+          <td colspan="3"></th>
         </tr>
 
         <tr>
@@ -244,6 +251,7 @@
           <td>VLB, Volts</td>
           <td>{{ inverter['vlb'] }}</td>
           <td>&nbsp;</td>
+          <td colspan="3"></th>
         </tr>
 
         <tr>
@@ -251,6 +259,7 @@
           <td>VLC, Volts</td>
           <td>{{ inverter['vlc'] }}</td>
           <td>&nbsp;</td>
+          <td colspan="3"></th>
         </tr>
         {% endfor %}
       </table>

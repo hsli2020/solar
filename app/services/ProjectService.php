@@ -100,21 +100,27 @@ class ProjectService extends Injectable
         }
 
         // Envkit
-        $data = $project->getFirstEnvKit()->getLatestData();
+        foreach ($project->envkits as $envkit) {
+            $code = $envkit->code;
+            $data = $envkit->getLatestData();
 
-        $details['envkit']['inso'] = round($data['IRR']);
-        $details['envkit']['oat'] = round($data['OAT']);
-        $details['envkit']['panelt'] = round($data['PANELT']);
+            $details['envkits'][$code]['inso'] = round($data['IRR']);
+            $details['envkits'][$code]['oat'] = round($data['OAT']);
+            $details['envkits'][$code]['panelt'] = round($data['PANELT']);
+        }
 
         // GenMeter
-        $data = $project->getFirstGenMeter()->getLatestData();
+        foreach ($project->genmeters as $genmeter) {
+            $code = $genmeter->code;
+            $data = $genmeter->getLatestData();
 
-        $details['genmeter']['kw-del'] = round($data['kwh_del']);
-        $details['genmeter']['kw-rec'] = round($data['kwh_rec']);
-        $details['genmeter']['kvar'] = round($data['kva']);
-        $details['genmeter']['vla'] = round($data['vln_a']);
-        $details['genmeter']['vlb'] = round($data['vln_b']);
-        $details['genmeter']['vlc'] = round($data['vln_c']);
+            $details['genmeters'][$code]['kw-del'] = round($data['kwh_del']);
+            $details['genmeters'][$code]['kw-rec'] = round($data['kwh_rec']);
+            $details['genmeters'][$code]['kvar'] = round($data['kva']);
+            $details['genmeters'][$code]['vla'] = round($data['vln_a']);
+            $details['genmeters'][$code]['vlb'] = round($data['vln_b']);
+            $details['genmeters'][$code]['vlc'] = round($data['vln_c']);
+        }
 
         // if there is no inverter
         if (count($project->inverters) == 0) {

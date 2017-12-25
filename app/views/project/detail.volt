@@ -133,15 +133,17 @@
           <th>VLB, Volts</th>
           <th>VLC, Volts</th>
         </tr>
-        <tr style="border-top: 1px solid lightgray;">
-          <td>Meter1</td>
-          <td>{{ details['genmeter']['kw-del'] }}</td>
-          <td>{{ details['genmeter']['kw-rec'] }}</td>
-          <td>{{ details['genmeter']['kvar'] }}</td>
-          <td>{{ details['genmeter']['vla'] }}</td>
-          <td>{{ details['genmeter']['vlb'] }}</td>
-          <td>{{ details['genmeter']['vlc'] }}</td>
+        {% for code, genmeter in details['genmeters'] %}
+        <tr data-code="{{ code }}" style="border-top: 1px solid lightgray;">
+          <td>Meter {{ loop.index }}</td>
+          <td>{{ genmeter['kw-del'] }}</td>
+          <td>{{ genmeter['kw-rec'] }}</td>
+          <td>{{ genmeter['kvar'] }}</td>
+          <td>{{ genmeter['vla'] }}</td>
+          <td>{{ genmeter['vlb'] }}</td>
+          <td>{{ genmeter['vlc'] }}</td>
         </tr>
+        {% endfor %}
       </table>
 
       <table class="w3-table w3-margin-top">
@@ -157,13 +159,15 @@
           <th>Back of Module Temperature, C</th>
           <th colspan="3"></th>
         </tr>
-        <tr style="border-top: 1px solid lightgray;">
-          <td>WS1</td>
-          <td>{{ details['envkit']['inso'] }}</td>
-          <td>{{ details['envkit']['oat'] }}</td>
-          <td>{{ details['envkit']['panelt'] }}</td>
+        {% for code, envkit in details['envkits'] %}
+        <tr data-code="{{ code }}" style="border-top: 1px solid lightgray;">
+          <td>WS {{ loop.index }}</td>
+          <td>{{ envkit['inso'] }}</td>
+          <td>{{ envkit['oat'] }}</td>
+          <td>{{ envkit['panelt'] }}</td>
           <td colspan="3"></th>
         </tr>
+        {% endfor %}
       </table>
 
       <table class="w3-table w3-margin-top">

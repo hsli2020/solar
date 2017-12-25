@@ -23,61 +23,54 @@
 
       <table class="w3-table w3-margin-top compact">
         <tr class="w3-light-gray">
-          <th colspan="7">Project Details</th>
+          <th colspan="4">Project Details</th>
         </tr>
         <tr>
           <td width="20%">&nbsp;</td>
           <td width="35%">AC Size, kW</td>
           <td width="25%">{{ details['ac_size'] }}</td>
           <td width="20%">&nbsp;</td>
-          <td colspan="3"></th>
         </tr>
         <tr>
           <td>&nbsp;</td>
           <td>DC Size, kW</td>
           <td>{{ details['dc_size'] }}</td>
           <td>&nbsp;</td>
-          <td colspan="3"></th>
         </tr>
         <tr>
           <td>&nbsp;</td>
           <td>Address</td>
           <td>{{ details['address'] }}</td>
           <td>&nbsp;</td>
-          <td colspan="3"></th>
         </tr>
         <tr>
           <td>&nbsp;</td>
           <td>Inverter Type</td>
           <td>{{ details['inverter_type'] }}</td>
           <td>&nbsp;</td>
-          <td colspan="3"></th>
         </tr>
         <tr>
           <td>&nbsp;</td>
           <td>Number of Inverters</td>
           <td>{{ details['num_of_inverters'] }}</td>
           <td>&nbsp;</td>
-          <td colspan="3"></th>
         </tr>
         <tr>
           <td>&nbsp;</td>
           <td>Number of EnvKit</td>
           <td>{{ details['num_of_envkits'] }}</td>
           <td>&nbsp;</td>
-          <td colspan="3"></th>
         </tr>
         <tr>
           <td>&nbsp;</td>
           <td>Number of GenMeter</td>
           <td>{{ details['num_of_genmeters'] }}</td>
           <td>&nbsp;</td>
-          <td colspan="3"></th>
         </tr>
 
         <tr class="w3-light-gray">
           <th>Production Detail</th>
-          <th colspan="6">Historical Reading</th>
+          <th colspan="3">Historical Reading</th>
         </tr>
 
         <tr>
@@ -85,7 +78,6 @@
           <td>Yesterday's Total Production, kWh</td>
           <td>&nbsp;</td>
           <td>{{ details['yesterday']['prod'] }}</td>
-          <td colspan="3"></th>
         </tr>
 
         <tr>
@@ -93,7 +85,6 @@
           <td>Yesterday's Total Insolation, kW/m<sup>2</sup></td>
           <td>&nbsp;</td>
           <td>{{ details['yesterday']['inso'] }}</td>
-          <td colspan="3"></th>
         </tr>
 
         <tr>
@@ -101,7 +92,6 @@
           <td>Month-to-date's Total Production, kWh</td>
           <td>&nbsp;</td>
           <td>{{ details['month-to-date']['prod'] }}</td>
-          <td colspan="3"></th>
         </tr>
 
         <tr>
@@ -109,7 +99,6 @@
           <td>Month-to-date's Total Insolation, kW/m<sup>2</sup></td>
           <td>&nbsp;</td>
           <td>{{ details['month-to-date']['inso'] }}</td>
-          <td colspan="3"></th>
         </tr>
 
         <tr>
@@ -117,7 +106,6 @@
           <td>Today's Total Production, kWh</td>
           <td>&nbsp;</td>
           <td>{{ details['today']['prod'] }}</td>
-          <td colspan="3"></th>
         </tr>
 
         <tr>
@@ -125,33 +113,10 @@
           <td>Today's Total Insolation, kW/m<sup>2</sup></td>
           <td>&nbsp;</td>
           <td>{{ details['today']['inso'] }}</td>
-          <td colspan="3"></th>
         </tr>
       </table>
 
 <!-- dev start -->
-
-      <table class="w3-table w3-margin-top">
-        <tr class="w3-light-gray">
-          <th>Weather Station</th>
-          <th>Current Reading</th>
-          <th colspan="5"></th>
-        </tr>
-        <tr style="border-top: 1px solid lightgray;">
-          <th>Weather Station Number</th>
-          <th>Insolation, kW/m<sup>2</sup></th>
-          <th>Ambient Temperature, C</th>
-          <th>Back of Module Temperature, C</th>
-          <th colspan="3"></th>
-        </tr>
-        <tr style="border-top: 1px solid lightgray;">
-          <td>WS1</td>
-          <td>{{ details['envkit']['inso'] }}</td>
-          <td>{{ details['envkit']['oat'] }}</td>
-          <td>{{ details['envkit']['panelt'] }}</td>
-          <td colspan="3"></th>
-        </tr>
-      </table>
 
       <table class="w3-table w3-margin-top">
         <tr class="w3-light-gray">
@@ -176,6 +141,28 @@
           <td>{{ details['genmeter']['vla'] }}</td>
           <td>{{ details['genmeter']['vlb'] }}</td>
           <td>{{ details['genmeter']['vlc'] }}</td>
+        </tr>
+      </table>
+
+      <table class="w3-table w3-margin-top">
+        <tr class="w3-light-gray">
+          <th>Weather Station</th>
+          <th>Current Reading</th>
+          <th colspan="5"></th>
+        </tr>
+        <tr style="border-top: 1px solid lightgray;">
+          <th>Weather Station Number</th>
+          <th>Insolation, kW/m<sup>2</sup></th>
+          <th>Ambient Temperature, C</th>
+          <th>Back of Module Temperature, C</th>
+          <th colspan="3"></th>
+        </tr>
+        <tr style="border-top: 1px solid lightgray;">
+          <td>WS1</td>
+          <td>{{ details['envkit']['inso'] }}</td>
+          <td>{{ details['envkit']['oat'] }}</td>
+          <td>{{ details['envkit']['panelt'] }}</td>
+          <td colspan="3"></th>
         </tr>
       </table>
 

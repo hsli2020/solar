@@ -33,6 +33,16 @@ abstract class Device
         return $di->get('db');
     }
 
+    public function getCode()
+    {
+        return $this->code;
+    }
+
+    public function getType()
+    {
+        return $this->type;
+    }
+
     public function getTable()
     {
         return $this->table;

@@ -77,6 +77,7 @@ class ImportService extends Injectable
                 };
 
                 $data = array_combine($columns, $fields);
+                $data = $this->fixValues($project, $dev, $data);
 
                 $this->insertIntoDeviceTable($project, $device, $data);
 
@@ -127,6 +128,18 @@ class ImportService extends Injectable
              . " data = '$json'";
 
         $this->db->execute($sql);
+    }
+
+    protected function fixValues($project, $dev, $data)
+    {
+        if (($project->id == 26 && $dev == 'mb-108') ||
+            ($project->id == 27 && $dev == 'mb-109')) {
+            $data['vln_a'] = $data['vln_ave'];
+            $data['vln_b'] = $data['vln_ave'];
+            $data['vln_c'] = $data['vln_ave'];
+        }
+
+        return $data;
     }
 
     protected function importCombiners($project, $dir)

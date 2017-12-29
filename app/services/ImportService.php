@@ -137,7 +137,7 @@ class ImportService extends Injectable
             $data['vln_a'] = $data['vln_ave'];
             $data['vln_b'] = $data['vln_ave'];
             $data['vln_c'] = $data['vln_ave'];
-        } else if ($project->id == 28 &&& $dev == 'mb-011') {
+        } else if ($project->id == 28 && $dev == 'mb-011') {
             $data['vln_a'] = $data['vln'];
             $data['vln_b'] = $data['vln'];
             $data['vln_c'] = $data['vln'];

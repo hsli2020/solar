@@ -18,9 +18,16 @@ class ProjectController extends ControllerBase
         $this->view->now = date('g:i a');
         $this->view->refreshInterval = 60;
 
-        $details = $this->projectService->getDetails($id);
-
-        $this->view->details = $details;
+        try {
+            $details = $this->projectService->getDetails($id);
+            $this->view->details = $details;
+        } catch (\Exception $e) {
+           #$this->response->redirect('/error/404');
+            $this->dispatcher->forward([
+                'controller' => 'error',
+                'action'     => 'error404'
+            ]);
+        }
     }
 
     public function combinerAction($key = '')
@@ -40,7 +47,15 @@ class ProjectController extends ControllerBase
     {
         $this->view->pageTitle = 'Project Chart';
 
-        $project = $this->projectService->get($id);
+        try {
+            $project = $this->projectService->get($id);
+        } catch (\Exception $e) {
+            $this->dispatcher->forward([
+                'controller' => 'error',
+                'action'     => 'error404'
+            ]);
+            return;
+        }
 
         $envkit = $project->getFirstEnvKit();
         $genmeter = $project->getFirstGenMeter();

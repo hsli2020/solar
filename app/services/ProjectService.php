@@ -44,7 +44,7 @@ class ProjectService extends Injectable
         if (isset($this->projects[$id])) {
             return $this->projects[$id];
         }
-        throw new \Exception("Invalid Parameter: %id");
+        throw new \Exception("Invalid Parameter: $id");
     }
 
     public function getDetails($id)

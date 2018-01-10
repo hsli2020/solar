@@ -141,7 +141,12 @@ class ImportService extends Injectable
             $data['vln_a'] = $data['vln_ave'];
             $data['vln_b'] = $data['vln_ave'];
             $data['vln_c'] = $data['vln_ave'];
-        } else if ($project->id == 28 && $dev == 'mb-011') {
+        } else if (
+            ($project->id == 28 && $dev == 'mb-011') ||
+            ($project->id == 33 && $dev == 'mb-110') ||
+            ($project->id == 34 && $dev == 'mb-174') ||
+            ($project->id == 35 && $dev == 'mb-106')
+        ) {
             // table_genmeter_ion_tcp
             $data['vln_a'] = $data['vln'];
             $data['vln_b'] = $data['vln'];

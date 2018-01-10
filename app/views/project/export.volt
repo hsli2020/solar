@@ -80,15 +80,13 @@
 {% endblock %}
 
 {% block cssfile %}
-  {{ stylesheet_link("/pickadate/themes/classic.css") }}
-  {{ stylesheet_link("/pickadate/themes/classic.date.css") }}
+  {{ stylesheet_link("/flatpickr/4.1.4/flatpickr.min.css") }}
 {% endblock %}
 
 {% block jsfile %}
-  {{ javascript_include("/pickadate/picker.js") }}
-  {{ javascript_include("/pickadate/picker.date.js") }}
+  {{ javascript_include("/flatpickr/4.1.4/flatpickr.min.js") }}
 {% endblock %}
 
 {% block domready %}
-  $('.datepicker').pickadate({format: 'yyyy-mm-dd'});
+  $('.datepicker').flatpickr({enableTime: true});
 {% endblock %}

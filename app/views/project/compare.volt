@@ -91,7 +91,7 @@
 {% endblock %}
 
 {% block domready %}
-  $('.datepicker').datetimepicker({timepicker:true, step: 30});
+  $('.datepicker').datetimepicker({format: 'Y-m-d H:i', timepicker:true, step: 30});
 
   $('form').submit(function() {
     var valid = true;

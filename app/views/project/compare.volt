@@ -83,15 +83,15 @@
 {% endblock %}
 
 {% block cssfile %}
-  {{ stylesheet_link("/flatpickr/4.1.4/flatpickr.min.css") }}
+  {{ stylesheet_link("/datetimepicker/jquery.datetimepicker.min.css") }}
 {% endblock %}
 
 {% block jsfile %}
-  {{ javascript_include("/flatpickr/4.1.4/flatpickr.min.js") }}
+  {{ javascript_include("/datetimepicker/jquery.datetimepicker.full.min.js") }}
 {% endblock %}
 
 {% block domready %}
-  $('.datepicker').flatpickr({enableTime: true});
+  $('.datepicker').datetimepicker({timepicker:true, step: 30});
 
   $('form').submit(function() {
     var valid = true;

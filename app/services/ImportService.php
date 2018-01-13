@@ -132,24 +132,13 @@ class ImportService extends Injectable
 
     protected function fixValues($project, $dev, $data)
     {
-        if (
-            ($project->id == 26 && $dev == 'mb-108') ||
-            ($project->id == 27 && $dev == 'mb-109') ||
-            ($project->id == 29 && $dev == 'mb-111') ||
-            ($project->id == 30 && $dev == 'mb-127') ||
-            ($project->id == 31 && $dev == 'mb-127') ||
-            ($project->id == 35 && $dev == 'mb-106')
-        ) {
-            // table_genmeter_ion
+        $table = $project->devices[$dev]->getTable();
+
+        if ($table == 'table_genmeter_ion') {
             $data['vln_a'] = $data['vln_ave'];
             $data['vln_b'] = $data['vln_ave'];
             $data['vln_c'] = $data['vln_ave'];
-        } else if (
-            ($project->id == 28 && $dev == 'mb-011') ||
-            ($project->id == 33 && $dev == 'mb-110') ||
-            ($project->id == 34 && $dev == 'mb-174')
-        ) {
-            // table_genmeter_ion_tcp
+        } else if ($table == 'table_genmeter_ion_tcp') {
             $data['vln_a'] = $data['vln'];
             $data['vln_b'] = $data['vln'];
             $data['vln_c'] = $data['vln'];

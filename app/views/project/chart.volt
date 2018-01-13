@@ -21,22 +21,28 @@
 	  	<h2>Power Production (kW) and Irradiance (W/m<sup>2</sup>)</h2>
 	  </div>
 
-	  <div>Project: {{ project.name }} ({{ date1 }})<span id="legend">Power=0, Irradiance=0</span></div>
-      <div class="chart-container">
-        <div id="placeholder1" class="chart-placeholder"></div>
+      <div id="chart1">
+	    <div>Project: {{ project.name }} ({{ date1 }})<span id="tooltip1" class="chart-tooltip">Power=0, Irradiance=0</span></div>
+        <div class="chart-container">
+          <div id="placeholder1" class="chart-placeholder"></div>
+        </div>
       </div>
 
-	  <form method="POST">
-        <label>Select Date: </label>
-        <input class="datepicker" name="date2" type="text" value="{{ date2 }}">
-        <button type="submit">Refresh</button>
-        {% if date2 %}
-        <span id="legend">Power=0, Irradiance=0</span>
-        {% endif %}
-      </form>
-      <div class="chart-container">
-        <div id="placeholder2" class="chart-placeholder"></div>
+      <div id="chart2">
+	    <form method="POST">
+          <label>Select Date: </label>
+          <input class="datepicker" name="date2" type="text" value="{{ date2 }}">
+          <button type="submit">Refresh</button>
+          {% if date2 %}
+          <span id="tooltip2" class="chart-tooltip">Power=0, Irradiance=0</span>
+          {% endif %}
+        </form>
+
+        <div class="chart-container">
+          <div id="placeholder2" class="chart-placeholder"></div>
+        </div>
       </div>
+
     </div>
   </div>
 {% endblock %}
@@ -49,7 +55,7 @@ h2 {
     padding: 5px;
     text-align: center;
 }
-#legend {
+.chart-tooltip {
     float: right;
     background-color: rgb(54, 162, 235);
     color: white;
@@ -61,12 +67,22 @@ h2 {
 {% block jscode %}
 var updateLegendTimeout = null;
 var latestPosition = null;
-var legend = $("#legend");
-var valstr;
+var currentTarget;
 
 function updateLegend() {
 
     updateLegendTimeout = null;
+
+    var plot;
+    var tooltip;
+
+    if (currentTarget == 'placeholder1') {
+        plot = plot1;
+        tooltip = $("#tooltip1");
+    } else {
+        plot = plot2;
+        tooltip = $("#tooltip2");
+    }
 
     var pos = latestPosition;
 
@@ -110,8 +126,8 @@ function updateLegend() {
     date.setTime(ts);
     timeStr = date.toUTCString().substr(-12, 5);
 
-    valstr = timeStr + " Power=" + vals[0] + ", " + "Irradiance=" + vals[1];
-    legend.text(valstr);
+    var valstr = timeStr + " Power=" + vals[0] + ", " + "Irradiance=" + vals[1];
+    tooltip.text(valstr);
 }
 {% endblock %}
 
@@ -174,32 +190,15 @@ var options = {
     }
 }
 
-plot = $.plot("#placeholder1", [ bar1, line1 ], options);
+plot1 = $.plot("#placeholder1", [ bar1, line1 ], options);
 plot2 = $.plot("#placeholder2", [ bar2, line2 ], options);
 
-$("<div id='tooltip'></div>").css({
-    position: "absolute",
-    display: "none",
-    border: "1px solid #fdd",
-    padding: "2px",
-    "background-color": "#fee",
-    opacity: 0.80
-}).appendTo("body");
-
 $(".chart-placeholder").bind("plothover", function (event, pos, item) {
+    currentTarget = event.currentTarget.id;
     latestPosition = pos;
     if (!updateLegendTimeout) {
         updateLegendTimeout = setTimeout(updateLegend, 50);
     }
-    /*
-    if (item) {
-        $("#tooltip").html(valstr)
-            .css({top: item.pageY+5, left: item.pageX+5})
-            .fadeIn(200);
-    } else {
-        $("#tooltip").hide();
-    }
-    */
 });
 
 $('.datepicker').pickadate({format: 'yyyy-mm-dd'});

@@ -181,8 +181,8 @@ var options = {
         autoHighlight: false
     },
     yaxes: [ 
-        { position: "left" },
-        { position: "right" }
+        { position: "left", max: {{ acsize }} },
+        { position: "right", max: 1000 }
     ],
     xaxis: {
         mode: 'time',

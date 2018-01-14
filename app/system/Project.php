@@ -88,6 +88,16 @@ class Project
         return $this->devices;
     }
 
+    public function getSizeAC()
+    {
+        return $this->capacityAC;
+    }
+
+    public function getSizeDC()
+    {
+        return $this->capacityDC;
+    }
+
     public function getInverters()
     {
         return $this->inverters;

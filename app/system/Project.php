@@ -322,6 +322,15 @@ class Project
 
     public function getSnapshotKW()
     {
+        // HACK: there is no GenMeter in site #27, get kw from Inverters
+        if ($this->id == 27) {
+            $sum = 0;
+            foreach ($this->inverters as $inverter) {
+                $sum += $inverter->getSnapshotKW();
+            }
+            return $sum;
+        }
+
         $genmeter = current($this->genmeters);
         return $genmeter->getSnapshotKVA();
     }

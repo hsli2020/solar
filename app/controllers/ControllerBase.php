@@ -45,6 +45,23 @@ class ControllerBase extends Controller
         return in_array($controllerName, $privateControllers);
     }
 
+    protected function json($status, $data = '')
+    {
+        $json['status'] = $status;
+
+        if ($status == 'OK') {
+            $json['data'] = $data;
+        } else if ($status == 'ERROR') {
+            $json['message'] = $data;
+        }
+
+        $this->view->disable();
+        $this->response->setContentType('application/json', 'utf-8');
+        $this->response->setJsonContent($json);
+
+        return $this->response;
+    }
+
     protected function startDownload($filename, $type = 'csv')
     {
         if (file_exists($filename)) {

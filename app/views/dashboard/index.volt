@@ -20,7 +20,7 @@
 </style>
 
 <div id="statsbox" class="w3-row-padding w3-margin-bottom">
-  <div class="w3-quarter">
+  <div class="w3-col" style="width:20%">
     <div class="w3-container bg-box1">
       <div class="w3-right w3-padding-12">
         <div class="numval">{{ data['total']['project_size_ac'] }}</div>
@@ -28,7 +28,15 @@
       </div>
     </div>
   </div>
-  <div class="w3-quarter">
+  <div class="w3-col" style="width:20%">
+    <div class="w3-container bg-box1">
+      <div class="w3-right w3-padding-12">
+        <div class="numval">{{ data['rows'] | length }}</div>
+        <div class="label">Total Number of Projects</div>
+      </div>
+    </div>
+  </div>
+  <div class="w3-col" style="width:20%">
     <div class="w3-container bg-box2">
       <div class="w3-right w3-padding-12">
         <div class="numval">{{ data['total']['current_power'] }}</div>
@@ -36,7 +44,7 @@
       </div>
     </div>
   </div>
-  <div class="w3-quarter">
+  <div class="w3-col" style="width:20%">
     <div class="w3-container bg-box3">
       <div class="w3-right w3-padding-12">
         <div class="numval">{{ data['total']['average_irradiance'] }}</div>
@@ -44,7 +52,7 @@
       </div>
     </div>
   </div>
-  <div class="w3-quarter">
+  <div class="w3-col" style="width:20%">
     <div class="w3-container bg-box4">
       <div class="w3-right w3-padding-12">
         <div class="numval">{{ data['total']['performance'] }}</div>

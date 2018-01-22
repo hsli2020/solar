@@ -6,3 +6,6 @@ $di = \Phalcon\Di::getDefault();
 
 $service = $di->get('dataService');
 $service->archive();
+
+$service = $di->get('solarService');
+$service->cleanup();

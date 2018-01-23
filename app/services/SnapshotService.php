@@ -64,13 +64,24 @@ class SnapshotService extends Injectable
             }
 
             // check if current_power is too low
-            if ($val['current_power'] < 2 && $val['irradiance'] >= 100) {
-                $result[$key]['error']['inverters_generating'] = 'red';
-            } else if ($val['current_power'] < 4) {
+           #if ($val['current_power'] < 2 && $val['irradiance'] >= 100) {
+           #    $result[$key]['error']['inverters_generating'] = 'red';
+           #} else if ($val['current_power'] < 4) {
+           #    list($a, $b) = explode('/', $val['inverters_generating']);
+           #    $result[$key]['inverters_generating'] = "0/$b";
+           #}
+
+            // highlight inverters_generating if something is wrong
+            if ($val['current_power'] < 4) {
                 list($a, $b) = explode('/', $val['inverters_generating']);
                 $result[$key]['inverters_generating'] = "0/$b";
             }
+            list($a, $b) = explode('/', $val['inverters_generating']);
+            if ($a != $b) {
+                $result[$key]['error']['inverters_generating'] = 'red';
+            }
 
+            // highlight devices_communicating if something is wrong
             list($a, $b) = explode('/', $val['devices_communicating']);
             if ($a != $b) {
                 $result[$key]['error']['devices_communicating'] = 'red';

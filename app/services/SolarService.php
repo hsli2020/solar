@@ -10,8 +10,8 @@ class SolarService extends Injectable
 
     public function cleanup()
     {
-        $this->cleanupFolder(BASE_DIR . "/app/logs/");
-        $this->cleanupFolder(BASE_DIR . "/tmp/");
+        $this->cleanupFolder(BASE_DIR . "/app/logs");
+        $this->cleanupFolder(BASE_DIR . "/tmp");
     }
 
     protected function cleanupFolder($folder)

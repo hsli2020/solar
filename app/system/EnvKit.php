@@ -224,9 +224,11 @@ class EnvKit extends Device
 
         if ($interval > 0) {
             $seconds = $interval*60; // convert to seconds
-            $sql = "SELECT time, ROUND(AVG(IRR)) AS irr
+            $sql = "SELECT CONVERT_TZ(time, 'UTC', 'America/Toronto') AS time,
+                           ROUND(AVG(IRR)) AS irr
                       FROM $table
-                     WHERE time >= '$startTime' AND time<'$endTime' AND error=0
+                     WHERE time >= CONVERT_TZ('$startTime', 'America/Toronto', 'UTC') AND
+                           time <  CONVERT_TZ('$endTime',   'America/Toronto', 'UTC') AND error=0
                      GROUP BY UNIX_TIMESTAMP(time) DIV $seconds";
             $data = $this->getDb()->fetchAll($sql);
             return array_column($data, 'irr', 'time');

@@ -60,7 +60,7 @@ class SnapshotService extends Injectable
            #$result[$key]['error']['current_power'] = 1;
             $irr = 1000*$val['current_power'] / $val['project_size_ac'];
             if ($irr > 100 && $val['irradiance'] < ($irr/2)) {
-                $result[$key]['error']['irradiance'] = 'red';
+                $result[$key]['error']['irradiance'] = 'text-red';
             }
 
             // check if current_power is too low

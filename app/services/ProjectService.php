@@ -88,9 +88,11 @@ class ProjectService extends Injectable
 
             $details['inverter_type'] = $inverter->getType();
 
+            $power = $getVal($data, ['kw', 'line_kw']);
+
             $details['inverters'][$code]['type']   = $inverter->getType();
-            $details['inverters'][$code]['power']  = $getVal($data, ['kw', 'line_kw']);
-            $details['inverters'][$code]['status'] = 'On';
+            $details['inverters'][$code]['power']  = $power;
+            $details['inverters'][$code]['status'] = $power > 0 ? 'On' : 'Off';
             $details['inverters'][$code]['fault']  = 'None';
             $details['inverters'][$code]['vla']    = $getVal($data, ['vln_a', 'volt_a', 'volts_a']);
             $details['inverters'][$code]['vlb']    = $getVal($data, ['vln_b', 'volt_b', 'volts_b']);

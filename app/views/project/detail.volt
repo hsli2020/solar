@@ -186,7 +186,7 @@
           <th>VLB, Volts</th>
           <th>VLC, Volts</th>
           <th>Status</th>
-          <th>Fault Code</th>
+{#        <th>Fault Code</th> #}
         </tr>
 
         {% for code, inverter in details['inverters'] %}
@@ -201,7 +201,7 @@
           <td>{{ inverter['vlb'] }}</td>
           <td>{{ inverter['vlc'] }}</td>
           <td>{{ inverter['status'] }}</td>
-          <td>{{ inverter['fault'] }}</td>
+{#        <td>{{ inverter['fault'] }}</td> #}
         </tr>
         {% endfor %}
       </table>

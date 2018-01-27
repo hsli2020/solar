@@ -122,7 +122,7 @@ abstract class Device
     public function getLatestTime()
     {
         $data = $this->getLatestData();
-        return $data['time'];
+        return toLocaltime($data['time']);
     }
 
     public function getSnapshotData()

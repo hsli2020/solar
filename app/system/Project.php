@@ -250,8 +250,8 @@ class Project
         }
 
         $inverterData = [];
-        foreach ($this->inverters as $inverter) {
-            $inverterData = $inverter->getDataToCompare($startTime, $endTime, $interval);
+        foreach ($this->inverters as $i => $inverter) {
+            $inverterData[$i] = $inverter->getDataToCompare($startTime, $endTime, $interval);
         }
 
         $result = [];
@@ -266,9 +266,11 @@ class Project
             $result[$key]['kwh'] = $kwh;
         }
 
-        foreach ($inverterData as $time => $kw) {
-            $key = substr($time, 0, 16); // remove second
-            $result[$key]['kw'] = $kw;
+        foreach ($inverterData as $data) {
+            foreach ($data as $time => $kw) {
+                $key = substr($time, 0, 16); // remove second
+                $result[$key]['kw'] += $kw;
+            }
         }
 
         return $result;

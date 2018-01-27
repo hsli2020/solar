@@ -269,7 +269,11 @@ class Project
         foreach ($inverterData as $data) {
             foreach ($data as $time => $kw) {
                 $key = substr($time, 0, 16); // remove second
-                $result[$key]['kw'] += $kw;
+                if (isset($result[$key]['kw'])) {
+                    $result[$key]['kw'] += $kw;
+                } else {
+                    $result[$key]['kw'] = $kw;
+                }
             }
         }
 

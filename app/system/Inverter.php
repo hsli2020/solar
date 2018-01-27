@@ -80,6 +80,8 @@ class Inverter extends Device
 
     public function getSnapshotKW()
     {
+        return $this->getLatestKW();
+        /*
         $table = $this->getDeviceTable();
 
         $column = ($this->model == 'SERIAL') ?  'line_kw' : 'kw';
@@ -98,6 +100,7 @@ class Inverter extends Device
         }
 
         return 0;
+        */
     }
 
     public function export($file, $interval, $start, $end)

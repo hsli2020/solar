@@ -51,6 +51,9 @@ class EnvKit extends Device
 
     public function getSnapshotIRR()
     {
+        $data = $this->getSnapshotData();
+        return $data['IRR'];
+        /*
         $table = $this->getDeviceTable();
 
         list($start, $end) = $this->getPeriod('SNAPSHOT');
@@ -66,10 +69,14 @@ class EnvKit extends Device
         }
 
         return 0;
+        */
     }
 
     public function getSnapshotOAT()
     {
+        $data = $this->getSnapshotData();
+        return $data['OAT'];
+        /*
         $table = $this->getDeviceTable();
 
         list($start, $end) = $this->getPeriod('SNAPSHOT');
@@ -83,6 +90,7 @@ class EnvKit extends Device
         }
 
         return 0;
+        */
     }
 
     public function getOAT($period)

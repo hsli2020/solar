@@ -69,6 +69,8 @@ class GenMeter extends Device
 
     public function getSnapshotKVA()
     {
+        return $this->getLatestKVA();
+        /*
         $table = $this->getDeviceTable();
 
         list($start, $end) = $this->getPeriod('SNAPSHOT');
@@ -83,6 +85,7 @@ class GenMeter extends Device
         }
 
         return 0;
+        */
     }
 
     public function getChartData($date)

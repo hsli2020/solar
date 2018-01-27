@@ -127,6 +127,8 @@ abstract class Device
 
     public function getSnapshotData()
     {
+        return $this->getLatestData();
+        /*
         $table = $this->getDeviceTable();
 
         list($start, $end) = $this->getPeriod('SNAPSHOT');
@@ -135,12 +137,16 @@ abstract class Device
         $data = $this->getDb()->fetchOne($sql);
 
         return $data;
+        */
     }
 
     public function getSnapshotTime()
     {
+        return $this->getLatestTime();
+        /*
         $data = $this->getSnapshotData();
         return $data ? toLocaltime($data['time']) : date('Y-m-d H:i:00', strtotime('-16 minute'));
+        */
     }
 
     public function export($file, $interval, $start, $end)

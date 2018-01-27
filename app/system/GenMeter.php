@@ -136,12 +136,13 @@ class GenMeter extends Device
 
         if ($interval > 1) {
             $seconds = $interval*60; // convert to seconds
-            $sql = "SELECT time, 
+            $sql = "SELECT CONVERT_TZ(time, 'UTC', 'America/Toronto') AS time,
                            ROUND(SUM(kva))     AS kva, 
                            ROUND(SUM(kwh_del)) AS kwh_del, 
                            ROUND(SUM(kwh_rec)) AS kwh_rec
                       FROM $table
-                     WHERE time >= '$start' AND time<'$end' AND error=0
+                     WHERE time >= CONVERT_TZ('$start', 'America/Toronto', 'UTC') AND
+                           time <  CONVERT_TZ('$end',   'America/Toronto', 'UTC') AND error=0
                      GROUP BY UNIX_TIMESTAMP(time) DIV $seconds";
         }
 

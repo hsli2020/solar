@@ -112,9 +112,11 @@ class Inverter extends Device
         if ($interval > 1) {
             $seconds = $interval*60; // convert to seconds
             $column = ($this->model == 'SERIAL') ?  'line_kw' : 'kw';
-            $sql = "SELECT time, ROUND(SUM($column)) AS kw
+            $sql = "SELECT CONVERT_TZ(time, 'UTC', 'America/Toronto') AS time,
+                           ROUND(SUM($column)) AS kw
                       FROM $table
-                     WHERE time >= '$start' AND time<'$end' AND error=0
+                     WHERE time >= CONVERT_TZ('$start', 'America/Toronto', 'UTC') AND
+                           time <  CONVERT_TZ('$end',   'America/Toronto', 'UTC') AND error=0
                      GROUP BY UNIX_TIMESTAMP(time) DIV $seconds";
         }
 

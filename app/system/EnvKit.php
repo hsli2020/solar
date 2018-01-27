@@ -131,20 +131,22 @@ class EnvKit extends Device
     {
         $table = $this->getDeviceTable();
 
-        // local time to utc time
-        $start = gmdate("Y-m-d H:i:s", strtotime($date . ' 00:00:00'));
-        $end   = gmdate("Y-m-d H:i:s", strtotime($date . ' 23:59:59'));
+        $start = $date . ' 00:00:00';
+        $end   = $date . ' 23:59:59';
 
-        $sql = "SELECT time, ROUND(AVG(IRR)) AS irr FROM $table".
-               " WHERE time > '$start' AND time < '$end' AND error = 0".
-               " GROUP BY UNIX_TIMESTAMP(time) DIV 300";
+        $sql = "SELECT CONVERT_TZ(time, 'UTC', 'America/Toronto') AS time,
+                       ROUND(AVG(IRR)) AS irr
+                  FROM $table
+                 WHERE time >= CONVERT_TZ('$start', 'America/Toronto', 'UTC') AND
+                       time <= CONVERT_TZ('$end',   'America/Toronto', 'UTC') AND error=0
+                 GROUP BY UNIX_TIMESTAMP(time) DIV 300";
 
         $result = $this->getDb()->fetchAll($sql);
 
         // utc time to local time
         $values = [];
         foreach ($result as $e) {
-            $time = strtotime($e['time'].' UTC') + date('Z');
+            $time = strtotime($e['time']);
             $values[$time] = [ $time*1000, max(0, intval($e['irr'])) ];
         };
 

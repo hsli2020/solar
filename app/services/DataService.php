@@ -154,4 +154,8 @@ class DataService extends Injectable
 
         echo EOL;
     }
+
+    public function fakeInverterData()
+    {
+    }
 }

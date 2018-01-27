@@ -135,16 +135,6 @@ class Project
             WHERE project_id=$prj AND year=$year AND month=$month");
     }
 
-    /**
-     * @deprecated
-     */
-    public function getRefData($year, $month)
-    {
-        $prj = $this->id;
-        return $this->getDb()->fetchOne("SELECT * FROM project_reference_data
-            WHERE project_id=$prj AND year=$year AND month=$month");
-    }
-
     public function getIRR($period)
     {
         $envkit = current($this->envkits);

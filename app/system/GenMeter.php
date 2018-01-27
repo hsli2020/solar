@@ -95,7 +95,7 @@ class GenMeter extends Device
         $start = $date . ' 00:00:00';
         $end   = $date . ' 23:59:59';
 
-        $sql = "SELECT CONVERT_TZ(time, 'UTC', 'America/Toronto') AS time,
+        $sql = "SELECT time,
                        ROUND(AVG(KVA)) AS kva
                   FROM $table
                  WHERE time >= CONVERT_TZ('$start', 'America/Toronto', 'UTC') AND
@@ -107,7 +107,7 @@ class GenMeter extends Device
         // utc time to local time
         $values = [];
         foreach ($result as $e) {
-            $time = strtotime($e['time']);
+            $time = strtotime($e['time'].' UTC') + date('Z');
             $values[$time] = [ $time*1000, intval($e['kva']) ];
         };
 

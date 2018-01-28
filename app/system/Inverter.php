@@ -4,7 +4,7 @@ namespace App\System;
 
 class Inverter extends Device
 {
-    public function getType()
+    public function getInverterType()
     {
         $types = [
             'PVP'     => 'AE Inverter',

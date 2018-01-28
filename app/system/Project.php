@@ -11,6 +11,7 @@ class Project
     protected $ftpdir;
     protected $cbdir;
     protected $interval;
+    protected $offset;
 
     protected $capacityAC;
     protected $capacityDC;
@@ -33,6 +34,7 @@ class Project
         $this->ftpdir                 = $info['ftpdir'];
         $this->cbdir                  = $info['cbdir'];
         $this->interval               = $info['interval'];
+        $this->offset                 = $info['offset'];
         $this->capacityDC             = $info['DC_Nameplate_Capacity'];
         $this->capacityAC             = $info['AC_Nameplate_Capacity'];
         $this->modulePowerCoefficient = $info['Module_Power_Coefficient'];

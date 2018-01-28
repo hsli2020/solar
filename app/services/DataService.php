@@ -157,5 +157,31 @@ class DataService extends Injectable
 
     public function fakeInverterData()
     {
+        $fmt = "INSERT INTO %s (time, error, low_alarm, high_alarm, kw, status, fault_code, vln_a, vln_b, vln_c)
+                SELECT time, error, low_alarm, high_alarm, GREATEST(0, kva-%d), 0, 0, vln_a, vln_b, vln_c
+                FROM %s";
+
+        $projects = $this->projectService->getAll();
+
+        foreach ($projects as $project) {
+
+            $offset = $project->offset;
+            $devices = $project->devices;
+
+            foreach ($devices as $device) {
+                if ($device->getType() == 'Inverter' && $device->getModel() == 'Fake') {
+                    $fakeInverter = $device;
+                    $genMeter = $devices[$device->getReference()];
+
+                    $genMeterTable = $genMeter->getDeviceTable();
+                    $fakeInverterTable = $fakeInverter->getDeviceTable();
+
+                    echo 'Generating data for ', $fakeInverter, EOL;
+
+                    $sql = sprintf($fmt, $fakeInverterTable, $offset, $genMeterTable);
+                    $this->db->execute($sql);
+                }
+            }
+        }
     }
 }

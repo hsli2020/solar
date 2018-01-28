@@ -159,7 +159,7 @@ class DataService extends Injectable
     {
         $fmt = "INSERT INTO %s (time, error, low_alarm, high_alarm, kw, status, fault_code, vln_a, vln_b, vln_c)
                 SELECT time, error, low_alarm, high_alarm, GREATEST(0, kva-%d), 0, 0, vln_a, vln_b, vln_c
-                FROM %s WHERE DATE(time)=DATE(NOW())";
+                FROM %s ORDER BY time DESC LIMIT 10";
 
         $projects = $this->projectService->getAll();
 
@@ -178,8 +178,12 @@ class DataService extends Injectable
 
                     echo 'Generating data for ', $fakeInverter, EOL;
 
-                    $sql = sprintf($fmt, $fakeInverterTable, $offset, $genMeterTable);
-                    $this->db->execute($sql);
+                    try {
+                        $sql = sprintf($fmt, $fakeInverterTable, $offset, $genMeterTable);
+                        $this->db->execute($sql);
+                    } catch (\Exception $e) {
+                        echo $e->getMessage(), EOL;
+                    }
                 }
             }
         }

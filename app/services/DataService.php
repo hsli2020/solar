@@ -159,7 +159,7 @@ class DataService extends Injectable
     {
         $fmt = "INSERT INTO %s (time, error, low_alarm, high_alarm, kw, status, fault_code, vln_a, vln_b, vln_c)
                 SELECT time, error, low_alarm, high_alarm, GREATEST(0, kva-%d), 0, 0, vln_a, vln_b, vln_c
-                FROM %s";
+                FROM %s WHERE DATE(time)=DATE(NOW())";
 
         $projects = $this->projectService->getAll();
 

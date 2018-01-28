@@ -33,9 +33,9 @@ abstract class Device
         return $di->get('db');
     }
 
-    public function getCode()
+    public function getProject()
     {
-        return $this->code;
+        return $this->project;
     }
 
     public function getType()
@@ -43,9 +43,24 @@ abstract class Device
         return $this->type;
     }
 
+    public function getCode()
+    {
+        return $this->code;
+    }
+
     public function getTable()
     {
         return $this->table;
+    }
+
+    public function getModel()
+    {
+        return $this->model;
+    }
+
+    public function getReference()
+    {
+        return $this->reference;
     }
 
     public function getDeviceTable()

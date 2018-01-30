@@ -201,7 +201,7 @@ class DataService extends Injectable
             $time = $row['time'];
             $devtype = 'Inverter';
             $devcode = $inverterCode;
-            $data = json_decode($row['data']);
+            $data = json_decode($row['data'], true);
             /**
              * `time`
              * `error`
@@ -220,7 +220,7 @@ class DataService extends Injectable
 
             unset($data['kva']);
             unset($data['kwh_del']);
-            unset($data['kwh_del']);
+            unset($data['kwh_rec']);
 
             $json = json_encode($data);
 

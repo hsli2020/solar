@@ -163,29 +163,76 @@ class DataService extends Injectable
 
         $projects = $this->projectService->getAll();
 
-        foreach ($projects as $project) {
+        $map = $this->db->fetchAll("SELECT * FROM fake_inverter");
+        foreach ($map as $info) {
+            $projectId = $info['project_id'];
+            $inverterCode = $info['inverter']; // mb-f01
+            $genMeterCode = $info['genmeter']; // mb-011
+
+            $project = $projects[$projectId];
 
             $offset = $project->offset;
             $devices = $project->devices;
 
-            foreach ($devices as $device) {
-                if ($device->getType() == 'Inverter' && $device->getModel() == 'Fake') {
-                    $fakeInverter = $device;
-                    $genMeter = $devices[$device->getReference()];
+            $fakeInverter = $devices[$inverterCode];
+            $genMeter = $devices[$genMeterCode];
 
-                    $genMeterTable = $genMeter->getDeviceTable();
-                    $fakeInverterTable = $fakeInverter->getDeviceTable();
+            $genMeterTable = $genMeter->getDeviceTable();
+            $fakeInverterTable = $fakeInverter->getDeviceTable();
 
-                    echo 'Generating data for ', $fakeInverter, EOL;
+            echo 'Generating data for ', $fakeInverter, EOL;
 
-                    try {
-                        $sql = sprintf($fmt, $fakeInverterTable, $offset, $genMeterTable);
-                        $this->db->execute($sql);
-                    } catch (\Exception $e) {
-                        echo $e->getMessage(), EOL;
-                    }
-                }
+            try {
+                $sql = sprintf($fmt, $fakeInverterTable, $offset, $genMeterTable);
+                $this->db->execute($sql);
+            } catch (\Exception $e) {
+                echo $e->getMessage(), EOL;
             }
+
+            $this->fakeLatestData($projectId, $inverterCode, $genMeterCode, $offset);
+        }
+    }
+
+    public function fakeLatestData($projectId, $inverterCode, $genMeterCode, $offset)
+    {
+        $row = $this->db->fetchOne("SELECT * FROM latest_data WHERE project_id=$projectId AND devcode='$genMeterCode'");
+        if ($row) {
+            $name = $row['project_name'];
+            $time = $row['time'];
+            $devtype = 'Inverter';
+            $devcode = $inverterCode;
+            $data = json_decode($row['data']);
+            /**
+             * `time`
+             * `error`
+             * `low_alarm`
+             * `high_alarm`
+             * `kva`
+             * `kwh_del`
+             * `kwh_rec`
+             * `vln_a`
+             * `vln_b`
+             * `vln_c`
+             */
+            $data['status'] = 0;
+            $data['fault_code'] = 0;
+            $data['kw'] = max(0, $data['kva'] - $offset);
+
+            unset($data['kva']);
+            unset($data['kwh_del']);
+            unset($data['kwh_del']);
+
+            $json = json_encode($data);
+
+            $sql = "REPLACE INTO latest_data SET"
+                 . " project_id = $projectId,"
+                 . " project_name = '$name',"
+                 . " time = '$time',"
+                 . " devtype = '$devtype',"
+                 . " devcode = '$devcode',"
+                 . " data = '$json'";
+
+            $this->db->execute($sql);
         }
     }
 }

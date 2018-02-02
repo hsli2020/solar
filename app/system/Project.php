@@ -308,14 +308,24 @@ class Project
      */
     public function getSnapshotIRR()
     {
-        $envkit = current($this->envkits);
-        return $envkit->getSnapshotIRR();
+        foreach ($this->envkits as $envkit) {
+            $irr = $envkit->getSnapshotIRR();
+            if ($irr > 0) {
+                return $irr;
+            }
+        }
+        return 0;
     }
 
     public function getSnapshotOAT()
     {
-        $envkit = current($this->envkits);
-        return $envkit->getSnapshotOAT();
+        foreach ($this->envkits as $envkit) {
+            $oat = $envkit->getSnapshotOAT();
+            if ($oat > 0) {
+                return $oat;
+            }
+        }
+        return 0;
     }
 
     public function getSnapshotKW()

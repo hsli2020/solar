@@ -308,9 +308,10 @@ class Project
      */
     public function getSnapshotIRR()
     {
-        foreach ($this->envkits as $envkit) {
+        $envkits = $this->envkits;
+        foreach ($envkits as $envkit) {
             $irr = $envkit->getSnapshotIRR();
-            if ($irr > 0) {
+            if ($irr) {
                 return $irr;
             }
         }
@@ -319,9 +320,10 @@ class Project
 
     public function getSnapshotOAT()
     {
-        foreach ($this->envkits as $envkit) {
+        $envkits = $this->envkits;
+        foreach ($envkits as $envkit) {
             $oat = $envkit->getSnapshotOAT();
-            if ($oat > 0) {
+            if ($oat) {
                 return $oat;
             }
         }
@@ -330,9 +332,10 @@ class Project
 
     public function getSnapshotKW()
     {
-        if (count($this->inverters) > 0) {
+        $inverters = $this->inverters;
+        if (count($inverters) > 0) {
             $sum = 0;
-            foreach ($this->inverters as $inverter) {
+            foreach ($inverters as $inverter) {
                 $sum += $inverter->getSnapshotKW();
             }
             return $sum;

@@ -166,4 +166,47 @@ class Inverter extends Device
 
         return [];
     }
+
+    public function getChartData($date)
+    {
+        $table = $this->getDeviceTable();
+
+        $start = $date . ' 00:00:00';
+        $end   = $date . ' 23:59:59';
+
+        $column = ($this->model == 'SERIAL') ?  'line_kw' : 'kw';
+        $sql = "SELECT time,
+                       ROUND(SUM($column)) AS kw
+                  FROM $table
+                 WHERE time >= CONVERT_TZ('$start', 'America/Toronto', 'UTC') AND
+                       time <= CONVERT_TZ('$end',   'America/Toronto', 'UTC') AND error=0
+                 GROUP BY UNIX_TIMESTAMP(time) DIV 300";
+
+        $result = $this->getDb()->fetchAll($sql);
+
+        // utc time to local time
+        $values = [];
+        foreach ($result as $e) {
+            $time = strtotime($e['time'].' UTC') + date('Z');
+            $values[$time] = [ $time*1000, intval($e['kw']) ];
+        };
+
+        $full = $values + $this->getEmptyData($date);
+        ksort($full);
+        return $full;
+    }
+
+    public function getEmptyData($date)
+    {
+        $values = [];
+
+        list($y, $m, $d) = explode('-', $date);
+        $start = mktime(0, 0, 0, $m, $d, $y);
+        for ($i = 0; $i < 24*3600/300; $i++) {
+            $time = $start + $i*300;
+            $values[$time] = [ $time*1000, 0.0 ];
+        }
+
+        return $values;
+    }
 }

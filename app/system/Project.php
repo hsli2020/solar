@@ -182,14 +182,29 @@ class Project
         return $genmeter->getKWH($period, $col);
     }
 
-    public function getChartData()
+    public function getChartData($date)
     {
         $envkit = current($this->envkits);
-        $irr = $envkit->getChartData();
+        $irr = $envkit->getChartData($date);
 
-        $genmeters = current($this->genmeters);
-        $kva = $envkit->getChartData();
-
+        $kva = [];
+        $inverters = $this->inverters;
+        foreach ($inverters as $inverter) {
+            $tmp = $inverter->getChartData($date);
+            // [
+            //     $time1 => [ $time1, $kw1 ]
+            //     $time2 => [ $time2, $kw2 ]
+            //     $time3 => [ $time3, $kw3 ]
+            // ]
+            foreach ($tmp as $time => $vals) {
+                if (isset($kva[$time])) {
+                    $kva[$time][1] += $vals[1];
+                } else {
+                    $kva[$time] = $vals;
+                }
+            }
+        }
+        $kva = array_values($kva);
         return [$irr, $kva];
     }
 

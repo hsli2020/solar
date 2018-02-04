@@ -57,27 +57,25 @@ class ProjectController extends ControllerBase
             return;
         }
 
-        $envkit = $project->getFirstEnvKit();
-        $genmeter = $project->getFirstGenMeter();
-
         $date1 = date('Y-m-d');
         $date2 = '';
 
         if ($this->request->isPost()) {
-           #$date1 = $this->request->getPost('date1');
             $date2 = $this->request->getPost('date2');
         }
 
         $irr1 = $kva1 = '';
         if ($date1) {
-            $irr1 = $envkit->getChartData($date1);
-            $kva1 = $genmeter->getChartData($date1);
+            $data = $project->getChartData($date1);
+            $irr1 = $data[0];
+            $kva1 = $data[1];
         }
 
         $irr2 = $kva2 = '';
         if ($date2) {
-            $irr2 = $envkit->getChartData($date2);
-            $kva2 = $genmeter->getChartData($date2);
+            $data = $project->getChartData($date2);
+            $irr2 = $data[0];
+            $kva2 = $data[1];
         }
 
         $this->view->project = $project;

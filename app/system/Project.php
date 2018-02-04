@@ -185,7 +185,7 @@ class Project
     public function getChartData($date)
     {
         $envkit = current($this->envkits);
-        $irr = $envkit->getChartData($date);
+        $irr = $envkit->getChartData($date) + $this->getEmptyData($date);
 
         $kva = [];
         $inverters = $this->inverters;
@@ -197,6 +197,7 @@ class Project
             //     $time3 => [ $time3, $kw3 ]
             // ]
             foreach ($tmp as $time => $vals) {
+                $time -= $time%60; // foor to minute (no seconds)
                 if (isset($kva[$time])) {
                     $kva[$time][1] += $vals[1];
                 } else {
@@ -204,8 +205,22 @@ class Project
                 }
             }
         }
-        $kva = array_values($kva);
-        return [$irr, $kva];
+        $kva = $kva + $this->getEmptyData($date);
+        return [array_values($irr), array_values($kva)];
+    }
+
+    protected function getEmptyData($date)
+    {
+        $values = [];
+
+        list($y, $m, $d) = explode('-', $date);
+        $start = mktime(0, 0, 0, $m, $d, $y);
+        for ($i = 0; $i < 24*3600/300; $i++) {
+            $time = $start + $i*300;
+            $values[$time] = [ $time*1000, 0.0 ];
+        }
+
+        return $values;
     }
 
     public function export($params)

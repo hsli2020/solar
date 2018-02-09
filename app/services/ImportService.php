@@ -203,6 +203,34 @@ class ImportService extends Injectable
         }
     }
 
+    public function importWhitby()
+    {
+        $dir = 'c:\\GCS-FTP-ROOT\\GCP_Whitby_001EC60548B8\\';
+        $table = 'GCP_Whitby';
+
+        // we can do this way because csv file and table have the same structure
+        $records = $this->db->fetchAll("DESC $table");
+        $columns = array_column($records, 'Field');
+
+        foreach (glob($dir . '*.csv') as $filename) {
+            if (($file = @fopen($filename, 'rb')) === false) {
+                continue;
+            }
+
+            fgetcsv($file); // skip the first line
+
+            while (($fields = fgetcsv($file))) {
+                $fields = array_slice($fields, 0, 20);
+                $data = array_combine($columns, $fields);
+                $this->db->insertAsDict($table, $data);
+            }
+
+            fclose($file);
+
+            $this->backupFile($filename, $dir);
+        }
+    }
+
     protected function log($str)
     {
         $filename = BASE_DIR . '/app/logs/import.log';

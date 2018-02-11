@@ -49,12 +49,12 @@
         <tr>
           <td>Whitby</th>
           <td>{{ Green1_Red0(row['Genset_status']) }}</th>
-          <td>{{ row['Total_gen_power'] }}</th>
+          <td>{{ row['Total_Gen_Power'] }}</th>
           <td>{{ row['Total_mains_pow'] }}</th>
           <td>{{ row['Hrs_until_maint'] }}</th>
-          <td>{{ GreenClose1_RedOpen0(row['D12_Gen_Closed']) }}</th>
-          <td>{{ GreenClose1_RedOpen0(row['D11_Main_Closed']) }}</th>
-          <td>{{ Green1_Red0(row['SEL_Com_Status']) }}</th>
+          <td>{{ GreenClose1_RedOpen0(row['D_12_Gen_Closed']) }}</th>
+          <td>{{ GreenClose1_RedOpen0(row['D_11_Main_Closed']) }}</th>
+          <td>{{ Green0_Red1(row['SEL_Com_Status']) }}</th>
           <td>{{ Green1_Red0(row['EZ_Com_Status']) }}</th>
           <td>{{ Green1_Red0(row['ACMG_Com_Status']) }}</th>
           <td>{{ Green1_Red0(row['EMCP_Status']) }}</th>

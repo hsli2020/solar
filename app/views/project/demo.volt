@@ -10,12 +10,12 @@
         {% if data is not empty %}
         <tr class="w3-light-gray">
           <th>Project</th>
-          <th>Generator Status</th>
-          <th>Generator Power<br>kW</th>
+          <th>Generator<br>Status</th>
+          <th>Generator<br>Power (kW)</th>
           <th>Store Load<br>kW</th>
-          <th>Hours Until Next Maintenance</th>
+          <th>Hours Until Next<br>Maintenance</th>
           <th>Generator Breaker<br>Closed</th>
-          <th>Main Breaker Closed</th>
+          <th>Main Breaker<br>Closed</th>
           <th>86G Lockout<br>Status</th>
           <th>86M Lockout<br>Status</th>
           <th>52G Breaker<br>Status</th>
@@ -38,6 +38,10 @@
         {% endfor %}
       </table>
       {% endif %}
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
     </div>
     <p>&nbsp;</p>
   </div>

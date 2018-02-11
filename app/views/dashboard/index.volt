@@ -99,7 +99,7 @@
 </tr>
 {% endfor %}
 <tr>
-  <td><a href="/project/whitby" target="_blank">GCP Whitby</a></td>
+  <td><a href="/project/demo" target="_blank">GCP Whitby</a></td>
   <td colspan="9"></td>
 </tr>
 </table>

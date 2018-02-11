@@ -50,6 +50,13 @@ class ProjectController extends ControllerBase
         $this->view->data = $data;
     }
 
+    public function demoAction()
+    {
+        $this->view->pageTitle = 'Dashboard';
+        $data = $this->dataService->loadWhitby();
+        $this->view->data = $data;
+    }
+
     public function chartAction($id = 0)
     {
         $this->view->pageTitle = 'Project Chart';

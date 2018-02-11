@@ -50,6 +50,28 @@ class ProjectController extends ControllerBase
         $this->view->data = $data;
     }
 
+    public function demoAction()
+    {
+        $this->view->pageTitle = 'Dashboard';
+
+        $data = [];
+        $data[] = [
+            'project'         => 'Whitby',
+            'Genset_status'   => '1',
+            'Total_gen_power' => '500',
+            'Total_mains_pow' => '498',
+            'Hrs_until_maint' => '7488',
+            'D12_Gen_Closed'  => '1',
+            'D11_Main_Closed' => '1',
+            '_86GLockoutTrip' => '1',
+            '_86MLockoutTr_1' => '1',
+            '_52GBrkr_Trip'   => '1',
+            '_52MBrkr_Trip'   => '1',
+        ];
+
+        $this->view->data = $data;
+    }
+
     public function chartAction($id = 0)
     {
         $this->view->pageTitle = 'Project Chart';

@@ -62,11 +62,11 @@ class ProjectController extends ControllerBase
             'Total_mains_pow' => '498',
             'Hrs_until_maint' => '7488',
             'D12_Gen_Closed'  => '1',
-            'D11_Main_Closed' => '1',
+            'D11_Main_Closed' => '0',
             '_86GLockoutTrip' => '1',
-            '_86MLockoutTr_1' => '1',
+            '_86MLockoutTr_1' => '0',
             '_52GBrkr_Trip'   => '1',
-            '_52MBrkr_Trip'   => '1',
+            '_52MBrkr_Trip'   => '0',
         ];
 
         $this->view->data = $data;

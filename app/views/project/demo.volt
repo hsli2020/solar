@@ -1,6 +1,30 @@
 {% extends "layouts/public.volt" %}
 
 {% block main %}
+{%- macro Green1_Red0(val) %}
+  {% if val == 1 %}
+    <img src="/img/green.png" width="40">
+  {% elseif val == 0 %}
+    <img src="/img/red.png" width="40">
+  {% endif %}
+{%- endmacro %}
+
+{%- macro GreenClose1_RedOpen0(val) %}
+  {% if val == 1 %}
+    <img src="/img/green-close.png" width="40">
+  {% elseif val == 0 %}
+    <img src="/img/red-open.png" width="40">
+  {% endif %}
+{%- endmacro %}
+
+{%- macro Green0_Red1(val) %}
+  {% if val == 0 %}
+    <img src="/img/green.png" width="40">
+  {% elseif val == 1 %}
+    <img src="/img/red.png" width="40">
+  {% endif %}
+{%- endmacro %}
+
 <div class="container">
   <div class="w3-modal" style="display: block;">
     <div class="w3-modal-content w3-card-8 w3-padding" style="width:100%;">
@@ -24,16 +48,16 @@
         {% for row in data %}
         <tr>
           <td>{{ row['project'] }}</th>
-          <td>{{ row['Genset_status'] }}</th>
+          <td>{{ Green1_Red0(row['Genset_status']) }}</th>
           <td>{{ row['Total_gen_power'] }}</th>
           <td>{{ row['Total_mains_pow'] }}</th>
           <td>{{ row['Hrs_until_maint'] }}</th>
-          <td>{{ row['D12_Gen_Closed'] }}</th>
-          <td>{{ row['D11_Main_Closed'] }}</th>
-          <td>{{ row['_86GLockoutTrip'] }}</th>
-          <td>{{ row['_86MLockoutTr_1'] }}</th>
-          <td>{{ row['_52GBrkr_Trip'] }}</th>
-          <td>{{ row['_52MBrkr_Trip'] }}</th>
+          <td>{{ GreenClose1_RedOpen0(row['D12_Gen_Closed']) }}</th>
+          <td>{{ GreenClose1_RedOpen0(row['D11_Main_Closed']) }}</th>
+          <td>{{ Green0_Red1(row['_86GLockoutTrip']) }}</th>
+          <td>{{ Green0_Red1(row['_86MLockoutTr_1']) }}</th>
+          <td>{{ Green0_Red1(row['_52GBrkr_Trip']) }}</th>
+          <td>{{ Green0_Red1(row['_52MBrkr_Trip']) }}</th>
         </tr>
         {% endfor %}
       </table>
@@ -51,8 +75,8 @@
 {% block csscode %}
 table, th, td { border: 1px solid #ddd; }
 .w3-modal { padding: 20px; }
-.w3-table td { padding: 3px; }
+.w3-table td { padding: 3px; vertical-align: middle; }
 .w3-table th { padding: 3px; vertical-align: middle; }
-tr td:not(:first-child) { text-align: right; }
+tr td:not(:first-child) { text-align: center; }
 tr th:not(:first-child) { text-align: center; }
 {% endblock %}

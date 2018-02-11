@@ -40,24 +40,24 @@
           <th>Hours Until Next<br>Maintenance</th>
           <th>Generator Breaker<br>Closed</th>
           <th>Main Breaker<br>Closed</th>
-          <th>86G Lockout<br>Status</th>
-          <th>86M Lockout<br>Status</th>
-          <th>52G Breaker<br>Status</th>
-          <th>52M Breaker<br>Status</th>
+          <th>SEL Com<br>Status</th>
+          <th>EZ Com<br>Status</th>
+          <th>ACMG Com<br>Status</th>
+          <th>EMCP<br>Status</th>
         </tr>
         {% for row in data %}
         <tr>
-          <td>{{ row['project'] }}</th>
+          <td>Whitby</th>
           <td>{{ Green1_Red0(row['Genset_status']) }}</th>
           <td>{{ row['Total_gen_power'] }}</th>
           <td>{{ row['Total_mains_pow'] }}</th>
           <td>{{ row['Hrs_until_maint'] }}</th>
           <td>{{ GreenClose1_RedOpen0(row['D12_Gen_Closed']) }}</th>
           <td>{{ GreenClose1_RedOpen0(row['D11_Main_Closed']) }}</th>
-          <td>{{ Green0_Red1(row['_86GLockoutTrip']) }}</th>
-          <td>{{ Green0_Red1(row['_86MLockoutTr_1']) }}</th>
-          <td>{{ Green0_Red1(row['_52GBrkr_Trip']) }}</th>
-          <td>{{ Green0_Red1(row['_52MBrkr_Trip']) }}</th>
+          <td>{{ Green1_Red0(row['SEL_Com_Status']) }}</th>
+          <td>{{ Green1_Red0(row['EZ_Com_Status']) }}</th>
+          <td>{{ Green1_Red0(row['ACMG_Com_Status']) }}</th>
+          <td>{{ Green1_Red0(row['EMCP_Status']) }}</th>
         </tr>
         {% endfor %}
       </table>

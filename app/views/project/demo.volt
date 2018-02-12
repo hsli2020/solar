@@ -44,6 +44,7 @@
           <th>EZ Com<br>Status</th>
           <th>ACMG Com<br>Status</th>
           <th>EMCP<br>Status</th>
+          <th>Time</th>
         </tr>
         {% for row in data %}
         <tr>
@@ -58,6 +59,7 @@
           <td>{{ Green1_Red0(row['EZ_Com_Status']) }}</th>
           <td>{{ Green1_Red0(row['ACMG_Com_Status']) }}</th>
           <td>{{ Green1_Red0(row['EMCP_Status']) }}</th>
+          <td>{{ row['ltime'] }}</th>
         </tr>
         {% endfor %}
       </table>

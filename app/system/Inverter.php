@@ -188,7 +188,8 @@ class Inverter extends Device
         $values = [];
         foreach ($result as $e) {
             $time = strtotime($e['time'].' UTC') + date('Z');
-            $values[$time] = [ $time*1000, intval($e['kw']) ];
+           #$values[$time] = [ $time*1000, intval($e['kw']) ];
+            $values[$time] = [ $time*1000, max(0, intval($e['kw'])) ];
         };
 
         ksort($values);

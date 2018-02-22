@@ -108,10 +108,10 @@ class GenMeter extends Device
         $values = [];
         foreach ($result as $e) {
             $time = strtotime($e['time'].' UTC') + date('Z');
+            $time -= $time%60; // floor to minute (no seconds)
             $values[$time] = [ $time*1000, intval($e['kva']) ];
         };
 
-        ksort($values);
         return $values;
     }
 

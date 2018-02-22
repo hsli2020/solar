@@ -197,7 +197,7 @@ class Project
             //     $time3 => [ $time3, $kw3 ]
             // ]
             foreach ($tmp as $time => $vals) {
-                $time -= $time%60; // foor to minute (no seconds)
+                $time -= $time%60; // floor to minute (no seconds)
                 if (isset($kva[$time])) {
                     $kva[$time][1] += $vals[1];
                 } else {
@@ -206,6 +206,10 @@ class Project
             }
         }
         $kva = $kva + $this->getEmptyData($date);
+
+        ksort($irr);
+        ksort($kva);
+
         return [array_values($irr), array_values($kva)];
     }
 

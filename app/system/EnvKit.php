@@ -147,10 +147,10 @@ class EnvKit extends Device
         $values = [];
         foreach ($result as $e) {
             $time = strtotime($e['time'].' UTC') + date('Z');
+            $time -= $time%60; // floor to minute (no seconds)
             $values[$time] = [ $time*1000, max(0, intval($e['irr'])) ];
         };
 
-        ksort($values);
         return $values;
     }
 

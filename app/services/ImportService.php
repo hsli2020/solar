@@ -222,7 +222,11 @@ class ImportService extends Injectable
             while (($fields = fgetcsv($file))) {
                 $fields = array_slice($fields, 0, 20);
                 $data = array_combine($columns, $fields);
-                $this->db->insertAsDict($table, $data);
+                try {
+                    $this->db->insertAsDict($table, $data);
+                } catch (\Exception $e) {
+                    $this->log($e->getMessage());
+                }
             }
 
             fclose($file);

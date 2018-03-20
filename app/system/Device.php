@@ -110,7 +110,13 @@ abstract class Device
             break;
 
         default:
-            throw new \InvalidArgumentException("Bad argument '$period'");
+            if (preg_match('/\d{4}-\d{2}-\d{2}/', $period)) {
+                // specified date: YYYY-MM-DD
+                $start = gmdate('Y-m-d H:i:s', strtotime("$period 00:00:00"));
+                $end   = gmdate('Y-m-d H:i:s', strtotime("$period 23:59:59"));
+            } else {
+                throw new \InvalidArgumentException("Bad argument '$period'");
+            }
             break;
         }
 

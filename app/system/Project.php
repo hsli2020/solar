@@ -151,10 +151,20 @@ class Project
 
     public function getKW($period)
     {
-        $genmeter = current($this->genmeters);
-        return $genmeter->getKVA($period) / $this->interval;
+        return $this->getPower($period);
 
         //return $this->getKWH($period);
+        //return $this->getKVA($period);
+    }
+
+    public function getPower($period)
+    {
+        $sum = 0;
+        $inverters = $this->inverters;
+        foreach ($inverters as $inverter) {
+            $sum += $inverter->getKW($period);
+        }
+        return $sum / $this->interval;
     }
 
     public function getAvgIRR($period)
@@ -180,6 +190,12 @@ class Project
         $col = in_array($this->id, self::GENMETERS) ? 'del' : 'rec';
         $genmeter = current($this->genmeters);
         return $genmeter->getKWH($period, $col);
+    }
+
+    public function getKVA($period)
+    {
+        $genmeter = current($this->genmeters);
+        return $genmeter->getKVA($period) / $this->interval;
     }
 
     public function getChartData($date)

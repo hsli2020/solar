@@ -281,7 +281,7 @@ class DailyReportService extends Injectable
 
     protected function getMeasuredProduction($project)
     {
-        $result = $project->getKWH('TODAY');
+        $result = $project->getKW('TODAY');
         return $result;
     }
 

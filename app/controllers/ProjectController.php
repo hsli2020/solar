@@ -115,7 +115,7 @@ class ProjectController extends ControllerBase
         $this->view->interval  = '';
         $this->view->projects  = [];
         $this->view->intervals = [
-            1  => ' 1 Minute',
+           #1  => ' 1 Minute',
             5  => ' 5 Minute',
             10 => '10 Minute',
             15 => '15 Minute',

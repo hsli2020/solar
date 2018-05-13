@@ -12,11 +12,13 @@ class ImportService extends Injectable
 
         $projects = $this->projectService->getAll();
 
+        $ftpRoot = "C:\\GCS-FTP-ROOT\\";
+
         $fileCount = 0;
         foreach ($projects as $project) {
             echo $project->name, EOL;
 
-            $dir = $project->ftpdir;
+            $dir = $ftpRoot . $project->ftpdir;
             foreach (glob($dir . '/*.csv') as $filename) {
                 echo "\t", $filename, EOL;
 
@@ -32,7 +34,7 @@ class ImportService extends Injectable
             }
 
             if ($project->cbdir) {
-                $this->importCombiners($project, $project->cbdir);
+                $this->importCombiners($project, $ftpRoot . $project->cbdir);
             }
         }
 

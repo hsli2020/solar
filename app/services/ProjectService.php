@@ -86,6 +86,13 @@ class ProjectService extends Injectable
             $code = $inverter->code;
             $data = $inverter->getLatestData();
 
+            // empty if no data over 30 minutes
+            if (abs(time() - strtotime($data['time'].' utc') > 1800)) {
+                foreach ($data as $key => $val) {
+                    $data[$key] = '';
+                }
+            }
+
             $details['inverter_type'] = $inverter->getInverterType();
 
             $power = $getVal($data, ['kw', 'line_kw']);
@@ -109,6 +116,13 @@ class ProjectService extends Injectable
             $code = $envkit->code;
             $data = $envkit->getLatestData();
 
+            // empty if no data over 30 minutes
+            if (abs(time() - strtotime($data['time'].' utc') > 1800)) {
+                foreach ($data as $key => $val) {
+                    $data[$key] = '';
+                }
+            }
+
             $details['envkits'][$code]['inso'] = round($data['IRR']);
             $details['envkits'][$code]['oat'] = round($data['OAT']);
             $details['envkits'][$code]['panelt'] = round($data['PANELT']);
@@ -118,6 +132,13 @@ class ProjectService extends Injectable
         foreach ($project->genmeters as $genmeter) {
             $code = $genmeter->code;
             $data = $genmeter->getLatestData();
+
+            // empty if no data over 30 minutes
+            if (abs(time() - strtotime($data['time'].' utc') > 1800)) {
+                foreach ($data as $key => $val) {
+                    $data[$key] = '';
+                }
+            }
 
             $details['genmeters'][$code]['kw-del'] = round($data['kwh_del']);
             $details['genmeters'][$code]['kw-rec'] = round($data['kwh_rec']);

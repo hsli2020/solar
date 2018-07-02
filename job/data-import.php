@@ -9,3 +9,4 @@ $service->import();
 
 $service = $di->get('dataService');
 $service->fakeInverterData();
+$service->fakeEnvkitData();

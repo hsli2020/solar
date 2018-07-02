@@ -235,4 +235,32 @@ class DataService extends Injectable
             $this->db->execute($sql);
         }
     }
+
+    public function fakeEnvkitData()
+    {
+        $sql = "INSERT IGNORE INTO p36_mb_x71_envkit
+                SELECT * FROM p35_mb_071_envkit WHERE time>(SELECT MAX(time) FROM p36_mb_x71_envkit)";
+        $this->db->execute($sql);
+
+        // latest data
+        $sql = "SELECT * FROM p35_mb_071_envkit WHERE time=(SELECT MAX(time) FROM p36_mb_x71_envkit)";
+        $row = $this->db->fetchOne($sql);
+
+        $projectId = 36;
+        $name = '400 Glen Hill';
+        $time = $row['time'];
+        $devtype = 'EnvKit';
+        $devcode = 'mb-x71';
+        $json = json_encode($row);
+
+        $sql = "REPLACE INTO latest_data SET"
+             . " project_id = $projectId,"
+             . " project_name = '$name',"
+             . " time = '$time',"
+             . " devtype = '$devtype',"
+             . " devcode = '$devcode',"
+             . " data = '$json'";
+
+        $this->db->execute($sql);
+    }
 }

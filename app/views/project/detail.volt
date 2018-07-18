@@ -128,7 +128,7 @@
           <th>Meter Number</th>
           <th>kW Delivered</th>
           <th>kW Received</th>
-          <th>kVar</th>
+          <th>kVA</th>
           <th>VLA, Volts</th>
           <th>VLB, Volts</th>
           <th>VLC, Volts</th>

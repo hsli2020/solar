@@ -79,7 +79,7 @@ class ProjectController extends ControllerBase
         }
 
         $this->view->project = $project;
-        $this->view->acsize = $project->getSizeAC();
+        $this->view->acsize = min($project->getSizeAC(), $project->getSizeDC());
 
         $this->view->date1 = $date1;
         $this->view->irr1 = json_encode($irr1);

@@ -29,10 +29,8 @@
                 <option value="1">Raw data</option>
                 <option value="1">5 Minutes</option>
                 <option value="15">15 Minutes (average)</option>
-                <option value="30">30 Minutes (average)</option>
                 <option value="60">60 Minutes (average)</option>
-                <option value="daily" disabled>Daily (total)</option>
-                <option value="monthly" disabled>Monthly (total)</option>
+                <option value="daily">Daily (total)</option>
               </select>
             </div>
           </div>

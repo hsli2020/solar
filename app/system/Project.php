@@ -265,6 +265,10 @@ class Project
         fputs($file, 'Start Time: ' .$startTime. PHP_EOL);
         fputs($file, 'End Time:   ' .$endTime. PHP_EOL. PHP_EOL);
 
+        if ($interval == 'daily') {
+            $interval = 24*60; // minutes a day
+        }
+
         if (isset($params['envkits'])) {
             foreach ($this->envkits as $envkit) {
                 $envkit->export($file, $interval, $startTime, $endTime);

@@ -30,7 +30,7 @@
                 <option value="1">5 Minutes</option>
                 <option value="15">15 Minutes (average)</option>
                 <option value="60">60 Minutes (average)</option>
-                <option value="daily">Daily (total)</option>
+                <option value="daily">Daily</option>
               </select>
             </div>
           </div>

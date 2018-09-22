@@ -123,7 +123,7 @@ class MonthlyReportService extends Injectable
         $excel = \PHPExcel_IOFactory::load(BASE_DIR."/job/templates/MonthlyReport-v1.xlsx");
         $excel->setActiveSheetIndex(0);  //set first sheet as active
 
-        $monthYear = $month ? $month : date('F Y');
+        $monthYear = $month ? $month : date('F Y', strtotime('-1 month'));
         $sheet = $excel->getActiveSheet();
         $sheet->setCellValue("B1", "MONTHLY REPORT SUMMARY\n$monthYear");
 

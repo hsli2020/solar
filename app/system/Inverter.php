@@ -112,8 +112,14 @@ class Inverter extends Device
         if ($interval > 1) {
             $seconds = $interval*60; // convert to seconds
             $column = ($this->model == 'SERIAL') ?  'line_kw' : 'kw';
+
+            $kw = "ROUND(AVG($column)) AS kw";
+            if ($interval > 60) { // daily
+                $kw = "ROUND(SUM($column)/12) AS kw";
+            }
+
             $sql = "SELECT CONVERT_TZ(time, 'UTC', 'America/Toronto') AS time,
-                           ROUND(SUM($column)) AS kw
+                           $kw
                       FROM $table
                      WHERE time >= CONVERT_TZ('$start', 'America/Toronto', 'UTC') AND
                            time <  CONVERT_TZ('$end',   'America/Toronto', 'UTC') AND error=0
@@ -139,7 +145,7 @@ class Inverter extends Device
         // time(UTC),error,lowalarm,highalarm,"Total kWh Delivered (kWh)","Volts A L-N (Volts)","Volts B L-N (Volts)","Volts C L-N (Volts)","Current A (Amps)","Current B (Amps)","Current C (Amps)","DC Input Voltage (Volts)","DC Input Current (Amps)","Line Frequency (Hz)","Line kW (kW)","Inverter Operating Status (State)","Inverter Fault Word 0","Inverter Fault Word 1","Inverter Fault Word 2","Data Comm Status"
 
         $title1 = ["time(UTC)","error","lowalarm","highalarm","kw (kW)","invsts","f000-f015","f100-f110","f200-f211","vln_a (Volts)","vln_b (Volts)","vln_c (Volts)" ];
-        $titlex = ["time(UTC)","kw (kW)" ];
+        $titlex = ["time(UTC)","kwh (kWh)" ];
 
         if ($interval == 1) {
             return $title1;

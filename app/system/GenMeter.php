@@ -122,10 +122,14 @@ class GenMeter extends Device
         $sql = "SELECT * FROM $table WHERE time>='$start' AND time<'$end' AND error=0";
 
         if ($interval > 1) {
+            $kva = "ROUND(AVG(kva)) AS kva,";
+            if ($interval > 60) { // daily
+                $kva = "ROUND(SUM(kva)/12) AS kva,";
+            }
             $seconds = $interval*60; // convert to seconds
             $sql = "SELECT CONVERT_TZ(time, 'UTC', 'America/Toronto') AS time,
-                           ROUND(SUM(kva))     AS kva, 
-                           ROUND(SUM(kwh_del)) AS kwh_del, 
+                           $kva,
+                           ROUND(SUM(kwh_del)) AS kwh_del,
                            ROUND(SUM(kwh_rec)) AS kwh_rec
                       FROM $table
                      WHERE time >= CONVERT_TZ('$start', 'America/Toronto', 'UTC') AND
@@ -148,7 +152,7 @@ class GenMeter extends Device
     protected function getCsvTitle($interval)
     {
         $title1 = [ "time(UTC)","error","lowalarm","highalarm","kva (kVA)","kwh_del (kWh)","kwh_rec (kWh)","vln_a (Volts)","vln_b (Volts)","vln_c (Volts)" ];
-        $titlex = [ "time(UTC)","kva (kVA)","kwh_del (kWh)","kwh_rec (kWh)" ];
+        $titlex = [ "time(UTC)","kvah (kVAh)","kwh_del (kWh)","kwh_rec (kWh)" ];
 
         if ($interval == 1) {
             return $title1;

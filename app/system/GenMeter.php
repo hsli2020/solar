@@ -122,9 +122,9 @@ class GenMeter extends Device
         $sql = "SELECT * FROM $table WHERE time>='$start' AND time<'$end' AND error=0";
 
         if ($interval > 1) {
-            $kva = "ROUND(AVG(kva)) AS kva,";
+            $kva = "ROUND(AVG(kva)) AS kva";
             if ($interval > 60) { // daily
-                $kva = "ROUND(SUM(kva)/12) AS kva,";
+                $kva = "ROUND(SUM(kva)/12) AS kva";
             }
             $seconds = $interval*60; // convert to seconds
             $sql = "SELECT CONVERT_TZ(time, 'UTC', 'America/Toronto') AS time,

@@ -261,7 +261,7 @@ class Project
         }
 
         fputs($file, 'Project:    ' .$this->name. PHP_EOL);
-        fputs($file, 'Interval:   ' .$interval. ' minutes'. PHP_EOL);
+        fputs($file, 'Interval:   ' .($interval == 'daily' ? "Daily\n" : "$interval minutes\n"));
         fputs($file, 'Start Time: ' .$startTime. PHP_EOL);
         fputs($file, 'End Time:   ' .$endTime. PHP_EOL. PHP_EOL);
 

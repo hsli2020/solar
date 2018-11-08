@@ -203,4 +203,32 @@ class ProjectController extends ControllerBase
 
         return $filename;
     }
+
+    public function test1Action()
+    {
+        $objPHPExcel = new \PHPExcel();
+        $objPHPExcel->getProperties()->setTitle("export")->setDescription("none");
+        $objPHPExcel->setActiveSheetIndex(0);
+
+        $fields = [ 11, 22, 33, 44 ];
+
+        // Field names in the first row
+        $row = 1;
+        $col = 0;
+        $sheet = $objPHPExcel->getActiveSheet();
+        foreach ($fields as $field) {
+            $sheet->setCellValueByColumnAndRow($col, $row, $field);
+            $col++;
+        }
+
+        $objPHPExcel->setActiveSheetIndex(0);
+        $objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+
+        // Sending headers to force the user to download the file
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment;filename="' . 'export-' . date('d-m-y') . '.xlsx"');
+        header('Cache-Control: max-age=0');
+
+        $objWriter->save('php://output');
+    }
 }

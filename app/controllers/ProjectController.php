@@ -210,12 +210,37 @@ class ProjectController extends ControllerBase
         $objPHPExcel->getProperties()->setTitle("export")->setDescription("none");
         $objPHPExcel->setActiveSheetIndex(0);
 
+        $sheet = $objPHPExcel->getActiveSheet();
+
+        $sheet->mergeCells('B1:D1');
+        $sheet->mergeCells('E1:G1');
+
+        $sheet->getStyle('B1:H1')->getFont()->setBold(true);
+        $sheet->getStyle('B1:H1')->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+
+        $sheet->setCellValue('B1', 'Weather Station');
+        $sheet->setCellValue('E1', 'Gen Meter');
+        $sheet->setCellValue('H1', 'Inverter');
+
+        $sheet->setCellValue('A2', 'time (UTC)');
+        $sheet->setCellValue('B2', 'OAT (Degrees C)');
+        $sheet->setCellValue('C2', 'PANELT (Degrees C)');
+        $sheet->setCellValue('D2', 'IRR (W/m^2)');
+        $sheet->setCellValue('E2', 'kva (kVA)');
+        $sheet->setCellValue('F2', 'kwh_del (kWh)');
+        $sheet->setCellValue('G2', 'kwh_rec (kWh)');
+        $sheet->setCellValue('H2', 'kw (kW)');
+
+        $sheet->getStyle('A2:H2')->getFont()->setBold(true);
+       #$sheet->getColumnDimension('A2')->setWidth(20);
+       #$sheet->getColumnDimension('B2')->setWidth(20);
+       #$sheet->getColumnDimension('C2')->setWidth(20);
+
         $fields = [ 11, 22, 33, 44 ];
 
         // Field names in the first row
-        $row = 1;
+        $row = 3;
         $col = 0;
-        $sheet = $objPHPExcel->getActiveSheet();
         foreach ($fields as $field) {
             $sheet->setCellValueByColumnAndRow($col, $row, $field);
             $col++;

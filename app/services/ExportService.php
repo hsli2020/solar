@@ -12,7 +12,7 @@ class ExportService extends Injectable
 
         $project = $this->projectService->get($projectId);
         $result = $project->export($params);
-
+fpr($result);
         $objPHPExcel = new \PHPExcel();
         $objPHPExcel->getProperties()->setTitle("export")->setDescription("none");
         $objPHPExcel->setActiveSheetIndex(0);

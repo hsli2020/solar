@@ -175,11 +175,11 @@ class EnvKit extends Device
     {
         $table = $this->getDeviceTable();
 
-        $sql = "SELECT time,oat,panelt,irr FROM $table WHERE time>='$start' AND time<'$end' AND error=0";
+        $sql = "SELECT DATE_FORMAT(time, '%Y-%m-%d %H:%i') AS time, oat, panelt, irr FROM $table WHERE time>='$start' AND time<'$end' AND error=0";
 
         if ($interval > 5) {
             $seconds = $interval*60; // convert to seconds
-            $sql = "SELECT CONVERT_TZ(time, 'UTC', 'America/Toronto') AS time,
+            $sql = "SELECT DATE_FORMAT(time, '%Y-%m-%d %H:%i') AS time,
                            ROUND(AVG(OAT))    AS oat,
                            ROUND(AVG(PANELT)) AS panelt,
                            ROUND(AVG(IRR))    AS irr
@@ -190,7 +190,7 @@ class EnvKit extends Device
         }
 
         $data = $this->getDb()->fetchAll($sql);
-        return $data;
+        return array_column($data, null, 'time');
     }
 
     public function getDataToCompare($startTime, $endTime, $interval)

@@ -52,7 +52,7 @@
               <input class="w3-input w3-border datepicker" name="end-time" required type="text">
             </div>
           </div>
-
+{#
           <div class="w3-row-padding">
             <div class="w3-third w3-padding-16">
               <label><b>Devices</b></label>
@@ -69,7 +69,7 @@
               <label>Export EnvKit Data</label><br>
             </div>
           </div>
-
+#}
           <input type="hidden" name="{{ security.getTokenKey() }}" value="{{ security.getToken() }}"/>
 
           <button class="w3-btn-block w3-indigo w3-section w3-padding" type="submit">Export/Download Data</button>

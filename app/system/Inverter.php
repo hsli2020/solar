@@ -107,15 +107,16 @@ class Inverter extends Device
     {
         $table = $this->getDeviceTable();
 
-        $sql = "SELECT * FROM $table WHERE time>='$start' AND time<'$end' AND error=0";
+        $kwcol = ($this->model == 'SERIAL') ?  'line_kw' : 'kw';
 
-        if ($interval > 1) {
+        $sql = "SELECT time, $kwcol FROM $table WHERE time>='$start' AND time<'$end' AND error=0";
+
+        if ($interval > 5) {
             $seconds = $interval*60; // convert to seconds
-            $column = ($this->model == 'SERIAL') ?  'line_kw' : 'kw';
 
-            $kw = "ROUND(AVG($column)) AS kw";
+            $kw = "ROUND(AVG($kwcol)) AS kw";
             if ($interval > 60) { // daily
-                $kw = "ROUND(SUM($column)/12) AS kw";
+                $kw = "ROUND(SUM($kwcol)/12) AS kw";
             }
 
             $sql = "SELECT CONVERT_TZ(time, 'UTC', 'America/Toronto') AS time,

@@ -119,9 +119,9 @@ class GenMeter extends Device
     {
         $table = $this->getDeviceTable();
 
-        $sql = "SELECT * FROM $table WHERE time>='$start' AND time<'$end' AND error=0";
+        $sql = "SELECT time, kva, kwh_del, kwh_rec FROM $table WHERE time>='$start' AND time<'$end' AND error=0";
 
-        if ($interval > 1) {
+        if ($interval > 5) {
             $kva = "ROUND(AVG(kva)) AS kva";
             if ($interval > 60) { // daily
                 $kva = "ROUND(SUM(kva)/12) AS kva";

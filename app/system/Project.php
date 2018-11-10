@@ -245,9 +245,7 @@ class Project
 
     public function export($params)
     {
-        $filename = BASE_DIR.'/tmp/export-'.str_replace(' ', '-', $this->name).'-'.date('Ymd-His').'.csv';
-
-        $file = fopen($filename, 'w');
+        $result = [];
 
         $today = date('Y-m-d');
         $tomorrow = date('Y-m-d', strtotime('1 day'));
@@ -260,36 +258,30 @@ class Project
             $endTime = date('Y-m-d', strtotime('1 day', strtotime($startTime)));
         }
 
-        fputs($file, 'Project:    ' .$this->name. PHP_EOL);
-        fputs($file, 'Interval:   ' .($interval == 'daily' ? "Daily\n" : "$interval minutes\n"));
-        fputs($file, 'Start Time: ' .$startTime. PHP_EOL);
-        fputs($file, 'End Time:   ' .$endTime. PHP_EOL. PHP_EOL);
+        $result['project']   = $this->name;
+        $result['interval']  = $interval == 'daily' ? "Daily" : "$interval Minutes";
+        $result['starttime'] = $startTime;
+        $result['endtime']   = $endTime;
 
         if ($interval == 'daily') {
-            $interval = 24*60; // minutes a day
+            $interval = 24*60; // convert to minutes
         }
 
-        if (isset($params['envkits'])) {
-            foreach ($this->envkits as $envkit) {
-                $envkit->export($file, $interval, $startTime, $endTime);
-            }
+        foreach ($this->envkits as $envkit) {
+            $result['envkits'] = $envkit->export($interval, $startTime, $endTime);
         }
 
-        if (isset($params['genmeters'])) {
-            foreach ($this->genmeters as $genmeter) {
-                $genmeter->export($file, $interval, $startTime, $endTime);
-            }
+        foreach ($this->genmeters as $genmeter) {
+            $result['genmeters'] = $genmeter->export($interval, $startTime, $endTime);
         }
 
-        if (isset($params['inverters'])) {
-            foreach ($this->inverters as $inverter) {
-                $inverter->export($file, $interval, $startTime, $endTime);
-            }
+        foreach ($this->inverters as $inverter) {
+            $result['inverters'] = $inverter->export($interval, $startTime, $endTime);
         }
 
-        fclose($file);
+        $result['filename'] = BASE_DIR.'/tmp/export-'.str_replace(' ', '-', $this->name).'-'.date('Ymd-His').'.xlsx';
 
-        return $filename;
+        return $result;
     }
 
     public function getDataToCompare($startTime, $endTime, $interval)

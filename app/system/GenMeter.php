@@ -115,7 +115,7 @@ class GenMeter extends Device
         return $values;
     }
 
-    public function export($file, $interval, $start, $end)
+    public function export($interval, $start, $end)
     {
         $table = $this->getDeviceTable();
 
@@ -138,26 +138,7 @@ class GenMeter extends Device
         }
 
         $data = $this->getDb()->fetchAll($sql);
-
-        fputs($file, $this->type. ' ' .$this->code. PHP_EOL);
-        fputcsv($file, $this->getCsvTitle($interval));
-
-        foreach ($data as $row) {
-            fputcsv($file, $row);
-        }
-
-        fputs($file, PHP_EOL);
-    }
-
-    protected function getCsvTitle($interval)
-    {
-        $title1 = [ "time(UTC)","error","lowalarm","highalarm","kva (kVA)","kwh_del (kWh)","kwh_rec (kWh)","vln_a (Volts)","vln_b (Volts)","vln_c (Volts)" ];
-        $titlex = [ "time(UTC)","kvah (kVAh)","kwh_del (kWh)","kwh_rec (kWh)" ];
-
-        if ($interval == 1) {
-            return $title1;
-        }
-        return $titlex;
+        return $data;
     }
 
     public function getDataToCompare($startTime, $endTime, $interval, $col)

@@ -103,7 +103,7 @@ class Inverter extends Device
         */
     }
 
-    public function export($file, $interval, $start, $end)
+    public function export($interval, $start, $end)
     {
         $table = $this->getDeviceTable();
 
@@ -127,30 +127,7 @@ class Inverter extends Device
         }
 
         $data = $this->getDb()->fetchAll($sql);
-
-        fputs($file, $this->type. ' ' .$this->code. PHP_EOL);
-        fputcsv($file, $this->getCsvTitle($interval));
-
-        foreach ($data as $row) {
-            fputcsv($file, $row);
-        }
-
-        fputs($file, PHP_EOL);
-    }
-
-    protected function getCsvTitle($interval)
-    {
-        // time(UTC),error,lowalarm,highalarm,"Power_AC (kW)","Status","Status_Vendor","Voltage_AN (Volts)","Voltage_BN (Volts)","Voltage_CN (Volts)"
-        // time(UTC),error,lowalarm,highalarm,"Power_AC_kW (kW)","Mode_SMA","Error","Voltage_AC_LL_AB (Volts)","Voltage_AC_LL_BC (Volts)","Voltage_AC_LL_CA (Volts)"
-        // time(UTC),error,lowalarm,highalarm,"Total kWh Delivered (kWh)","Volts A L-N (Volts)","Volts B L-N (Volts)","Volts C L-N (Volts)","Current A (Amps)","Current B (Amps)","Current C (Amps)","DC Input Voltage (Volts)","DC Input Current (Amps)","Line Frequency (Hz)","Line kW (kW)","Inverter Operating Status (State)","Inverter Fault Word 0","Inverter Fault Word 1","Inverter Fault Word 2","Data Comm Status"
-
-        $title1 = ["time(UTC)","error","lowalarm","highalarm","kw (kW)","invsts","f000-f015","f100-f110","f200-f211","vln_a (Volts)","vln_b (Volts)","vln_c (Volts)" ];
-        $titlex = ["time(UTC)","kwh (kWh)" ];
-
-        if ($interval == 1) {
-            return $title1;
-        }
-        return $titlex;
+        return $data;
     }
 
     public function getDataToCompare($startTime, $endTime, $interval)

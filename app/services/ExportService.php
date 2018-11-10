@@ -51,8 +51,12 @@ class ExportService extends Injectable
             $col++;
         }
 
+        for ($i = 'A'; $i <= 'H'; $i++) {
+            $sheet->getColumnDimension($i)->setAutoSize(true);
+        }
+
         $filename = $result['filename'];
-        $xlsWriter = \PHPExcel_IOFactory::createWriter($excel, 'Excel2007');
+        $xlsWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
         $xlsWriter->save($filename);
 
         return $filename;

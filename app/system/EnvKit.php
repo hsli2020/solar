@@ -171,7 +171,7 @@ class EnvKit extends Device
         return 0;
     }
 
-    public function export($file, $interval, $start, $end)
+    public function export($interval, $start, $end)
     {
         $table = $this->getDeviceTable();
 
@@ -190,28 +190,7 @@ class EnvKit extends Device
         }
 
         $data = $this->getDb()->fetchAll($sql);
-
-        fputs($file, $this->type. ' ' .$this->code. PHP_EOL);
-        fputcsv($file, $this->getCsvTitle($interval));
-
-        foreach ($data as $row) {
-            fputcsv($file, $row);
-        }
-
-        fputs($file, PHP_EOL);
-    }
-
-    protected function getCsvTitle($interval)
-    {
-        // time(UTC),error,lowalarm,highalarm,"OAT (Degrees C)","PANELT (Degrees C)","IRR_POA_CMP (W/m^2)"
-
-        $title1 = [ "time(UTC)","error","lowalarm","highalarm","OAT (Degrees C)","PANELT (Degrees C)","IRR (W/m^2)" ];
-        $titlex = [ "time(UTC)","OAT (Degrees C)","PANELT (Degrees C)","IRR (W/m^2)" ];
-
-        if ($interval == 1) {
-            return $title1;
-        }
-        return $titlex;
+        return $data;
     }
 
     public function getDataToCompare($startTime, $endTime, $interval)

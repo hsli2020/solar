@@ -173,7 +173,7 @@ abstract class Device
         */
     }
 
-    public function export($file, $interval, $start, $end)
+    public function export($interval, $start, $end)
     {
         // nothing to do here
     }

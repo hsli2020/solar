@@ -269,15 +269,19 @@ class Project
 
         foreach ($this->envkits as $envkit) {
             $result['envkits'] = $envkit->export($interval, $startTime, $endTime);
+            break; // only first EnvKit
         }
 
         foreach ($this->genmeters as $genmeter) {
             $result['genmeters'] = $genmeter->export($interval, $startTime, $endTime);
+            break; // only first GenMeter
         }
 
         foreach ($this->inverters as $inverter) {
-            $result['inverters'] = $inverter->export($interval, $startTime, $endTime);
+            $result['inverters'][] = $inverter->export($interval, $startTime, $endTime);
         }
+
+        $result['inverterCnt'] = count($this->inverters);
 
         $result['filename'] = BASE_DIR.'/tmp/export-'.str_replace(' ', '-', $this->name).'-'.date('Ymd-His').'.xlsx';
 

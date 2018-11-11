@@ -3,7 +3,7 @@
 {% block main %}
 <div class="container">
   <div style="display: block;margin: 0 auto;width: 500px;">
-      <form class="w3-container" method="POST">
+      <form class="w3-container" method="POST" autocomplete="off">
         <div class="w3-section">
           <div class="w3-row-padding">
             <div class="w3-third w3-padding-16">

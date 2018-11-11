@@ -33,13 +33,26 @@ class ExportService extends Injectable
             $sheet->setCellValueByColumnAndRow($col++, $row, $item['kva']);
             $sheet->setCellValueByColumnAndRow($col++, $row, $item['kwh_del']);
             $sheet->setCellValueByColumnAndRow($col++, $row, $item['kwh_rec']);
-            $sheet->setCellValueByColumnAndRow($col++, $row, $item['kw']);
+
+            foreach($item['kw'] as $kw) {
+                $sheet->setCellValueByColumnAndRow($col++, $row, $kw);
+            }
+
             $row++;
         }
 
-        for ($i = 'A'; $i <= 'H'; $i++) {
+        $inverterCnt = $result['inverterCnt'];
+        $maxCol = chr(ord('H') + $inverterCnt - 1);
+
+        for ($i = 'A'; $i <= $maxCol; $i++) {
             $sheet->getColumnDimension($i)->setAutoSize(true);
         }
+
+        $sheet->mergeCells("H5:$maxCol".'5');
+        $sheet->mergeCells("H6:$maxCol".'6');
+
+        $sheet->getStyle("H5:$maxCol".'5')->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle("H6:$maxCol".'6')->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
 
         $filename = $result['filename'];
         $xlsWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
@@ -52,14 +65,16 @@ class ExportService extends Injectable
     {
         $result = [];
 
-        foreach ($data['envkits'] as $time => $info) {
-            $result[$time] = $info;
+        foreach ($data['envkits'] as $time => $vals) {
+            $result[$time] = $vals;
         }
-        foreach ($data['genmeters'] as $time => $info) {
-            $result[$time] = array_merge($result[$time], $info);
+        foreach ($data['genmeters'] as $time => $vals) {
+            $result[$time] = array_merge($result[$time], $vals);
         }
-        foreach ($data['inverters'] as $time => $info) {
-            $result[$time] = array_merge($result[$time], $info);
+        foreach ($data['inverters'] as $inverter) {
+            foreach ($inverter as $time => $vals) {
+                $result[$time]['kw'][] = $vals['kw'];
+            }
         }
 
         return $result;
@@ -100,6 +115,10 @@ class ExportService extends Injectable
         $sheet->setCellValue('H6', 'kw (kW)');
 
         $sheet->getStyle('A6:H6')->getFont()->setBold(true);
+    }
+
+    protected function formatCells()
+    {
     }
 }
 

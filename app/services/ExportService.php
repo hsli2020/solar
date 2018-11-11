@@ -12,43 +12,29 @@ class ExportService extends Injectable
 
         $project = $this->projectService->get($projectId);
         $result = $project->export($params);
-fpr($result);
+
         $objPHPExcel = new \PHPExcel();
         $objPHPExcel->getProperties()->setTitle("export")->setDescription("none");
         $objPHPExcel->setActiveSheetIndex(0);
 
         $sheet = $objPHPExcel->getActiveSheet();
-        $sheet->setTitle('GCS Export');
 
-        $sheet->mergeCells('B1:D1');
-        $sheet->mergeCells('E1:G1');
+        $this->setSheetTitle($sheet, $result);
 
-        $sheet->getStyle('B1:H1')->getFont()->setBold(true);
-        $sheet->getStyle('B1:H1')->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $data = $this->reindexData($result);
 
-        $sheet->setCellValue('B1', 'Weather Station');
-        $sheet->setCellValue('E1', 'Gen Meter');
-        $sheet->setCellValue('H1', 'Inverter');
-
-        $sheet->setCellValue('A2', 'time (UTC)');
-        $sheet->setCellValue('B2', 'OAT (Degrees C)');
-        $sheet->setCellValue('C2', 'PANELT (Degrees C)');
-        $sheet->setCellValue('D2', 'IRR (W/m^2)');
-        $sheet->setCellValue('E2', 'kva (kVA)');
-        $sheet->setCellValue('F2', 'kwh_del (kWh)');
-        $sheet->setCellValue('G2', 'kwh_rec (kWh)');
-        $sheet->setCellValue('H2', 'kw (kW)');
-
-        $sheet->getStyle('A2:H2')->getFont()->setBold(true);
-
-        $fields = [ 11, 22, 33, 44 ];
-
-        // Field names in the first row
-        $row = 3;
-        $col = 0;
-        foreach ($fields as $field) {
-            $sheet->setCellValueByColumnAndRow($col, $row, $field);
-            $col++;
+        $row = 7;
+        foreach ($data as $item) {
+            $col = 0;
+            $sheet->setCellValueByColumnAndRow($col++, $row, $item['time']);
+            $sheet->setCellValueByColumnAndRow($col++, $row, $item['oat']);
+            $sheet->setCellValueByColumnAndRow($col++, $row, $item['panelt']);
+            $sheet->setCellValueByColumnAndRow($col++, $row, $item['irr']);
+            $sheet->setCellValueByColumnAndRow($col++, $row, $item['kva']);
+            $sheet->setCellValueByColumnAndRow($col++, $row, $item['kwh_del']);
+            $sheet->setCellValueByColumnAndRow($col++, $row, $item['kwh_rec']);
+            $sheet->setCellValueByColumnAndRow($col++, $row, $item['kw']);
+            $row++;
         }
 
         for ($i = 'A'; $i <= 'H'; $i++) {
@@ -60,6 +46,60 @@ fpr($result);
         $xlsWriter->save($filename);
 
         return $filename;
+    }
+
+    protected function reindexData($data)
+    {
+        $result = [];
+
+        foreach ($data['envkits'] as $time => $info) {
+            $result[$time] = $info;
+        }
+        foreach ($data['genmeters'] as $time => $info) {
+            $result[$time] = array_merge($result[$time], $info);
+        }
+        foreach ($data['inverters'] as $time => $info) {
+            $result[$time] = array_merge($result[$time], $info);
+        }
+
+        return $result;
+    }
+
+    protected function setSheetTitle($sheet, $info)
+    {
+        $sheet->setTitle('GCS Export');
+
+        $sheet->setCellValue('A1', 'Project');
+        $sheet->setCellValue('B1', $info['project']);
+
+        $sheet->setCellValue('A2', 'Start Time');
+        $sheet->setCellValue('B2', $info['starttime']);
+
+        $sheet->setCellValue('A3', 'End Time');
+        $sheet->setCellValue('B3', $info['endtime']);
+
+        $sheet->getStyle('A1:A3')->getFont()->setBold(true);
+
+        $sheet->mergeCells('B5:D5');
+        $sheet->mergeCells('E5:G5');
+
+        $sheet->getStyle('B5:H5')->getFont()->setBold(true);
+        $sheet->getStyle('B5:H5')->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+
+        $sheet->setCellValue('B5', 'Weather Station');
+        $sheet->setCellValue('E5', 'Gen Meter');
+        $sheet->setCellValue('H5', 'Inverter');
+
+        $sheet->setCellValue('A6', 'time (UTC)');
+        $sheet->setCellValue('B6', 'OAT (Degrees C)');
+        $sheet->setCellValue('C6', 'PANELT (Degrees C)');
+        $sheet->setCellValue('D6', 'IRR (W/m^2)');
+        $sheet->setCellValue('E6', 'kva (kVA)');
+        $sheet->setCellValue('F6', 'kwh_del (kWh)');
+        $sheet->setCellValue('G6', 'kwh_rec (kWh)');
+        $sheet->setCellValue('H6', 'kw (kW)');
+
+        $sheet->getStyle('A6:H6')->getFont()->setBold(true);
     }
 }
 

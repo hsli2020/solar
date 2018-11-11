@@ -23,7 +23,7 @@ class ExportService extends Injectable
 
         $data = $this->reindexData($result);
 
-        $row = 7;
+        $row = 8;
         foreach ($data as $item) {
             $col = 0;
             $sheet->setCellValueByColumnAndRow($col++, $row, $item['time']);
@@ -43,16 +43,6 @@ class ExportService extends Injectable
 
         $inverterCnt = $result['inverterCnt'];
         $maxCol = chr(ord('H') + $inverterCnt - 1);
-
-        for ($i = 'A'; $i <= $maxCol; $i++) {
-            $sheet->getColumnDimension($i)->setAutoSize(true);
-        }
-
-        $sheet->mergeCells("H5:$maxCol".'5');
-        $sheet->mergeCells("H6:$maxCol".'6');
-
-        $sheet->getStyle("H5:$maxCol".'5')->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        $sheet->getStyle("H6:$maxCol".'6')->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
 
         $filename = $result['filename'];
         $xlsWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
@@ -87,34 +77,57 @@ class ExportService extends Injectable
         $sheet->setCellValue('A1', 'Project');
         $sheet->setCellValue('B1', $info['project']);
 
-        $sheet->setCellValue('A2', 'Start Time');
-        $sheet->setCellValue('B2', $info['starttime']);
+        $sheet->setCellValue('A2', 'Interval');
+        $sheet->setCellValue('B2', $info['interval']);
 
-        $sheet->setCellValue('A3', 'End Time');
-        $sheet->setCellValue('B3', $info['endtime']);
+        $sheet->setCellValue('A3', 'Start Time');
+        $sheet->setCellValue('B3', $info['starttime']);
 
-        $sheet->getStyle('A1:A3')->getFont()->setBold(true);
+        $sheet->setCellValue('A4', 'End Time');
+        $sheet->setCellValue('B4', $info['endtime']);
 
-        $sheet->mergeCells('B5:D5');
-        $sheet->mergeCells('E5:G5');
+        $sheet->getStyle('A1:A4')->getFont()->setBold(true);
 
-        $sheet->getStyle('B5:H5')->getFont()->setBold(true);
-        $sheet->getStyle('B5:H5')->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $sheet->mergeCells('B6:D6');
+        $sheet->mergeCells('E6:G6');
 
-        $sheet->setCellValue('B5', 'Weather Station');
-        $sheet->setCellValue('E5', 'Gen Meter');
-        $sheet->setCellValue('H5', 'Inverter');
+        $sheet->getStyle('B6:H6')->getFont()->setBold(true);
+        $sheet->getStyle('B6:H6')->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
 
-        $sheet->setCellValue('A6', 'time (UTC)');
-        $sheet->setCellValue('B6', 'OAT (Degrees C)');
-        $sheet->setCellValue('C6', 'PANELT (Degrees C)');
-        $sheet->setCellValue('D6', 'IRR (W/m^2)');
-        $sheet->setCellValue('E6', 'kva (kVA)');
-        $sheet->setCellValue('F6', 'kwh_del (kWh)');
-        $sheet->setCellValue('G6', 'kwh_rec (kWh)');
-        $sheet->setCellValue('H6', 'kw (kW)');
+        $sheet->setCellValue('B6', 'Weather Station');
+        $sheet->setCellValue('E6', 'Gen Meter');
+        $sheet->setCellValue('H6', 'Inverter (kW)');
 
-        $sheet->getStyle('A6:H6')->getFont()->setBold(true);
+        $sheet->setCellValue('A7', 'time (UTC)');
+        $sheet->setCellValue('B7', 'OAT (Degrees C)');
+        $sheet->setCellValue('C7', 'PANELT (Degrees C)');
+        $sheet->setCellValue('D7', 'IRR (W/m^2)');
+        $sheet->setCellValue('E7', 'kva (kVA)');
+        $sheet->setCellValue('F7', 'kwh_del (kWh)');
+        $sheet->setCellValue('G7', 'kwh_rec (kWh)');
+       #$sheet->setCellValue('H7', '');
+
+        $inverterCnt = $info['inverterCnt'];
+
+        $col = 'H';
+        for ($i = 1; $i <= $inverterCnt; $i++) {
+            $sheet->setCellValue($col.'7', "Inverter $i");
+            $col = chr(ord($col) + 1);
+        }
+
+        $maxCol = chr(ord('H') + $inverterCnt - 1);
+
+        for ($i = 'A'; $i <= $maxCol; $i++) {
+            $sheet->getColumnDimension($i)->setAutoSize(true);
+        }
+
+        $sheet->getStyle("A7:$maxCol".'7')->getFont()->setBold(true);
+
+        $sheet->mergeCells("H6:$maxCol".'6');
+       #$sheet->mergeCells("H7:$maxCol".'7');
+
+        $sheet->getStyle("H6:$maxCol".'6')->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle("H7:$maxCol".'7')->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
     }
 
     protected function formatCells()

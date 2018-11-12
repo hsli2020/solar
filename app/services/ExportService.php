@@ -44,9 +44,6 @@ class ExportService extends Injectable
             $row++;
         }
 
-        $inverterCnt = $result['inverterCnt'];
-        $maxCol = chr(ord('H') + $inverterCnt - 1);
-
         $filename = $result['filename'];
         $xlsWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
         $xlsWriter->save($filename);
@@ -89,8 +86,6 @@ class ExportService extends Injectable
         $sheet->setCellValue('A4', 'End Time');
         $sheet->setCellValue('B4', $info['endtime']);
 
-        $sheet->getStyle('A1:A4')->getFont()->setBold(true);
-
         $sheet->mergeCells('B6:D6');
         $sheet->mergeCells('E6:G6');
 
@@ -112,24 +107,23 @@ class ExportService extends Injectable
 
         $inverterCnt = $info['inverterCnt'];
 
-        $col = 'H';
+        $col = 7; // 'H'
+        $row = 7;
         for ($i = 1; $i <= $inverterCnt; $i++) {
-            $sheet->setCellValue($col.'7', "Inverter $i");
-            $col = chr(ord($col) + 1);
+            $sheet->setCellValueByColumnAndRow($col++, $row, "Inverter $i");
         }
 
-        $maxCol = chr(ord('H') + $inverterCnt - 1);
+        $maxCol = 7 + $inverterCnt - 1; // chr(ord('H') + $inverterCnt - 1);
 
-        for ($i = 'A'; $i <= $maxCol; $i++) {
-            $sheet->getColumnDimension($i)->setAutoSize(true);
+        for ($i = 0; $i <= $maxCol; $i++) {
+            $sheet->getColumnDimensionByColumn($i)->setAutoSize(true);
         }
 
-        $sheet->getStyle("A7:$maxCol".'7')->getFont()->setBold(true);
+        $sheet->mergeCellsByColumnAndRow(7, 6, $maxCol, 6);
 
-        $sheet->mergeCells("H6:$maxCol".'6');
-       #$sheet->mergeCells("H7:$maxCol".'7');
+        $sheet->getStyleByColumnAndRow(0, 7, $maxCol, 7)->getFont()->setBold(true);
+        $sheet->getStyleByColumnAndRow(7, 6, $maxCol, 6)->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
 
-        $sheet->getStyle("H6:$maxCol".'6')->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        $sheet->getStyle("H7:$maxCol".'7')->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle('A1:A4')->getFont()->setBold(true);
     }
 }

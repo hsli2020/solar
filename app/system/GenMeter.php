@@ -119,7 +119,9 @@ class GenMeter extends Device
     {
         $table = $this->getDeviceTable();
 
-        $sql = "SELECT DATE_FORMAT(time, '%Y-%m-%d %H:%i') AS time, kva, kwh_del, kwh_rec FROM $table WHERE time>='$start' AND time<'$end' AND error=0";
+        $fmt = ($interval == 24*60) ? '%Y-%m-%d' : '%Y-%m-%d %H:%i';
+
+        $sql = "SELECT DATE_FORMAT(time, '$fmt') AS time, kva, kwh_del, kwh_rec FROM $table WHERE time>='$start' AND time<'$end' AND error=0";
 
         if ($interval > 5) {
             $kva = "ROUND(AVG(kva)) AS kva";
@@ -127,7 +129,7 @@ class GenMeter extends Device
                 $kva = "ROUND(SUM(kva)/12) AS kva";
             }
             $seconds = $interval*60; // convert to seconds
-            $sql = "SELECT DATE_FORMAT(time, '%Y-%m-%d %H:%i') AS time,
+            $sql = "SELECT DATE_FORMAT(time, '$fmt') AS time,
                            $kva,
                            ROUND(SUM(kwh_del)) AS kwh_del,
                            ROUND(SUM(kwh_rec)) AS kwh_rec

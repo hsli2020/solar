@@ -175,11 +175,13 @@ class EnvKit extends Device
     {
         $table = $this->getDeviceTable();
 
-        $sql = "SELECT DATE_FORMAT(time, '%Y-%m-%d %H:%i') AS time, oat, panelt, irr FROM $table WHERE time>='$start' AND time<'$end' AND error=0";
+        $fmt = ($interval == 24*60) ? '%Y-%m-%d' : '%Y-%m-%d %H:%i';
+
+        $sql = "SELECT DATE_FORMAT(time, '$fmt') AS time, oat, panelt, irr FROM $table WHERE time>='$start' AND time<'$end' AND error=0";
 
         if ($interval > 5) {
             $seconds = $interval*60; // convert to seconds
-            $sql = "SELECT DATE_FORMAT(time, '%Y-%m-%d %H:%i') AS time,
+            $sql = "SELECT DATE_FORMAT(time, '$fmt') AS time,
                            ROUND(AVG(OAT))    AS oat,
                            ROUND(AVG(PANELT)) AS panelt,
                            ROUND(AVG(IRR))    AS irr

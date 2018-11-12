@@ -109,7 +109,9 @@ class Inverter extends Device
 
         $kwcol = ($this->model == 'SERIAL') ?  'line_kw' : 'kw';
 
-        $sql = "SELECT DATE_FORMAT(time, '%Y-%m-%d %H:%i') AS time, $kwcol FROM $table WHERE time>='$start' AND time<'$end' AND error=0";
+        $fmt = ($interval == 24*60) ? '%Y-%m-%d' : '%Y-%m-%d %H:%i';
+
+        $sql = "SELECT DATE_FORMAT(time, '$fmt') AS time, $kwcol FROM $table WHERE time>='$start' AND time<'$end' AND error=0";
 
         if ($interval > 5) {
             $seconds = $interval*60; // convert to seconds
@@ -119,7 +121,7 @@ class Inverter extends Device
                 $kw = "ROUND(SUM($kwcol)/12) AS kw";
             }
 
-            $sql = "SELECT DATE_FORMAT(time, '%Y-%m-%d %H:%i') AS time,
+            $sql = "SELECT DATE_FORMAT(time, '$fmt') AS time,
                            $kw
                       FROM $table
                      WHERE time >= CONVERT_TZ('$start', 'America/Toronto', 'UTC') AND

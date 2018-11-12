@@ -95,6 +95,7 @@ class ProjectController extends ControllerBase
         $this->view->pageTitle = 'Data Exporting';
 
         if ($this->request->isPost()) {
+            set_time_limit(0);
             $params = $this->request->getPost();
             $filename = $this->exportService->export($params);
             $this->startDownload($filename);

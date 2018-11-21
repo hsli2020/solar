@@ -160,6 +160,11 @@ class ProjectService extends Injectable
             $details['inverters']['fake']['vlc']    = $genmeter['vlc'];
         }
 
+        // THIS IS REALLY BAD HACK!
+        if ($id == 37) {
+            $details['p37']['combiner'] = $project->getLatestCombiner();
+        }
+
         return $details;
     }
 

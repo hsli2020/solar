@@ -205,6 +205,36 @@
         </tr>
         {% endfor %}
       </table>
+
+      {% if details['p37'] is not empty %}
+      <table class="w3-table w3-margin-top">
+        <tr class="w3-light-gray">
+          <th>Combiner Data</th>
+          <th>Current Reading</th>
+          <th colspan="5"></th>
+        </tr>
+
+        <tr style="border-top: 1px solid lightgray;">
+          <th>Channel</th>
+          <th>Input</th>
+          <th>Input Ave</th>
+          <th>Input Min</th>
+          <th>Input Max</th>
+        </tr>
+
+        {% set combiner = details['p37']['combiner'] %}
+
+        {% for i in 1..8 %}
+        <tr style="border-top: 1px solid lightgray;">
+          <td>Channel {{ loop.index }}
+          <td>{{ combiner['input_' ~ i] }}</td>
+          <td>{{ combiner['input_' ~ i ~ '_ave'] }}</td>
+          <td>{{ combiner['input_' ~ i ~ '_min'] }}</td>
+          <td>{{ combiner['input_' ~ i ~ '_max'] }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+      {% endif %}
       <br>
 
     </div>

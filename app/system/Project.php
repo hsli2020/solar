@@ -353,6 +353,13 @@ class Project
         return $envkit->getLatestTime();
     }
 
+    // only for project-37 right now
+    public function getLatestCombiner()
+    {
+        $combiner = current($this->combiners);
+        return $combiner->getLatestData();
+    }
+
     /**
      * Snapshot
      */

@@ -77,13 +77,13 @@ class SnapshotService extends Injectable
                 $result[$key]['inverters_generating'] = "0/$b";
             }
             list($a, $b) = explode('/', $val['inverters_generating']);
-            if ($a != $b) {
+            if ($a < $b) {
                 $result[$key]['error']['inverters_generating'] = 'red';
             }
 
             // highlight devices_communicating if something is wrong
             list($a, $b) = explode('/', $val['devices_communicating']);
-            if ($a != $b) {
+            if ($a < $b) {
                 $result[$key]['error']['devices_communicating'] = 'red';
             }
 

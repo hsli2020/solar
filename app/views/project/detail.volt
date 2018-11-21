@@ -211,7 +211,7 @@
         <tr class="w3-light-gray">
           <th>Combiner Data</th>
           <th>Current Reading</th>
-          <th colspan="5"></th>
+          <th colspan="3"></th>
         </tr>
 
         <tr style="border-top: 1px solid lightgray;">

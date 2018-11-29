@@ -121,10 +121,11 @@ class DailyReportService extends Injectable
             $yesterday = date('Y-m-d', strtotime('-1 day'));
             $report = $this->load($yesterday, $user);
 
-            $filename = $this->generateXls($report);
-            $html = $this->generateHtml($report);
+            $subject = "Daily Solar Energy Production Report ($yesterday)";
+            $filename = $this->generateXls($report, $yesterday);
+            $body = $this->generateHtml($report);
 
-            $this->sendDailyReport($user['email'], $html, $filename);
+            $this->sendDailyReport($user['email'], $subject, $body, $filename);
         }
 
         $this->log("Daily report sending completed.\n");
@@ -321,7 +322,7 @@ class DailyReportService extends Injectable
         return $result;
     }
 
-    protected function sendDailyReport($recepient, $body, $filename)
+    protected function sendDailyReport($recepient, $subject, $body, $filename)
     {
         $mail = new \PHPMailer();
 
@@ -346,7 +347,7 @@ class DailyReportService extends Injectable
         $mail->addAddress($recepient);
         $mail->addAttachment($filename, basename($filename));
         $mail->isHTML(true);
-        $mail->Subject = "Daily Solar Energy Production Report ($today)";
+        $mail->Subject = $subject;
         $mail->Body = $body;
         $mail->AltBody = "Please find the Daily Report in attachment.";
 

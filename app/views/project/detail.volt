@@ -206,7 +206,8 @@
         {% endfor %}
       </table>
 
-      {% if details['obvius_a8332'] is not empty %}
+      {% if details['obvius_a8332_combiner'] is not empty %}
+      {% for combiner in details['obvius_a8332_combiner'] %}
       <table class="w3-table w3-margin-top">
         <tr class="w3-light-gray">
           <th>Combiner Data</th>
@@ -222,8 +223,6 @@
           <th>Input Max</th>
         </tr>
 
-        {% set combiner = details['obvius_a8332']['combiner'] %}
-
         {% for i in 1..8 %}
         {% if combiner['input-' ~ i]['chn'] != 'Spare' %}</td>
         <tr style="border-top: 1px solid lightgray;">
@@ -236,6 +235,7 @@
         {% endif %}
         {% endfor %}
       </table>
+      {% endfor %}
       {% endif %}
       <br>
 

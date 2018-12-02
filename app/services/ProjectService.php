@@ -162,7 +162,9 @@ class ProjectService extends Injectable
 
         // THIS IS REALLY BAD HACK!
         if (in_array($id, [ 37, 38, 39 ])) {
-            $details['obvius_a8332']['combiner'] = $project->getLatestCombiner();
+            foreach ($project->combiners as $combiner) {
+                $details['obvius_a8332_combiner'][] = $combiner->getLatestData();
+            }
         }
 
         return $details;

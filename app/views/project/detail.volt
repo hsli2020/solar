@@ -206,7 +206,7 @@
         {% endfor %}
       </table>
 
-      {% if details['p37'] is not empty %}
+      {% if details['obvius_a8332'] is not empty %}
       <table class="w3-table w3-margin-top">
         <tr class="w3-light-gray">
           <th>Combiner Data</th>
@@ -222,16 +222,18 @@
           <th>Input Max</th>
         </tr>
 
-        {% set combiner = details['p37']['combiner'] %}
+        {% set combiner = details['obvius_a8332']['combiner'] %}
 
         {% for i in 1..8 %}
+        {% if combiner['input-' ~ i]['chn'] != 'Spare' %}</td>
         <tr style="border-top: 1px solid lightgray;">
-          <td>Channel {{ loop.index }}
-          <td>{{ combiner['input_' ~ i] }}</td>
-          <td>{{ combiner['input_' ~ i ~ '_ave'] }}</td>
-          <td>{{ combiner['input_' ~ i ~ '_min'] }}</td>
-          <td>{{ combiner['input_' ~ i ~ '_max'] }}</td>
+          <td>{{ combiner['input-' ~ i]['chn'] }}</td>
+          <td>{{ combiner['input-' ~ i]['cur'] }}</td>
+          <td>{{ combiner['input-' ~ i]['ave'] }}</td>
+          <td>{{ combiner['input-' ~ i]['min'] }}</td>
+          <td>{{ combiner['input-' ~ i]['max'] }}</td>
         </tr>
+        {% endif %}
         {% endfor %}
       </table>
       {% endif %}

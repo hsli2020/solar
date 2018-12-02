@@ -161,8 +161,8 @@ class ProjectService extends Injectable
         }
 
         // THIS IS REALLY BAD HACK!
-        if ($id == 37) {
-            $details['p37']['combiner'] = $project->getLatestCombiner();
+        if (in_array($id, [ 37, 38, 39 ])) {
+            $details['obvius_a8332']['combiner'] = $project->getLatestCombiner();
         }
 
         return $details;

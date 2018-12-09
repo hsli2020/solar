@@ -1,7 +1,14 @@
 <div class="w3-container w3-top w3-black w3-medium" style="z-index:4">
 <ul class="w3-navbar">
   <li><a href="/" class="w3-hover-teal">Home</a></li>
-  <li><a href="/dashboard" class="w3-hover-teal">Dashboard</a></li>
+
+  <li class="w3-dropdown-hover">
+    <a href="javascript:;" class="w3-hover-teal">Dashboard <i class="fa fa-caret-down"></i></a>
+    <div class="w3-dropdown-content w3-white w3-card-4">
+      <a href="/dashboard/full" class="w3-hover-teal">Full View</a>
+      <a href="/dashboard/compact" class="w3-hover-teal">Compact View</a>
+    </div>
+  </li>
 
   <li class="w3-dropdown-hover">
     <a href="javascript:;" class="w3-hover-teal">Report <i class="fa fa-caret-down"></i></a>

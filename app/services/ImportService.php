@@ -238,9 +238,9 @@ class ImportService extends Injectable
                     }
 
                     $fullpath = str_replace('\\', '/', $fileInfo->getPathname());
-                    $filename = substr($fullpath, strlen($root)+1);
+                    $filename = substr($fullpath, strlen($root)+1); // no root dir
 
-                    $sql = "SELECT * FROM camera_picture WHERE filename='$fullpath'";
+                    $sql = "SELECT * FROM camera_picture WHERE filename='$filename'";
                     $pic = $this->db->fetchOne($sql);
                     if ($pic) {
                         continue;

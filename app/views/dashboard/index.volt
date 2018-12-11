@@ -90,7 +90,7 @@
     <a href="/project/detail/{{ row['project_id'] }}" target="_blank">{{ row[ 'project_name'] }}</a>
 {#
     {% if row['camera'] is not empty or row['project_id'] == 9 %}
-      <a href="/project/camera/{{ row['project_id'] }}" target="_blank" class="w3-right"><i class="fa fa-film"></i></a>
+      <a href="/project/camera/{{ row['project_id'] }}" target="_blank" class="w3-right"><i class="fa fa-camera"></i></a>
     {% endif %}
 #}
   </td>

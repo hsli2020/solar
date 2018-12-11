@@ -1,11 +1,15 @@
 {% extends "layouts/base.volt" %}
 
 {% block main %}
-<div class="container">
-  <div style="display: block;margin: 0 auto;width: 960px;">
-    <div class="w3-container">
-      <img src="/picture/show/99">
-      <img src="/picture/show/100">
+<div class="w3-container">
+  <div class="w3-row">
+    <div class="w3-half w3-padding w3-border">
+      <img src="/picture/show/99" width="100%">
+      <p>Camera 1</p>
+    </div>
+    <div class="w3-half w3-padding w3-border">
+      <img src="/picture/show/100" width="100%">
+      <p>Camera 2</p>
     </div>
   </div>
 </div>

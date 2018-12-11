@@ -143,7 +143,7 @@ class Project
         return $this->getDb()->fetchAll("SELECT * FROM project_camera WHERE project_id=$prj");
     }
 
-    public function getLatestCameraPicture()
+    public function getLatestCameraPictures()
     {
         $pictures = [];
 

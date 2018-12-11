@@ -3,14 +3,12 @@
 {% block main %}
 <div class="w3-container">
   <div class="w3-row">
+    {% for picture in pictures %}
     <div class="w3-half w3-padding w3-border">
-      <img src="/picture/show/99" width="100%">
-      <p>Camera 1</p>
+      <img src="/picture/show/{{ picture['id'] }}" width="100%">
+      <p>{{ picture['camera'] }} - [ {{ project.name }} ]</p>
     </div>
-    <div class="w3-half w3-padding w3-border">
-      <img src="/picture/show/100" width="100%">
-      <p>Camera 2</p>
-    </div>
+    {% endfor %}
   </div>
 </div>
 {% endblock %}

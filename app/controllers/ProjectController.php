@@ -213,13 +213,13 @@ class ProjectController extends ControllerBase
         if ($prj == '') {
             $prj = 9;
         }
-
-        $this->view->project = $prj;
-        $this->view->camera  = $cam;
-        $this->view->picture = $pic;
-
         $project = $this->projectService->get($prj);
-       #$this->view->pictures = $project->getLatestCameraPicture();
+
+        $this->view->project = $project;
+       #$this->view->camera  = $cam;
+       #$this->view->picture = $pic;
+
+        $this->view->pictures = $project->getLatestCameraPictures();
     }
 
     public function testAction()

@@ -137,10 +137,28 @@ class Project
             WHERE project_id=$prj AND year=$year AND month=$month");
     }
 
-    public function getCamera()
+    public function getCameras()
     {
         $prj = $this->id;
         return $this->getDb()->fetchAll("SELECT * FROM project_camera WHERE project_id=$prj");
+    }
+
+    public function getLatestCameraPicture()
+    {
+        $pictures = [];
+
+        $cameras = $this->getCameras();
+
+        if ($cameras) {
+            $prj = $this->id;
+            foreach ($cameras as $camera) {
+                $cameraName = $camera['camera_name'];
+                $sql = "SELECT * FROM camera_picture WHERE project_id=$prj AND camera='$cameraName' ORDER BY id DESC";
+                $pictures[] = $this->getDb()->fetchOne($sql);
+            }
+        }
+
+        return $pictures;
     }
 
     public function getIRR($period)

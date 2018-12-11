@@ -248,12 +248,16 @@ class ImportService extends Injectable
 
                     $this->log($filename);
 
-                    $this->db->insertAsDict('camera_picture', [
-                        'project_id' => $prj,
-                        'camera'     => $camera,
-                        'filename'   => $filename,
-                        'createdon'  => date('Y-m-d H:i:s', filemtime($fullpath)),
-                    ]);
+                    try {
+                        $this->db->insertAsDict('camera_picture', [
+                            'project_id' => $prj,
+                            'camera'     => $camera,
+                            'filename'   => $filename,
+                            'createdon'  => date('Y-m-d H:i:s', filemtime($fullpath)),
+                        ]);
+                    } catch (\Exception $e) {
+                        echo $e->getMessage(), EOL;
+                    }
                 }
             }
         }

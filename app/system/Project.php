@@ -137,6 +137,12 @@ class Project
             WHERE project_id=$prj AND year=$year AND month=$month");
     }
 
+    public function getCamera()
+    {
+        $prj = $this->id;
+        return $this->getDb()->fetchAll("SELECT * FROM project_camera WHERE project_id=$prj");
+    }
+
     public function getIRR($period)
     {
         $envkit = current($this->envkits);

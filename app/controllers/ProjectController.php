@@ -208,10 +208,18 @@ class ProjectController extends ControllerBase
     // pic can be id or date
     public function cameraAction($prj = '', $cam = '', $pic = '')
     {
-        echo __METHOD__, '<br>';
-        echo "prj=$prj", '<br>';
-        echo "cam=$cam", '<br>';
-        echo "pic=$pic", '<br>';
+        $this->view->pageTitle = 'Camera';
+
+        if ($prj == '') {
+            $prj = 9;
+        }
+
+        $this->view->project = $prj;
+        $this->view->camera  = $cam;
+        $this->view->picture = $pic;
+
+        $project = $this->projectService->get($prj);
+       #$this->view->pictures = $project->getLatestCameraPicture();
     }
 
     public function testAction()

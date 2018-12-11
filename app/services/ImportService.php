@@ -205,6 +205,57 @@ class ImportService extends Injectable
         }
     }
 
+    public function importCameraPicture()
+    {
+        $sql = "SELECT * FROM project_camera";
+        $cameras = $this->db->fetchAll($sql);
+
+        $rootDir = 'c:/GCS-FTP-ROOT';
+
+        foreach ($cameras as $camera) {
+            $dir = $camera['camera_dir'];
+            $prj = $camera['project_id'];
+
+            # The picture filename looks like
+            # c:/GCS-FTP-ROOT/45Progress-Camera1/14MPIX40_124440/2018-12-10/001/jpg/14/56/16[R][0@0][0].jpg
+
+            $folder = $rootDir .'/'. $dir; // . date('Y-m-d');
+
+            $this->importPicturesInFolder($rootDir, $folder, $prj);
+        }
+    }
+
+    protected function importPicturesInFolder($root, $folder, $prj)
+    {
+        foreach (new \DirectoryIterator($folder) as $fileInfo) {
+            if (!$fileInfo->isDot()) {
+                if ($fileInfo->isDir()) {
+                    $this->importPicturesInFolder($root, $fileInfo->getPathname(), $prj);
+                } else {
+                    if (strtolower($fileInfo->getExtension()) != 'jpg') {
+                        continue;
+                    }
+
+                    $fullpath = str_replace('\\', '/', $fileInfo->getPathname());
+                    $fullpath = substr($fullpath, strlen($root)+1);
+
+                    $sql = "SELECT * FROM camera_picture WHERE filename='$fullpath'";
+                    $pic = $this->db->fetchOne($sql);
+                    if ($pic) {
+                        continue;
+                    }
+
+                    echo $fullpath, PHP_EOL;
+
+                    $this->db->insertAsDict('camera_picture', [
+                        'project_id' => $prj,
+                        'filename'   => $fullpath,
+                    ]);
+                }
+            }
+        }
+    }
+
     protected function log($str)
     {
         $filename = BASE_DIR . '/app/logs/import.log';

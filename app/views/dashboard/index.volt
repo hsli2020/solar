@@ -86,7 +86,14 @@
 </tr>
 {% for row in data['rows'] %}
 <tr>
-  <td><a href="/project/detail/{{ row['project_id'] }}" target="_blank">{{ row[ 'project_name'] }}</a></td>
+  <td>
+    <a href="/project/detail/{{ row['project_id'] }}" target="_blank">{{ row[ 'project_name'] }}</a>
+{#
+    {% if row['camera'] is not empty or row['project_id'] == 9 %}
+      <a href="/project/camera/{{ row['project_id'] }}" target="_blank" class="w3-right"><i class="fa fa-film"></i></a>
+    {% endif %}
+#}
+  </td>
   <td class="w3-center"><a href="/project/chart/{{ row['project_id'] }}" target="_blank"><i class="fa fa-bar-chart"></i></a></td>
   {{ tablecell(row, 'GCPR',                  '') }}
   {{ tablecell(row, 'project_size_ac',       'w3-center') }}

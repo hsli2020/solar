@@ -87,7 +87,7 @@
 {% for row in data['rows'] %}
 <tr>
   <td><a href="/project/detail/{{ row['project_id'] }}" target="_blank">{{ row[ 'project_name'] }}</a></td>
-  <td class="w3-center"><a href="/project/chart/{{ row['project_id'] }}" target="_blank" class="fa fa-bar-chart"></i></a></td>
+  <td class="w3-center"><a href="/project/chart/{{ row['project_id'] }}" target="_blank"><i class="fa fa-bar-chart"></i></a></td>
   {{ tablecell(row, 'GCPR',                  '') }}
   {{ tablecell(row, 'project_size_ac',       'w3-center') }}
   {{ tablecell(row, 'current_power',         '') }}

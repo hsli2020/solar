@@ -205,6 +205,15 @@ class ProjectController extends ControllerBase
         return $filename;
     }
 
+    // pic can be id or date
+    public function cameraAction($prj = '', $cam = '', $pic = '')
+    {
+        echo __METHOD__, '<br>';
+        echo "prj=$prj", '<br>';
+        echo "cam=$cam", '<br>';
+        echo "pic=$pic", '<br>';
+    }
+
     public function testAction()
     {
         echo __METHOD__;

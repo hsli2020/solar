@@ -6,7 +6,7 @@
     {% for picture in pictures %}
     <div class="w3-half w3-padding w3-border">
       <img src="/picture/show/{{ picture['id'] }}" width="100%">
-      <p>{{ picture['camera'] }} - [ {{ project.name }} ]</p>
+      <p>[ {{ project.name }} ] - {{ picture['camera'] }}<span class="w3-right">{{ picture['createdon'] }}</span></p>
     </div>
     {% endfor %}
   </div>

@@ -21,7 +21,11 @@ class PictureService extends Injectable
         $im = imagecreatetruecolor($w, $h);
 
         $textcolor = imagecolorallocate($im, 233, 14, 91);
-        imagestring($im, 1, $w/2, $h/2, 'No Camera', $textcolor);
+
+        $text = 'Camera Not Available';
+        $font = 'c:/xampp/php/extras/fonts/ttf/Vera.ttf';
+
+        imagettftext($im, 20, 0, $w/3, $h/2, $textcolor, $font, $text);
 
         // Set the content type header - in this case image/jpeg
         header('Content-Type: image/jpeg');

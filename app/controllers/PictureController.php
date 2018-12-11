@@ -15,6 +15,8 @@ class PictureController extends ControllerBase
             header('Content-Type:'.$type);
             header('Content-Length: ' . filesize($file));
             readfile($file);
+        } else {
+            $this->pictureService->drawPlaceholder();
         }
     }
 }

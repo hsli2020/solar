@@ -15,4 +15,21 @@ class PictureService extends Injectable
         }
         return $result;
     }
+
+    public function drawPlaceholder($w = 1280, $h = 720)
+    {
+        $im = imagecreatetruecolor($w, $h);
+
+        $textcolor = imagecolorallocate($im, 233, 14, 91);
+        imagestring($im, 1, $w/2, $h/2, 'No Camera', $textcolor);
+
+        // Set the content type header - in this case image/jpeg
+        header('Content-Type: image/jpeg');
+
+        // Output the image
+        imagejpeg($im);
+
+        // Free up memory
+        imagedestroy($im);
+    }
 }

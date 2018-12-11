@@ -220,7 +220,8 @@ class ImportService extends Injectable
             # The picture filename looks like
             # c:/GCS-FTP-ROOT/45Progress-Camera1/14MPIX40_124440/2018-12-10/001/jpg/14/56/16[R][0@0][0].jpg
 
-            $folder = $rootDir .'/'. $dir; // . date('Y-m-d');
+            $folder = $rootDir .'/'. $dir; // all files
+            $folder = $rootDir .'/'. $dir .'/'. date('Y-m-d'); // only today's files (for better performance)
 
             $this->importPicturesInFolder($rootDir, $folder, $prj, $cam);
         }

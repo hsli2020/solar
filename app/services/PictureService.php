@@ -36,4 +36,92 @@ class PictureService extends Injectable
         // Free up memory
         imagedestroy($im);
     }
+
+    public function getAllCameras()
+    {
+        $sql = "SELECT * FROM project_camera";
+        return $this->db->fetchAll($sql);
+    }
+
+    public function getCameras($prj)
+    {
+        $sql = "SELECT * FROM project_camera WHERE project_id=$prj";
+        return $this->db->fetchAll($sql);
+    }
+
+    public function getLatestPictures($prj)
+    {
+        $pictures = [];
+
+        $cameras = $this->getCameras($prj);
+
+        if ($cameras) {
+            foreach ($cameras as $camera) {
+                $camid = $camera['id'];
+                $sql = "SELECT * FROM camera_picture WHERE project_id=$prj AND camera_id=$camid ORDER BY id DESC";
+                $picture = $this->db->fetchOne($sql);
+                $picture['camera'] = $camera['camera_name'];
+                $pictures[] = $picture;
+            }
+        }
+
+        return $pictures;
+    }
+
+    public function getNextPicture($id)
+    {
+        $sql = "SELECT * FROM camera_picture WHERE id=$id";
+        $curpic = $this->db->fetchOne($sql);
+        if (!$curpic) {
+            return false;
+        }
+
+        $prj = $curpic['project_id'];
+        $cam = $curpic['camera_id'];
+
+        $sql = "SELECT *
+                  FROM camera_picture
+                 WHERE project_id=$prj AND camera_id=$cam AND id>$id
+              ORDER BY id LIMIT 1";
+        $picture = $this->db->fetchOne($sql);
+        return $picture;
+    }
+
+    public function getPrevPicture($id)
+    {
+        $sql = "SELECT * FROM camera_picture WHERE id=$id";
+        $curpic = $this->db->fetchOne($sql);
+        if (!$curpic) {
+            return false;
+        }
+
+        $prj = $curpic['project_id'];
+        $cam = $curpic['camera_id'];
+
+        $sql = "SELECT *
+                  FROM camera_picture
+                 WHERE project_id=$prj AND camera_id=$cam AND id<$id
+              ORDER BY id DESC LIMIT 1";
+        $picture = $this->db->fetchOne($sql);
+        return $picture;
+    }
+
+    public function getPicturesByDate($prj, $date)
+    {
+        $pictures = [];
+
+        $cameras = $this->getCameras($prj);
+
+        if ($cameras) {
+            foreach ($cameras as $camera) {
+                $camid = $camera['id'];
+                $sql = "SELECT * FROM camera_picture WHERE project_id=$prj AND camera_id=$camid AND DATE(createdon)='$date' ORDER BY id";
+                $picture = $this->db->fetchOne($sql);
+                $picture['camera'] = $camera['camera_name'];
+                $pictures[] = $picture;
+            }
+        }
+
+        return $pictures;
+    }
 }

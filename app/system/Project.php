@@ -152,9 +152,11 @@ class Project
         if ($cameras) {
             $prj = $this->id;
             foreach ($cameras as $camera) {
-                $cameraName = $camera['camera_name'];
-                $sql = "SELECT * FROM camera_picture WHERE project_id=$prj AND camera='$cameraName' ORDER BY id DESC";
-                $pictures[] = $this->getDb()->fetchOne($sql);
+                $camid = $camera['id'];
+                $sql = "SELECT * FROM camera_picture WHERE project_id=$prj AND camera_id=$camid ORDER BY id DESC";
+                $picture = $this->getDb()->fetchOne($sql);
+                $picture['camera'] = $camera['camera_name'];
+                $pictures[] = $picture;
             }
         }
 

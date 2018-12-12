@@ -215,7 +215,7 @@ class ImportService extends Injectable
         foreach ($cameras as $camera) {
             $dir = $camera['camera_dir'];
             $prj = $camera['project_id'];
-            $cam = $camera['camera_name'];
+            $cam = $camera['id']; // camera id
 
             # The picture filename looks like
             # c:/GCS-FTP-ROOT/45Progress-Camera1/14MPIX40_124440/2018-12-10/001/jpg/14/56/16[R][0@0][0].jpg
@@ -255,7 +255,7 @@ class ImportService extends Injectable
                     try {
                         $this->db->insertAsDict('camera_picture', [
                             'project_id' => $prj,
-                            'camera'     => $camera,
+                            'camera_id'  => $camera,
                             'filename'   => $filename,
                             'createdon'  => date('Y-m-d H:i:s', filemtime($fullpath)),
                         ]);

@@ -103,11 +103,35 @@ function currentPicture(id) {
 }
 
 function nextPicture() {
-    // fetch('/ajax/nextpic/' + picture,
+  fetch('/ajax/nextpic/' + picture)
+    .then(function(response) {
+       return response.json();
+    })
+    .then(function(data) {
+       console.log(data);
+       if (data.status == 'OK') {
+         showPicture(picture = data.picture.id);
+       }
+    })
+    .catch(function(error) {
+       console.log('Request failed', error)
+    });
 }
 
 function prevPicture() {
-    // fetch('/ajax/prevpic/' + picture,
+  fetch('/ajax/prevpic/' + picture)
+    .then(function(response) {
+       return response.json();
+    })
+    .then(function(data) {
+       console.log(data);
+       if (data.status == 'OK') {
+         showPicture(picture = data.picture.id);
+       }
+    })
+    .catch(function(error) {
+       console.log('Request failed', error)
+    });
 }
 
 function showPicture(id) {

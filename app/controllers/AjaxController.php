@@ -27,4 +27,34 @@ class AjaxController extends ControllerBase
             return $this->response;
         }
     }
+
+    public function nextPicAction($id = '')
+    {
+        $this->response->setContentType("application/json");
+
+        $picture = $this->pictureService->getNextPicture($id);
+        if ($picture) {
+            $this->response->setJsonContent(['status' => 'OK', 'picture' => $picture ]);
+        } else {
+            $this->response->setStatusCode(404);
+            $this->response->setJsonContent(['status' => 'ERROR', 'message' => 'No Picture']);
+        }
+
+        return $this->response;
+    }
+
+    public function prevPicAction($id = '')
+    {
+        $this->response->setContentType("application/json");
+
+        $picture = $this->pictureService->getPrevPicture($id);
+        if ($picture) {
+            $this->response->setJsonContent(['status' => 'OK', 'picture' => $picture ]);
+        } else {
+            $this->response->setStatusCode(404);
+            $this->response->setJsonContent(['status' => 'ERROR', 'message' => 'No Picture']);
+        }
+
+        return $this->response;
+    }
 }

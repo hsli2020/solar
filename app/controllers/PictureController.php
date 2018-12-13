@@ -15,7 +15,7 @@ class PictureController extends ControllerBase
             header('Content-Type:'.$type);
             header('Content-Length: ' . filesize($file));
 
-            $ttl = 2592000; // 30days (60sec * 60min * 24hours * 30days)
+            $ttl = 86400; // 1 day (60sec * 60min * 24hours)
             $ts = gmdate("D, d M Y H:i:s", time() + $ttl) . " GMT";
             header("Expires: $ts");
             header("Pragma: cache");

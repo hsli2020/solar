@@ -91,7 +91,7 @@ var camera  = 1;
 var picture = 0;
 
 function openModal() {
-  //document.getElementById('myModal').style.display = "block";
+  document.getElementById('myModal').style.display = "block";
 }
 
 function closeModal() {

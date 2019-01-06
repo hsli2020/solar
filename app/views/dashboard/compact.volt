@@ -5,8 +5,10 @@
   table { border: 5px solid #eee !important; }
   table, th, td { border: 1px solid #ddd; }
   td a { text-decoration: none; font-weight: bold; }
-  .w3-table td, .w3-table th { padding: 0; }
-  .w3-table td:first-child, .w3-table th:first-child { padding: 0; }
+  .w3-table td, .w3-table th,
+  .w3-table td:first-child,
+  .w3-table th:first-child { padding: 1px; }
+  .title { background-color: #ddd; }
   td:hover .title { background-color: lightblue; }
   td:hover .reading { background-color: lightcyan; }
 </style>
@@ -30,7 +32,7 @@
       <a href="/project/detail/{{ row['project_id'] }}" target="_blank">{{ row[ 'project_name'] }}</a>
       <a href="/project/chart/{{ row['project_id'] }}" target="_blank" class="w3-right"><i class="fa fa-bar-chart"></i></a>
       {% if row['camera'] is not empty or row['project_id'] == 9 %}
-        <a href="/project/camera/{{ row['project_id'] }}" target="_blank" class="w3-right"><i class="fa fa-camera"></i>&nbsp;</a>
+        <a href="/project/camera/{{ row['project_id'] }}" target="_blank" class="w3-left"><i class="fa fa-camera"></i>&nbsp;</a>
       {% endif %}
     </div>
     <div class="w3-cell-row reading">

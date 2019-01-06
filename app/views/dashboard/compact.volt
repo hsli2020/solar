@@ -45,7 +45,10 @@
     <tr>
   {% endif %}
 {% endfor %}
+
+{% for index in 1..(x-count%x) %}<td>&nbsp;</td>{% endfor %}
 {% if count%x != 0 %}</tr>{% endif %}
+
 </table>
 </div>
 {% endblock %}

@@ -4,102 +4,48 @@
 <style type="text/css">
   table { border: 5px solid #eee !important; }
   table, th, td { border: 1px solid #ddd; }
-  #snapshot th { text-align: center; vertical-align: middle; }
-  #snapshot td { text-align: right; vertical-align: middle; }
-  #snapshot tr td:first-child{ text-align: left; }
-  #statsbox .numval { font-size: 24px; text-align: right; }
-  #statsbox .label  { font-size: 12px; text-align: right; }
-  #statsbox .icon {
-    font-size: 80px;
-    line-height: 0;
-  }
-  .bg-box1 { border: 5px solid #eee; }
-  .bg-box2 { border: 5px solid #eee; }
-  .bg-box3 { border: 5px solid #eee; }
-  .bg-box4 { border: 5px solid #eee; }
+  td a { text-decoration: none; font-weight: bold; }
+  .w3-table td, .w3-table th { padding: 0; }
+  .w3-table td:first-child, .w3-table th:first-child { padding: 0; }
+  td:hover .title { background-color: lightblue; }
+  td:hover .reading { background-color: lightcyan; }
 </style>
 
-<!--
-<div id="statsbox" class="w3-row-padding w3-margin-bottom">
-  <div class="w3-col" style="width:20%">
-    <div class="w3-container bg-box1">
-      <div class="w3-right w3-padding-12">
-        <div class="numval">{{ data['total']['project_size_ac'] }}</div>
-        <div class="label">Total Project Size KWAC</div>
-      </div>
-    </div>
-  </div>
-  <div class="w3-col" style="width:20%">
-    <div class="w3-container bg-box1">
-      <div class="w3-right w3-padding-12">
-        <div class="numval">{{ data['rows'] | length }}</div>
-        <div class="label">Total Number of Projects</div>
-      </div>
-    </div>
-  </div>
-  <div class="w3-col" style="width:20%">
-    <div class="w3-container bg-box2">
-      <div class="w3-right w3-padding-12">
-        <div class="numval">{{ data['total']['current_power'] }}</div>
-        <div class="label">Total Current Power</div>
-      </div>
-    </div>
-  </div>
-  <div class="w3-col" style="width:20%">
-    <div class="w3-container bg-box3">
-      <div class="w3-right w3-padding-12">
-        <div class="numval">{{ data['total']['average_irradiance'] }}</div>
-        <div class="label">Average Irradiance, w/m<sup>2</sup></div>
-      </div>
-    </div>
-  </div>
-  <div class="w3-col" style="width:20%">
-    <div class="w3-container bg-box4">
-      <div class="w3-right w3-padding-12">
-        <div class="numval">{{ data['total']['performance'] }}</div>
-        <div class="label">Production, Performance %</div>
-      </div>
-    </div>
-  </div>
-</div>
--->
-
-{%- macro tablecell(row, key, align) %}
-  {%- set classes = align %}
+{%- macro cell(row, key, unit) %}
+  {%- set classes = '' %}
   {%- if row['error'][key] is defined %}
-    {%- set classes = classes ~ ' w3-' ~ row['error'][key] %}
+    {%- set classes = 'w3-' ~ row['error'][key] %}
   {%- endif %}
-  <td class="{{ classes }}">{{ row[key] }}</td>
+  <div class="w3-container w3-center w3-cell w3-padding {{ classes }}">{{ row[key] }} {{ unit }}</div>
 {% endmacro %}
 
 <div class="w3-container">
 <table id="snapshot" class="w3-table w3-white w3-bordered w3-border">
+{% set count = 0 %}
+{% set x = 4 %}
 <tr>
-  <th style="vertical-align: middle;">Site</th>
-  <th style="vertical-align: middle;">Chart</th>
-  <th style="vertical-align: middle;">GC PI</th>
-  <th>Project Size<br>(AC)</th>
-  <th>Current Power<br>(kW)</th>
-  <th>Irradiance<br>(W/m<sup>2</sup>)</th>
-  <th>Ambient<br>Temperature (C°)</th>
-  <th>Inverters<br>Generating</th>
-  <th>Devices<br>Communicating</th>
-  <th>Data Received<br>(Time Stamp)</th>
-</tr>
 {% for row in data['rows'] %}
-<tr>
-  <td><a href="/project/detail/{{ row['project_id'] }}" target="_blank">{{ row[ 'project_name'] }}</a></td>
-  <td class="w3-center"><a href="/project/chart/{{ row['project_id'] }}" target="_blank" class="fa fa-bar-chart"></i></a></td>
-  {{ tablecell(row, 'GCPR',                  '') }}
-  {{ tablecell(row, 'project_size_ac',       'w3-center') }}
-  {{ tablecell(row, 'current_power',         '') }}
-  {{ tablecell(row, 'irradiance',            '') }}
-  {{ tablecell(row, 'temperature',           'w3-center') }}
-  {{ tablecell(row, 'inverters_generating',  'w3-center') }}
-  {{ tablecell(row, 'devices_communicating', 'w3-center') }}
-  {{ tablecell(row, 'last_com',              'w3-center') }}
-</tr>
+  <td>
+    <div class="w3-container w3-center w3-padding title">
+      <a href="/project/detail/{{ row['project_id'] }}" target="_blank">{{ row[ 'project_name'] }}</a>
+      <a href="/project/chart/{{ row['project_id'] }}" target="_blank" class="w3-right"><i class="fa fa-bar-chart"></i></a>
+      {% if row['camera'] is not empty or row['project_id'] == 9 %}
+        <a href="/project/camera/{{ row['project_id'] }}" target="_blank" class="w3-right"><i class="fa fa-camera"></i>&nbsp;</a>
+      {% endif %}
+    </div>
+    <div class="w3-cell-row reading">
+      {{ cell(row, 'GCPR', '') }}
+      {{ cell(row, 'current_power', 'kW') }}
+      {{ cell(row, 'irradiance', 'W/m<sup>2</sup>') }}
+    </div>
+  </td>
+  {% set count += 1 %}
+  {% if count%x == 0 %}
+    </tr>
+    <tr>
+  {% endif %}
 {% endfor %}
+{% if count%x != 0 %}</tr>{% endif %}
 </table>
 </div>
 {% endblock %}

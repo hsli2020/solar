@@ -27,6 +27,8 @@ class Project
     protected $genmeters = [];
     protected $combiners = [];
 
+    protected $cameras = [];
+
     public function __construct($info)
     {
         $this->id                     = $info['id'];
@@ -137,10 +139,17 @@ class Project
             WHERE project_id=$prj AND year=$year AND month=$month");
     }
 
+    public function addCamera($camera)
+    {
+        $this->cameras[] = $camera;
+    }
+
     public function getCameras()
     {
-        $prj = $this->id;
-        return $this->getDb()->fetchAll("SELECT * FROM project_camera WHERE project_id=$prj");
+        return $this->cameras;
+
+       #$prj = $this->id;
+       #return $this->getDb()->fetchAll("SELECT * FROM project_camera WHERE project_id=$prj");
     }
 
     public function getLatestCameraPictures()

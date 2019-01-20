@@ -38,6 +38,18 @@ class ProjectService extends Injectable
                     $project->initDevices($device);
                 }
             }
+
+            // Load all cameras, then attach them to project
+            $sql = "SELECT * FROM project_camera";
+            $cameras = $this->db->fetchAll($sql);
+
+            foreach ($cameras as $camera) {
+                $projectId = $camera['project_id'];
+                if (isset($this->projects[$projectId])) {
+                    $project = $this->projects[$projectId];
+                    $project->addCamera($camera);
+                }
+            }
         }
 
 #       unset($this->projects[7]); // remove Norfolk, it affects everywhere

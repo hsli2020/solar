@@ -13,7 +13,12 @@ class ProjectService extends Injectable
     public function getAll(/* $includeInactive = false */)
     {
         if (!$this->projects) {
-            $sql = "SELECT * FROM projects WHERE active=1";
+           #$sql = "SELECT * FROM projects WHERE active=1";
+            $sql = "SELECT p.*, c.cbdir
+                      FROM projects p
+                 LEFT JOIN project_combiner c ON p.id=c.project_id
+                     WHERE p.active=1
+                  ORDER BY p.id";
             $projects = $this->db->fetchAll($sql);
 
             foreach ($projects as $project) {

@@ -120,6 +120,7 @@ class SnapshotService extends Injectable
             $id = $project->id;
             $name = $project->name;
             $sizeAC = $project->capacityAC;
+            $camera = count($project->getCameras());
 
             $GCPR                 = $this->getGCPR($project);
             $currentPower         = $this->getCurrentPower($project);
@@ -139,6 +140,7 @@ class SnapshotService extends Injectable
                  . " temperature = '$temperature',"
                  . " inverters_generating = '$invertersGenerating',"
                  . " devices_communicating = '$devicesCommunicating',"
+                 . " camera = '$camera',"
                  . " last_com = '$lastCom'";
 
             $this->db->execute($sql);

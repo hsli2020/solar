@@ -24,15 +24,19 @@ class ProjectService extends Injectable
             foreach ($projects as $project) {
                 $id = $project['id'];
                 $object = new Project($project);
-
-                $sql = "SELECT * FROM devices WHERE project_id='$id'";
-                $devices = $this->db->fetchAll($sql);
-
-                foreach ($devices as $device) {
-                    $object->initDevices($device);
-                }
-
                 $this->projects[$id] = $object;
+            }
+
+            // Load all devices, then attach them to project
+            $sql = "SELECT * FROM devices";
+            $devices = $this->db->fetchAll($sql);
+
+            foreach ($devices as $device) {
+                $projectId = $device['project_id'];
+                if (isset($this->projects[$projectId])) {
+                    $project = $this->projects[$projectId];
+                    $project->initDevices($device);
+                }
             }
         }
 

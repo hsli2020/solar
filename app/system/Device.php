@@ -143,6 +143,14 @@ abstract class Device
         return json_decode($result['data'], true);
     }
 
+    public function loadData($cnt)
+    {
+        $table = $this->getDeviceTable();
+        $sql = "SELECT * FROM $table ORDER BY time DESC LIMIT $cnt";
+        $result = $this->getDb()->fetchAll($sql);
+        return $result;
+    }
+
     public function getLatestTime()
     {
         $data = $this->getLatestData();

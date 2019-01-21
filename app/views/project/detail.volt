@@ -170,6 +170,49 @@
         {% endfor %}
       </table>
 
+{% if details['project_id'] == 40 %} {# REALLY BAD HACK #}
+      <table class="w3-table w3-margin-top">
+        {% if details['inverters'] is not empty %}
+        <tr class="w3-light-gray">
+          <th>Inverter Data</th>
+          <th>Current Reading</th>
+          <th colspan="5"></th>
+        </tr>
+        {% endif %}
+
+        <tr data-code="{{ code }}" style="border-top: 1px solid lightgray;">
+          <th>Inverter Number</th>
+          <th>kw (kW)</th>
+          <th>kva (kW)</th>
+          <th>dckw (kW)</th>
+          <th>dcVolts (V)</th>
+          <th>voltAvg (V)</th>
+          <th>ampsAvg(A)</th>
+        </tr>
+
+        {% for code, inverter in details['inverters'] %}
+        <tr data-code="{{ code }}" style="border-top: 1px solid lightgray;">
+          <td>Inverter {{ loop.index }}
+          <a style="text-decoration: none;" class="w3-text-red" href="/project/sandhurst/{{ code }}" target="_blank">Combiner</a>
+          </td>
+          <td>{{ inverter['data']['kw'] }}</td>
+          <td>{{ inverter['data']['kva'] }}</td>
+          <td>{{ inverter['data']['dckw'] }}</td>
+          <td>{{ inverter['data']['dcvolts'] }}</td>
+          <td>{{ inverter['data']['voltavg'] }}</td>
+          <td>{{ inverter['data']['ampsavg'] }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+
+      <table class="w3-table w3-margin-top">
+        <tr class="w3-light-gray">
+          <th>String Level Combiners</th>
+        </tr>
+        <tr><td><a href="/project/stringlevel/mb-037" target="_blank">CB 1:05-2</a></td></tr>
+        <tr><td><a href="/project/stringlevel/mb-101" target="_blank">CB 1:05-2</a></td></tr>
+      </table>
+{% else %}
       <table class="w3-table w3-margin-top">
         {% if details['inverters'] is not empty %}
         <tr class="w3-light-gray">
@@ -186,7 +229,6 @@
           <th>VLB, Volts</th>
           <th>VLC, Volts</th>
           <th>Status</th>
-{#        <th>Fault Code</th> #}
         </tr>
 
         {% for code, inverter in details['inverters'] %}
@@ -201,12 +243,12 @@
           <td>{{ inverter['vlb'] }}</td>
           <td>{{ inverter['vlc'] }}</td>
           <td>{{ inverter['status'] }}</td>
-{#        <td>{{ inverter['fault'] }}</td> #}
         </tr>
         {% endfor %}
       </table>
+{% endif %}
 
-      {% if details['obvius_a8332_combiner'] is not empty %}
+{% if details['obvius_a8332_combiner'] is not empty %}
       {% for combiner in details['obvius_a8332_combiner'] %}
       <table class="w3-table w3-margin-top">
         <tr class="w3-light-gray">
@@ -236,7 +278,7 @@
         {% endfor %}
       </table>
       {% endfor %}
-      {% endif %}
+{% endif %}
       <br>
 
     </div>

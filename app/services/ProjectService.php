@@ -75,6 +75,7 @@ class ProjectService extends Injectable
         $project = $this->get($id);
 
         $details['project_name'] = $project->name;
+        $details['project_id'] = $project->id;
         $details['address'] = $project->name;
         $details['ac_size'] = round($project->capacityAC);
         $details['dc_size'] = round($project->capacityDC);
@@ -113,6 +114,9 @@ class ProjectService extends Injectable
                     $data[$key] = '';
                 }
             }
+
+            $details['inverters'][$code]['data'] = $data;
+            $details['inverters'][$code]['model'] = $inverter->model;
 
             $details['inverter_type'] = $inverter->getInverterType();
 

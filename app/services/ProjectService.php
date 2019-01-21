@@ -219,7 +219,7 @@ class ProjectService extends Injectable
         $prj = 40;
         $project = $this->get($prj);
         $combiner = $project->combiners[$dev];
-        $data = $combiner->loadData();
-        return $data;
+        $data = $combiner->loadData(1);
+        return $data[0];
     }
 }

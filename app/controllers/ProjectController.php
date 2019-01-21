@@ -62,7 +62,7 @@ class ProjectController extends ControllerBase
         $this->view->pageTitle = 'String Level Combiner';
 
         $prj = 40;
-        $data = $this->projectService->loadStringLevelCombiner($prj, $dev);
+        $data = $this->projectService->loadStringLevelCombiner($devcode);
         $project = $this->projectService->get($prj);
 
         $this->view->project = $project;

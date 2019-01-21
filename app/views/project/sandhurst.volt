@@ -19,8 +19,8 @@
         <div class="w3-rest">&nbsp;</div>
       </div>
 
-      <table class="w3-table w3-margin-top">
-        {% if data is not empty %}
+      {% if data is not empty %}
+      <table class="w3-table w3-margin-top w3-hoverable">
         <tr class="w3-light-gray">
 		  <td>Time</td>
 		  <td>idc01</td>

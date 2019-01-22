@@ -210,7 +210,7 @@
           <th>String Level Combiners</th>
         </tr>
         <tr><td><a href="/project/stringlevel/mb-037" target="_blank">CB 1:05-2</a></td></tr>
-        <tr><td><a href="/project/stringlevel/mb-101" target="_blank">CB 1:05-2</a></td></tr>
+        <tr><td><a href="/project/stringlevel/mb-101" target="_blank">CB 2:05-2</a></td></tr>
       </table>
 {% else %}
       <table class="w3-table w3-margin-top">

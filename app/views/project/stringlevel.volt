@@ -4,7 +4,7 @@
 <div class="container">
   <div class="w3-modal" style="display: block;">
     <div class="w3-modal-content w3-card-8 w3-padding" style="width:100%;">
-      <h2>Combiner</h2>
+      <h2>String Level Combiner</h2>
 
       <div class="w3-row">
         <div class="w3-col" style="width:200px">Project Name:</div>
@@ -14,11 +14,12 @@
         <div class="w3-col" style="width:200px">Combiner:</div>
         <div class="w3-rest">&nbsp;</div>
       </div>
+{#
       <div class="w3-row">
         <div class="w3-col" style="width:200px"></div>
         <div class="w3-rest">&nbsp;</div>
       </div>
-
+#}
       {% if data is not empty %}
       <table class="w3-table w3-margin-top w3-hoverable">
         <tr>
@@ -165,8 +166,8 @@
 {% block csscode %}
 table, th, td { border: 1px solid #ddd; }
 .w3-modal { padding: 20px; }
-.w3-table td { padding: 5px 3px; }
-.w3-table th { padding: 5px 3px; }
+.w3-table td { padding: 2px; }
+.w3-table th { padding: 2px; }
 tr td:not(:first-child) { text-align: center; }
 tr th:not(:first-child) { text-align: center; }
 {% endblock %}

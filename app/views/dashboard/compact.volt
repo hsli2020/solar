@@ -8,7 +8,6 @@
   .w3-table td, .w3-table th,
   .w3-table td:first-child,
   .w3-table th:first-child { padding: 1px; }
-  .title { background-color: #ddd; }
   td:hover .title { background-color: lightblue; }
   td:hover .reading { background-color: lightcyan; }
 </style>
@@ -28,8 +27,19 @@
 <tr>
 {% for row in data['rows'] %}
   <td>
-    <div class="w3-container w3-center w3-padding title">
+
+    {% set bg = "" %}
+    {% if (row['error']['GCPR'] is defined AND row['error']['GCPR'] == 'red') %}
+    {%   set bg = "w3-red" %}
+    {% endif %}
+    {% if (row['error']['inverters_generating'] is defined AND row['error']['inverters_generating'] == 'red') %}
+    {%   set bg = "w3-red" %}
+    {% endif %}
+
+    <div class="w3-container w3-center w3-padding {{ bg }} title">
       <a href="/project/detail/{{ row['project_id'] }}" target="_blank">{{ row[ 'project_name'] }}</a>
+    </div>
+{#
       <a href="/project/chart/{{ row['project_id'] }}" target="_blank" class="w3-right"><i class="fa fa-bar-chart"></i></a>
       {% if row['camera'] is not empty or row['project_id'] == 9 %}
         <a href="/project/camera/{{ row['project_id'] }}" target="_blank" class="w3-left"><i class="fa fa-camera"></i>&nbsp;</a>
@@ -40,6 +50,7 @@
       {{ cell(row, 'current_power', 'kW') }}
       {{ cell(row, 'irradiance', 'W/m<sup>2</sup>') }}
     </div>
+#}
   </td>
   {% set count += 1 %}
   {% if count%x == 0 %}
@@ -48,8 +59,10 @@
   {% endif %}
 {% endfor %}
 
-{% for index in 1..(x-count%x) %}<td>&nbsp;</td>{% endfor %}
-{% if count%x != 0 %}</tr>{% endif %}
+{% if count%x != 0 %}
+  {% for index in 1..(x-count%x) %}<td>&nbsp;</td>{% endfor %}
+  </tr>
+{% endif %}
 
 </table>
 </div>

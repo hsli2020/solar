@@ -13,56 +13,56 @@ class SnowWiper
 
     public function getState()
     {
-		/*
-		  <?xml version="1.0" encoding="utf-8"?>
-		  <datavalues>
-			<relaystate>0</relaystate>
-			<inputstate>0</inputstate>
-			<rebootstate>0</rebootstate>
-			<totalreboots>0</totalreboots>
-		  </datavalues>
-		*/
+        /*
+          <?xml version="1.0" encoding="utf-8"?>
+          <datavalues>
+            <relaystate>0</relaystate>
+            <inputstate>0</inputstate>
+            <rebootstate>0</rebootstate>
+            <totalreboots>0</totalreboots>
+          </datavalues>
+        */
         $url = $this->ip;
-		return $this->send($url);
+        return $this->send($url);
     }
 
     // Turn the relay ‘off’:
     public function turnOff()
     {
-		/*
-		  <?xml version="1.0" encoding="utf-8"?>
-		  <datavalues>
-			<relaystate>0</relaystate>
-			<inputstate>0</inputstate>
-			<rebootstate>0</rebootstate>
-			<totalreboots>0</totalreboots>
-		  </datavalues>
-		*/
+        /*
+          <?xml version="1.0" encoding="utf-8"?>
+          <datavalues>
+            <relaystate>0</relaystate>
+            <inputstate>0</inputstate>
+            <rebootstate>0</rebootstate>
+            <totalreboots>0</totalreboots>
+          </datavalues>
+        */
         $url = $this->ip . '?relayState=0';
-		return $this->send($url);
+        return $this->send($url);
     }
 
     // Turn the relay ‘On’:
     public function turnOn()
     {
-		/*
-		  <?xml version="1.0" encoding="utf-8"?>
-		  <datavalues>
-			<relaystate>1</relaystate>
-			<inputstate>0</inputstate>
-			<rebootstate>0</rebootstate>
-			<totalreboots>0</totalreboots>
-		  </datavalues>
-		*/
+        /*
+          <?xml version="1.0" encoding="utf-8"?>
+          <datavalues>
+            <relaystate>1</relaystate>
+            <inputstate>0</inputstate>
+            <rebootstate>0</rebootstate>
+            <totalreboots>0</totalreboots>
+          </datavalues>
+        */
         $url = $this->ip . '?relayState=1';
-		return $this->send($url);
+        return $this->send($url);
     }
 
     protected function send($url)
-	{
-		$res = $this->httpGet($url);
-		return simplexml_load_string($res);
-	}
+    {
+        $res = $this->httpGet($url);
+        return simplexml_load_string($res);
+    }
 
     protected function httpGet($url)
     {

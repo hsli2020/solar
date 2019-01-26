@@ -32,7 +32,8 @@ class SnowWiperController extends ControllerBase
 
     public function autoPulseAction($state = 0)
     {
-        //$wiper = new SnowWiper();
-        //return json_encode($wiper->pulse());
+        $filename = 'c:/xampp/htdocs/solar/app/logs/autopulse.ini';
+        file_put_contents($filename, "state=$state");
+        return $state ? '{"autopulse": 1}' : '{"autopulse": 0}';
     }
 }

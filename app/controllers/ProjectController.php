@@ -248,6 +248,11 @@ class ProjectController extends ControllerBase
         $this->view->pictures = $project->getLatestCameraPictures();
     }
 
+    public function newboro4Action()
+    {
+        $this->view->pageTitle = 'Newboro4';
+    }
+
     public function testAction()
     {
         echo __METHOD__;

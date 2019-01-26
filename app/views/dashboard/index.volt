@@ -103,6 +103,12 @@
   {{ tablecell(row, 'last_com',              'w3-center') }}
 </tr>
 {% endfor %}
+
+<tr>
+  <td><a href="/project/newboro4" target="_blank">Newboro4</a></td>
+  <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+
 </table>
 </div>
 {% endblock %}

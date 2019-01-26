@@ -58,6 +58,21 @@ class SnowWiper
         return $this->send($url);
     }
 
+    public function pulse($time = 5)
+    {
+        /*
+          <?xml version="1.0" encoding="utf-8"?>
+          <datavalues>
+            <relaystate>1</relaystate>
+            <inputstate>0</inputstate>
+            <rebootstate>0</rebootstate>
+            <totalreboots>0</totalreboots>
+          </datavalues>
+        */
+        $url = $this->ip . "?relayState=2&pulseTime=$time";
+        return $this->send($url);
+    }
+
     protected function send($url)
     {
         $res = $this->httpGet($url);
@@ -89,3 +104,4 @@ class SnowWiper
 //print_r($wiper->getState());
 //print_r($wiper->turnOn());
 //print_r($wiper->turnOff());
+//print_r($wiper->pulse());

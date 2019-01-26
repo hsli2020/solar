@@ -5,9 +5,12 @@
 </style>
 
 <div class="w3-container">
-<button onclick="getState()">GetState</button>
-<button onclick="turnOn()">Turn On</button>
-<button onclick="turnOff()">Turn Off</button>
+<button onclick="turnOn()">ON</button>
+<button onclick="turnOff()">OFF</button>
+<button onclick="pulse()">Pulse</button>
+<button onclick="autoPulse(1)">Auto Pulse ON</button>
+<button onclick="autoPulse(0)">Auto Pulse OFF</button>
+<button onclick="getState()">Check State</button>
 <pre></pre>
 </div>
 {% endblock %}
@@ -17,6 +20,8 @@
       var url = '/snowwiper/getstate';
       $.get(url, function(res) {
           $("pre").html(res);
+          //var data = JSON.parse(res);
+          //$("pre").html(data.relaystate);
       });
   }
 
@@ -33,11 +38,25 @@
           $("pre").html(res);
       });
   }
+
+  function pulse() {
+      var url = '/snowwiper/pulse';
+      $.get(url, function(res) {
+          $("pre").html(res);
+      });
+  }
+
+  function autoPulse(state) {
+      var url = '/snowwiper/autopulse/' + state;
+      $.get(url, function(res) {
+          $("pre").html(res);
+      });
+  }
 {% endblock %}
 
 {% block domready %}
   function AutoRefresh(t) {
     setTimeout("location.reload(true);", t);
   }
-  window.onload = AutoRefresh(1000*60*1);
+  //window.onload = AutoRefresh(1000*60*1);
 {% endblock %}

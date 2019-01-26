@@ -23,4 +23,16 @@ class SnowWiperController extends ControllerBase
         $wiper = new SnowWiper();
         return json_encode($wiper->turnOff());
     }
+
+    public function pulseAction()
+    {
+        $wiper = new SnowWiper();
+        return json_encode($wiper->pulse());
+    }
+
+    public function autoPulseAction($state = 0)
+    {
+        //$wiper = new SnowWiper();
+        //return json_encode($wiper->pulse());
+    }
 }

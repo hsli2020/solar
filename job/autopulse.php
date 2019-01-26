@@ -2,6 +2,8 @@
 
 include __DIR__ . '/../public/init.php';
 
+deleteOldFiles('c:/GCS-FTP-ROOT/NB4-Camera1/');
+
 $inifile = 'c:/xampp/htdocs/solar/app/logs/autopulse.ini';
 $cfg = parse_ini_file($inifile);
 if ($cfg['state'] != 1) {
@@ -12,6 +14,29 @@ $wiper = new App\System\SnowWiper();
 $wiper->pulse();
 
 logger('AutoPluse');
+
+function deleteOldFiles($folder)
+{
+    $now = time();
+
+    foreach (new \DirectoryIterator($folder) as $fileInfo) {
+        if (!$fileInfo->isDot()) {
+            if ($fileInfo->isDir()) {
+                deleteOldFiles($fileInfo->getPathname());
+            } else {
+                if (strtolower($fileInfo->getExtension()) != 'jpg') {
+                    continue;
+                }
+
+                if ($now - $fileInfo->getMTime() > 3600*24) {
+                    $fullpath = str_replace('\\', '/', $fileInfo->getPathname());
+                    echo $fullpath, PHP_EOL;
+                    //unlink($fullpath);
+                }
+            }
+        }
+    }
+}
 
 function logger($str)
 {

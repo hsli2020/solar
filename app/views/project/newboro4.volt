@@ -8,7 +8,7 @@ img { width: 90%; margin-left: auto; margin-right: auto; display: block; }
 </style>
 
 <div class="w3-container">
-  <div id="pic"><img src="/picture/show/4313"></div>
+  <div id="pic"><img src=""></div>
   <div id="bar">
     <button onclick="turnOn()">ON</button>
     <button onclick="turnOff()">OFF</button>

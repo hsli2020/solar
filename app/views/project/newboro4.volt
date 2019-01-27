@@ -9,10 +9,12 @@ img {
   border: 1px solid #ccc; padding: 20px;
 }
 .dot {
-  height: 25px;
   width: 25px;
+  height: 25px;
   border: 1px solid gray;
   border-radius: 50%;
+  background-color: white;
+  vertical-align: middle;
   display: inline-block;
 }
 .green {
@@ -21,14 +23,14 @@ img {
 </style>
 
 <div class="w3-container">
-  <div class="w3-cell-row w3-padding w3-border w3-margin-bottom">
+  <div class="w3-cell-row w3-padding w3-margin-bottom">
     <div class="w3-cell">
-       <button onclick="turnOn()">ON</button>
-       <button onclick="turnOff()">OFF</button>
-       <button onclick="pulse()">Pulse</button>
-       <button onclick="autoPulse(1)">Auto Pulse ON</button>
-       <button onclick="autoPulse(0)">Auto Pulse OFF</button>
-       <button onclick="getState()">Check State</button>
+       <button class="w3-button w3-white w3-border" onclick="turnOn()">ON</button>
+       <button class="w3-button w3-white w3-border" onclick="turnOff()">OFF</button>
+       <button class="w3-button w3-white w3-border" onclick="pulse()">Pulse</button>
+       <button class="w3-button w3-white w3-border" onclick="autoPulse(1)">Auto Pulse ON</button>
+       <button class="w3-button w3-white w3-border" onclick="autoPulse(0)">Auto Pulse OFF</button>
+<!--   <button class="w3-button w3-white w3-border" onclick="getState()">Check State</button> -->
     </div>
     <div class="w3-cell"><span>iWiper State: </span><span id="wiper" class="dot"></span></div>
     <div class="w3-cell"><span>AutoPulse State: </span><span id="autopulse" class="dot"></span></div>

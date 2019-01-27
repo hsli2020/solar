@@ -34,6 +34,6 @@ class SnowWiperController extends ControllerBase
     {
         $filename = 'c:/xampp/htdocs/solar/app/logs/autopulse.ini';
         file_put_contents($filename, "state=$state");
-        return $state ? '{"autopulse": 1}' : '{"autopulse": 0}';
+        return json_encode([ 'autopulse' => $state ]);
     }
 }

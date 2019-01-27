@@ -236,6 +236,10 @@ class ImportService extends Injectable
 
     public function importPicturesInFolder($root, $folder, $prj, $camera)
     {
+        if (!file_exists($folder)) {
+            return;
+        }
+
         foreach (new \DirectoryIterator($folder) as $fileInfo) {
             if (!$fileInfo->isDot()) {
                 if ($fileInfo->isDir()) {

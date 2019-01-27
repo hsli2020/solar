@@ -73,11 +73,24 @@ class AjaxController extends ControllerBase
 
         // project_id = 999, camera_id=3
         $this->importService->importPicturesInFolder($root, $folder, 999, 3);
+
+        // Get autoPulse state
+        $inifile = 'c:/xampp/htdocs/solar/app/logs/autopulse.ini';
+        $autoPulse = parse_ini_file($inifile);
+
+        // Get Wiper state
+        $wiper = new \App\System\SnowWiper();
+        $wiperState = $wiper->getState();
 #=>
         $picture = $this->pictureService->getLatestPictures($prj);
 
         if ($picture) {
-            $this->response->setJsonContent(['status' => 'OK', 'picture' => $picture ]);
+            $this->response->setJsonContent([
+                'status'    => 'OK',
+                'picture'   => $picture,
+                'wiper'     => $wiperState,
+                'autopulse' => $autoPulse,
+            ]);
         } else {
             $this->response->setStatusCode(404);
             $this->response->setJsonContent(['status' => 'ERROR', 'message' => 'No Picture']);

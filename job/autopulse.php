@@ -2,7 +2,8 @@
 
 include __DIR__ . '/../public/init.php';
 
-deleteOldFiles('c:/GCS-FTP-ROOT/NB4-Camera1/', 3600*24);
+deleteOldFiles('c:/GCS-FTP-ROOT/NB4-Camera1/', 3600);
+deleteOldPictures();
 
 $inifile = 'c:/xampp/htdocs/solar/app/logs/autopulse.ini';
 $cfg = parse_ini_file($inifile);
@@ -23,6 +24,7 @@ function deleteOldFiles($folder, $ttl)
         if (!$fileInfo->isDot()) {
             if ($fileInfo->isDir()) {
                 deleteOldFiles($fileInfo->getPathname(), $ttl);
+                //rmdir($fileInfo->getPathname());
             } else {
                 if (strtolower($fileInfo->getExtension()) != 'jpg') {
                     continue;
@@ -31,11 +33,18 @@ function deleteOldFiles($folder, $ttl)
                 if ($now - $fileInfo->getMTime() > $ttl) {
                     $fullpath = str_replace('\\', '/', $fileInfo->getPathname());
                     echo $fullpath, PHP_EOL;
-                    //unlink($fullpath);
+                    unlink($fullpath);
                 }
             }
         }
     }
+}
+
+function deleteOldPictures()
+{
+    $di = \Phalcon\Di::getDefault();
+    $db = $di->get('db');
+    $db->execute('DELETE FROM camera_picture WHERE project_id=999 AND createdon<(NOW() - INTERVAL 5 MINUTE)');
 }
 
 function logger($str)

@@ -217,6 +217,10 @@ class ImportService extends Injectable
             $prj = $camera['project_id'];
             $cam = $camera['id']; // camera id
 
+            if ($prj >= 990) {
+                continue; // skip temp project
+            }
+
             # The picture filename looks like
             # c:/GCS-FTP-ROOT/45Progress-Camera1/14MPIX40_124440/2018-12-10/001/jpg/14/56/16[R][0@0][0].jpg
 

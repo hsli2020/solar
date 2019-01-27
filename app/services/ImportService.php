@@ -230,7 +230,7 @@ class ImportService extends Injectable
         }
     }
 
-    protected function importPicturesInFolder($root, $folder, $prj, $camera)
+    public function importPicturesInFolder($root, $folder, $prj, $camera)
     {
         foreach (new \DirectoryIterator($folder) as $fileInfo) {
             if (!$fileInfo->isDot()) {

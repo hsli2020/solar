@@ -57,4 +57,21 @@ class AjaxController extends ControllerBase
 
         return $this->response;
     }
+
+    public function latestPicAction($prj = '')
+    {
+        $this->response->setContentType("application/json");
+
+        $this->importService->importCameraPicture();
+
+        $picture = $this->pictureService->getLatestPictures($prj);
+        if ($picture) {
+            $this->response->setJsonContent(['status' => 'OK', 'picture' => $picture ]);
+        } else {
+            $this->response->setStatusCode(404);
+            $this->response->setJsonContent(['status' => 'ERROR', 'message' => 'No Picture']);
+        }
+
+        return $this->response;
+    }
 }

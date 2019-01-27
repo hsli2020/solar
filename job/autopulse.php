@@ -2,7 +2,7 @@
 
 include __DIR__ . '/../public/init.php';
 
-deleteOldFiles('c:/GCS-FTP-ROOT/NB4-Camera1/');
+deleteOldFiles('c:/GCS-FTP-ROOT/NB4-Camera1/', 3600*24);
 
 $inifile = 'c:/xampp/htdocs/solar/app/logs/autopulse.ini';
 $cfg = parse_ini_file($inifile);
@@ -15,20 +15,20 @@ $wiper->pulse();
 
 logger('AutoPluse');
 
-function deleteOldFiles($folder)
+function deleteOldFiles($folder, $ttl)
 {
     $now = time();
 
     foreach (new \DirectoryIterator($folder) as $fileInfo) {
         if (!$fileInfo->isDot()) {
             if ($fileInfo->isDir()) {
-                deleteOldFiles($fileInfo->getPathname());
+                deleteOldFiles($fileInfo->getPathname(), $ttl);
             } else {
                 if (strtolower($fileInfo->getExtension()) != 'jpg') {
                     continue;
                 }
 
-                if ($now - $fileInfo->getMTime() > 3600*24) {
+                if ($now - $fileInfo->getMTime() > $ttl) {
                     $fullpath = str_replace('\\', '/', $fileInfo->getPathname());
                     echo $fullpath, PHP_EOL;
                     //unlink($fullpath);

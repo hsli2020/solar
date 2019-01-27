@@ -107,5 +107,5 @@ img {
     latestPicture();
     setInterval(latestPicture, t);
   }
-  window.onload = autoRefresh(1000*5);
+  window.onload = autoRefresh(3000);
 {% endblock %}

@@ -61,7 +61,6 @@ class AjaxController extends ControllerBase
     // Temp code for newboro4
     public function latestPicAction($prj = '')
     {
-        $this->response->setContentType("application/json");
 #=>
         // only today's files (for better performance)
         $root = 'c:/GCS-FTP-ROOT';
@@ -76,6 +75,7 @@ class AjaxController extends ControllerBase
         $this->importService->importPicturesInFolder($root, $folder, 999, 3);
 #=>
         $picture = $this->pictureService->getLatestPictures($prj);
+
         if ($picture) {
             $this->response->setJsonContent(['status' => 'OK', 'picture' => $picture ]);
         } else {
@@ -83,6 +83,7 @@ class AjaxController extends ControllerBase
             $this->response->setJsonContent(['status' => 'ERROR', 'message' => 'No Picture']);
         }
 
+        $this->response->setContentType("application/json");
         return $this->response;
     }
 }

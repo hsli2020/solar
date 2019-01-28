@@ -58,7 +58,7 @@ class SnowWiper
         return $this->send($url);
     }
 
-    public function pulse($time = 5)
+    public function pulse($time = 10)
     {
         /*
           <?xml version="1.0" encoding="utf-8"?>

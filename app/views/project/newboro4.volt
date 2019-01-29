@@ -78,10 +78,12 @@ img {
 {% endblock %}
 
 {% block domready %}
+  var curpic = 0;
   function latestPicture() {
-    var url = '/ajax/latestpic/999';
+    var url = '/ajax/latestpic/' + curpic;
     $.get(url, function(res) {
-      $("#pic img").attr('src', '/picture/show/' + res.picture[0].id);
+      curpic = res.picture.id;
+      $("#pic img").attr('src', '/picture/show/' + curpic);
       updateRelayState(res.wiper.relaystate);
       updateAutoPulseState(res.autopulse.state);
     });

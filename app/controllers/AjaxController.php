@@ -59,7 +59,7 @@ class AjaxController extends ControllerBase
     }
 
     // Temp code for newboro4
-    public function latestPicAction($prj = '')
+    public function latestPicAction($id = '')
     {
 #=>
         // only today's files (for better performance)
@@ -82,7 +82,12 @@ class AjaxController extends ControllerBase
         $wiper = new \App\System\SnowWiper();
         $wiperState = $wiper->getState();
 #=>
-        $picture = $this->pictureService->getLatestPictures($prj);
+        if ($id == 0) {
+            $pictures = $this->pictureService->getLatestPictures(999);
+            $picture = $pictures ? $pictures[0] : false;
+        } else {
+            $picture = $this->pictureService->getNextPicture($id);
+        }
 
         if ($picture) {
             $this->response->setJsonContent([

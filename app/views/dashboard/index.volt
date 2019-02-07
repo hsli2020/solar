@@ -104,10 +104,13 @@
 </tr>
 {% endfor %}
 
+{# northwind is not allowed to see newboro4 #}
+{% if auth['id'] != 10 %}
 <tr>
   <td><a href="/project/newboro4" target="_blank">Newboro4</a></td>
   <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
 </tr>
+{% endif %}
 
 </table>
 </div>

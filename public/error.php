@@ -48,7 +48,9 @@ function exceptionHandler($e)
 
     $message .= EOL;
 
-    echo $message;
+    if (IS_CLI) {
+        echo $message;
+    }
 
 #   file_put_contents($filename, $message, FILE_APPEND);
     error_log($message, 3, $filename);

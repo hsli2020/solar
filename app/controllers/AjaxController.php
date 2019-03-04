@@ -75,7 +75,7 @@ class AjaxController extends ControllerBase
         $this->importService->importPicturesInFolder($root, $folder, 999, 3);
 
         // Get autoPulse state
-        $inifile = 'c:/xampp/htdocs/solar/app/logs/autopulse.ini';
+        $inifile = 'c:/xampp/htdocs/solar/job/autopulse.ini';
         $autoPulse = parse_ini_file($inifile);
 
         // Get Wiper state

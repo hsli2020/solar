@@ -272,7 +272,7 @@ class Project
         $start = mktime(0, 0, 0, $m, $d, $y);
         for ($i = 0; $i < 24*3600/300; $i++) {
             $time = $start + $i*300;
-            $values[$time] = [ $time*1000, 0.0 ];
+            $values[$time] = [ $time*1000, 'NaN' ];
         }
 
         return $values;

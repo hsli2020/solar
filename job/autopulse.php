@@ -5,7 +5,7 @@ include __DIR__ . '/../public/init.php';
 deleteOldFiles('c:/GCS-FTP-ROOT/NB4-Camera1/', 3600);
 deleteOldPictures();
 
-$inifile = 'c:/xampp/htdocs/solar/app/logs/autopulse.ini';
+$inifile = 'c:/xampp/htdocs/solar/job/autopulse.ini';
 $cfg = parse_ini_file($inifile);
 if ($cfg['state'] != 1) {
     exit;

@@ -29,6 +29,9 @@ function deleteOldFiles($folder, $ttl)
                 if (strtolower($fileInfo->getExtension()) != 'jpg') {
                     continue;
                 }
+                if ($fileInfo->getSize()) == 0) {
+                    continue;
+                }
 
                 if ($now - $fileInfo->getMTime() > $ttl) {
                     $fullpath = str_replace('\\', '/', $fileInfo->getPathname());

@@ -8,6 +8,7 @@ abstract class Device
     protected $type;
     protected $code;
     protected $table;
+    protected $name;
     protected $model;
     protected $reference;
 
@@ -17,6 +18,7 @@ abstract class Device
         $this->type      = $info['type'];
         $this->code      = $info['devcode'];
         $this->table     = $info['table'];
+        $this->name      = $info['name'];
         $this->model     = $info['model'];
         $this->reference = $info['reference'];
     }
@@ -51,6 +53,11 @@ abstract class Device
     public function getTable()
     {
         return $this->table;
+    }
+
+    public function getName()
+    {
+        return $this->name;
     }
 
     public function getModel()

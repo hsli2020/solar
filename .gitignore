@@ -7,5 +7,6 @@ vendor/
 composer.lock
 *.tmp
 tmp/
+job/autopulse.ini
 filelist
 tt.php

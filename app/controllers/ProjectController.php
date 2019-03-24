@@ -37,9 +37,16 @@ class ProjectController extends ControllerBase
         list($prj, $dev) = explode('_', $key);
 
         $data = $this->projectService->loadCombiner($prj, $dev);
+
+        // TODO: error check
         $project = $this->projectService->get($prj);
+        $combiner = $project->combiners[$dev];
+        $ref = $combiner->reference;
+        $inverter = $project->inverters[$ref];
 
         $this->view->project = $project;
+        $this->view->combiner = $combiner;
+        $this->view->inverter = $inverter;
         $this->view->data = $data;
     }
 

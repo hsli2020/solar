@@ -12,11 +12,11 @@
       </div>
       <div class="w3-row">
         <div class="w3-col" style="width:120px">Inverter:</div>
-        <div class="w3-rest">&nbsp;</div>
+        <div class="w3-rest">{{ inverter.name }}</div>
       </div>
       <div class="w3-row">
         <div class="w3-col" style="width:120px">Combiner:</div>
-        <div class="w3-rest">&nbsp;</div>
+        <div class="w3-rest">{{ combiner.name }}</div>
       </div>
 
       <table class="w3-table w3-margin-top">

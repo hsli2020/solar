@@ -50,7 +50,9 @@ class ImportService extends Injectable
         }
 
         $newfile = $dir . '\\' . basename($filename);
-        rename($filename, $newfile);
+        if (filesize($filename) > 0) {
+            rename($filename, $newfile);
+        }
     }
 
     protected function importFile($filename, $project)

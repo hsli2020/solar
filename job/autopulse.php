@@ -29,7 +29,7 @@ function deleteOldFiles($folder, $ttl)
                 if (strtolower($fileInfo->getExtension()) != 'jpg') {
                     continue;
                 }
-                if ($fileInfo->getSize()) == 0) {
+                if ($fileInfo->getSize() == 0) {
                     continue;
                 }
 

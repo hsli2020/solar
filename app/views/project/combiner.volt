@@ -69,8 +69,8 @@
           <td>{{ row['CB_18'] }}</th>
           <td>{{ row['CB_19'] }}</th>
           <td>{{ row['CB_20'] }}</th>
-          <td>{{ row['CB_21'] }}</th>
-          <td>{{ row['CB_22'] }}</th>
+          <td>{% if row['CB_21'] is defined %}{{ row['CB_21'] }}{% endif %}</th>
+          <td>{% if row['CB_22'] is defined %}{{ row['CB_22'] }}{% endif %}</th>
         </tr>
         {% endfor %}
       </table>

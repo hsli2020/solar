@@ -294,6 +294,9 @@ class ImportService extends Injectable
                 if (time() - filemtime($filename) > 10*60) {
                     $this->log("DEAD FILE: $filename");
                     $fileCount++;
+                    if (filesize($filename) == 0) {
+                        unlink($filename);
+                    }
                 }
             }
         }

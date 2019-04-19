@@ -277,6 +277,34 @@ class ImportService extends Injectable
         }
     }
 
+    public function restartFtpServer()
+    {
+        $projects = $this->projectService->getAll();
+
+        $fileCount = 0;
+        foreach ($projects as $project) {
+            $path = pathinfo($project->ftpdir, PATHINFO_DIRNAME);
+            if (strlen($path) == 1 || $path[1] != ':') { // relative path
+                $dir = 'C:/GCS-FTP-ROOT/'.$project->ftpdir;
+            } else { // absolute path
+                $dir = $project->ftpdir;
+            }
+
+            foreach (glob($dir . '/*.csv') as $filename) {
+                if (time() - filemtime($filename) > 10*60) {
+                    $fileCount++;
+                }
+            }
+        }
+
+        if ($fileCount > 0) {
+            exec('net stop "FileZilla Server FTP server"');
+            sleep(5);
+            exec('net start "FileZilla Server FTP server"');
+            $this->log("=> Restart FTP Server\n");
+        }
+    }
+
     protected function log($str)
     {
         $filename = BASE_DIR . '/app/logs/import.log';

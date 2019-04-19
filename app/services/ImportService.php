@@ -292,6 +292,7 @@ class ImportService extends Injectable
 
             foreach (glob($dir . '/*.csv') as $filename) {
                 if (time() - filemtime($filename) > 10*60) {
+                    $this->log("DEAD FILE: $filename");
                     $fileCount++;
                 }
             }

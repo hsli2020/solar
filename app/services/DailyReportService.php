@@ -175,12 +175,12 @@ class DailyReportService extends Injectable
         }
 
         if ($date) {
-            $sheet->setCellValue("B60", date("t", strtotime($date)));
-            $sheet->setCellValue("B61", date("j", strtotime($date)));
+            $sheet->setCellValue("B66", date("t", strtotime($date)));
+            $sheet->setCellValue("B67", date("j", strtotime($date)));
         } else {
             // current system date
-            $sheet->setCellValue("B60", date("t"));
-            $sheet->setCellValue("B61", date("j"));
+            $sheet->setCellValue("B66", date("t"));
+            $sheet->setCellValue("B67", date("j"));
         }
 
         $suffix = $date ? $date : date('Ymd');

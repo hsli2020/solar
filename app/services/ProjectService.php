@@ -203,20 +203,18 @@ class ProjectService extends Injectable
         return $data;
     }
 
-    // This is for project-40 only
-    public function loadSandhurstInverter($dev)
+    // This is for project-40/48 only
+    public function loadSandhurstInverter($prj, $dev)
     {
-        $prj = 40;
         $project = $this->get($prj);
         $inverter = $project->inverters[$dev];
         $data = $inverter->loadData(12);
         return $data;
     }
 
-    // This is for project-40 only
-    public function loadStringLevelCombiner($dev)
+    // This is for project-40/48 only
+    public function loadStringLevelCombiner($prj, $dev)
     {
-        $prj = 40;
         $project = $this->get($prj);
         $combiner = $project->combiners[$dev];
         $data = $combiner->loadData(1);

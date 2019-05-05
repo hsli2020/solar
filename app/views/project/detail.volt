@@ -170,7 +170,7 @@
         {% endfor %}
       </table>
 
-{% if details['project_id'] == 40 %} {# REALLY BAD HACK #}
+{% if details['project_id'] in [40, 48] %} {# REALLY BAD HACK #}
       <table class="w3-table w3-margin-top">
         {% if details['inverters'] is not empty %}
         <tr class="w3-light-gray">
@@ -180,7 +180,7 @@
         </tr>
         {% endif %}
 
-        <tr data-code="{{ code }}" style="border-top: 1px solid lightgray;">
+        <tr style="border-top: 1px solid lightgray;">
           <th>Inverter Number</th>
           <th>kw (kW)</th>
           <th>kva (kW)</th>
@@ -193,7 +193,7 @@
         {% for code, inverter in details['inverters'] %}
         <tr data-code="{{ code }}" style="border-top: 1px solid lightgray;">
           <td>Inverter {{ loop.index }}
-          <a style="text-decoration: none;" class="w3-text-red" href="/project/sandhurst/{{ code }}" target="_blank">Combiner</a>
+          <a style="text-decoration: none;" class="w3-text-red" href="/project/sandhurst/{{ details['project_id'] }}/{{ code }}" target="_blank">Combiner</a>
           </td>
           <td>{{ inverter['data']['kw'] }}</td>
           <td>{{ inverter['data']['kva'] }}</td>
@@ -209,8 +209,10 @@
         <tr class="w3-light-gray">
           <th>String Level Combiners</th>
         </tr>
-        <tr><td><a href="/project/stringlevel/mb-037" target="_blank">CB 1:05-2</a></td></tr>
-        <tr><td><a href="/project/stringlevel/mb-101" target="_blank">CB 2:05-2</a></td></tr>
+        {% if details['project_id'] == 40 %} {# REALLY BAD HACK #}
+        <tr><td><a href="/project/stringlevel/{{ details['project_id'] }}/mb-037" target="_blank">CB 1:05-2</a></td></tr>
+        <tr><td><a href="/project/stringlevel/{{ details['project_id'] }}/mb-101" target="_blank">CB 2:05-2</a></td></tr>
+        {% endif %}
       </table>
 {% else %}
       <table class="w3-table w3-margin-top">

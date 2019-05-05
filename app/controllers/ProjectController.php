@@ -50,26 +50,24 @@ class ProjectController extends ControllerBase
         $this->view->data = $data;
     }
 
-    // This is for project-40 only
-    public function sandhurstAction($devcode = '')
+    // This is for project-40/48 only
+    public function sandhurstAction($prj = '', $devcode = '')
     {
         $this->view->pageTitle = 'Combiner';
 
-        $prj = 40;
-        $data = $this->projectService->loadSandhurstInverter($devcode);
+        $data = $this->projectService->loadSandhurstInverter($prj, $devcode);
         $project = $this->projectService->get($prj);
 
         $this->view->project = $project;
         $this->view->data = $data;
     }
 
-    // This is for project-40 only
-    public function stringlevelAction($devcode = '')
+    // This is for project-40/48 only
+    public function stringlevelAction($prj = '', $devcode = '')
     {
         $this->view->pageTitle = 'String Level Combiner';
 
-        $prj = 40;
-        $data = $this->projectService->loadStringLevelCombiner($devcode);
+        $data = $this->projectService->loadStringLevelCombiner($prj, $devcode);
         $project = $this->projectService->get($prj);
 
         $this->view->project = $project;

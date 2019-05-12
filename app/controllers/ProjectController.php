@@ -136,6 +136,21 @@ class ProjectController extends ControllerBase
         $this->view->projects = $projects;
     }
 
+    public function exportDailyAction()
+    {
+        $this->view->pageTitle = 'Daily Data Exporting';
+
+        if ($this->request->isPost()) {
+            set_time_limit(0);
+            $params = $this->request->getPost();
+            $filename = $this->exportService->exportDaily($params);
+            $this->startDownload($filename);
+        }
+
+        $projects = $this->projectService->getAll();
+        $this->view->projects = $projects;
+    }
+
     public function compareAction()
     {
         $this->view->pageTitle = 'Analytic Tool';

@@ -214,6 +214,12 @@ class Project
         return $envkit->getAvgTMP($period);
     }
 
+    public function getAvgOAT($period)
+    {
+        $envkit = current($this->envkits);
+        return $envkit->getAvgOAT($period);
+    }
+
     public function getAvgKW($period)
     {
         $genmeter = current($this->genmeters);

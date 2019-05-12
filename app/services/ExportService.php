@@ -126,4 +126,58 @@ class ExportService extends Injectable
 
         $sheet->getStyle('A1:A4')->getFont()->setBold(true);
     }
+
+    public function exportDaily($params)
+    {
+        $projectId = max(1, $params['project']); // set project=1 if not specified
+
+        $project = $this->projectService->get($projectId);
+
+        $startTime = $params['start-time'];
+        $endTime   = $params['end-time'];
+
+        if ($startTime == $endTime) {
+            $endTime = date('Y-m-d', strtotime('1 day', strtotime($startTime)));
+        }
+
+        $excel = \PHPExcel_IOFactory::load(BASE_DIR."/job/templates/Daily-Export-Template.xlsx");
+        $excel->setActiveSheetIndex(0);  //set first sheet as active
+        $sheet = $excel->getActiveSheet();
+
+        $sheet->setCellValue("B1", $project->name);
+        $sheet->setCellValue("B3", $startTime);
+        $sheet->setCellValue("B4", $endTime);
+
+        $sql = "SELECT * FROM daily_reports WHERE date>='$startTime' AND date<='$endTime'";
+        $rows = $this->db->fetchAll($sql);
+
+        $row = 8;
+        foreach ($rows as $data) {
+            $json = json_decode($data['report'], true);
+            if (!isset($json[$projectId])) {
+                continue;
+            }
+
+            $report = $json[$projectId];
+            $date = $report['Date'];
+
+            $ambtmp = $project->getAvgOAT($date);
+            $modtmp = $project->getAvgTMP($date);
+
+            $col = 0;
+            $sheet->setCellValueByColumnAndRow($col++, $row, $date);
+            $sheet->setCellValueByColumnAndRow($col++, $row, $ambtmp);
+            $sheet->setCellValueByColumnAndRow($col++, $row, $modtmp);
+            $sheet->setCellValueByColumnAndRow($col++, $row, $report['Measured_Insolation']);
+            $sheet->setCellValueByColumnAndRow($col++, $row, $report['Measured_Production']);
+            $sheet->setCellValueByColumnAndRow($col++, $row, $report['Gen_Meter_Reading']);
+            $row++;
+        }
+
+        $filename = BASE_DIR.'/tmp/exportdaily-'.str_replace(' ', '-', $project->name).'-'.date('Ymd-His').'.xlsx';
+        $xlsWriter = \PHPExcel_IOFactory::createWriter($excel, 'Excel2007');
+        $xlsWriter->save($filename);
+
+        return $filename;
+    }
 }

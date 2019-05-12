@@ -21,21 +21,6 @@
 
           <div class="w3-row-padding">
             <div class="w3-third w3-padding-16">
-              <label><b>Interval</b></label>
-            </div>
-            <div class="w3-twothird w3-padding-8">
-              <select class="w3-select w3-border" name="interval">
-                <option value="" selected>Select Interval</option>
-                <option value="1">Raw data</option>
-                <option value="5">5 Minutes</option>
-                <option value="15">15 Minutes (average)</option>
-                <option value="60">60 Minutes (average)</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="w3-row-padding">
-            <div class="w3-third w3-padding-16">
               <label><b>Start Date</b></label>
             </div>
             <div class="w3-twothird w3-padding-8">
@@ -87,5 +72,5 @@
 {% endblock %}
 
 {% block domready %}
-  $('.datepicker').datetimepicker({format: 'Y-m-d H:i', timepicker:true, step: 30});
+  $('.datepicker').datetimepicker({format: 'Y-m-d', timepicker:false, step: 30});
 {% endblock %}

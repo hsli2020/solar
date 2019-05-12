@@ -22,6 +22,8 @@
     <a href="javascript:;" class="w3-hover-teal">Tools <i class="fa fa-caret-down"></i></a>
     <div class="w3-dropdown-content w3-white w3-card-4">
       <a href="/project/export" class="w3-hover-teal">Data Exporting</a>
+      <a href="/project/exportdaily" class="w3-hover-teal">Daily Data Exporting</a>
+      <hr style="margin: 0;">
       <a href="/project/compare" class="w3-hover-teal">Analytic Tool</a>
 {#
       <hr style="margin:0.5em;">

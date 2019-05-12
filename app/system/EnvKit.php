@@ -104,7 +104,7 @@ class EnvKit extends Device
 
         $result = $this->getDb()->fetchOne($sql);
         if ($result) {
-            return $result['tmp'];
+            return round($result['tmp'], 2);
         }
 
         return 0;
@@ -121,7 +121,7 @@ class EnvKit extends Device
 
         $result = $this->getDb()->fetchOne($sql);
         if ($result) {
-            return $result['tmp'];
+            return round($result['tmp'], 2);
         }
 
         return 0;
@@ -154,6 +154,7 @@ class EnvKit extends Device
         return $values;
     }
 
+    // same as getTMP for now
     public function getAvgTMP($period)
     {
         $table = $this->getDeviceTable();
@@ -165,7 +166,25 @@ class EnvKit extends Device
 
         $result = $this->getDb()->fetchOne($sql);
         if ($result) {
-            return $result['tmp'];
+            return round($result['tmp'], 2);
+        }
+
+        return 0;
+    }
+
+    // same as getOAT() for now
+    public function getAvgOAT($period)
+    {
+        $table = $this->getDeviceTable();
+
+        list($start, $end) = $this->getPeriod($period);
+
+        $sql = "SELECT AVG(OAT) AS tmp FROM $table ".
+                "WHERE time>='$start' AND time<'$end' AND error=0";
+
+        $result = $this->getDb()->fetchOne($sql);
+        if ($result) {
+            return round($result['tmp'], 2);
         }
 
         return 0;

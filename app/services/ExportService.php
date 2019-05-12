@@ -159,10 +159,11 @@ class ExportService extends Injectable
             }
 
             $report = $json[$projectId];
-            $date = $report['Date'];
+            $date = $report['Date']; // format: DD/MM/YYYY
 
-            $ambtmp = $project->getAvgOAT($date);
-            $modtmp = $project->getAvgTMP($date);
+            $ymd = date('Y-m-d', strtotime($date)); // format: YYYY-MM-DD
+            $ambtmp = $project->getAvgOAT($ymd);
+            $modtmp = $project->getAvgTMP($ymd);
 
             $col = 0;
             $sheet->setCellValueByColumnAndRow($col++, $row, $date);

@@ -111,7 +111,7 @@ class Inverter extends Device
 
         $fmt = ($interval == 24*60) ? '%Y-%m-%d' : '%Y-%m-%d %H:%i';
 
-        $sql = "SELECT DATE_FORMAT(time, '$fmt') AS time, $kwcol FROM $table WHERE time>='$start' AND time<'$end' AND error=0";
+        $sql = "SELECT DATE_FORMAT(time, '$fmt') AS time, $kwcol AS kw FROM $table WHERE time>='$start' AND time<'$end' AND error=0";
 
         if ($interval > 5) {
             $seconds = $interval*60; // convert to seconds

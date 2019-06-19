@@ -170,6 +170,7 @@ class ExportService extends Injectable
             $sheet->setCellValueByColumnAndRow($col++, $row, $ambtmp);
             $sheet->setCellValueByColumnAndRow($col++, $row, $modtmp);
             $sheet->setCellValueByColumnAndRow($col++, $row, $report['Measured_Insolation']);
+            $sheet->setCellValueByColumnAndRow($col++, $row, $report['Daily_Expected']);
             $sheet->setCellValueByColumnAndRow($col++, $row, $report['Measured_Production']);
             $sheet->setCellValueByColumnAndRow($col++, $row, $report['Gen_Meter_Reading']);
             $row++;

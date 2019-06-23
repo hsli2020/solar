@@ -159,9 +159,11 @@ class ExportService extends Injectable
             }
 
             $report = $json[$projectId];
-            $date = $report['Date']; // format: DD/MM/YYYY
 
-            $ymd = date('Y-m-d', strtotime($date)); // format: YYYY-MM-DD
+            $date = $report['Date']; // format: DD/MM/YYYY
+            list($d, $m, $y) = explode('/', $date);
+            $ymd = "$y-$m-$d"; // format: YYYY-MM-DD
+
             $ambtmp = $project->getAvgOAT($ymd);
             $modtmp = $project->getAvgTMP($ymd);
 

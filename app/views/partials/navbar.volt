@@ -15,6 +15,10 @@
     <div class="w3-dropdown-content w3-white w3-card-4">
       <a href="/report/daily" class="w3-hover-teal">Daily Report</a>
       <a href="/report/monthly" class="w3-hover-teal">Monthly Report</a>
+      {% if auth['role'] == 1 -%}
+      <hr style="margin:0.5em;">
+      <a href="/report/budget" class="w3-hover-teal">Monthly Budgets</a>
+      {% endif -%}
     </div>
   </li>
 

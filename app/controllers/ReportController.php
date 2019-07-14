@@ -73,4 +73,28 @@ class ReportController extends ControllerBase
         $this->view->monthList = $monthList;
         $this->view->report = $report;
     }
+
+    public function budgetAction($prj = 1)
+    {
+        $this->view->pageTitle = 'Monthly Budgets';
+        $this->view->budgets = [];
+
+        $auth = $this->session->get('auth');
+        if (!is_array($auth)) {
+            return;
+        }
+
+       #$user = $this->userService->get($auth['id']);
+
+        if ($this->request->isPost()) {
+            $prj = $this->request->getPost('id');
+        }
+
+        // Load monthly report (user specific report)
+        $budgets = $this->dataService->loadBudget($prj);
+
+        $this->view->curprj = $prj;
+        $this->view->projects = $this->projectService->getAll();
+        $this->view->budgets = $budgets;
+    }
 }

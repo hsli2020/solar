@@ -263,4 +263,11 @@ class DataService extends Injectable
 
         $this->db->execute($sql);
     }
+
+    public function loadBudget($prj)
+    {
+        $sql = "SELECT * FROM monthly_budget WHERE project_id=$prj";
+        $rows = $this->db->fetchAll($sql);
+        return $rows;
+    }
 }

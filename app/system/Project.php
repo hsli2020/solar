@@ -494,7 +494,7 @@ class Project
         $min30ago = gmdate('Y-m-d H:i:s', strtotime('-30 minutes'));
 
         $prj = $this->id;
-        $sql = "SELECT count(*) AS cnt FROM latest_data WHERE project_id=$prj AND time>'$min30ago'";
+        $sql = "SELECT count(*) AS cnt FROM latest_data WHERE project_id=$prj AND devtype<>'Combiner' AND time>'$min30ago'";
         $result = $this->getDb()->fetchOne($sql);
 
         $cnt = 0;

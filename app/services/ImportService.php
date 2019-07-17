@@ -148,6 +148,14 @@ class ImportService extends Injectable
             $data['vln_c'] = $data['vln'];
         }
 
+        if ($project->id == 38 && $data['error'] = 139) {
+            $data['error'] = 0;
+        }
+
+        if ($project->id == 39 && $data['error'] = 139) {
+            $data['error'] = 0;
+        }
+
         return $data;
     }
 

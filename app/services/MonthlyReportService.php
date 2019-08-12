@@ -17,6 +17,9 @@ class MonthlyReportService extends Injectable
         $this->report = [];
         foreach ($projects as $project) {
             $projectId = $project->id;
+
+            if ($projectId == 49) continue;
+
             $monthly = $project->getMonthlyBudget(date('Y'), date('m'));
 
             $Project_Name        = $project->name;

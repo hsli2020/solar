@@ -21,7 +21,13 @@ class GenMeter extends Device
         $result = $this->getDb()->fetchOne("$sql ORDER BY time DESC");
         $last = $result['kwh'];
 
-        return $last - $first;
+        // Norfolk kwh_del reset after reach 10000000
+        $val = $last - $first;
+        if ($val < -5000000) {
+            $val += 10000000;
+        }
+
+        return $val;
     }
 
     public function getKVA($period)

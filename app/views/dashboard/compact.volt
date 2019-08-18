@@ -2,14 +2,8 @@
 
 {% block main %}
 <style type="text/css">
-  table { border: 5px solid #eee !important; }
-  table, th, td { border: 1px solid #ddd; }
-  td a { text-decoration: none; font-weight: bold; }
-  .w3-table td, .w3-table th,
-  .w3-table td:first-child,
-  .w3-table th:first-child { padding: 1px; }
-  td:hover .title { background-color: lightblue; }
-  td:hover .reading { background-color: lightcyan; }
+  .w3-col:hover .title { background-color: lightblue; }
+  .w3-col:hover .reading { background-color: lightcyan; }
 </style>
 
 {%- macro cell(row, key, unit) %}
@@ -21,12 +15,12 @@
 {% endmacro %}
 
 <div class="w3-container">
-<table id="snapshot" class="w3-table w3-white w3-bordered w3-border">
+<div class="w3-row-padding" style="margin:0 -16px 10px">
 {% set count = 0 %}
-{% set x = 4 %}
-<tr>
+{% set x = 6 %}
 {% for row in data['rows'] %}
-  <td>
+  <div class="w3-col m2">
+    <div class="w3-border w3-light-grey w3-center">
 
     {% set bg = "" %}
     {% if (row['error']['GCPR'] is defined AND row['error']['GCPR'] == 'red') %}
@@ -37,9 +31,7 @@
     {% endif %}
 
     <div class="w3-container w3-center w3-padding {{ bg }} title">
-      <a href="/project/detail/{{ row['project_id'] }}" target="_blank">{{ row[ 'project_name'] }}</a>
-    </div>
-{#
+      <a href="/project/detail/{{ row['project_id'] }}" target="_blank"><b>{{ row[ 'project_name'] }}</b></a>
       <a href="/project/chart/{{ row['project_id'] }}" target="_blank" class="w3-right"><i class="fa fa-bar-chart"></i></a>
       {% if row['camera'] is not empty or row['project_id'] == 9 %}
         <a href="/project/camera/{{ row['project_id'] }}" target="_blank" class="w3-left"><i class="fa fa-camera"></i>&nbsp;</a>
@@ -50,21 +42,20 @@
       {{ cell(row, 'current_power', 'kW') }}
       {{ cell(row, 'irradiance', 'W/m<sup>2</sup>') }}
     </div>
-#}
-  </td>
+
+    </div>
+  </div>
   {% set count += 1 %}
   {% if count%x == 0 %}
-    </tr>
-    <tr>
+</div>
+<div class="w3-row-padding" style="margin:0 -16px 10px">
   {% endif %}
 {% endfor %}
 
 {% if count%x != 0 %}
-  {% for index in 1..(x-count%x) %}<td>&nbsp;</td>{% endfor %}
-  </tr>
+  </div>
 {% endif %}
 
-</table>
 </div>
 {% endblock %}
 

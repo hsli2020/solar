@@ -33,6 +33,8 @@
           <label>Select Date: </label>
           <input class="datepicker" name="date2" type="text" value="{{ date2 }}">
           <button type="submit">Refresh</button>
+          <button type="submit" name="btn" value="prev">Prevoius</button>
+          <button type="submit" name="btn" value="next">Next</button>
           {% if date2 %}
           <span id="tooltip2" class="chart-tooltip">Power=0, Irradiance=0</span>
           {% endif %}

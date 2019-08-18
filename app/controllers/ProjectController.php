@@ -89,10 +89,16 @@ class ProjectController extends ControllerBase
         }
 
         $date1 = date('Y-m-d');
-        $date2 = '';
+        $date2 = date('Y-m-d', strtotime("-1 days"));
 
         if ($this->request->isPost()) {
             $date2 = $this->request->getPost('date2');
+            if ($this->request->getPost('btn') == 'prev') {
+                $date2 = date('Y-m-d', strtotime('-1 day', strtotime($date2)));
+            }
+            if ($this->request->getPost('btn') == 'next') {
+                $date2 = date('Y-m-d', strtotime('+1 day', strtotime($date2)));
+            }
         }
 
         $irr1 = $kva1 = '';

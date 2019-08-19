@@ -33,8 +33,9 @@
     <div class="w3-container w3-center w3-padding {{ bg }} title">
       <a href="/project/detail/{{ row['project_id'] }}" target="_blank"><b>{{ row[ 'project_name'] }}</b></a>
       <a href="/project/chart/{{ row['project_id'] }}" target="_blank" class="w3-right"><i class="fa fa-bar-chart"></i></a>
+      <span class="w3-right">{{ row['project_size_ac'] }} kW&nbsp;&nbsp;</span>
       {% if row['camera'] is not empty or row['project_id'] == 9 %}
-        <a href="/project/camera/{{ row['project_id'] }}" target="_blank" class="w3-left"><i class="fa fa-camera"></i>&nbsp;</a>
+        <a href="/project/camera/{{ row['project_id'] }}" target="_blank" class="w3-left"><i class="fa fa-camera"></i></a>
       {% endif %}
     </div>
     <div class="w3-cell-row reading">

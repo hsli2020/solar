@@ -7,6 +7,10 @@
     <div class="w3-dropdown-content w3-white w3-card-4">
       <a href="/dashboard/full" class="w3-hover-teal">Full View</a>
       <a href="/dashboard/compact" class="w3-hover-teal">Compact View</a>
+      <hr style="margin: 0;">
+      <a href="/dashboard/sites/all" class="w3-hover-teal">All Sites</a>
+      <a href="/dashboard/sites/gm" class="w3-hover-teal">GM Sites</a>
+      <a href="/dashboard/sites/rooftop" class="w3-hover-teal">Rooftop Sites</a>
     </div>
   </li>
 

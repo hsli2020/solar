@@ -6,7 +6,7 @@ use Phalcon\Di\Injectable;
 
 class SnapshotService extends Injectable
 {
-    public function load()
+    public function load($sites = 'all')
     {
         $nothing = [
             'rows'  => [],
@@ -18,7 +18,15 @@ class SnapshotService extends Injectable
             ]
         ];
 
-        $result = $this->db->fetchAll("SELECT * FROM snapshot");
+        $where = '';
+        if ($sites == 'gm') {
+            $where = 'WHERE project_size_ac>9999';
+        }
+        if ($sites == 'rooftop') {
+            $where = 'WHERE project_size_ac<9999';
+        }
+
+        $result = $this->db->fetchAll("SELECT * FROM snapshot $where");
 
         $auth = $this->session->get('auth');
         if (!is_array($auth)) {

@@ -187,7 +187,7 @@ class ExportService extends Injectable
 
     public function exportCombiner($params)
     {
-        if (empty($params['project']) || empty($params['devcode'])) {
+        if (empty($params['project'])) {
             return false;
         }
         $project = $this->projectService->get($params['project']);
@@ -200,32 +200,33 @@ class ExportService extends Injectable
             $endTime = date('Y-m-d', strtotime('1 day', strtotime($startTime)));
         }
 
-        // Table name of combiner
-        $devcode = $params['devcode'];
-        $combiner = $project->combiners[$devcode];
-        $table = $combiner->getDeviceTable();
+        $filenames = [];
+        foreach ($project->combiners as $combiner) {
+            // Table name of combiner
+            $devname = $combiner->name;
+            $table = $combiner->getDeviceTable();
 
-        $basedir = str_replace('\\', '/', BASE_DIR);
-        $filename = $basedir.'/tmp/combiner-'.str_replace(' ', '-', $project->name).'-'.$devcode.'-'.date('YmdHis').'.csv';
+            $basedir = str_replace('\\', '/', BASE_DIR);
+            $filename = $basedir.'/tmp/combiner-'.str_replace(' ', '-', $project->name)."-$devname.csv";
 
-        $sql =<<<EOS
-            SELECT *
-            FROM $table
-            WHERE time>'$startTime' AND time<'$endTime'
-            INTO OUTFILE '$filename'
-            FIELDS TERMINATED BY ','
-            ENCLOSED BY '"'
-            LINES TERMINATED BY '\n';
+            $sql =<<<EOS
+                SELECT *
+                FROM $table
+                WHERE time>'$startTime' AND time<'$endTime'
+                INTO OUTFILE '$filename'
+                FIELDS TERMINATED BY ','
+                ENCLOSED BY '"'
+                LINES TERMINATED BY '\n';
 EOS;
-        $this->db->execute($sql);
+            $this->db->execute($sql);
+            $filenames[] = $filename;
+        }
 
-        return $filename;
+        return $this->zipFiles($project, $filenames);
     }
 
-    public function ZipFiles($prj, $filenames)
+    public function ZipFiles($project, $filenames)
     {
-        $project = $this->projectService->get($prj);
-
         $zipFilename = BASE_DIR.'/tmp/combiner-'.str_replace(' ', '-', $project->name).'-'.date('YmdHis').'.zip';
 
         $zip = new \ZipArchive;

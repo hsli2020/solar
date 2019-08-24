@@ -165,7 +165,9 @@ class ProjectController extends ControllerBase
             set_time_limit(0);
             $params = $this->request->getPost();
             $filename = $this->exportService->exportCombiner($params);
-            $this->startDownload($filename);
+            if ($filename) {
+                $this->startDownload($filename);
+            }
         }
 
         $projects = $this->projectService->getCombinerProjects();

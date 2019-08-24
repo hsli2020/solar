@@ -184,4 +184,60 @@ class ExportService extends Injectable
 
         return $filename;
     }
+
+    public function exportCombiner($params)
+    {
+        if (empty($params['project']) || empty($params['devcode'])) {
+            return false;
+        }
+        $project = $this->projectService->get($params['project']);
+
+        // Time range
+        $startTime = isset($params['start-time']) ? $params['start-time'] : date('Y-m-d');
+        $endTime   = isset($params['end-time'])   ? $params['end-time']   : date('Y-m-d H:i:s');
+
+        if ($startTime == $endTime) {
+            $endTime = date('Y-m-d', strtotime('1 day', strtotime($startTime)));
+        }
+
+        // Table name of combiner
+        $devcode = $params['devcode'];
+        $combiner = $project->combiners[$devcode];
+        $table = $combiner->getDeviceTable();
+
+        $basedir = str_replace('\\', '/', BASE_DIR);
+        $filename = $basedir.'/tmp/combiner-'.str_replace(' ', '-', $project->name).'-'.$devcode.'-'.date('YmdHis').'.csv';
+
+        $sql =<<<EOS
+            SELECT *
+            FROM $table
+            WHERE time>'$startTime' AND time<'$endTime'
+            INTO OUTFILE '$filename'
+            FIELDS TERMINATED BY ','
+            ENCLOSED BY '"'
+            LINES TERMINATED BY '\n';
+EOS;
+        $this->db->execute($sql);
+
+        return $filename;
+    }
+
+    public function ZipFiles($prj, $filenames)
+    {
+        $project = $this->projectService->get($prj);
+
+        $zipFilename = BASE_DIR.'/tmp/combiner-'.str_replace(' ', '-', $project->name).'-'.date('YmdHis').'.zip';
+
+        $zip = new \ZipArchive;
+        if ($zip->open($zipFilename, \ZipArchive::CREATE) !== TRUE) {
+            return false;
+        }
+
+        foreach ($filenames as $filename) {
+            $zip->addFile($filename, basename($filename));
+        }
+        $zip->close();
+
+        return $zipFilename;
+    }
 }

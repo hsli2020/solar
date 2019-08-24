@@ -157,6 +157,21 @@ class ProjectController extends ControllerBase
         $this->view->projects = $projects;
     }
 
+    public function exportCombinerAction($prj = '', $dev = '')
+    {
+        $this->view->pageTitle = 'Combiner Data Exporting';
+
+        if ($this->request->isPost()) {
+            set_time_limit(0);
+            $params = $this->request->getPost();
+            $filename = $this->exportService->exportCombiner($params);
+            $this->startDownload($filename);
+        }
+
+        $projects = $this->projectService->getCombinerProjects();
+        $this->view->projects = $projects;
+    }
+
     public function compareAction()
     {
         $this->view->pageTitle = 'Analytic Tool';

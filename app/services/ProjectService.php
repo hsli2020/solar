@@ -68,6 +68,22 @@ class ProjectService extends Injectable
         throw new \Exception("Invalid Parameter: $id");
     }
 
+    public function getCombinerProjects()
+    {
+        if (!$this->projects) {
+            $this->getAll();
+        }
+
+        $projects = [];
+        foreach ($this->projects as $project) {
+            if (count($project->combiners) > 0) {
+                $projects[] = $project;
+            }
+        }
+
+        return $projects;
+    }
+
     public function getDetails($id)
     {
         $details = [];

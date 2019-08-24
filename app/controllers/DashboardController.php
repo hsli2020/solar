@@ -8,7 +8,7 @@ class DashboardController extends ControllerBase
     {
         $this->view->pageTitle = 'GCS Dashboard';
 
-        $site = 'all';
+        $sites = 'all';
         if ($this->cookies->has('sites')) {
             $sites = $this->cookies->get('sites')->getValue();
         }

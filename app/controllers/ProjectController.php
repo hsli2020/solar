@@ -59,6 +59,7 @@ class ProjectController extends ControllerBase
         $project = $this->projectService->get($prj);
 
         $this->view->project = $project;
+        $this->view->devcode = $devcode;
         $this->view->data = $data;
     }
 
@@ -71,6 +72,7 @@ class ProjectController extends ControllerBase
         $project = $this->projectService->get($prj);
 
         $this->view->project = $project;
+        $this->view->devcode = $devcode;
         $this->view->data = $data;
     }
 
@@ -172,6 +174,17 @@ class ProjectController extends ControllerBase
 
         $projects = $this->projectService->getCombinerProjects();
         $this->view->projects = $projects;
+    }
+
+    public function dumpDataAction($prj = '', $dev = '')
+    {
+        if ($prj && $dev) {
+            set_time_limit(0);
+            $filename = $this->exportService->exportTable($prj, $dev);
+            if ($filename) {
+                $this->startDownload($filename);
+            }
+        }
     }
 
     public function compareAction()

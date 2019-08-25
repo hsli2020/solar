@@ -15,8 +15,10 @@
         <div class="w3-rest">{{ inverter.name }}</div>
       </div>
       <div class="w3-row">
-        <div class="w3-col" style="width:120px">Combiner:</div>
-        <div class="w3-rest">{{ combiner.name }}</div>
+        <div class="w3-col m1" style="width:120px">Combiner:</div>
+        <div class="w3-col m2">{{ combiner.name }}</div>
+        <div class="w3-col m3"><a href="/project/dumpdata/{{ project.id }}/{{ combiner.code }}" target="_blank">Download</a>
+</div>
       </div>
 
       <table class="w3-table w3-margin-top">

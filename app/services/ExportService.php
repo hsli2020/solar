@@ -263,6 +263,7 @@ EOS;
 EOS;
         $this->db->execute($sql);
 
-        return $this->zipFiles($project, [ $filename ]);
+        return $filename;
+       #return $this->zipFiles($project, [ $filename ]); // it's slow for big file
     }
 }

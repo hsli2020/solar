@@ -227,7 +227,7 @@ EOS;
 
     public function ZipFiles($project, $filenames)
     {
-        $zipFilename = BASE_DIR.'/tmp/combiner-'.str_replace(' ', '-', $project->name).'-'.date('YmdHis').'.zip';
+        $zipFilename = BASE_DIR.'/tmp/'.str_replace(' ', '-', $project->name).'-'.date('YmdHis').'.zip';
 
         $zip = new \ZipArchive;
         if ($zip->open($zipFilename, \ZipArchive::CREATE) !== TRUE) {
@@ -240,5 +240,29 @@ EOS;
         $zip->close();
 
         return $zipFilename;
+    }
+
+    public function exportTable($prj, $devcode)
+    {
+        $project = $this->projectService->get($prj);
+
+        $device = $project->devices[$devcode];
+        $devname = $device->name;
+        $table = $device->getDeviceTable();
+
+        $basedir = str_replace('\\', '/', BASE_DIR);
+        $filename = $basedir.'/tmp/export-'.str_replace(' ', '-', $project->name)."-$devname.csv";
+
+        $sql =<<<EOS
+            SELECT *
+            FROM $table
+            INTO OUTFILE '$filename'
+            FIELDS TERMINATED BY ','
+            ENCLOSED BY '"'
+            LINES TERMINATED BY '\n';
+EOS;
+        $this->db->execute($sql);
+
+        return $this->zipFiles($project, [ $filename ]);
     }
 }

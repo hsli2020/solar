@@ -206,10 +206,15 @@ class ExportService extends Injectable
             $devname = $combiner->name;
             $table = $combiner->getDeviceTable();
 
+            $cols = array_column($this->db->fetchALl("DESC $table"), 'Field');
+            $cols = '"'. implode('","', $cols) . '"';
+
             $basedir = str_replace('\\', '/', BASE_DIR);
             $filename = $basedir.'/tmp/combiner-'.str_replace(' ', '-', $project->name)."-$devname.csv";
 
             $sql =<<<EOS
+                SELECT $cols
+                UNION ALL
                 SELECT *
                 FROM $table
                 WHERE time>'$startTime' AND time<'$endTime'
@@ -250,10 +255,15 @@ EOS;
         $devname = $device->name;
         $table = $device->getDeviceTable();
 
+        $cols = array_column($this->db->fetchALl("DESC $table"), 'Field');
+        $cols = '"'. implode('","', $cols) . '"';
+
         $basedir = str_replace('\\', '/', BASE_DIR);
         $filename = $basedir.'/tmp/export-'.str_replace(' ', '-', $project->name)."-$devname.csv";
 
         $sql =<<<EOS
+            SELECT $cols
+            UNION ALL
             SELECT *
             FROM $table
             INTO OUTFILE '$filename'

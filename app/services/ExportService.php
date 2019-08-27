@@ -200,8 +200,16 @@ class ExportService extends Injectable
             $endTime = date('Y-m-d', strtotime('1 day', strtotime($startTime)));
         }
 
+        $combiners = $project->combiners;
+        if (!empty($params['dev'])) {
+            $combiners = [];
+            $devcode = $params['dev'];
+            $combiners[] = $project->devices[$devcode]; // for the case combiner data mixes with inverter
+        }
+
+        $now = date('dHis');
         $filenames = [];
-        foreach ($project->combiners as $combiner) {
+        foreach ($combiners as $combiner) {
             // Table name of combiner
             $devname = $combiner->name;
             $table = $combiner->getDeviceTable();
@@ -210,7 +218,7 @@ class ExportService extends Injectable
             $cols = '"'. implode('","', $cols) . '"';
 
             $basedir = str_replace('\\', '/', BASE_DIR);
-            $filename = $basedir.'/tmp/combiner-'.str_replace(' ', '-', $project->name)."-$devname.csv";
+            $filename = $basedir.'/tmp/combiner-'.str_replace(' ', '-', $project->name)."-$devname-$now.csv";
 
             $sql =<<<EOS
                 SELECT $cols
@@ -223,14 +231,18 @@ class ExportService extends Injectable
                 ENCLOSED BY '"'
                 LINES TERMINATED BY '\n';
 EOS;
-            $this->db->execute($sql);
-            $filenames[] = $filename;
+            try {
+                $this->db->execute($sql);
+                $filenames[] = $filename;
+            }
+            catch (\Exception $e) {
+                //fpr($e->getMessage());
+            }
         }
-
         return $this->zipFiles($project, $filenames);
     }
 
-    public function ZipFiles($project, $filenames)
+    public function zipFiles($project, $filenames)
     {
         $zipFilename = BASE_DIR.'/tmp/'.str_replace(' ', '-', $project->name).'-'.date('YmdHis').'.zip';
 

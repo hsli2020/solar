@@ -17,7 +17,7 @@
       <div class="w3-row">
         <div class="w3-col m1" style="width:120px">Combiner:</div>
         <div class="w3-col m2">{{ combiner.name }}</div>
-        <div class="w3-col m3"><a href="/project/dumpdata/{{ project.id }}/{{ combiner.code }}" target="_blank">Download</a>
+        <div class="w3-col m3"><a href="/project/exportcombiner/{{ project.id }}/{{ combiner.code }}" target="_blank">Download</a>
 </div>
       </div>
 

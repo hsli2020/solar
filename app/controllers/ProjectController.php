@@ -174,6 +174,8 @@ class ProjectController extends ControllerBase
 
         $projects = $this->projectService->getCombinerProjects();
         $this->view->projects = $projects;
+        $this->view->prj = $prj;
+        $this->view->dev = $dev;
     }
 
     public function dumpDataAction($prj = '', $dev = '')

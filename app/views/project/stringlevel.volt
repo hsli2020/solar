@@ -13,7 +13,7 @@
       <div class="w3-row">
         <div class="w3-col" style="width:200px">Combiner:</div>
         <div class="w3-col m2">&nbsp;</div>
-        <div class="w3-col m3"><a href="/project/dumpdata/{{ project.id }}/{{ devcode }}" target="_blank">Download</a></div>
+        <div class="w3-col m3"><a href="/project/exportcombiner/{{ project.id }}/{{ devcode }}" target="_blank">Download</a></div>
       </div>
 {#
       <div class="w3-row">

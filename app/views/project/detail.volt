@@ -212,11 +212,11 @@
         {% if details['project_id'] == 40 %} {# REALLY BAD HACK #}
         <tr>
           <td><a href="/project/stringlevel/{{ details['project_id'] }}/mb-037" target="_blank">CB 1:05-2</a></td>
-          <td><a href="/project/dumpdata/{{ details['project_id'] }}/mb-037" target="_blank">Download</a></td>
+          <td><a href="/project/exportcombiner/{{ details['project_id'] }}/mb-037" target="_blank">Download</a></td>
         </tr>
         <tr>
           <td><a href="/project/stringlevel/{{ details['project_id'] }}/mb-101" target="_blank">CB 2:05-2</a></td>
-          <td><a href="/project/dumpdata/{{ details['project_id'] }}/mb-101" target="_blank">Download</a></td>
+          <td><a href="/project/exportcombiner/{{ details['project_id'] }}/mb-101" target="_blank">Download</a></td>
         </tr>
         {% endif %}
       </table>

@@ -13,11 +13,15 @@
               <select class="w3-select w3-border" name="project">
                 <option value="0" selected>Select Project</option>
                 {% for project in projects %}
-                <option value="{{ project.id }}">{{ project.name }}</option>
+                <option value="{{ project.id }}" {% if project.id == prj %}selected{% endif %}>{{ project.name }}</option>
                 {% endfor %}
               </select>
             </div>
           </div>
+
+          {% if dev is not empty %}
+          <input type="hidden" name="dev" value="{{ dev }}">
+          {% endif %}
 
           <div class="w3-row-padding">
             <div class="w3-third w3-padding-16">

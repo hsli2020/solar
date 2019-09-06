@@ -4,7 +4,7 @@ namespace App\System;
 
 class Project
 {
-    const GENMETERS = [7, 16, 17, 19, 20, 25, 28, 29];
+    const GENMETERS = [7, 16, 17, 19, 20, 25, 28, 29, 40, 41, 43, 44, 45, 47];
 
     protected $id;
     protected $name;

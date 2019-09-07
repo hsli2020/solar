@@ -244,7 +244,52 @@ EOS;
 
     public function exportRawData($params)
     {
-        return $this->exportCombiner($param);
+        if (empty($params['project'])) {
+            return false;
+        }
+        $project = $this->projectService->get($params['project']);
+
+        // Time range
+        $startTime = isset($params['start-time']) ? $params['start-time'] : date('Y-m-d');
+        $endTime   = isset($params['end-time'])   ? $params['end-time']   : date('Y-m-d H:i:s');
+
+        if ($startTime == $endTime) {
+            $endTime = date('Y-m-d', strtotime('1 day', strtotime($startTime)));
+        }
+
+        $now = date('dHis');
+        $filenames = [];
+        foreach ($project->devices as $device) {
+            $devcode = $device->code;
+            $devtype = $device->type;
+            $table = $device->getDeviceTable();
+
+            $cols = array_column($this->db->fetchALl("DESC $table"), 'Field');
+            $cols = '"'. implode('","', $cols) . '"';
+
+            $basedir = str_replace('\\', '/', BASE_DIR);
+            $filename = $basedir.'/tmp/'.str_replace(' ', '-', $project->name)."-$devtype-$devcode-$now.csv";
+
+            $sql =<<<EOS
+                SELECT $cols
+                UNION ALL
+                SELECT *
+                FROM $table
+                WHERE time>'$startTime' AND time<'$endTime'
+                INTO OUTFILE '$filename'
+                FIELDS TERMINATED BY ','
+                ENCLOSED BY '"'
+                LINES TERMINATED BY '\n';
+EOS;
+            try {
+                $this->db->execute($sql);
+                $filenames[] = $filename;
+            }
+            catch (\Exception $e) {
+                //fpr($e->getMessage());
+            }
+        }
+        return $this->zipFiles($project, $filenames);
     }
 
     public function zipFiles($project, $filenames)

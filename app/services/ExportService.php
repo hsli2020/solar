@@ -11,6 +11,12 @@ class ExportService extends Injectable
      */
     public function export($params)
     {
+        // Export raw data, generate a zip file including all devices data
+        $interval = empty($params['interval']) ? 1 : $params['interval'];
+        if ($interval == 1) { // raw data
+            return $this->exportRawData($params);
+        }
+
         $projectId = max(1, $params['project']); // set project=1 if not specified
 
         $project = $this->projectService->get($projectId);

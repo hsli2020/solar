@@ -242,6 +242,11 @@ EOS;
         return $this->zipFiles($project, $filenames);
     }
 
+    public function exportRawData($params)
+    {
+        return $this->exportCombiner($param);
+    }
+
     public function zipFiles($project, $filenames)
     {
         $zipFilename = BASE_DIR.'/tmp/'.str_replace(' ', '-', $project->name).'-'.date('YmdHis').'.zip';

@@ -2,15 +2,16 @@
 
 {% block main %}
 <style type="text/css">
+  .title { background-color: #ddd; }
   .w3-col:hover .title { background-color: lightblue; }
   .w3-col:hover .reading { background-color: lightcyan; }
 </style>
 
 {%- macro cell(row, key, unit) %}
   {%- set classes = '' %}
-  {%- if row['error'][key] is defined %}
-    {%- set classes = 'w3-' ~ row['error'][key] %}
-  {%- endif %}
+  {# if row['error'][key] is defined #}
+    {#- set classes = 'w3-' ~ row['error'][key] #}
+  {# endif #}
   <div class="w3-container w3-center w3-cell w3-padding {{ classes }}">{{ row[key] }} {{ unit }}</div>
 {% endmacro %}
 

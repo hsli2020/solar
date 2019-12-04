@@ -2,7 +2,7 @@
 
 {% block main %}
 <style type="text/css">
-  .title { background-color: #ddd; }
+  .title { background-color: #c0c0c0; }
   .w3-col:hover .title { background-color: lightblue; }
   .w3-col:hover .reading { background-color: lightcyan; }
 </style>

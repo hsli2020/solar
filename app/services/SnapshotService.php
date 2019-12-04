@@ -6,6 +6,7 @@ use Phalcon\Di\Injectable;
 
 class SnapshotService extends Injectable
 {
+    // site=all|gm|rooftop
     public function load($sites = 'all')
     {
         $nothing = [
@@ -19,11 +20,8 @@ class SnapshotService extends Injectable
         ];
 
         $where = '';
-        if ($sites == 'gm') {
-            $where = 'WHERE project_size_ac>9999';
-        }
-        if ($sites == 'rooftop') {
-            $where = 'WHERE project_size_ac<9999';
+        if ($sites == 'gm' || $sites == 'rooftop') {
+            $where = "WHERE project_type='$sites'";
         }
 
         $result = $this->db->fetchAll("SELECT * FROM snapshot $where");
@@ -127,6 +125,7 @@ class SnapshotService extends Injectable
         foreach ($projects as $project) {
             $id = $project->id;
             $name = $project->name;
+            $type = $project->type;
             $sizeAC = $project->capacityAC;
             $camera = count($project->getCameras());
 
@@ -142,6 +141,7 @@ class SnapshotService extends Injectable
                  . " project_id = $id,"
                  . " project_name = '$name',"
                  . " project_size_ac = '$sizeAC',"
+                 . " project_type = '$type',"
                  . " GCPR = '$GCPR',"
                  . " current_power = '$currentPower',"
                  . " irradiance = '$irradiance',"

@@ -8,6 +8,7 @@ class Project
 
     protected $id;
     protected $name;
+    protected $type;
     protected $ftpdir;
     protected $cbdir;
     protected $interval;
@@ -33,6 +34,7 @@ class Project
     {
         $this->id                     = $info['id'];
         $this->name                   = $info['name'];
+        $this->type                   = $info['type'];
         $this->ftpdir                 = $info['ftpdir'];
         $this->cbdir                  = $info['cbdir'];
         $this->interval               = $info['interval'];

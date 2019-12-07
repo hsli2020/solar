@@ -122,6 +122,10 @@ class SnapshotService extends Injectable
 
         $projects = $this->projectService->getAll();
 
+        // Prj49 is special, no devices, only cameram, this cause a lot of errors
+        // disable it for now
+        unset($projects[49]);
+
         foreach ($projects as $project) {
             $id = $project->id;
             $name = $project->name;

@@ -111,7 +111,7 @@ class Inverter extends Device
 
         $fmt = ($interval == 24*60) ? '%Y-%m-%d' : '%Y-%m-%d %H:%i';
 
-        $sql = "SELECT DATE_FORMAT(time, '$fmt') AS time, $kwcol AS kw FROM $table WHERE time>='$start' AND time<'$end' AND error=0";
+        $sql = "SELECT DATE_FORMAT(CONVERT_TZ(time, 'UTC', 'America/Toronto'), '$fmt') AS time, $kwcol AS kw FROM $table WHERE time>='$start' AND time<'$end' AND error=0";
 
         if ($interval > 5) {
             $seconds = $interval*60; // convert to seconds
@@ -121,7 +121,7 @@ class Inverter extends Device
                 $kw = "ROUND(SUM($kwcol)/12) AS kw";
             }
 
-            $sql = "SELECT DATE_FORMAT(time, '$fmt') AS time,
+            $sql = "SELECT DATE_FORMAT(CONVERT_TZ(time, 'UTC', 'America/Toronto'), '$fmt') AS time,
                            $kw
                       FROM $table
                      WHERE time >= CONVERT_TZ('$start', 'America/Toronto', 'UTC') AND

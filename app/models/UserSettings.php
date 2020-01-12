@@ -12,6 +12,7 @@ class UserSettings extends Model
     public $userId;
     public $projects;
     public $dailyReport;
+    public $dailyReportTemplate;
     public $monthlyReport;
     public $smartAlert;
 
@@ -29,6 +30,7 @@ class UserSettings extends Model
             'user_id'        => 'userId',
             'projects'       => 'projects',
             'daily_report'   => 'dailyReport',
+            'template_dr'    => 'dailyReportTemplate',
             'monthly_report' => 'monthlyReport',
             'smart_alert'    => 'smartAlert',
         );

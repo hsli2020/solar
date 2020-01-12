@@ -125,7 +125,7 @@ class DailyReportService extends Injectable
             $report = $this->load($yesterday, $user);
 
             $subject = "Daily Solar Energy Production Report ($yesterday)";
-            $filename = $this->generateXls($report, $yesterday);
+            $filename = $this->generateXls($user, $report, $yesterday);
             $body = $this->generateHtml($report);
 
             $this->sendDailyReport($user['email'], $subject, $body, $filename);
@@ -139,9 +139,21 @@ class DailyReportService extends Injectable
         return BASE_DIR . "/app/logs/daily-report-$date.json";
     }
 
-    public function generateXls($report, $date = null)
+    public function getTemplate($user)
     {
-        $excel = \PHPExcel_IOFactory::load(BASE_DIR."/job/templates/DailyReport-v3.xlsx");
+        $filename = BASE_DIR."/job/templates/DailyReport-v3.xlsx";
+        if ($user['dailyReportTemplate']) {
+            $template = $user['dailyReportTemplate'];
+            $filename = BASE_DIR."/job/templates/$template.xlsx";
+        }
+        return $filename;
+    }
+
+    public function generateXls($user, $report, $date = null)
+    {
+        $template = $this->getTemplate($user);
+
+        $excel = \PHPExcel_IOFactory::load($template);
         $excel->setActiveSheetIndex(0);  //set first sheet as active
 
         $sheet = $excel->getActiveSheet();
@@ -177,13 +189,14 @@ class DailyReportService extends Injectable
             $row++;
         }
 
+        // Days in Month & Total Days
         if ($date) {
-            $sheet->setCellValue("B66", date("t", strtotime($date)));
-            $sheet->setCellValue("B67", date("j", strtotime($date)));
+            $sheet->setCellValue("R3", date("t", strtotime($date)));
+            $sheet->setCellValue("R4", date("j", strtotime($date)));
         } else {
             // current system date
-            $sheet->setCellValue("B66", date("t"));
-            $sheet->setCellValue("B67", date("j"));
+            $sheet->setCellValue("R3", date("t"));
+            $sheet->setCellValue("R4", date("j"));
         }
 
         $suffix = $date ? $date : date('Ymd');

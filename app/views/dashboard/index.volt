@@ -88,14 +88,16 @@
 <tr>
   <td>
     <a href="/project/detail/{{ row['project_id'] }}" target="_blank">{{ row[ 'project_name'] }}</a>
-    {% if row['camera'] is not empty %}
-      <a href="/project/camera/{{ row['project_id'] }}" target="_blank" class="w3-right"><i class="fa fa-camera"></i></a>
-    {% endif %}
+    {% if host != 'GCS-AWS' %}
+      {% if row['camera'] is not empty %}
+        <a href="/project/camera/{{ row['project_id'] }}" target="_blank" class="w3-right"><i class="fa fa-camera"></i></a>
+      {% endif %}
 
-    {% if row['project_id'] == 45 %}
-    {% if auth['id'] != 10 %} {# northwind is not allowed to see newboro4 #}
-      <a href="/project/newboro4" target="_blank" class="w3-right"><i class="fa fa-camera"></i></a>
-    {% endif %}
+      {% if row['project_id'] == 45 %}
+      {% if auth['id'] != 10 %} {# northwind is not allowed to see newboro4 #}
+        <a href="/project/newboro4" target="_blank" class="w3-right"><i class="fa fa-camera"></i></a>
+      {% endif %}
+      {% endif %}
     {% endif %}
   </td>
   <td class="w3-center"><a href="/project/chart/{{ row['project_id'] }}" target="_blank"><i class="fa fa-bar-chart"></i></a></td>

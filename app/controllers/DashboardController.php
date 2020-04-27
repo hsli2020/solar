@@ -24,6 +24,7 @@ class DashboardController extends ControllerBase
             $this->view->pick('dashboard/compact');
         }
 
+        $this->view->host = gethostname();
         $this->view->data = $this->snapshotService->load($sites);
     }
 

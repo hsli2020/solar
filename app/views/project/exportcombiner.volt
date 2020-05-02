@@ -10,8 +10,8 @@
               <label><b>Project</b></label>
             </div>
             <div class="w3-twothird w3-padding-8">
-              <select class="w3-select w3-border" name="project" {% if prj is not empty %}disabled{% endif %}>
-                <option value="0" selected>Select Project</option>
+              <select class="w3-select w3-border" {% if prj is not empty %}disabled{% endif %}>
+                <option value="0">Select Project</option>
                 {% for project in projects %}
                 <option value="{{ project.id }}" {% if project.id == prj %}selected{% endif %}>{{ project.name }}</option>
                 {% endfor %}
@@ -21,6 +21,7 @@
 
           {% if dev is not empty %}
           <input type="hidden" name="dev" value="{{ dev }}">
+          <input type="hidden" name="project" value="{{ prj }}">
           {% endif %}
 
           <div class="w3-row-padding">

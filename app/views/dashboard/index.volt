@@ -88,7 +88,7 @@
 <tr>
   <td>
     <a href="/project/detail/{{ row['project_id'] }}" target="_blank">{{ row[ 'project_name'] }}</a>
-    {% if host != 'GCS-AWS' %}
+    {% if host != 'GCS-AWS-New' %}
       {% if row['camera'] is not empty %}
         <a href="/project/camera/{{ row['project_id'] }}" target="_blank" class="w3-right"><i class="fa fa-camera"></i></a>
       {% endif %}

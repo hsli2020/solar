@@ -23,9 +23,9 @@ class ImportService extends Injectable
                 echo "\t", $filename, EOL;
 
                 // wait until the file is completely uploaded
-                while (time() - filemtime($filename) < 10) {
-                    sleep(1);
-                }
+               #while (time() - filemtime($filename) < 10) {
+               #    sleep(1);
+               #}
 
                 $fileCount++;
 

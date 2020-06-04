@@ -21,10 +21,18 @@ class GenMeter extends Device
         $result = $this->getDb()->fetchOne("$sql ORDER BY time DESC");
         $last = $result['kwh'];
 
-        // Norfolk kwh_del reset after reach 10000000
         $val = $last - $first;
-        if ($val < -5000000) {
-            $val += 10000000;
+
+        if ($this->project->id == 7) {
+            // Norfolk kwh_del reset after reach 10,000,000
+            if ($val < -5000000) {
+                $val += 10000000;
+            }
+        } else {
+            // Alfred & Bruining kwh_del reset after reach 1,000,000,000
+            if ($val < 0) {
+                $val += 1000000000;
+            }
         }
 
         return $val;

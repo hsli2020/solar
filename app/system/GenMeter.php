@@ -29,9 +29,9 @@ class GenMeter extends Device
                 $val += 10000000;
             }
         } else {
-            // Alfred & Bruining kwh_del reset after reach 1,000,000,000
+            // Alfred & Bruining kwh_del reset after reach 100,000,000
             if ($val < 0) {
-                $val += 1000000000;
+                $val += 100000000;
             }
         }
 

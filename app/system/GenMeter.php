@@ -23,16 +23,12 @@ class GenMeter extends Device
 
         $val = $last - $first;
 
-        if ($this->project->id == 7) {
+        // Alfred & Bruining kwh_del reset after reach 100,000,000
+        if ($val < -50000000) {
+            $val += 100000000;
+        } else if ($val < -5000000) {
             // Norfolk kwh_del reset after reach 10,000,000
-            if ($val < -5000000) {
-                $val += 10000000;
-            }
-        } else {
-            // Alfred & Bruining kwh_del reset after reach 100,000,000
-            if ($val < 0) {
-                $val += 100000000;
-            }
+            $val += 10000000;
         }
 
         return $val;

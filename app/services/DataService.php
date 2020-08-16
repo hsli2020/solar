@@ -270,4 +270,77 @@ class DataService extends Injectable
         $rows = $this->db->fetchAll($sql);
         return $rows;
     }
+
+    public function getCrhData($date)
+    {
+        $data = include BASE_DIR . "/tmp/data.php";
+
+        $daily = [];
+        foreach ($data as $rec) {
+            $time = $rec['time'];
+            $kwh = $rec['kwh'];
+
+            $dt = substr($time, 0, 10);
+            $hr = substr($time, 11, 2);
+
+            if (isWeekend($dt) || isHoliday($dt) || isMaintenance($dt)) {
+                continue;
+            }
+
+            if (isset($daily[$dt][$hr])) {
+                $daily[$dt][$hr]['sum'] += $kwh;
+            } else {
+                $daily[$dt][$hr]['sum'] = $kwh;
+            }
+
+            if (count($daily) == 20+1) {
+                array_pop($daily);
+                break;
+            }
+        }
+
+        $hourly = [];
+        foreach ($daily as $hours) {
+            foreach ($hours as $hour => $rec) {
+                $hourly[$hour][] = round($rec['sum']);
+            }
+        }
+
+        $sorted = [];
+        foreach ($hourly as $hour => $arr) {
+            rsort($arr);
+            $top15 = array_slice($arr, 0, 15);
+            $avg = round(array_sum($top15)/count($top15));
+            $sorted[$hour] = $avg;
+        }
+
+        // return an array in the following format
+        // [
+        //    HOUR => [ HOUR, BASELINE, LOAD ]
+        //    HOUR => [ HOUR, BASELINE, LOAD ]
+        // ]
+
+        // Baseline (Avg)
+        ksort($sorted);
+        $result = [];
+        foreach ($sorted as $hour => $avg) {
+            if ($hour > 7 && $hour < 21) {
+                $h = intval($hour);
+                $result[$h] = [ $h, $avg ];
+            }
+        }
+
+        // Load
+        $d = $daily[$date];
+        ksort($d);
+
+        foreach ($d as $hour => $rec) {
+            if ($hour > 7 && $hour < 21) {
+                $h = intval($hour);
+                $result[$h][] = intval($rec['sum']);
+            }
+        }
+
+        return $result;
+    }
 }

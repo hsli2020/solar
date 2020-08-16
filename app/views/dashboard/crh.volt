@@ -41,19 +41,18 @@
         <th>kWh</th>
         <th>kWh</th>
       </tr>
-      <tr><td>2017-10-31 8:00</td><td>26,189</td><td>31,243</td></tr>
-      <tr><td>2017-10-31 9:00</td><td>25,984</td><td>31,383</td></tr>
-      <tr><td>2017-10-31 10:00</td><td>26,196</td><td>31,650</td></tr>
-      <tr><td>2017-10-31 11:00</td><td>-</td><td>31,760</td></tr>
-      <tr><td>2017-10-31 12:00</td><td>-</td><td>32,546</td></tr>
-      <tr><td>2017-10-31 13:00</td><td>-</td><td>32,824</td></tr>
-      <tr><td>2017-10-31 14:00</td><td>-</td><td>33,155</td></tr>
-      <tr><td>2017-10-31 15:00</td><td>-</td><td>33,309</td></tr>
-      <tr><td>2017-10-31 16:00</td><td>-</td><td>33,000</td></tr>
-      <tr><td>2017-10-31 17:00</td><td>-</td><td>32,635</td></tr>
-      <tr><td>2017-10-31 18:00</td><td>-</td><td>32,511</td></tr>
-      <tr><td>2017-10-31 19:00</td><td>-</td><td>32,758</td></tr>
-      <tr><td>2017-10-31 20:00</td><td>-</td><td>33,804</td></tr>
+
+      {% for d in data %}
+        <tr>
+          <td>{{ date }} {{ d[0] }}:00</td>
+          {% if d[2] is not empty %}
+            <td>{{ d[2] }}</td>
+          {% else %}
+            <td>-</td>
+          {% endif %}
+          <td>{{ d[1] }}</td>
+        </tr>
+      {% endfor %}
 
       <tr><th colspan="3" class="text-left">Variance</th><tr>
       <tr>
@@ -85,31 +84,9 @@
 {% endblock %}
 
 {% block jscode %}
-var data1 = [
-  [ 8	, 31243 ],
-  [ 9	, 31383 ],
-  [ 10	, 31650 ],
-  [ 11	, 31760 ],
-  [ 12	, 32546 ],
-  [ 13	, 32824 ],
-  [ 14	, 33155 ],
-  [ 15	, 33309 ],
-  [ 16	, 33000 ],
-  [ 17	, 32635 ],
-  [ 18	, 32511 ],
-  [ 19	, 32758 ],
-  [ 20	, 33804 ],
-];
-
-var data2 = [
-  [ 8	, 26189 ],
-  [ 9	, 25984 ],
-  [ 10	, 26196 ],
-];
-
 var line1 = {
     label: "Avg. of Top 15 Days",
-    data: data1,
+    data: {{ jsonBase }},
     color: "#069",
     shadowSize: 0,
     yaxis: 2,
@@ -118,7 +95,7 @@ var line1 = {
 
 var line2 = {
     label: "Load",
-    data: data2,
+    data: {{ jsonLoad }},
     color: "#c40",
     shadowSize: 0,
     yaxis: 2,

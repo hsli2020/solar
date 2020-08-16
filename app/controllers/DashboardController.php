@@ -48,4 +48,9 @@ class DashboardController extends ControllerBase
         $this->cookies->send();
         $this->response->redirect('/dashboard');
     }
+
+    public function crhAction()
+    {
+        $this->view->pageTitle = 'CRH Dashboard';
+    }
 }

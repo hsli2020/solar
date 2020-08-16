@@ -11,6 +11,8 @@
       <a href="/dashboard/sites/all" class="w3-hover-teal">All Sites</a>
       <a href="/dashboard/sites/gm" class="w3-hover-teal">GM Sites</a>
       <a href="/dashboard/sites/rooftop" class="w3-hover-teal">Rooftop Sites</a>
+      <hr style="margin: 0;">
+      <a href="/dashboard/crh" class="w3-hover-teal">CRH Dashboard</a>
     </div>
   </li>
 

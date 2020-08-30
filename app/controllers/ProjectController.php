@@ -311,6 +311,29 @@ class ProjectController extends ControllerBase
         $this->view->pageTitle = 'Newboro4';
     }
 
+    public function crhAction($id = '')
+    {
+        $this->view->pageTitle = 'CRH Dashboard';
+
+        $date = '2017-10-30';
+
+        $data = $this->dataService->getCrhData($date);
+
+        $base = $load = [];
+        foreach ($data as $hour => $d) {
+            if ($hour > 7 && $hour < 21) {
+                $base[] = [ $d[0], $d[1] ];
+                $load[] = [ $d[0], $d[2] ];
+            }
+        }
+
+        $this->view->date = $date;
+        $this->view->data = $data;
+
+        $this->view->jsonBase = json_encode($base);
+        $this->view->jsonLoad = json_encode($load);
+    }
+
     public function testAction()
     {
         echo __METHOD__;

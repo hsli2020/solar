@@ -161,12 +161,22 @@ class SnapshotService extends Injectable
 
     protected function getGCPR($project)
     {
+        // CRH projects have no Envkit/GenMeter
+        if ($project->type == 'crh') {
+            return '100%';
+        }
+
         $pr = $project->getPR();
         return round($pr * 100).'%';
     }
 
     protected function getCurrentPower($project)
     {
+        // CRH projects have no Envkit/GenMeter
+        if ($project->type == 'crh') {
+            return 0;
+        }
+
         $kw = $project->getSnapshotKW();
         return round($kw);
     }
@@ -205,6 +215,7 @@ class SnapshotService extends Injectable
 
     protected function getLastCom($project)
     {
-        return $project->getSnapshotTime();
+        //return $project->getSnapshotTime();
+        return $project->getLatestTime();
     }
 }

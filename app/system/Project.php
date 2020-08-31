@@ -392,8 +392,14 @@ class Project
 
     public function getLatestTime()
     {
-        $envkit = current($this->envkits);
-        return $envkit->getLatestTime();
+        // Some projects have no EnvKits
+        //$envkit = current($this->envkits);
+        //return $envkit->getLatestTime();
+
+        $prj = $this->id;
+        $sql = "SELECT MAX(time) FROM latest_data WHERE project_id=$prj";
+        $time = $this->getDb()->fetchColumn($sql);
+        return toLocaltime($time);
     }
 
     // only for project-37/38/39 right now

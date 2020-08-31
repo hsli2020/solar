@@ -315,9 +315,8 @@ class ProjectController extends ControllerBase
     {
         $this->view->pageTitle = 'CRH Dashboard';
 
-        $date = '2017-10-30';
-
-        $data = $this->dataService->getCrhData($date);
+        $date = date('Y-m-d');
+        $data = $this->dataService->getCrhData($id, $date);
 
         $base = $load = [];
         foreach ($data as $hour => $d) {

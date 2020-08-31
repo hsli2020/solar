@@ -271,14 +271,16 @@ class DataService extends Injectable
         return $rows;
     }
 
-    public function getCrhData($date)
+    public function getCrhData($prj, $date)
     {
-        $data = include BASE_DIR . "/tmp/data.php";
+        $start = strtotime('-30 day');
+        $sql = "SELECT time, kva AS kw FROM p{$prj}_mb_001_genmeter WHERE time>'$start'";
+        $data = $this->db->fetchAll($sql);
 
         $daily = [];
         foreach ($data as $rec) {
             $time = $rec['time'];
-            $kwh = $rec['kwh'];
+            $kwh = $rec['kw'];
 
             $dt = substr($time, 0, 10);
             $hr = substr($time, 11, 2);

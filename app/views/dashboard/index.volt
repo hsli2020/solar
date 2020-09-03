@@ -87,11 +87,7 @@
 {% for row in data['rows'] %}
 <tr>
   <td>
-    {% if row['project_type'] == 'crh' %}
-      <a href="/project/crh/{{ row['project_id'] }}" target="_blank">{{ row[ 'project_name'] }}</a>
-    {% else %}
-      <a href="/project/detail/{{ row['project_id'] }}" target="_blank">{{ row[ 'project_name'] }}</a>
-    {% endif %}
+    <a href="/project/detail/{{ row['project_id'] }}" target="_blank">{{ row[ 'project_name'] }}</a>
 
     {% if row['project_id'] == 7 %}
       <a href="http://gcsnorfolk.yunfeng.ca:60006" target="_blank" class="w3-right"><i class="fa fa-camera"></i></a>

@@ -22,7 +22,7 @@ class ReportController extends ControllerBase
             return;
         }
 
-       #$user = $this->userService->get($auth['id']);
+        $user = $this->userService->get($auth['id']);
 
         if (!$date) {
             $date = date('Y-m-d', strtotime('-1 day'));
@@ -32,7 +32,7 @@ class ReportController extends ControllerBase
         $report = $this->dailyReportService->load($date, $auth);
 
         if ($this->request->isPost()) {
-            $filename = $this->dailyReportService->generateXls($report, $date);
+            $filename = $this->dailyReportService->generateXls($user, $report, $date);
             $this->startDownload($filename, 'xls');
         }
 

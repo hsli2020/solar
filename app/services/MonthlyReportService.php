@@ -19,6 +19,7 @@ class MonthlyReportService extends Injectable
             $projectId = $project->id;
 
             if ($projectId == 49) continue;
+            if ($project->type == 'crh') continue;
 
             $monthly = $project->getMonthlyBudget(date('Y'), date('m'));
 

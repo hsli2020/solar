@@ -133,6 +133,8 @@ class SnapshotService extends Injectable
             $sizeAC = $project->capacityAC;
             $camera = count($project->getCameras());
 
+            if ($type == 'crh') continue;
+
             $GCPR                 = $this->getGCPR($project);
             $currentPower         = $this->getCurrentPower($project);
             $irradiance           = $this->getIrradiance($project);

@@ -271,10 +271,26 @@ class DataService extends Injectable
         return $rows;
     }
 
+    // CRH data
     public function getCrhData($prj, $date)
     {
-        $start = strtotime('-30 day');
-        $sql = "SELECT time, kva AS kw FROM p{$prj}_mb_001_genmeter WHERE time>'$start'";
+        // return an array in the following format
+        // [
+        //    HOUR => [ HOUR, BASELINE, LOAD ]
+        //    HOUR => [ HOUR, BASELINE, LOAD ]
+        // ]
+
+        $result = $this->getStdBaseline($prj);
+        $result = $this->getActualLoad($prj, $date, $result);
+
+        return $result;
+    }
+
+    // CRH Standard Baseline
+    protected function getStdBaseline($prj)
+    {
+        $start = date('Y-m-d', strtotime('-31 day'));
+        $sql = "SELECT time, kva AS kw FROM p{$prj}_mb_001_genmeter WHERE time>='$start'";
         $data = $this->db->fetchAll($sql);
 
         $daily = [];
@@ -316,12 +332,6 @@ class DataService extends Injectable
             $sorted[$hour] = $avg;
         }
 
-        // return an array in the following format
-        // [
-        //    HOUR => [ HOUR, BASELINE, LOAD ]
-        //    HOUR => [ HOUR, BASELINE, LOAD ]
-        // ]
-
         // Baseline (Avg)
         ksort($sorted);
         $result = [];
@@ -332,14 +342,36 @@ class DataService extends Injectable
             }
         }
 
-        // Load
-        $d = $daily[$date];
-        ksort($d);
+        return $result;
+    }
 
-        foreach ($d as $hour => $rec) {
+    // CRH Actual Load
+    protected function getActualLoad($prj, $date, $result)
+    {
+        $sql = "SELECT time, kva AS kw FROM p{$prj}_mb_001_genmeter WHERE DATE(time)='$date'";
+        $data = $this->db->fetchAll($sql);
+
+        $hourly = [];
+        foreach ($data as $rec) {
+            $time = $rec['time'];
+            $kwh = $rec['kw'];
+
+            $dt = substr($time, 0, 10);
+            $hr = substr($time, 11, 2);
+
+            if (isset($daily[$dt][$hr])) {
+                $hourly[$hr]['sum'] += $kwh;
+                $hourly[$hr]['cnt'] += 1;
+            } else {
+                $hourly[$hr]['sum'] = $kwh;
+                $hourly[$hr]['cnt'] = 1;
+            }
+        }
+
+        foreach ($hourly as $hour => $rec) {
             if ($hour > 7 && $hour < 21) {
                 $h = intval($hour);
-                $result[$h][] = intval($rec['sum']);
+                $result[$h][] = intval($rec['sum']/$rec['cnt']);
             }
         }
 

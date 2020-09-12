@@ -280,22 +280,28 @@ class DataService extends Injectable
         //    HOUR => [ HOUR, BASELINE, LOAD ]
         // ]
 
-        $result = $this->getStdBaseline($prj);
+        $result = $this->getStdBaseline($prj, $date);
         $result = $this->getActualLoad($prj, $date, $result);
 
         return $result;
     }
 
     // CRH Standard Baseline
-    protected function getStdBaseline($prj)
+    protected function getStdBaseline($prj, $date)
     {
-        $start = date('Y-m-d', strtotime('-31 day'));
-        $sql = "SELECT time, kva AS kw FROM p{$prj}_mb_001_genmeter WHERE time>='$start'";
+        $start = date('Y-m-d', strtotime('-35 day'));
+        $sql = "SELECT time AS time_utc,
+                       CONVERT_TZ(time, 'UTC', 'America/Toronto') AS time_edt,
+                       CONVERT_TZ(time, 'UTC', 'EST') AS time_est,
+                       kva AS kw
+                  FROM p{$prj}_mb_001_genmeter
+                 WHERE time>='$start' AND time<'$date'
+              ORDER BY time DESC";
         $data = $this->db->fetchAll($sql);
 
         $daily = [];
         foreach ($data as $rec) {
-            $time = $rec['time'];
+            $time = $rec['time_utc'];
             $kwh = $rec['kw'];
 
             $dt = substr($time, 0, 10);
@@ -305,10 +311,18 @@ class DataService extends Injectable
                 continue;
             }
 
-            if (isset($daily[$dt][$hr])) {
-                $daily[$dt][$hr]['sum'] += $kwh;
+            if (isset($daily[$dt])) {
+                $daily[$dt]['total'] += $kwh;
             } else {
-                $daily[$dt][$hr]['sum'] = $kwh;
+                $daily[$dt]['total'] = $kwh;
+            }
+
+            if (isset($daily[$dt]['hourly'][$hr])) {
+                $daily[$dt]['hourly'][$hr]['sum'] += $kwh;
+                $daily[$dt]['hourly'][$hr]['cnt'] += 1;
+            } else {
+                $daily[$dt]['hourly'][$hr]['sum'] = $kwh;
+                $daily[$dt]['hourly'][$hr]['cnt'] = 1;
             }
 
             if (count($daily) == 20+1) {
@@ -317,43 +331,60 @@ class DataService extends Injectable
             }
         }
 
+        uasort($daily, function($a, $b) {
+            if ($a['total'] == $b['total']) { return 0; }
+            return ($a['total'] < $b['total']) ? 1 : -1;
+        });
+
+        $top15 = array_slice($daily, 0, 15);
+
         $hourly = [];
-        foreach ($daily as $hours) {
-            foreach ($hours as $hour => $rec) {
-                $hourly[$hour][] = round($rec['sum']);
+        foreach ($top15 as $day) {
+            foreach ($day['hourly'] as $hour => $rec) {
+                if (isset($hourly[$hour])) {
+                    $hourly[$hour]['sum'] += $rec['sum'];
+                    $hourly[$hour]['cnt'] += $rec['cnt'];
+                } else {
+                    $hourly[$hour]['sum'] = $rec['sum'];
+                    $hourly[$hour]['cnt'] = 1;
+                }
             }
         }
 
-        $sorted = [];
-        foreach ($hourly as $hour => $arr) {
-            rsort($arr);
-            $top15 = array_slice($arr, 0, 15);
-            $avg = round(array_sum($top15)/count($top15));
-            $sorted[$hour] = $avg;
+        foreach ($hourly as $hour => $rec) {
+            $avg = round($rec['sum']/$rec['cnt']);
+            $hourly[$hour]['avg'] = $avg;
         }
 
         // Baseline (Avg)
-        ksort($sorted);
         $result = [];
-        foreach ($sorted as $hour => $avg) {
+        foreach ($hourly as $hour => $rec) {
             if ($hour > 7 && $hour < 21) {
                 $h = intval($hour);
-                $result[$h] = [ $h, $avg ];
+                $avg = $rec['avg'];
+                $result[$h] = [ $h, $avg, null ];
             }
         }
 
+        ksort($result); // sort by hour
         return $result;
     }
 
     // CRH Actual Load
     protected function getActualLoad($prj, $date, $result)
     {
-        $sql = "SELECT time, kva AS kw FROM p{$prj}_mb_001_genmeter WHERE DATE(time)='$date'";
+        $sql = "SELECT time AS time_utc,
+                       CONVERT_TZ(time, 'UTC', 'America/Toronto') AS time_edt,
+                       CONVERT_TZ(time, 'UTC', 'EST') AS time_est,
+                       kva AS kw
+                  FROM p{$prj}_mb_001_genmeter
+                 WHERE DATE(time)='$date'";
+
         $data = $this->db->fetchAll($sql);
 
         $hourly = [];
         foreach ($data as $rec) {
-            $time = $rec['time'];
+            $time = $rec['time_utc'];
             $kwh = $rec['kw'];
 
             $dt = substr($time, 0, 10);
@@ -371,7 +402,7 @@ class DataService extends Injectable
         foreach ($hourly as $hour => $rec) {
             if ($hour > 7 && $hour < 21) {
                 $h = intval($hour);
-                $result[$h][] = intval($rec['sum']/$rec['cnt']);
+                $result[$h][2] = intval($rec['sum']/$rec['cnt']);
             }
         }
 

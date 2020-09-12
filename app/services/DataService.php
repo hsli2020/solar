@@ -295,13 +295,13 @@ class DataService extends Injectable
                        CONVERT_TZ(time, 'UTC', 'EST') AS time_est,
                        kva AS kw
                   FROM p{$prj}_mb_001_genmeter
-                 WHERE time>='$start' AND time<'$date'
+                HAVING time_edt>='$start' AND time_edt<'$date'
               ORDER BY time DESC";
         $data = $this->db->fetchAll($sql);
 
         $daily = [];
         foreach ($data as $rec) {
-            $time = $rec['time_utc'];
+            $time = $rec['time_edt'];
             $kwh = $rec['kw'];
 
             $dt = substr($time, 0, 10);
@@ -359,11 +359,11 @@ class DataService extends Injectable
         // Baseline (Avg)
         $result = [];
         foreach ($hourly as $hour => $rec) {
-            if ($hour > 7 && $hour < 21) {
-                $h = intval($hour);
+           #if ($hour > 7 && $hour < 21) {
+                $h = intval($hour); // chart requires number, not string
                 $avg = $rec['avg'];
                 $result[$h] = [ $h, $avg, null ];
-            }
+           #}
         }
 
         ksort($result); // sort by hour
@@ -378,19 +378,19 @@ class DataService extends Injectable
                        CONVERT_TZ(time, 'UTC', 'EST') AS time_est,
                        kva AS kw
                   FROM p{$prj}_mb_001_genmeter
-                 WHERE DATE(time)='$date'";
+                HAVING DATE(time_edt)='$date'";
 
         $data = $this->db->fetchAll($sql);
 
         $hourly = [];
         foreach ($data as $rec) {
-            $time = $rec['time_utc'];
+            $time = $rec['time_edt'];
             $kwh = $rec['kw'];
 
             $dt = substr($time, 0, 10);
             $hr = substr($time, 11, 2);
 
-            if (isset($daily[$dt][$hr])) {
+            if (isset($hourly[$hr])) {
                 $hourly[$hr]['sum'] += $kwh;
                 $hourly[$hr]['cnt'] += 1;
             } else {
@@ -400,10 +400,10 @@ class DataService extends Injectable
         }
 
         foreach ($hourly as $hour => $rec) {
-            if ($hour > 7 && $hour < 21) {
-                $h = intval($hour);
+           #if ($hour > 7 && $hour < 21) {
+                $h = intval($hour); // chart requires number, not string
                 $result[$h][2] = intval($rec['sum']/$rec['cnt']);
-            }
+           #}
         }
 
         return $result;

@@ -56,8 +56,8 @@
 
       <tr><th colspan="3" class="text-left">Variance</th><tr>
       <tr>
-        <td>2017-10-31 10:00</td>
-        <td colspan="2">5,454</td>
+        <td>{{ now }}</td>
+        <td colspan="2">-</td>
       </tr>
 
       <tr><th colspan="3" class="text-left">Standard Baseline</th><tr>

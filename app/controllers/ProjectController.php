@@ -316,17 +316,20 @@ class ProjectController extends ControllerBase
         $this->view->pageTitle = 'CRH Dashboard';
 
         $date = date('Y-m-d');
-        $data = $this->dataService->getCrhData($id, $date);
+        $now = date('Y-m-d H:00');
+        $temp = $this->dataService->getCrhData($id, $date);
 
-        $base = $load = [];
-        foreach ($data as $hour => $d) {
+        $data = $base = $load = [];
+        foreach ($temp as $hour => $d) {
             if ($hour > 7 && $hour < 21) {
+                $data[] = $d;
                 $base[] = [ $d[0], $d[1] ];
                 $load[] = [ $d[0], $d[2] ];
             }
         }
 
         $this->view->date = $date;
+        $this->view->now  = $now;
         $this->view->data = $data;
 
         $this->view->jsonBase = json_encode($base);

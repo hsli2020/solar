@@ -5,6 +5,18 @@ function isWeekend($date)
     return (date('N', strtotime($date)) >= 6);
 }
 
+function getSeason($date)
+{
+    $season = 'WINTER';
+
+    list(,$month,) = explode('-', $date);
+    if ($month >= 5 && $month <= 10) {
+        $season = 'SUMMER';
+    }
+
+    return $season;
+}
+
 /*
 function isWeekend($date)
 {

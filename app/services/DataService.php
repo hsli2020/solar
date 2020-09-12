@@ -299,6 +299,8 @@ class DataService extends Injectable
               ORDER BY time DESC";
         $data = $this->db->fetchAll($sql);
 
+        $season = getSeason($date);
+
         $daily = [];
         foreach ($data as $rec) {
             $time = $rec['time_edt'];
@@ -309,6 +311,10 @@ class DataService extends Injectable
 
             if (isWeekend($dt) || isHoliday($dt) || isMaintenance($dt)) {
                 continue;
+            }
+
+            if (getSeason($dt) != $season) {
+                break; // shouldn't cross seasons (SUMMER/WINTER)
             }
 
             if (isset($daily[$dt])) {

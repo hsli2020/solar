@@ -313,7 +313,8 @@ class ProjectController extends ControllerBase
 
     public function crhAction($id = '')
     {
-        $this->view->pageTitle = 'CRH Dashboard';
+        $n = ($id - 50); // 51 -> 1, 52 -> 2
+        $this->view->pageTitle = "CRH $n Dashboard";
 
         $date = date('Y-m-d');
         $now = date('Y-m-d H:00');

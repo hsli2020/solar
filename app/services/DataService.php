@@ -359,11 +359,9 @@ class DataService extends Injectable
         // Baseline (Avg)
         $result = [];
         foreach ($hourly as $hour => $rec) {
-           #if ($hour > 7 && $hour < 21) {
-                $h = intval($hour); // chart requires number, not string
-                $avg = $rec['avg'];
-                $result[$h] = [ $h, $avg, null ];
-           #}
+            $h = intval($hour); // chart requires number, not string
+            $avg = $rec['avg'];
+            $result[$h] = [ $h, $avg, null ];
         }
 
         ksort($result); // sort by hour
@@ -400,10 +398,8 @@ class DataService extends Injectable
         }
 
         foreach ($hourly as $hour => $rec) {
-           #if ($hour > 7 && $hour < 21) {
-                $h = intval($hour); // chart requires number, not string
-                $result[$h][2] = intval($rec['sum']/$rec['cnt']);
-           #}
+            $h = intval($hour); // chart requires number, not string
+            $result[$h][2] = intval($rec['sum']/$rec['cnt']);
         }
 
         return $result;

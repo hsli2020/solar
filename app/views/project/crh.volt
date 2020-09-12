@@ -1,6 +1,11 @@
 {% extends "layouts/base.volt" %}
 
+{% block navbar %}
+{% include "partials/navbar-crh.volt" %}
+{% endblock %}
+
 {% block main %}
+
 <style type="text/css">
   table { border: 5px solid #eee !important; }
   table, th, td { border: 1px solid #ddd; }

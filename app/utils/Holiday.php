@@ -5,42 +5,6 @@ function isWeekend($date)
     return (date('N', strtotime($date)) >= 6);
 }
 
-function getSeason($date)
-{
-    $season = 'WINTER';
-
-    list(,$month,) = explode('-', $date);
-    if ($month >= 5 && $month <= 10) {
-        $season = 'SUMMER';
-    }
-
-    return $season;
-}
-
-/*
-function isWeekend($date)
-{
-    $weekDay = date('w', strtotime($date));
-    return ($weekDay == 0 || $weekDay == 6);
-}
-*/
-
-// Maintenance/Shutdown
-function isMaintenance($date)
-{
-    return false;
-}
-
-function isSummer($date)
-{
-    return false;
-}
-
-function isWinter($date)
-{
-    return false;
-}
-
 function getHolidays($year)
 {
     $holiday_formats = array(

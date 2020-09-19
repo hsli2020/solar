@@ -30,20 +30,4 @@ return [
         ),
         'name' => 'error-500',
     ),
-    '/crh1' => array(
-        'params' => array(
-            'controller' => 'project',
-            'action'     => 'crh',
-            'params'     => '51',
-        ),
-        'name' => 'crh1',
-    ),
-    '/crh2' => array(
-        'params' => array(
-            'controller' => 'project',
-            'action'     => 'crh',
-            'params'     => '52',
-        ),
-        'name' => 'crh2',
-    ),
 ];

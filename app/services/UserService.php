@@ -16,7 +16,8 @@ class UserService extends Injectable
             $result = Users::find("active='Y'");
             foreach ($result as $user) {
                 $id = $user->id;
-                $this->users[$id] = array_merge($user->toArray(), $user->settings->toArray());
+                $settings = $user->settings ? $user->settings->toArray() : [];
+                $this->users[$id] = array_merge($user->toArray(), $settings);
             }
         }
 

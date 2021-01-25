@@ -39,7 +39,8 @@ class SnapshotService extends Injectable
 
         $data = [];
         foreach ($result as $key => $val) {
-            if (!in_array($val['project_id'], $userProjects)) {
+            $projectId = $val['project_id'];
+            if (!in_array($projectId, $userProjects)) {
                 continue; // current user doesn't have permission to the project
             }
 
@@ -104,6 +105,12 @@ class SnapshotService extends Injectable
            #$result[$key]['error']['Avg_Irradiance_POA'] = 1;
            #$result[$key]['error']['Avg_Module_Temp'] = 1;
            #$result[$key]['error']['Measured_Energy'] = 1;
+
+            // Get camera link
+            $project = $this->projectService->get($projectId);
+            if (isset($project->cameraLink)) {
+                $result[$key]['camera_link'] = $project->cameraLink;
+            }
 
             $data[$key] = $result[$key];
         }

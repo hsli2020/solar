@@ -75,7 +75,7 @@ class Inverter extends Device
                 return $data['line_kw'];
             }
         }
-        return false;
+        return 0;
     }
 
     public function getSnapshotKW()

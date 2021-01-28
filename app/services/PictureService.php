@@ -16,6 +16,17 @@ class PictureService extends Injectable
         return $result;
     }
 
+    public function getFirstGMPicture()
+    {
+    }
+
+    public function getGMPicture($id)
+    {
+        $sql = "SELECT * FROM gm_camera_picture WHERE id=$id";
+        $result = $this->db->fetchOne($sql);
+        return $result;
+    }
+
     public function drawPlaceholder($w = 1280, $h = 720)
     {
         $im = imagecreatetruecolor($w, $h);

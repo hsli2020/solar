@@ -442,7 +442,7 @@ class Project
         if (count($inverters) > 0) {
             $sum = 0;
             foreach ($inverters as $inverter) {
-                $sum += $inverter->getSnapshotKW();
+                $sum += floatval($inverter->getSnapshotKW());
             }
             return $sum;
         }

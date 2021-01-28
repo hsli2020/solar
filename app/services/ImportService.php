@@ -285,6 +285,42 @@ class ImportService extends Injectable
         }
     }
 
+    public function importGMCameraPicture()
+    {
+        $baseDir = 'c:/GCS-FTP-ROOT/GM-Cameras';
+
+        foreach (glob($baseDir."/*") as $dir) {
+            foreach(glob($dir.'/*.jpg') as $filename) {
+                $sql = "SELECT id FROM gm_camera_picture WHERE filename='$filename'";
+                $row = $this->db->fetchOne($sql);
+                if ($row) {
+                    continue;
+                }
+
+                $this->log("New Picture $filename");
+
+                $this->db->insertAsDict('gm_camera_picture', [
+                    'dir'       => basename($dir),
+                    'filename'  => $filename,
+                    'createdon' => date('Y-m-d H:i:s', filectime($filename)),
+                ]);
+            }
+        }
+
+        // Delete old picture files
+        $sql = "SELECT filename FROM gm_camera_picture WHERE createdon < DATE_SUB(NOW(), INTERVAL 1 DAY)";
+        $rows = $this->db->fetchAll($sql);
+        foreach ($rows as $row) {
+            $filename = $row['filename'];
+            @unlink($filename);
+            $this->log("Deleting $filename");
+        }
+
+        // Delete old picture files
+        $sql = "DELETE FROM gm_camera_picture WHERE createdon < DATE_SUB(NOW(), INTERVAL 1 DAY)";
+        $this->db->execute($sql);
+    }
+
     public function restartFtpServer()
     {
         $projects = $this->projectService->getAll();

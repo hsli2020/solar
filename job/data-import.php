@@ -7,6 +7,7 @@ $di = \Phalcon\Di::getDefault();
 $service = $di->get('importService');
 $service->import();
 $service->importCameraPicture();
+$service->importGMCameraPicture();
 $service->restartFtpServer();
 
 $service = $di->get('dataService');

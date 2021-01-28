@@ -3,9 +3,17 @@
 {% block main %}
 <div class="w3-container">
   <div class="w3-row">
-    <div class="w3-padding w3-border">
-      <img src="/picture/gmshow/100" width="80%" class="campic">
-      <p></p>
+    <table id="snapshot" class="w3-table w3-white w3-bordered w3-border">
+    <tr>
+      <th class="w3-light-grey"><i class="fa fa-globe"></i> Source</th>
+      <td id="dir">{{ picture['dir'] }}</td>
+      <th class="w3-light-grey"><i class="fa fa-camera"></i> Camera</th>
+      <td id="filename">{{ picture['filename'] }}</td>
+      <td id="picnum"># {{ picture['id'] }}</td>
+    </tr>
+    </table>
+    <div class="w3-padding w3-border" id="my-slide">
+      <img src="/picture/gmshow/{{ picture['id'] }}" width="80%" class="campic">
     </div>
   </div>
 </div>
@@ -13,40 +21,29 @@
 
 {% block csscode %}
 .campic { margin: 0 auto; display: block; }
+table { border: 5px solid #eee !important; margin-bottom: 10px; }
+table, th, td { border: 1px solid #ddd; }
 {% endblock %}
 
 {% block jscode %}
-var picture = 0;
-
-function currentPicture(id) {
-  showPicture(picture = id);
-}
+var id = {{ picture['id'] }};
+var dir = "{{ picture['dir'] }}";
+var filename = "{{ picture['filename'] }}";
 
 function nextPicture() {
-  fetch('/ajax/nextpic/' + picture)
+  id = parseInt(id) + 1;
+  //console.log(id);
+  fetch('/ajax/nextgmpic/' + id)
     .then(function(response) {
        return response.json();
     })
-    .then(function(data) {
-       console.log(data);
-       if (data.status == 'OK') {
-         showPicture(picture = data.picture.id);
-       }
-    })
-    .catch(function(error) {
-       console.log('Request failed', error)
-    });
-}
-
-function prevPicture() {
-  fetch('/ajax/prevpic/' + picture)
-    .then(function(response) {
-       return response.json();
-    })
-    .then(function(data) {
-       console.log(data);
-       if (data.status == 'OK') {
-         showPicture(picture = data.picture.id);
+    .then(function(pic) {
+       //console.log(pic);
+       if (pic.status == 'OK') {
+         id = pic.data.id;
+         dir = pic.data.dir;
+         filename = pic.data.filename;
+         showPicture(id);
        }
     })
     .catch(function(error) {
@@ -55,10 +52,20 @@ function prevPicture() {
 }
 
 function showPicture(id) {
-  var img = document.querySelector("#mySlide img");
-  img.src = '/picture/show/' + id;
+  var img = document.querySelector("#my-slide img");
+  img.src = '/picture/gmshow/' + id;
+
+  var e = document.querySelector("#dir");
+  e.innerText = dir;
+
+  e = document.querySelector("#picnum");
+  e.innerText = '# ' + id;
+
+  e = document.querySelector("#filename");
+  e.innerText = filename;
 }
 {% endblock %}
 
 {% block domready %}
+  setInterval(function() { nextPicture(); }, 5*1000);
 {% endblock %}

@@ -309,6 +309,9 @@ class ProjectController extends ControllerBase
     public function gmcameraAction()
     {
         $this->view->pageTitle = 'GM Camera';
+        $pic = $this->pictureService->getFirstGMPicture();
+        $pic['filename'] = pathinfo($pic['filename'], PATHINFO_FILENAME);
+        $this->view->picture = $pic;
     }
 
     public function newboro4Action()

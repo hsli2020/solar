@@ -104,4 +104,11 @@ class AjaxController extends ControllerBase
         $this->response->setContentType("application/json");
         return $this->response;
     }
+
+    public function nextGMPicAction($id = '0')
+    {
+        $picture = $this->pictureService->getGMPicture($id);
+        $picture['filename'] = pathinfo($picture['filename'], PATHINFO_FILENAME);
+        return $this->json('OK', $picture);
+    }
 }

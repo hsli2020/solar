@@ -15,6 +15,21 @@
   </li>
 
   <li class="w3-dropdown-hover">
+    <a href="javascript:;" class="w3-hover-teal">Camera <i class="fa fa-caret-down"></i></a>
+    <div class="w3-dropdown-content w3-white w3-card-4">
+      <a href="/project/gmcamera" class="w3-hover-teal" target="_blank">GM Camera</a>
+      <hr style="margin: 0;">
+      <a href="/project/camera/9" class="w3-hover-teal" target="_blank">45 Progress</a>
+      <a href="/project/camera/49" class="w3-hover-teal" target="_blank">1485 Lasalle</a>
+      <a href="/project/camera/50" class="w3-hover-teal" target="_blank">12035 Hwy17</a>
+      <hr style="margin: 0;">
+      <a href="http://gcsnorfolk.yunfeng.ca:60006/" class="w3-hover-teal" target="_blank">Norfolk</a>
+      <a href="http://hwy2s.yunfeng.ca:60006/" class="w3-hover-teal" target="_blank">HWY2S</a>
+      <a href="http://rutley.yunfeng.ca:60006/" class="w3-hover-teal" target="_blank">Rutley</a>
+    </div>
+  </li>
+
+  <li class="w3-dropdown-hover">
     <a href="javascript:;" class="w3-hover-teal">Report <i class="fa fa-caret-down"></i></a>
     <div class="w3-dropdown-content w3-white w3-card-4">
       <a href="/report/daily" class="w3-hover-teal">Daily Report</a>

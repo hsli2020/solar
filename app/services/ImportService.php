@@ -353,6 +353,37 @@ class ImportService extends Injectable
         }
     }
 
+    public function importOttawaSnow()
+    {
+        $dir = 'c:/GCS-FTP-ROOT/Ottawa_Snow_Project_001EC6055C22';
+
+        $columns = [
+            'time',
+            'error',
+            'low_alarm',
+            'high_alarm',
+            'battery_volt',
+            'site_temp',
+        ];
+
+        foreach (glob($dir . '/*.csv') as $filename) {
+            if (($handle = fopen($filename, "r")) !== FALSE) {
+                fgetcsv($handle); // skip first line
+                while (($fields = fgetcsv($handle)) !== FALSE) {
+                    if (count($columns) != count($fields)) {
+                        $this->log("DATA ERROR: $filename\n\t" . implode(', ', $fields));
+                        continue;
+                    };
+
+                    $data = array_combine($columns, $fields);
+                    $this->db->insertAsDict('ottawa_snow', $data);
+                }
+                fclose($handle);
+                $this->backupFile($filename, $dir);
+            }
+        }
+    }
+
     protected function log($str)
     {
         $filename = BASE_DIR . '/app/logs/import.log';

@@ -8,6 +8,7 @@ $service = $di->get('importService');
 $service->import();
 $service->importCameraPicture();
 $service->importGMCameraPicture();
+$service->importOttawaSnow();
 $service->restartFtpServer();
 
 $service = $di->get('dataService');

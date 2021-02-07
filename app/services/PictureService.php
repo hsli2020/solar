@@ -19,7 +19,7 @@ class PictureService extends Injectable
     public function getFirstGMPicture()
     {
         // Start from current hour
-        $start = date('Y-m-d h:00:00');
+        $start = date('Y-m-d H:00:00');
 
         $sql = "SELECT * FROM gm_camera_picture WHERE createdon>='$start' LIMIT 1";
         $result = $this->db->fetchOne($sql);

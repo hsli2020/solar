@@ -314,6 +314,20 @@ class ProjectController extends ControllerBase
         $this->view->picture = $pic;
     }
 
+    public function ottawaSnowAction()
+    {
+        $this->view->pageTitle = 'Ottawa Snow Project';
+
+        if ($this->request->isPost()) {
+            $startTime = $this->request->getPost('start-time');
+            $endTime   = $this->request->getPost('end-time');
+
+            $filename = $this->dataService->exportOttawaSnow($startTime, $endTime);
+            $this->startDownload($filename);
+        }
+        $this->view->rows = array_reverse($this->dataService->loadOttawaSnow());
+    }
+
     public function newboro4Action()
     {
         $this->view->pageTitle = 'Newboro4';

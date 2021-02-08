@@ -264,6 +264,37 @@ class DataService extends Injectable
         $this->db->execute($sql);
     }
 
+    public function loadOttawaSnow()
+    {
+        $sql = "SELECT * FROM ottawa_snow ORDER BY time DESC LIMIT 300";
+        $rows = $this->db->fetchAll($sql);
+        return $rows;
+    }
+
+    public function exportOttawaSnow($startTime, $endTime)
+    {
+        $basedir = str_replace('\\', '/', BASE_DIR);
+        $timestamp = time();
+        $filename = $basedir."/tmp/ottawa-snow-project-$timestamp.csv";
+
+        $sql =<<<EOS
+            SELECT time, battery_volt, site_temp
+            FROM ottawa_snow
+            WHERE time>='$startTime' AND time<='$endTime'
+            INTO OUTFILE '$filename'
+            FIELDS TERMINATED BY ','
+            ENCLOSED BY '"'
+            LINES TERMINATED BY '\n';
+EOS;
+        try {
+            $this->db->execute($sql);
+        } catch (\Exception $e) {
+            // it fails if file already exists
+            //fpr($e->getMessage());
+        }
+        return $filename;
+    }
+
     public function loadBudget($prj)
     {
         $sql = "SELECT * FROM monthly_budget WHERE project_id=$prj";

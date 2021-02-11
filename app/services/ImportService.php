@@ -376,7 +376,10 @@ class ImportService extends Injectable
                     };
 
                     $data = array_combine($columns, $fields);
-                    $this->db->insertAsDict('ottawa_snow', $data);
+                    try {
+                        $this->db->insertAsDict('ottawa_snow', $data);
+                    } catch (\Exception $e) {
+                    }
                 }
                 fclose($handle);
                 $this->backupFile($filename, $dir);

@@ -11,7 +11,7 @@ class EnvKit extends Device
         list($start, $end) = $this->getPeriod($period);
 
         $sql = "SELECT SUM(IRR) AS irr FROM $table ".
-                "WHERE time>='$start' AND time<'$end' AND error=0";
+                "WHERE time>='$start' AND time<'$end' AND irr>0 AND error=0";
 
         $result = $this->getDb()->fetchOne($sql);
         if ($result) {
@@ -29,7 +29,7 @@ class EnvKit extends Device
         list($start, $end) = $this->getPeriod($period);
 
         $sql = "SELECT AVG(IRR) AS irr FROM $table ".
-                "WHERE time>='$start' AND time<'$end' AND error=0";
+                "WHERE time>='$start' AND time<'$end' AND irr>0 AND error=0";
 
         $result = $this->getDb()->fetchOne($sql);
         if ($result) {

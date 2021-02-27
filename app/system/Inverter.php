@@ -32,7 +32,7 @@ class Inverter extends Device
         list($start, $end) = $this->getPeriod($period);
 
         $sql = "SELECT SUM($column) AS kw FROM $table ".
-                "WHERE time>='$start' AND time<'$end' AND error=0";
+                "WHERE time>='$start' AND time<'$end' AND $column>0 AND error=0";
 
         $result = $this->getDb()->fetchOne($sql);
         if ($result) {
@@ -53,7 +53,7 @@ class Inverter extends Device
         list($start, $end) = $this->getPeriod($period);
 
         $sql = "SELECT AVG($column) AS kw FROM $table ".
-                "WHERE time>='$start' AND time<'$end' AND error=0";
+                "WHERE time>='$start' AND time<'$end' AND $column>0 AND error=0";
 
         $result = $this->getDb()->fetchOne($sql);
         if ($result) {

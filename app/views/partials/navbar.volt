@@ -26,6 +26,8 @@
       <a href="http://gcsnorfolk.yunfeng.ca:60006/" class="w3-hover-teal" target="_blank">Norfolk</a>
       <a href="http://hwy2s.yunfeng.ca:60006/" class="w3-hover-teal" target="_blank">HWY2S</a>
       <a href="http://rutley.yunfeng.ca:60006/" class="w3-hover-teal" target="_blank">Rutley</a>
+      <a href="http://bruining.yunfeng.ca:60006/" class="w3-hover-teal" target="_blank">Bruining</a>
+      <a href="http://odessa.yunfeng.ca:60006/" class="w3-hover-teal" target="_blank">Odessa</a>
     </div>
   </li>
 

@@ -28,6 +28,8 @@
       <a href="http://rutley.yunfeng.ca:60006/" class="w3-hover-teal" target="_blank">Rutley</a>
       <a href="http://bruining.yunfeng.ca:60006/" class="w3-hover-teal" target="_blank">Bruining</a>
       <a href="http://odessa.yunfeng.ca:60006/" class="w3-hover-teal" target="_blank">Odessa</a>
+      <a href="http://sandhurst.yunfeng.ca:60006/" class="w3-hover-teal" target="_blank">Sandhurst</a>
+      <a href="http://unity.yunfeng.ca:60006/" class="w3-hover-teal" target="_blank">Unity</a>
     </div>
   </li>
 

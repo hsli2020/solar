@@ -11,8 +11,10 @@
         <div class="w3-rest">{{ project.name }}</div>
       </div>
       <div class="w3-row">
+{#
         <div class="w3-col" style="width:120px">Inverter:</div>
-{#      <div class="w3-rest">{{ inverter.name }}</div> #}
+        <div class="w3-rest">{{ inverter.name }}</div>
+#}
       </div>
       <div class="w3-row">
         <div class="w3-col m1" style="width:120px">Combiner:</div>
@@ -31,11 +33,34 @@
           <th>Raw (A) -- current 5 minute data</th>
           <th>Normalized (A)</th>
         </tr>
+
+        {% set bgcolors = [
+            'w3-pale-yellow',
+            'w3-pale-green',
+            'w3-pale-blue',
+            'w3-lime',
+            'w3-light-blue',
+            'w3-cyan',
+            'w3-sand',
+            'w3-blue-gray',
+            'w3-brown'
+        ] %}
+        {% set index = 0 %}
+        {% set colorMap = [] %}
+
         {% for row in data %}
+        {% set mr = row['module_rating'] %}
+
+        {% if colorMap[mr] is empty %}
+        {%   set colorMap[mr] = bgcolors[index] %}
+        {%   set index = index+1 %}
+        {% endif %}
+
+        {% set bgcolor=colorMap[mr] %}
         <tr>
-            <td class="w3-pale-yellow w3-center">{{ row['name'] }}</td>
-            <td class="w3-pale-yellow w3-center">{{ row['num_strings'] }}</td>
-            <td class="w3-pale-yellow w3-center">{{ row['module_rating'] }}</td>
+            <td class="{{ bgcolor }} w3-center">{{ row['name'] }}</td>
+            <td class="{{ bgcolor }} w3-center">{{ row['num_strings'] }}</td>
+            <td class="{{ bgcolor }} w3-center">{{ row['module_rating'] }}</td>
             <td class="w3-right-align">3.97</td>
             <td class="w3-right-align">0.4</td>
         </tr>

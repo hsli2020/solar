@@ -231,6 +231,13 @@ class ProjectService extends Injectable
         return $data;
     }
 
+    public function loadCombinerDetails($prj, $inv)
+    {
+        $sql = "SELECT * FROM combiner_details WHERE project_id='$prj' AND inv_seq='$inv'";
+        $data = $this->db->fetchAll($sql);
+        return $data;
+    }
+
     // This is for project-40/48 only
     public function loadSandhurstInverter($prj, $dev)
     {

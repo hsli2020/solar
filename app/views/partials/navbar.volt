@@ -31,6 +31,7 @@
       <a href="http://sandhurst.yunfeng.ca:60006/" class="w3-hover-teal" target="_blank">Sandhurst</a>
       <a href="http://unity.yunfeng.ca:60006/" class="w3-hover-teal" target="_blank">Unity</a>
       <a href="http://alfred.yunfeng.ca:60006/" class="w3-hover-teal" target="_blank">Alfred</a>
+      <a href="http://newboro1.yunfeng.ca:60006/" class="w3-hover-teal" target="_blank">Newboro1</a>
     </div>
   </li>
 

@@ -38,11 +38,12 @@
             'w3-pale-yellow',
             'w3-pale-green',
             'w3-pale-blue',
-            'w3-lime',
-            'w3-light-blue',
-            'w3-cyan',
             'w3-sand',
+            'w3-khaki',
+            'w3-light-blue',
             'w3-blue-gray',
+            'w3-lime',
+            'w3-cyan',
             'w3-brown'
         ] %}
         {% set index = 0 %}

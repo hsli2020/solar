@@ -245,8 +245,12 @@ class ProjectService extends Injectable
 
         foreach ($data as $key => $row) {
             $cbseq = 'CB_'.$row['cb_seq'];
-            $data[$key]['raw'] = $latest[$cbseq];
-            $data[$key]['normalized'] = 0.4;
+
+            $raw = $latest[$cbseq];
+            $normalized = round($raw/$row['num_strings'], 2);
+
+            $data[$key]['raw'] = $raw;
+            $data[$key]['normalized'] = $normalized;
         }
         return $data;
     }

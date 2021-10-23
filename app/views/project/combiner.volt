@@ -29,6 +29,7 @@
         <tr class="w3-light-gray">
           <th>Combiner Box</th>
           <th># of strings</th>
+          <th># of modules</th>
           <th>Solar Panel Module  rating [Wp]</th>
           <th>Raw (A) -- current 5 minute data</th>
           <th>Normalized (A)</th>
@@ -61,6 +62,7 @@
         <tr>
             <td class="{{ bgcolor }} w3-center">{{ row['name'] }}</td>
             <td class="{{ bgcolor }} w3-center">{{ row['num_strings'] }}</td>
+            <td class="{{ bgcolor }} w3-center">{{ row['num_modules'] }}</td>
             <td class="{{ bgcolor }} w3-center">{{ row['module_rating'] }}</td>
             <td class="w3-right-align">3.97</td>
             <td class="w3-right-align">0.4</td>

@@ -64,8 +64,8 @@
             <td class="{{ bgcolor }} w3-center">{{ row['num_strings'] }}</td>
             <td class="{{ bgcolor }} w3-center">{{ row['num_modules'] }}</td>
             <td class="{{ bgcolor }} w3-center">{{ row['module_rating'] }}</td>
-            <td class="w3-right-align">3.97</td>
-            <td class="w3-right-align">0.4</td>
+            <td class="w3-right-align">{{ row['raw'] }}</td>
+            <td class="w3-right-align">{{ row['normalized'] }}</td>
         </tr>
         {% endfor %}
       </table>

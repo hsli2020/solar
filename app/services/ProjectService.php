@@ -235,6 +235,19 @@ class ProjectService extends Injectable
     {
         $sql = "SELECT * FROM combiner_details WHERE project_id='$prj' AND inv_seq='$inv'";
         $data = $this->db->fetchAll($sql);
+
+        $dev = $data[0]['devcode']; // Like mb-010
+
+        $project = $this->projectService->get($prj);
+        $combiner = $project->combiners[$dev];
+        $latest = $combiner->load();
+        $latest = $latest[0];
+
+        foreach ($data as $key => $row) {
+            $cbseq = 'CB_'.$row['cb_seq'];
+            $data[$key]['raw'] = $latest[$cbseq];
+            $data[$key]['normalized'] = 0.4;
+        }
         return $data;
     }
 

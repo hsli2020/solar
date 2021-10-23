@@ -4,7 +4,7 @@
 <div class="container">
   <div class="w3-modal" style="display: block;">
     <div class="w3-modal-content w3-card-8 w3-padding" style="width:100%;">
-      <h2>Combiner</h2>
+      <h2>{{ pageTitle }}</h2>
 
       <div class="w3-row">
         <div class="w3-col" style="width:120px">Project Name:</div>

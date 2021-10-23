@@ -32,7 +32,7 @@ class ProjectController extends ControllerBase
 
     public function combinerAction($key = '')
     {
-        $this->view->pageTitle = 'Combiner';
+        $this->view->pageTitle = 'Combiner Details';
 
         list($prj, $inv) = explode('-', $key);
 

@@ -64,8 +64,8 @@
             <td class="{{ bgcolor }} w3-center">{{ row['num_strings'] }}</td>
             <td class="{{ bgcolor }} w3-center">{{ row['num_modules'] }}</td>
             <td class="{{ bgcolor }} w3-center">{{ row['module_rating'] }}</td>
-            <td class="w3-right-align">{{ row['raw'] }}</td>
-            <td class="w3-right-align">{{ row['normalized'] }}</td>
+            <td class="w3-center">{{ row['raw'] }}</td>
+            <td class="w3-center">{{ row['normalized'] }}</td>
         </tr>
         {% endfor %}
       </table>
@@ -83,5 +83,5 @@ table, th, td { border: 1px solid #ddd; }
 w3-table td { padding: 3px; }
 w3-table th { padding: 3px; }
 tr td:not(:first-child) { text-align: right; }
-tr th:not(:first-child) { text-align: right; }
+tr th:not(:first-child) { text-align: center; }
 {% endblock %}

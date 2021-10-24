@@ -231,6 +231,40 @@ class ProjectService extends Injectable
         return $data;
     }
 
+    public function getCombinerPerformance($prj)
+    {
+        $sql = "SELECT * FROM combiner_details WHERE project_id='$prj'";
+        $rows = $this->db->fetchAll($sql);
+
+        $invs = [];
+        foreach ($rows as $key => $row) {
+            $devcode = $row['devcode'];
+            $invs[$devcode][] = $row;
+        }
+
+        $project = $this->get($prj);
+
+        $perfs = [];
+        foreach ($invs as $devcode => $cbs) {
+            $combiner = $project->combiners[$devcode];
+            $data = $combiner->load(1);
+            $latest = $data[0];
+            foreach ($cbs as $cb) {
+                $cbseq = 'CB_'.$cb['cb_seq'];
+                $raw = $latest[$cbseq];
+
+                $numModules = $cb['num_modules'];
+                $moduleRating = $cb['module_rating'];
+                $perfs[] = 10000*$raw/$numModules/$moduleRating;
+            }
+        }
+
+        asort($perfs);
+        $perfs = array_slice($perfs, 10);
+
+        return array_sum($perfs)/count($perfs);
+    }
+
     public function loadCombinerDetails($prj, $inv)
     {
         $sql = "SELECT * FROM combiner_details WHERE project_id='$prj' AND inv_seq='$inv'";

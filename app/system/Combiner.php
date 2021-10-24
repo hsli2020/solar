@@ -9,11 +9,11 @@ class Combiner extends Device
         return $this->reference;
     }
 
-    public function load()
+    public function load($limit = 100)
     {
         $table = $this->getDeviceTable();
 
-        $sql = "SELECT * FROM $table ORDER BY time DESC LIMIT 100";
+        $sql = "SELECT * FROM $table ORDER BY time DESC LIMIT $limit";
 
         $result = $this->getDb()->fetchAll($sql);
         return $result;

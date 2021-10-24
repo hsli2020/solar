@@ -240,8 +240,8 @@ class ProjectService extends Injectable
 
         $project = $this->projectService->get($prj);
         $combiner = $project->combiners[$dev];
-        $latest = $combiner->load();
-        $latest = $latest[0];
+        $tmpdata = $combiner->load(1);
+        $latest = $tmpdata[0];
 
         foreach ($data as $key => $row) {
             $cbseq = 'CB_'.$row['cb_seq'];

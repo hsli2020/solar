@@ -65,7 +65,12 @@
             <td class="{{ bgcolor }} w3-center">{{ row['num_modules'] }}</td>
             <td class="{{ bgcolor }} w3-center">{{ row['module_rating'] }}</td>
             <td class="w3-center">{{ row['raw'] }}</td>
-            <td class="w3-center">{{ row['normalized'] }}</td>
+
+            {% if row['low_perf'] is not empty %}
+              <td class="w3-center w3-red">{{ row['normalized'] }}</td>
+            {% else %}
+              <td class="w3-center">{{ row['normalized'] }}</td>
+            {% endif %}
         </tr>
         {% endfor %}
       </table>

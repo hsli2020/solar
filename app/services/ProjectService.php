@@ -231,6 +231,7 @@ class ProjectService extends Injectable
         return $data;
     }
 
+    // Combiner Baseline
     public function getCombinerPerformance($prj)
     {
         $sql = "SELECT * FROM combiner_details WHERE project_id='$prj'";
@@ -277,6 +278,8 @@ class ProjectService extends Injectable
         $tmpdata = $combiner->load(1);
         $latest = $tmpdata[0];
 
+        $baseline = $this->getCombinerPerformance($prj);
+
         foreach ($data as $key => $row) {
             $cbseq = 'CB_'.$row['cb_seq'];
 
@@ -285,7 +288,17 @@ class ProjectService extends Injectable
 
             $data[$key]['raw'] = $raw;
             $data[$key]['normalized'] = $normalized;
+
+            // check if under performance
+            $numModules = $row['num_modules'];
+            $moduleRating = $row['module_rating'];
+            $perf = 10000*$raw/$numModules/$moduleRating;
+
+            if ($perf < $baseline*0.9) {
+                $data[$key]['low_perf'] = 1;
+            }
         }
+
         return $data;
     }
 

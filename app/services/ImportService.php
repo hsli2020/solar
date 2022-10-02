@@ -319,6 +319,24 @@ class ImportService extends Injectable
         // Delete old picture files
         $sql = "DELETE FROM gm_camera_picture WHERE createdon < DATE_SUB(NOW(), INTERVAL 1 DAY)";
         $this->db->execute($sql);
+
+        // Re-index Primary Key
+        $maxid = $db->fetchColumn("SELECT max(id) FROM gm_camera_picture");
+        if ($maxid > 1000) {
+            $sql = "SET @newid=0;
+                UPDATE gm_camera_picture SET id=(@newid:=@newid+1) ORDER BY id;
+                ALTER TABLE gm_camera_picture AUTO_INCREMENT=1";
+            $this->db->execute($sql);
+        }
+
+        // Set display order of pictures
+        $this->db->execute('UPDATE gm_camera_picture SET seq=0 WHERE 1=1');
+
+        $sql = "SET @newid=0;
+            UPDATE gm_camera_picture SET seq=(@newid:=@newid+1)
+            WHERE createdon>=DATE_SUB(NOW(), INTERVAL 3 HOUR)
+            ORDER BY dir, id";
+        $this->db->execute($sql);
     }
 
     public function restartFtpServer()

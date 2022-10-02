@@ -18,22 +18,14 @@ class PictureService extends Injectable
 
     public function getFirstGMPicture()
     {
-        // Start from current hour
-        $start = date('Y-m-d H:00:00');
-
-        $sql = "SELECT * FROM gm_camera_picture WHERE createdon>='$start' LIMIT 1";
+        $sql = "SELECT * FROM gm_camera_picture WHERE seq>0";
         $result = $this->db->fetchOne($sql);
-
-        if (!$result) {
-            $sql = "SELECT * FROM gm_camera_picture WHERE id>(SELECT MAX(id)-90 FROM gm_camera_picture) LIMIT 1";
-            $result = $this->db->fetchOne($sql);
-        }
         return $result;
     }
 
-    public function getGMPicture($id)
+    public function getGMPicture($seq)
     {
-        $sql = "SELECT * FROM gm_camera_picture WHERE id=$id";
+        $sql = "SELECT * FROM gm_camera_picture WHERE seq=$seq";
         $result = $this->db->fetchOne($sql);
         if (!$result) {
             $result = $this->getFirstGMPicture();

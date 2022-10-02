@@ -27,13 +27,14 @@ table, th, td { border: 1px solid #ddd; }
 
 {% block jscode %}
 var id = {{ picture['id'] }};
+var seq = {{ picture['seq'] }};
 var dir = "{{ picture['dir'] }}";
 var filename = "{{ picture['filename'] }}";
 
 function nextPicture() {
-  id = parseInt(id) + 1;
-  //console.log(id);
-  fetch('/ajax/nextgmpic/' + id)
+  seq = parseInt(seq) + 1;
+  //console.log(id, seq);
+  fetch('/ajax/nextgmpic/' + seq)
     .then(function(response) {
        return response.json();
     })
@@ -41,6 +42,7 @@ function nextPicture() {
        //console.log(pic);
        if (pic.status == 'OK') {
          id = pic.data.id;
+         seq = pic.data.seq;
          dir = pic.data.dir;
          filename = pic.data.filename;
          showPicture(id);

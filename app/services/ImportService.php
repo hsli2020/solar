@@ -321,7 +321,7 @@ class ImportService extends Injectable
         $this->db->execute($sql);
 
         // Re-index Primary Key
-        $maxid = $db->fetchColumn("SELECT max(id) FROM gm_camera_picture");
+        $maxid = $this->db->fetchColumn("SELECT max(id) FROM gm_camera_picture");
         if ($maxid > 1000) {
             $sql = "SET @newid=0;
                 UPDATE gm_camera_picture SET id=(@newid:=@newid+1) ORDER BY id;

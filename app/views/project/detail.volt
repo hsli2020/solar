@@ -237,6 +237,7 @@
           <th>VLB, Volts</th>
           <th>VLC, Volts</th>
           <th>Status</th>
+          <th>Inverter IP</th>
         </tr>
 
         {% for code, inverter in details['inverters'] %}
@@ -251,6 +252,7 @@
           <td>{{ inverter['vlb'] }}</td>
           <td>{{ inverter['vlc'] }}</td>
           <td>{{ inverter['status'] }}</td>
+          <td>192.168.0.XX</td>
         </tr>
         {% endfor %}
       </table>

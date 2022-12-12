@@ -4,25 +4,55 @@
 <div class="container">
   <div class="w3-modal" style="display: block;">
     <div class="w3-modal-content w3-card-8 w3-padding" style="width:100%;">
-      <h2>{{ pageTitle }}</h2>
+      <div class="w3-row">
+        <div class="w3-col w3-third">
+          <h2>{{ pageTitle }}</h2>
 
-      <div class="w3-row">
-        <div class="w3-col" style="width:120px">Project Name:</div>
-        <div class="w3-rest">{{ project.name }}</div>
+          <div class="w3-row">
+            <div class="w3-col" style="width:120px"><b>Project Name:</b></div>
+            <div class="w3-rest">{{ project.name }}</div>
+          </div>
+
+          <div class="w3-row">
+            <div class="w3-col m1" style="width:120px"><b>Inverter Name:</b></div>
+            <div class="w3-rest">{{ inverter['inverter_name'] }}</div>
+          </div>
+        </div>
+
+        <div class="w3-col w3-twothird">
+          <h2>&nbsp;</h2>
+
+          <div class="w3-row">
+            <div class="w3-col s2"><b>Inverter Number</b></div>
+            <div class="w3-col s2">{{ inverter['inverter_number'] }}</div>
+
+            <div class="w3-col s2"><b>Inverter IP</b></div>
+            <div class="w3-col s2">{{ inverter['inverter_ip'] }}</div>
+
+            <div class="w3-col s2"><b>Inverter mb file</b></div>
+            <div class="w3-col s2">{{ inverter['inverter_file'] }}</div>
+          </div>
+
+          <div class="w3-row">
+            <div class="w3-col s2"><b>I-House</b></div>
+            <div class="w3-col s2">{{ inverter['ihouse_number'] }}</div>
+
+            <div class="w3-col s2"><b>Recombiner IP</b></div>
+            <div class="w3-col s2">{{ inverter['recombiner_ip'] }}</div>
+
+            <div class="w3-col s2"><b>Recombiner mb file</b></div>
+            <div class="w3-col s2">{{ inverter['recombiner_file'] }}</div>
+          </div>
+        </div>
       </div>
-      <div class="w3-row">
+
 {#
-        <div class="w3-col" style="width:120px">Inverter:</div>
-        <div class="w3-rest">{{ inverter.name }}</div>
+      <div class="w3-col" style="width:120px">Inverter:</div>
+      <div class="w3-rest">{{ inverter.name }}</div>
+
+      <div class="w3-col m2">{{ combiner.name }}</div>
+      <div class="w3-col m3"><a href="/project/exportcombiner/{{ project.id }}/{{ combiner.code }}" target="_blank">Download</a></div>
 #}
-      </div>
-      <div class="w3-row">
-        <div class="w3-col m1" style="width:120px">Combiner:</div>
-{#
-        <div class="w3-col m2">{{ combiner.name }}</div>
-        <div class="w3-col m3"><a href="/project/exportcombiner/{{ project.id }}/{{ combiner.code }}" target="_blank">Download</a></div>
-#}
-      </div>
 
       {% if data is not empty %}
       <table class="w3-table w3-margin-top">

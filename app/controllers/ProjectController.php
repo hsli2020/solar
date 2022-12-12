@@ -37,6 +37,7 @@ class ProjectController extends ControllerBase
         list($prj, $inv) = explode('-', $key);
 
         $data = $this->projectService->loadCombinerDetails($prj, $inv);
+        $inverter = $this->projectService->loadInverterDetails($prj, $inv);
 
         // TODO: error check
         $project = $this->projectService->get($prj);
@@ -44,6 +45,7 @@ class ProjectController extends ControllerBase
 
         $this->view->project = $project;
        #$this->view->combiner = $combiner;
+        $this->view->inverter = $inverter;
         $this->view->data = $data;
     }
 

@@ -266,12 +266,21 @@ class ProjectService extends Injectable
         return array_sum($perfs)/count($perfs);
     }
 
+    public function loadInverterDetails($prj, $inv)
+    {
+        $sql = "SELECT * FROM inverter_details WHERE project_id='$prj' AND inverter_number='$inv'";
+        $row = $this->db->fetchOne($sql);
+        return $row;
+    }
+
     public function loadCombinerDetails($prj, $inv)
     {
+        $inverter = $this->loadInverterDetails($prj, $inv);
+
         $sql = "SELECT * FROM combiner_details WHERE project_id='$prj' AND inv_seq='$inv'";
         $data = $this->db->fetchAll($sql);
 
-        $dev = $data[0]['devcode']; // Like mb-010
+        $dev = $inverter['recombiner_file']; // Like mb-010
 
         $project = $this->projectService->get($prj);
         $combiner = $project->combiners[$dev];

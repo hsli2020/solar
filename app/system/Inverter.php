@@ -4,6 +4,29 @@ namespace App\System;
 
 class Inverter extends Device
 {
+    public $inverterNumber;  // 1,2,3
+    public $inverterLabel;   // "Inverter 1"
+    public $inverterName;    // INV01A
+    public $inverterIp;      // 192.168.0.XXX
+    public $inverterFile;    // mb-060
+    public $recombinerIp;    // 192.168.XXX
+    public $recombinerFile;  // mb-160
+    public $ihouseNumber;    // 1,2,3
+
+    public function __construct($project, $info)
+    {
+        parent::__construct($project, $info);
+
+        $this->inverterNumber = $info['inverter_number'];
+        $this->inverterLabel = $info['inverter_label'];
+        $this->inverterName = $info['inverter_name'];
+        $this->inverterIp = $info['inverter_ip'];
+        $this->inverterFile = $info['inverter_file'];
+        $this->recombinerIp = $info['recombiner_ip'];
+        $this->recombinerFile = $info['recombiner_file'];
+        $this->ihouseNumber = $info['ihouse_number'];
+    }
+
     public function getInverterType()
     {
         $types = [

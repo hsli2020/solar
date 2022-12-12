@@ -28,7 +28,19 @@ class ProjectService extends Injectable
             }
 
             // Load all devices, then attach them to project
-            $sql = "SELECT * FROM devices";
+            $sql = "
+				SELECT d.*,
+					inv.inverter_number,
+					inv.inverter_label,
+					inv.inverter_name,
+					inv.inverter_ip,
+					inv.inverter_file,
+					inv.recombiner_ip,
+					inv.recombiner_file,
+					inv.ihouse_number
+				FROM devices d
+				LEFT JOIN inverter_details inv ON inv.project_id=d.project_id AND d.devcode=inv.inverter_file";
+
             $devices = $this->db->fetchAll($sql);
 
             foreach ($devices as $device) {
@@ -145,6 +157,9 @@ class ProjectService extends Injectable
 
             $details['inverters'][$code]['data'] = $data;
             $details['inverters'][$code]['model'] = $inverter->model;
+            $details['inverters'][$code]['ip'] = $inverter->inverterIp;
+            $details['inverters'][$code]['label'] = $inverter->inverterLabel;
+            $details['inverters'][$code]['number'] = $inverter->inverterNumber;
 
             $details['inverter_type'] = $inverter->getInverterType();
 
@@ -213,12 +228,12 @@ class ProjectService extends Injectable
             $details['inverters']['fake']['vlc']    = $genmeter['vlc'];
         }
 
-        // THIS IS REALLY BAD HACK!
-        if (in_array($id, [ 37, 38, 39 ])) {
-            foreach ($project->combiners as $combiner) {
-                $details['obvius_a8332_combiner'][] = $combiner->getLatestData();
-            }
-        }
+        // THIS IS REALLY BAD HACK! SITE DELETED!
+       #if (in_array($id, [ 37, 38, 39 ])) {
+       #    foreach ($project->combiners as $combiner) {
+       #        $details['obvius_a8332_combiner'][] = $combiner->getLatestData();
+       #    }
+       #}
 
         return $details;
     }

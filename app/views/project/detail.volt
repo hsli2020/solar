@@ -242,17 +242,26 @@
 
         {% for code, inverter in details['inverters'] %}
         <tr data-code="{{ code }}" style="border-top: 1px solid lightgray;">
-          <td>Inverter {{ loop.index }}
-          {% if inverter['combiner'] is not empty %}
-          <a style="text-decoration: none;" class="w3-text-red w3-border w3-border-red" href="/project/combiner/{{ details['project_id'] }}-{{ loop.index }}" target="_blank">Combiner</a>
-          {% endif %}
+	      <td>
+            {% if inverter['label'] is not empty %}
+              {{ inverter['label'] }}
+            {% else %}
+              Inverter {{ loop.index }}
+            {% endif %}
+
+            {% if inverter['combiner'] is not empty %}
+            <a style="text-decoration: none;"
+		      class="w3-text-red w3-border w3-padding-tiny w3-border-red"
+		      href="/project/combiner/{{ details['project_id'] }}-{{ inverter['number'] }}"
+		      target="_blank">Combiner</a>
+            {% endif %}
           </td>
           <td>{{ inverter['power'] }}</td>
           <td>{{ inverter['vla'] }}</td>
           <td>{{ inverter['vlb'] }}</td>
           <td>{{ inverter['vlc'] }}</td>
           <td>{{ inverter['status'] }}</td>
-          <td>192.168.0.XX</td>
+          <td>{{ inverter['ip'] }}</td>
         </tr>
         {% endfor %}
       </table>

@@ -262,11 +262,15 @@ class ProjectService extends Injectable
 
         $perfs = [];
         foreach ($invs as $devcode => $cbs) {
-            $combiner = $project->combiners[$devcode];
+            if (in_array($prj, [40, 48])) {
+                $combiner = $project->inverters[$devcode];
+            } else {
+                $combiner = $project->combiners[$devcode];
+            }
             $data = $combiner->load(1);
             $latest = $data[0];
             foreach ($cbs as $cb) {
-                $cbseq = 'CB_'.$cb['cb_seq'];
+                $cbseq = $cb['cb_seq'];
                 $raw = $latest[$cbseq];
 
                 $numModules = $cb['num_modules'];
@@ -291,21 +295,25 @@ class ProjectService extends Injectable
     public function loadCombinerDetails($prj, $inv)
     {
         $inverter = $this->loadInverterDetails($prj, $inv);
-
         $sql = "SELECT * FROM combiner_details WHERE project_id='$prj' AND inv_seq='$inv'";
+
         $data = $this->db->fetchAll($sql);
 
         $dev = $inverter['recombiner_file']; // Like mb-010
 
         $project = $this->projectService->get($prj);
-        $combiner = $project->combiners[$dev];
+        if (in_array($prj, [40, 48])) {
+            $combiner = $project->inverters[$dev];
+        } else {
+            $combiner = $project->combiners[$dev];
+        }
         $tmpdata = $combiner->load(1);
         $latest = $tmpdata[0];
 
         $baseline = $this->getCombinerPerformance($prj);
 
         foreach ($data as $key => $row) {
-            $cbseq = 'CB_'.$row['cb_seq'];
+            $cbseq = $row['cb_seq'];
 
             $raw = $latest[$cbseq];
             $normalized = round($raw/$row['num_strings'], 2);

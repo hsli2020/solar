@@ -193,7 +193,9 @@
         {% for code, inverter in details['inverters'] %}
         <tr data-code="{{ code }}" style="border-top: 1px solid lightgray;">
           <td>Inverter {{ loop.index }}
-          <a style="text-decoration: none;" class="w3-text-red" href="/project/combiner/{{ details['project_id'] }}-{{ loop.index }}" target="_blank">Combiner</a>
+          <a style="text-decoration: none;"
+              class="w3-text-red w3-border w3-padding-tiny w3-border-red"
+              href="/project/combiner/{{ details['project_id'] }}-{{ loop.index }}" target="_blank">Combiner</a>
           </td>
           <td>{{ inverter['data']['kw'] }}</td>
           <td>{{ inverter['data']['kva'] }}</td>
@@ -250,8 +252,7 @@
             {% endif %}
 
             {% if inverter['combiner'] is not empty %}
-            <a style="text-decoration: none;"
-		      class="w3-text-red w3-border w3-padding-tiny w3-border-red"
+            <a style="text-decoration: none;" class="w3-text-red w3-border w3-padding-tiny w3-border-red"
 		      href="/project/combiner/{{ details['project_id'] }}-{{ inverter['number'] }}"
 		      target="_blank">Combiner</a>
             {% endif %}

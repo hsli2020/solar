@@ -40,6 +40,17 @@ class Inverter extends Device
         return isset($types[$model]) ? $types[$model] : '';
     }
 
+    // Copy from Combiner::load(), move to Device::load()?
+    public function load($limit = 100)
+    {
+        $table = $this->getDeviceTable();
+
+        $sql = "SELECT * FROM $table ORDER BY time DESC LIMIT $limit";
+
+        $result = $this->getDb()->fetchAll($sql);
+        return $result;
+    }
+
     public function getCombiner()
     {
         return $this->reference;

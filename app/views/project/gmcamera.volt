@@ -45,7 +45,7 @@ function nextPicture() {
          seq = pic.data.seq;
          dir = pic.data.dir;
          filename = pic.data.filename;
-         showPicture(id);
+         showPicture(seq);
        }
     })
     .catch(function(error) {

@@ -20,6 +20,8 @@ class DailyReportService extends Injectable
 
             if (in_array($projectId, [35, 49])) continue;
 
+            echo "=> $projectId\r";
+
             $monthly = $project->getMonthlyBudget(date('Y'), date('m'));
 
             $Project_Name        = $project->name;
@@ -64,6 +66,7 @@ class DailyReportService extends Injectable
                 'Gen_Meter_Reading'     =>  number_format($Gen_Meter_Reading,   1, '.', ''),
             ];
         }
+        echo "\n=> End\n";
 
 #       unset($this->report[7]); // remove Norfolk from DailyReport
 
@@ -271,11 +274,16 @@ class DailyReportService extends Injectable
 
     protected function getDailyExpected($Measured_Insolation, $Daily_Insolation, $Daily_Budget)
     {
-        if (!$Daily_Insolation) {
-            return 0;
-        }
+        try {
+           #if (!$Daily_Insolation) {
+           #    return 0;
+           #}
 
-        return ($Measured_Insolation / $Daily_Insolation) * $Daily_Budget;
+            return ($Measured_Insolation / $Daily_Insolation) * $Daily_Budget;
+        } catch(\Exception $e) {
+            echo __METHOD__, ' ', $e->getMessage(), EOL;
+        }
+        return 0;
     }
 
     protected function getDailyProduction($Monthly_Budget)
@@ -304,32 +312,47 @@ class DailyReportService extends Injectable
 
     protected function getActualBudget($Total_Energy, $Daily_Budget)
     {
-        if (empty($Daily_Budget)) {
-            return 0;
-        }
+        try {
+           #if (empty($Daily_Budget)) {
+           #    return 0;
+           #}
 
-        $days = date("j");
-        return $Total_Energy / ($Daily_Budget * $days);
+            $days = date("j");
+            return $Total_Energy / ($Daily_Budget * $days);
+        } catch(\Exception $e) {
+            echo __METHOD__, ' ', $e->getMessage(), EOL;
+        }
+        return 0;
     }
 
     protected function getActualExpected($Total_Energy, $Daily_Production, $Weather_Performance)
     {
-        if (empty($Daily_Production)) {
-            return 0;
-        }
+        try {
+           #if (empty($Daily_Production)) {
+           #    return 0;
+           #}
 
-        $days = date("j");
-        return $Total_Energy / ($Daily_Production * $days * $Weather_Performance);
+            $days = date("j");
+            return $Total_Energy / ($Daily_Production * $days * $Weather_Performance);
+        } catch(\Exception $e) {
+            echo __METHOD__, ' ', $e->getMessage(), EOL;
+        }
+        return 0;
     }
 
     protected function getWeatherPerformance($Total_Insolation, $Daily_Insolation)
     {
-        if (empty($Daily_Insolation)) {
-            return 0;
-        }
+        try {
+            if (empty($Daily_Insolation)) {
+                return 0;
+            }
 
-        $days = date("j");
-        return $Total_Insolation / ($Daily_Insolation * $days);
+            $days = date("j");
+            return $Total_Insolation / ($Daily_Insolation * $days);
+        } catch(\Exception $e) {
+            echo __METHOD__, ' ', $e->getMessage(), EOL;
+        }
+        return 0;
     }
 
     protected function getGenMeterReading($project)

@@ -20,7 +20,7 @@ class DailyReportService extends Injectable
 
             if (in_array($projectId, [35, 49])) continue;
 
-            echo "=> $projectId\r";
+            echo "=> $projectId\n";
 
             $monthly = $project->getMonthlyBudget(date('Y'), date('m'));
 
@@ -66,7 +66,7 @@ class DailyReportService extends Injectable
                 'Gen_Meter_Reading'     =>  number_format($Gen_Meter_Reading,   1, '.', ''),
             ];
         }
-        echo "\n=> End\n";
+        echo "=> End\n";
 
 #       unset($this->report[7]); // remove Norfolk from DailyReport
 

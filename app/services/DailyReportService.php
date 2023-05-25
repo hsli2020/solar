@@ -18,8 +18,7 @@ class DailyReportService extends Injectable
         foreach ($projects as $project) {
             $projectId = $project->id;
 
-            if ($projectId == 49) continue;
-            if ($project->type == 'crh') continue;
+            if (in_array($projectId, [35, 49])) continue;
 
             $monthly = $project->getMonthlyBudget(date('Y'), date('m'));
 

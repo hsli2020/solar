@@ -60,8 +60,7 @@ class Inverter extends Device
     {
         $table = $this->getDeviceTable();
 
-        $column = ($this->model == 'SERIAL') ?  'line_kw' : 'kw';
-       #$column = ($projectId == 2) ? 'line_kw' : 'kw';
+        $column = $this->getColumnKW();
 
         list($start, $end) = $this->getPeriod($period);
 
@@ -81,8 +80,7 @@ class Inverter extends Device
     {
         $table = $this->getDeviceTable();
 
-        $column = ($this->model == 'SERIAL') ?  'line_kw' : 'kw';
-       #$column = ($projectId == 2) ? 'line_kw' : 'kw';
+        $column = $this->getColumnKW();
 
         list($start, $end) = $this->getPeriod($period);
 
@@ -118,8 +116,7 @@ class Inverter extends Device
         /*
         $table = $this->getDeviceTable();
 
-        $column = ($this->model == 'SERIAL') ?  'line_kw' : 'kw';
-       #$column = ($projectId == 2) ? 'line_kw' : 'kw';
+        $column = $this->getColumnKW();
 
         list($start, $end) = $this->getPeriod('SNAPSHOT');
 
@@ -141,7 +138,7 @@ class Inverter extends Device
     {
         $table = $this->getDeviceTable();
 
-        $kwcol = ($this->model == 'SERIAL') ?  'line_kw' : 'kw';
+        $kwcol = $this->getColumnKW();
 
         $fmt = ($interval == 24*60) ? '%Y-%m-%d' : '%Y-%m-%d %H:%i';
 
@@ -173,7 +170,7 @@ class Inverter extends Device
 
         if ($interval > 0) {
             $seconds = $interval*60; // convert to seconds
-            $column = ($this->model == 'SERIAL') ?  'line_kw' : 'kw';
+            $column = $this->getColumnKW();
             $sql = "SELECT CONVERT_TZ(time, 'UTC', 'America/Toronto') AS time,
                            ROUND(AVG($column)) AS kw
                       FROM $table
@@ -194,7 +191,7 @@ class Inverter extends Device
         $start = $date . ' 00:00:00';
         $end   = $date . ' 23:59:59';
 
-        $column = ($this->model == 'SERIAL') ?  'line_kw' : 'kw';
+        $column = $this->getColumnKW();
         $sql = "SELECT time,
                        ROUND(SUM($column)) AS kw
                   FROM $table
@@ -214,5 +211,19 @@ class Inverter extends Device
         };
 
         return $values;
+    }
+
+    protected function getColumnKW()
+    {
+        $column = 'kw';
+
+       #$column = ($this->model == 'SERIAL') ?  'line_kw' : 'kw';
+       #$column = ($projectId == 2) ? 'line_kw' : 'kw';
+
+        if (in_array($this->project->id, [51, 52]) || $this->model == 'SERIAL') {
+            $column = 'line_kw';
+        }
+
+        return $column;
     }
 }

@@ -208,7 +208,7 @@ class ProjectService extends Injectable
                 }
             }
 
-            $details['genmeters'][$code]['kw-del'] = round($data['kwh_del']);
+            $details['genmeters'][$code]['kw-del'] = abs(round($data['kwh_del']));
             $details['genmeters'][$code]['kw-rec'] = round($data['kwh_rec']);
             $details['genmeters'][$code]['kvar'] = round($data['kva']);
             $details['genmeters'][$code]['vla'] = round($data['vln_a']);

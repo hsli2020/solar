@@ -18,7 +18,7 @@ class DailyReportService extends Injectable
         foreach ($projects as $project) {
             $projectId = $project->id;
 
-            if (in_array($projectId, [35, 49])) continue;
+            if (in_array($projectId, [49])) continue;
 
             echo "=> $projectId\n";
 
@@ -274,16 +274,11 @@ class DailyReportService extends Injectable
 
     protected function getDailyExpected($Measured_Insolation, $Daily_Insolation, $Daily_Budget)
     {
-        try {
-           #if (!$Daily_Insolation) {
-           #    return 0;
-           #}
-
-            return ($Measured_Insolation / $Daily_Insolation) * $Daily_Budget;
-        } catch(\Exception $e) {
-            echo __METHOD__, ' ', $e->getMessage(), EOL;
+        if (!$Daily_Insolation) {
+            return 0;
         }
-        return 0;
+
+        return ($Measured_Insolation / $Daily_Insolation) * $Daily_Budget;
     }
 
     protected function getDailyProduction($Monthly_Budget)
@@ -312,47 +307,32 @@ class DailyReportService extends Injectable
 
     protected function getActualBudget($Total_Energy, $Daily_Budget)
     {
-        try {
-           #if (empty($Daily_Budget)) {
-           #    return 0;
-           #}
-
-            $days = date("j");
-            return $Total_Energy / ($Daily_Budget * $days);
-        } catch(\Exception $e) {
-            echo __METHOD__, ' ', $e->getMessage(), EOL;
+        if (empty($Daily_Budget)) {
+            return 0;
         }
-        return 0;
+
+        $days = date("j");
+        return $Total_Energy / ($Daily_Budget * $days);
     }
 
     protected function getActualExpected($Total_Energy, $Daily_Production, $Weather_Performance)
     {
-        try {
-           #if (empty($Daily_Production)) {
-           #    return 0;
-           #}
-
-            $days = date("j");
-            return $Total_Energy / ($Daily_Production * $days * $Weather_Performance);
-        } catch(\Exception $e) {
-            echo __METHOD__, ' ', $e->getMessage(), EOL;
+        if (empty($Daily_Production) || empty($Weather_Performance)) {
+            return 0;
         }
-        return 0;
+
+        $days = date("j");
+        return $Total_Energy / ($Daily_Production * $days * $Weather_Performance);
     }
 
     protected function getWeatherPerformance($Total_Insolation, $Daily_Insolation)
     {
-        try {
-            if (empty($Daily_Insolation)) {
-                return 0;
-            }
-
-            $days = date("j");
-            return $Total_Insolation / ($Daily_Insolation * $days);
-        } catch(\Exception $e) {
-            echo __METHOD__, ' ', $e->getMessage(), EOL;
+        if (empty($Daily_Insolation)) {
+            return 0;
         }
-        return 0;
+
+        $days = date("j");
+        return $Total_Insolation / ($Daily_Insolation * $days);
     }
 
     protected function getGenMeterReading($project)

@@ -220,7 +220,7 @@ class Inverter extends Device
        #$column = ($this->model == 'SERIAL') ?  'line_kw' : 'kw';
        #$column = ($projectId == 2) ? 'line_kw' : 'kw';
 
-        if (in_array($this->project->id, [51, 52]) || $this->model == 'SERIAL') {
+        if (in_array($this->project->id, [51, 52, 53, 54]) || $this->model == 'SERIAL') {
             $column = 'line_kw';
         }
 

@@ -16,8 +16,8 @@ class SmartAlertService extends Injectable
 
         $this->checkNoData();
         $this->checkLowEnergy();
-        $this->checkInverterStatus();
-        $this->checkErrorCode();
+       #$this->checkInverterStatus();
+       #$this->checkErrorCode();
 
        #$this->checkFault();
        #$this->checkOverHeat();
@@ -70,6 +70,11 @@ class SmartAlertService extends Injectable
         $projects = $this->projectService->getAll();
 
         foreach ($projects as $project) {
+            if ($project->id == 49) {
+                // No devices for #49, only camera
+                continue;
+            }
+
             if ($this->alertTriggered($project->id, $alertType)) {
                 continue;
             }
@@ -336,7 +341,6 @@ class SmartAlertService extends Injectable
 
     protected function log($str)
     {
-        return;
         $filename = BASE_DIR . '/app/logs/alert.log';
         $str = date('Y-m-d H:i:s ') . $str . "\n";
 

@@ -71,19 +71,22 @@
 {% endmacro %}
 
 <div class="w3-container">
-<table id="snapshot" class="w3-table w3-white w3-bordered w3-border">
+<table id="snapshot" class="w3-table w3-white w3-bordered w3-border table-sortable">
+<thead>
 <tr>
-  <th style="vertical-align: middle;">Site</th>
+  <th style="vertical-align: middle;" class="sortcol">Site</th>
   <th style="vertical-align: middle;">Chart</th>
-  <th style="vertical-align: middle;">GC PI</th>
-  <th>Project Size<br>(AC)</th>
-  <th>Current Power<br>(kW)</th>
-  <th>Irradiance<br>(W/m<sup>2</sup>)</th>
-  <th>Ambient<br>Temperature (C°)</th>
-  <th>Inverters<br>Generating</th>
-  <th>Devices<br>Communicating</th>
-  <th>Data Received<br>(Time Stamp)</th>
+  <th style="vertical-align: middle;" class="sortcol">GC PI</th>
+  <th class="sortcol">Project Size<br>(AC)</th>
+  <th class="sortcol">Current Power<br>(kW)</th>
+  <th class="sortcol">Irradiance<br>(W/m<sup>2</sup>)</th>
+  <th class="sortcol">Ambient<br>Temperature (C°)</th>
+  <th class="sortcol">Inverters<br>Generating</th>
+  <th class="sortcol">Devices<br>Communicating</th>
+  <th class="sortcol">Data Received<br>(Time Stamp)</th>
 </tr>
+</thead>
+<tbody>
 {% for row in data['rows'] %}
 <tr>
   <td>
@@ -116,16 +119,22 @@
   {{ tablecell(row, 'last_com',              'w3-center') }}
 </tr>
 {% endfor %}
-
+</tbody>
 </table>
 </div>
 {% endblock %}
 
+{% block jsfile %}
+<script type="text/javascript" src="/js/script.js"></script>
+{% endblock %}
+
 {% block jscode %}
-  function AutoRefresh(t) {
-    setTimeout("location.reload(true);", t);
-  }
-  window.onload = AutoRefresh(1000*60*1);
+tableSortable();
+
+function AutoRefresh(t) {
+  setTimeout("location.reload(true);", t);
+}
+window.onload = AutoRefresh(1000*60*1);
 {% endblock %}
 
 {% block domready %}

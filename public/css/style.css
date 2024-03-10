@@ -34,3 +34,34 @@
 .legend table {
 	border-spacing: 5px;
 }
+
+
+.table-sortable th {
+  cursor: pointer;
+}
+
+.table-sortable .sortcol::after {
+  content: "\2b28";
+  color: lightgrey;
+}
+
+.table-sortable .th-sort-asc::after {
+  content: "\25b4";
+  color: black;
+}
+
+.table-sortable .th-sort-desc::after {
+  content: "\25be";
+  color: black;
+}
+
+.table-sortable .sortcol::after,
+.table-sortable .th-sort-asc::after,
+.table-sortable .th-sort-desc::after {
+  margin-left: 5px;
+}
+
+.table-sortable .th-sort-asc,
+.table-sortable .th-sort-desc {
+  background: rgba(0, 0, 0, 0.1);
+}

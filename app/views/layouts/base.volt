@@ -37,7 +37,7 @@
     {% block csscode %}{% endblock %}
   </style>
 
-  {{ stylesheet_link("/css/style.css") }}
+  {{ stylesheet_link("/css/style.css?v2") }}
 </head>
 <body>
   {% block sidebar %}{# include "partials/sidebar.volt" #}{% endblock %}

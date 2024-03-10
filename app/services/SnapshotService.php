@@ -24,7 +24,7 @@ class SnapshotService extends Injectable
             $where = "WHERE project_type='$sites'";
         }
 
-        $result = $this->db->fetchAll("SELECT * FROM snapshot $where");
+        $result = $this->db->fetchAll("SELECT * FROM snapshot $where ORDER BY project_type");
 
         $auth = $this->session->get('auth');
         if (!is_array($auth)) {

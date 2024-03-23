@@ -80,7 +80,7 @@
   <th class="sortcol">Project Size<br>(AC)</th>
   <th class="sortcol">Current Power<br>(kW)</th>
   <th class="sortcol">Irradiance<br>(W/m<sup>2</sup>)</th>
-  <th class="sortcol">Ambient<br>Temperature (C°)</th>
+{#<th class="sortcol">Ambient<br>Temperature (C°)</th>#}
   <th class="sortcol">Inverters<br>Generating</th>
   <th class="sortcol">Devices<br>Communicating</th>
   <th class="sortcol">Data Received<br>(Time Stamp)</th>
@@ -113,7 +113,7 @@
   {{ tablecell(row, 'project_size_ac',       'w3-center') }}
   {{ tablecell(row, 'current_power',         '') }}
   {{ tablecell(row, 'irradiance',            '') }}
-  {{ tablecell(row, 'temperature',           'w3-center') }}
+  {# tablecell(row, 'temperature',           'w3-center') #}
   {{ tablecell(row, 'inverters_generating',  'w3-center') }}
   {{ tablecell(row, 'devices_communicating', 'w3-center') }}
   {{ tablecell(row, 'last_com',              'w3-center') }}
